@@ -146,16 +146,14 @@ Speaker notes reference the analysis outputs; where a figure was not available i
 - Sources: 05_segments.csv; positioning line is a placeholder
 - Animation: On entry the three segment circles pop in and the spotlight sweeps across them; taste + fresh is singled out (scales up, "Our target" badge, tada). Click 1: the positioning line types itself out.
 
-## 13. Place: where on campus
-- Stage: Blend · Role: R4 · Time: 0:50
-- Kicker: none
-- Title: "CUHK campus (stylised, placeholder)" (map header)
-- Points:
-  1. (no bullets on screen — the map spots: "YIA Building · 47%", "Central Campus · 47%", "College areas · 36%", "LSK Building · 26%", "University Station · 23%")
-  2. (verdict card "Our pick": YIA Building — Want it at YIA <b>47%</b>, Central Campus (tie) <b>47%</b>, Colleges <b>36%</b>)
-- Speaker notes: Role 4. Click 1: zoom from the Earth to CUHK. Click 2: the dart (or click the map anywhere to throw it). Click 3: the evidence. YIA and Central Campus tie at 47%.
-- Sources: 04_where.csv, n = 53. Second cart at CC in phase 2.
-- Animation: On entry the globe scales in and rotates. Click 1: the view zooms from Earth into the CUHK map and the five spots pop in. Click 2: the dart flies in and thunks into YIA (or click the map to throw it anywhere). Click 3: the "Our pick" verdict card fades in.
+## 13. Place: a dart from space
+- Stage: blend · Role: R4 · Time: 0:50
+- Kicker: Blend: place
+- Title: Where should Sprout live?
+- Points: (none on screen; verdict card) YIA Building (our pick) 47% · Central Campus 47% · College areas 36%
+- Speaker notes: A dart flies from space into CUHK and sticks at YIA. The hotspots show where students want the shop: YIA and Central Campus tie at 47%, colleges 36%. We pick YIA because students pass it between University Station and classes; a second cart at Central Campus is phase 2.
+- Sources: 04_where.csv (n = 53); Earth: NASA Blue Marble; satellite: Esri World Imagery; coordinates in content/places.js (approximate, to check)
+- Animation: (1) real 3D Earth in space; (2) dart flies in, camera dives to Hong Kong, satellite zoom to CUHK, thunk; (3) photo turns cartoon, hotspots pop with survey shares; (4) verdict card.
 
 ## 14. Fruit race
 - Stage: Blend · Role: R4 · Time: 0:40

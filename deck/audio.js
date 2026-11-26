@@ -33,6 +33,45 @@
     s.connect(f).connect(g).connect(c.destination); s.start(now);
   }
 
+  // Blender: motor spins up, whines with wobble, liquid churns, ice chunks knock, spins down.
+  function blenderSound(dur = 2.4) {
+    const c = ac(); if (!c) return;
+    const now = c.currentTime, end = now + dur, out = c.createGain();
+    out.gain.setValueAtTime(0.0001, now);
+    out.gain.exponentialRampToValueAtTime(0.5, now + 0.25);
+    out.gain.setValueAtTime(0.5, end - 0.35);
+    out.gain.exponentialRampToValueAtTime(0.0001, end);
+    out.connect(c.destination);
+    // motor: two detuned saws + a square, pitch ramps up then down, wobble LFO
+    const lp = c.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 1400; lp.Q.value = 2;
+    const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 70;
+    lp.connect(hp).connect(out);
+    const lfo = c.createOscillator(), lfoG = c.createGain(); lfo.frequency.value = 9; lfoG.gain.value = 9; lfo.connect(lfoG);
+    [["sawtooth", 1, 0.16], ["sawtooth", 1.012, 0.12], ["square", 2, 0.05]].forEach(([type, mul, vol]) => {
+      const o = c.createOscillator(), g = c.createGain(); o.type = type;
+      o.frequency.setValueAtTime(45 * mul, now);
+      o.frequency.exponentialRampToValueAtTime(205 * mul, now + 0.45);
+      o.frequency.setValueAtTime(205 * mul, end - 0.4);
+      o.frequency.exponentialRampToValueAtTime(60 * mul, end);
+      lfoG.connect(o.frequency); g.gain.value = vol; o.connect(g).connect(lp); o.start(now); o.stop(end + 0.05);
+    });
+    lfo.start(now); lfo.stop(end + 0.05);
+    // churning liquid: band-passed noise with a fast tremolo
+    const len = Math.floor(c.sampleRate * dur), buf = c.createBuffer(1, len, c.sampleRate), d = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    const n = c.createBufferSource(), bp = c.createBiquadFilter(), ng = c.createGain(), trem = c.createOscillator(), tg = c.createGain();
+    n.buffer = buf; bp.type = "bandpass"; bp.frequency.value = 1800; bp.Q.value = 0.8; ng.gain.value = 0.22;
+    trem.frequency.value = 13; tg.gain.value = 0.12; trem.connect(tg).connect(ng.gain);
+    n.connect(bp).connect(ng).connect(out); n.start(now); trem.start(now); trem.stop(end);
+    // ice/fruit chunks knocking the jar
+    for (let k = 0; k < 9; k++) {
+      const t0 = now + 0.3 + (k / 9) * (dur - 0.8) + Math.random() * 0.08, o = c.createOscillator(), g = c.createGain();
+      o.type = "triangle"; o.frequency.setValueAtTime(900 + Math.random() * 900, t0); o.frequency.exponentialRampToValueAtTime(300, t0 + 0.05);
+      g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(0.18, t0 + 0.005); g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.07);
+      o.connect(g).connect(out); o.start(t0); o.stop(t0 + 0.1);
+    }
+  }
+
   const SYNTH = {
     pop: () => tone({ f: 500, f2: 1100, t: 0.12, type: "triangle", vol: 0.3 }),
     click: () => tone({ f: 1400, t: 0.04, type: "square", vol: 0.08 }),
@@ -47,7 +86,7 @@
     riser: () => tone({ f: 200, f2: 1600, t: 0.9, type: "sawtooth", vol: 0.06 }),
     pour: () => noise({ t: 1.4, vol: 0.25, from: 900, to: 500, type: "bandpass", q: 2 }),
     water: () => noise({ t: 1.2, vol: 0.22, from: 2500, to: 1200, type: "bandpass", q: 1.5 }),
-    blender: () => { noise({ t: 1.6, vol: 0.18, from: 600, to: 900, type: "bandpass", q: 4 }); tone({ f: 110, f2: 160, t: 1.6, type: "sawtooth", vol: 0.05 }); },
+    blender: () => blenderSound(2.4),
     sparkle: () => [1568, 2093, 2637].forEach((f, i) => tone({ f, t: 0.18, vol: 0.08, delay: i * 0.06 })),
     seed: () => { tone({ f: 700, f2: 200, t: 0.2, vol: 0.2 }); noise({ t: 0.1, vol: 0.3, from: 500, to: 100, delay: 0.2 }); },
     cheer: () => { noise({ t: 1.4, vol: 0.2, from: 1500, to: 2500, type: "bandpass", q: 0.5 }); SYNTH.tada(); }

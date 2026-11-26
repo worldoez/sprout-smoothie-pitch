@@ -22,7 +22,7 @@
     plant:   { name: "Plant the seed", bg: "#3B2414", fg: "#FFF4E2", accent: "#FF8A1F" },
     water:   { name: "Water & grow",   bg: "#8FD3F4", fg: "#10324A", accent: "#2FA84F" },
     harvest: { name: "Harvest",        bg: "#F6C445", fg: "#2A1A10", accent: "#B0244A" },
-    blend:   { name: "Blend",          bg: "#FF8A1F", fg: "#2A1A10", accent: "#FFF4E2" },
+    blend:   { name: "Blend",          bg: "#FF8A1F", fg: "#2A1A10", accent: "#FFF4E2", sfx: "blender" },
     pour:    { name: "Pour",           bg: "#B0244A", fg: "#FFF4E2", accent: "#F6C445" },
     serve:   { name: "Serve",          bg: "#2FA84F", fg: "#FFFDF8", accent: "#F6C445" },
     cheers:  { name: "Cheers",         bg: "#FF6FA3", fg: "#2A1A10", accent: "#FFF4E2" }
@@ -130,7 +130,7 @@
       w.style.setProperty("--wipe", st.bg);
       $("#wipe-label").textContent = st.name;
       $("#wipe-label").style.color = st.fg;
-      ctx.sfx("whoosh");
+      ctx.sfx("whoosh"); if (st.sfx) ctx.sfx(st.sfx);
       const tl = gsap.timeline({ onComplete: res });
       tl.set(w, { display: "block", yPercent: 110 })
         .to(w, { yPercent: 0, duration: 0.55, ease: "power3.in" })
