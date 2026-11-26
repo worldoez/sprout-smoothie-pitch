@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#1A100A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Sprout Remote</title>
+<link rel="stylesheet" href="../shared/base.css">
+<style>
+  :root { --stage: #FF8A1F; --notes-size: 19px; }
+  html, body { height: 100%; }
+  body { margin: 0; background: #1A100A; color: #FFF4E2; font-family: var(--font-body); overscroll-behavior: none; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+  .app { height: 100dvh; display: grid; grid-template-rows: auto auto 1fr auto auto; gap: 10px;
+    padding: max(10px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)); box-sizing: border-box; }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .pill { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; padding: 6px 12px; border-radius: 99px; background: rgba(255,244,226,.08); }
+  .pill i { width: 9px; height: 9px; border-radius: 50%; background: #F6C445; }
+  .pill[data-s="on"] i { background: #4ADE80; box-shadow: 0 0 0 4px rgba(74,222,128,.2); }
+  .pill[data-s="off"] i { background: #F87171; }
+  .clock { text-align: right; font-variant-numeric: tabular-nums; line-height: 1.15; }
+  .clock b { font-size: 26px; } .clock small { display: block; font-size: 12px; opacity: .7; }
+  .clock.warn b { color: #F6C445; } .clock.over b { color: #F87171; }
+  .now { border-radius: 18px; padding: 12px 16px; background: var(--stage); color: var(--stage-fg, #1A100A); box-shadow: inset 0 0 0 2px rgba(255,244,226,.12); }
+  .now .meta { font-size: 13px; font-weight: 700; display: flex; justify-content: space-between; gap: 10px; }
+  .now h1 { font-size: 26px; margin: 4px 0 6px; line-height: 1.1; }
+  .dots { display: flex; gap: 6px; } .dots i { width: 10px; height: 10px; border-radius: 50%; background: currentColor; opacity: .25; } .dots i.on { opacity: 1; }
+  .notes { background: #FFF4E2; color: #2A1A10; border-radius: 18px; padding: 16px 18px; overflow-y: auto; font-size: var(--notes-size); line-height: 1.5; -webkit-user-select: text; user-select: text; }
+  .notes p { margin: 0 0 .7em; }
+  .notes .upnext { font-size: 14px; color: #6B5646; border-top: 2px dashed rgba(42,26,16,.15); padding-top: 10px; margin-top: 6px; }
+  .tools { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .tool { height: 48px; border: 0; border-radius: 14px; background: rgba(255,244,226,.1); color: #FFF4E2; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .tool:active { background: rgba(255,244,226,.22); }
+  .tool.on { color: #F87171; }
+  .nav { display: grid; grid-template-columns: 1fr 2fr; gap: 10px; height: clamp(110px, 24vh, 200px); }
+  .nav button { border: 0; border-radius: 22px; font-family: var(--font-display); font-weight: 900; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; touch-action: manipulation; transition: transform .08s; }
+  .nav button:active { transform: scale(.97); }
+  .nav .back { background: rgba(255,244,226,.12); color: #FFF4E2; font-size: 22px; }
+  .nav .next { background: var(--mango); color: #fff; font-size: 34px; box-shadow: 0 6px 0 #C7600A; }
+  .nav small { font-family: var(--font-body); font-size: 13px; font-weight: 700; opacity: .85; }
+  .nav button:disabled { opacity: .35; }
+  /* connect screen + slide list sheet */
+  .sheet { position: fixed; inset: 0; background: rgba(26,16,10,.97); display: none; flex-direction: column; padding: max(16px, env(safe-area-inset-top)) 16px 16px; z-index: 5; overflow-y: auto; }
+  .sheet.open { display: flex; }
+  .sheet h2 { font-size: 28px; margin: 8px 0 14px; }
+  .sheet .row { display: flex; gap: 8px; }
+  .sheet input { flex: 1; font: 700 24px var(--font-body); letter-spacing: .15em; text-transform: uppercase; padding: 12px 14px; border-radius: 14px; border: 0; }
+  .list button { width: 100%; text-align: left; border: 0; border-radius: 12px; background: rgba(255,244,226,.06); color: #FFF4E2; padding: 12px 14px; margin-bottom: 6px; font-size: 16px; display: flex; gap: 12px; }
+  .list button.cur { background: var(--mango); color: #fff; }
+  .list b { min-width: 28px; }
+  .list small { margin-left: auto; opacity: .6; }
+  .hint { font-size: 14px; opacity: .75; line-height: 1.5; }
+  @media (orientation: landscape) and (max-height: 500px) {
+    .app { grid-template-columns: 1.3fr 1fr; grid-template-rows: auto 1fr auto; }
+    .top { grid-column: 1 / 3; } .now { grid-column: 2; grid-row: 2; } .notes { grid-column: 1; grid-row: 2 / 4; }
+    .tools { display: none; } .nav { grid-column: 2; grid-row: 3; height: 120px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <span class="pill" id="pill" data-s="wait"><i></i><span id="pilltext">Connecting…</span></span>
+    <div class="clock" id="clock"><b id="total">0:00</b> <span style="opacity:.6">/ 20:00</span><small id="stageclock">Timer starts on your first Next</small></div>
+  </div>
+  <div class="now" id="now">
+    <div class="meta"><span id="pos">–</span><span id="stage">–</span></div>
+    <h1 class="display" id="title">Waiting for the deck…</h1>
+    <div class="dots" id="dots"></div>
+  </div>
+  <div class="notes" id="notes"><p class="hint">Open the deck on the laptop, then press <b>P</b> (or the phone icon) and scan the QR code.</p></div>
+  <div class="tools">
+    <button class="tool" id="t-order">↻ Order</button>
+    <button class="tool" id="t-mute">🔊 Sound</button>
+    <button class="tool" id="t-list">☰ Slides</button>
+    <button class="tool" id="t-text">A A</button>
+  </div>
+  <div class="nav">
+    <button class="back" id="back">‹ Back</button>
+    <button class="next" id="next">Next ›<small id="nexthint">next step</small></button>
+  </div>
+</div>
+
+<div class="sheet" id="connect">
+  <h2 class="display">Connect to the deck</h2>
+  <p class="hint">On the laptop deck press <b>P</b> (or tap the phone icon in the toolbar) and enter the 5-letter code, or just scan its QR code.</p>
+  <div class="row"><input id="codein" maxlength="5" autocomplete="off" autocapitalize="characters" placeholder="CODE"><button class="btn" id="codego">Connect</button></div>
+</div>
+<div class="sheet" id="list"><div class="row" style="justify-content:space-between;align-items:center"><h2 class="display">Jump to slide</h2><button class="btn ghost" id="listclose" style="color:#FFF4E2;box-shadow:inset 0 0 0 2px #FFF4E2">Close</button></div><div class="list" id="listbody"></div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
+<script>
+(function () {
+  const $ = (s) => document.querySelector(s);
+  const PREFIX = "sprout-deck-";
+  const params = new URLSearchParams(location.search);
+  let code = (params.get("code") || "").toUpperCase(), st = null, offset = 0, conn = null, peer = null, via = null;
+  const bc = ("BroadcastChannel" in window) ? new BroadcastChannel("sprout-deck") : null;
+
+  const buzz = () => { try { navigator.vibrate && navigator.vibrate(12); } catch {} };
+  const fmt = (ms) => { const s = Math.max(0, Math.floor(ms / 1000)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; };
+  const esc = (t) => String(t || "").replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+  function pill(s, text) { $("#pill").dataset.s = s; $("#pilltext").textContent = text; }
+
+  function send(cmd, extra) {
+    const m = Object.assign({ type: "cmd", cmd }, extra || {});
+    if (via === "bc" && bc) bc.postMessage(m);
+    else if (conn && conn.open) conn.send(m);
+    else if (bc) bc.postMessage(m);
+    buzz();
+  }
+
+  function render(s) {
+    st = s; offset = (s.now || Date.now()) - Date.now();
+    document.documentElement.style.setProperty("--stage", s.stageColor || "#FF8A1F"); document.documentElement.style.setProperty("--stage-fg", s.stageFg || "#1A100A");
+    $("#pos").textContent = `Slide ${s.i + 1} of ${s.total}`;
+    $("#stage").textContent = s.stageName || "";
+    $("#title").textContent = `${s.n}. ${s.title}`;
+    $("#dots").innerHTML = s.steps > 1 ? Array.from({ length: s.steps }, (_, k) => `<i class="${k <= s.step ? "on" : ""}"></i>`).join("") : "";
+    const lastStep = s.step >= s.steps - 1;
+    $("#nexthint").textContent = !lastStep ? `step ${s.step + 2} of ${s.steps}` : (s.next ? `${s.next.n}. ${s.next.title}` : "end of deck");
+    $("#next").disabled = lastStep && !s.next;
+    $("#back").disabled = s.i === 0 && s.step === 0;
+    const notes = esc(s.notes).split(/\n+/).map(p => `<p>${p}</p>`).join("") || `<p class="hint">No notes for this slide.</p>`;
+    const order = s.order ? `<p class="upnext">Order #1: <b>${esc(s.order.name)}</b>, ${esc(s.order.drinkName)} (${esc(s.order.source)})</p>` : "";
+    const up = s.next ? `<p class="upnext">Up next: <b>${s.next.n}. ${esc(s.next.title)}</b> (${esc(s.next.stageName)})</p>` : `<p class="upnext">Last slide.</p>`;
+    $("#notes").innerHTML = notes + up + order;
+    $("#t-mute").classList.toggle("on", !!s.muted); $("#t-mute").textContent = s.muted ? "🔇 Muted" : "🔊 Sound";
+    if ($("#list").classList.contains("open")) renderList();
+    tick();
+  }
+  function tick() {
+    if (!st) return;
+    const now = Date.now() + offset;
+    if (!st.started) { $("#total").textContent = "0:00"; $("#stageclock").textContent = "Timer starts on your first Next"; return; }
+    const total = now - st.started, used = st.stageStart ? now - st.stageStart : 0, budget = st.stageBudget * 1000;
+    $("#total").textContent = fmt(total);
+    $("#stageclock").textContent = `${st.stageName} ${fmt(used)} / ${fmt(budget)}`;
+    $("#clock").classList.toggle("warn", used > budget * 0.9 && used <= budget);
+    $("#clock").classList.toggle("over", used > budget || total > 18.5 * 60000);
+  }
+  setInterval(tick, 500);
+
+  function renderList() {
+    $("#listbody").innerHTML = (st ? st.slides : []).map((x, i) => `<button data-i="${i}" class="${st && i === st.i ? "cur" : ""}"><b>${x.n}</b>${esc(x.title)}<small>${esc(x.stageName)}</small></button>`).join("");
+  }
+
+  function onMsg(m, from) {
+    if (!m || m.type !== "state") return;
+    if (!via) via = from;
+    pill("on", from === "bc" ? "Connected (this computer)" : "Connected");
+    $("#connect").classList.remove("open");
+    render(m.state);
+  }
+
+  // 1) Same browser (presenter view in another window): BroadcastChannel, works offline.
+  if (bc) { bc.onmessage = (e) => onMsg(e.data, "bc"); bc.postMessage({ type: "hello" }); }
+
+  // 2) Phone: PeerJS
+  function connectPeer() {
+    if (!code || !window.Peer) { if (!window.Peer && !via) pill("off", "No internet for pairing"); return; }
+    pill("wait", "Connecting…");
+    if (!peer || peer.destroyed) {
+      peer = new Peer({ debug: 0 });
+      peer.on("open", openConn);
+      peer.on("error", (e) => { pill("off", e.type === "peer-unavailable" ? "Deck not found. Check the code" : "Connection problem, retrying…"); setTimeout(connectPeer, 2500); });
+      peer.on("disconnected", () => { try { peer.reconnect(); } catch {} });
+    } else openConn();
+  }
+  function openConn() {
+    conn = peer.connect(PREFIX + code, { reliable: true });
+    conn.on("open", () => { conn.send({ type: "hello" }); });
+    conn.on("data", (m) => onMsg(m, "peer"));
+    conn.on("close", () => { if (via === "peer") { pill("off", "Disconnected, reconnecting…"); setTimeout(openConn, 1500); } });
+  }
+
+  setTimeout(() => {
+    if (via) return;
+    if (code) connectPeer(); else $("#connect").classList.add("open");
+  }, 500);
+
+  // controls
+  $("#next").onclick = () => send("next");
+  $("#back").onclick = () => send("prev");
+  $("#t-order").onclick = () => send("reload");
+  $("#t-mute").onclick = () => send("mute");
+  $("#t-list").onclick = () => { renderList(); $("#list").classList.add("open"); };
+  $("#listclose").onclick = () => $("#list").classList.remove("open");
+  $("#listbody").onclick = (e) => { const b = e.target.closest("button[data-i]"); if (b) { send("go", { i: +b.dataset.i }); $("#list").classList.remove("open"); } };
+  let big = false; $("#t-text").onclick = () => { big = !big; document.documentElement.style.setProperty("--notes-size", big ? "24px" : "19px"); };
+  $("#codego").onclick = () => { code = $("#codein").value.trim().toUpperCase(); if (code.length === 5) { history.replaceState(null, "", "?code=" + code); connectPeer(); } };
+  $("#codein").addEventListener("keydown", (e) => { if (e.key === "Enter") $("#codego").click(); });
+  // laptop presenter view: keyboard works too
+  document.addEventListener("keydown", (e) => {
+    if (e.target.closest("input")) return;
+    if (["ArrowRight", " ", "PageDown", "Enter"].includes(e.key)) { e.preventDefault(); send("next"); }
+    if (["ArrowLeft", "PageUp"].includes(e.key)) { e.preventDefault(); send("prev"); }
+  });
+  // keep the phone screen awake while presenting
+  async function wake() { try { if ("wakeLock" in navigator) await navigator.wakeLock.request("screen"); } catch {} }
+  document.addEventListener("click", wake, { once: true });
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") { wake(); if (via === "peer" && (!conn || !conn.open)) connectPeer(); } });
+})();
+</script>
+</body>
+</html>

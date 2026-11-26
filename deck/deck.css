@@ -80,7 +80,7 @@ body.fs.idle { cursor: none; }
 .menu button:hover { background: var(--cream); }
 .menu hr { border: 0; border-top: 1px solid rgba(42,26,16,.12); margin: 6px 4px; }
 kbd { font-family: var(--font-body); font-size: 12px; padding: 1px 6px; border-radius: 5px; background: rgba(42,26,16,.08); border: 1px solid rgba(42,26,16,.15); }
-@media (max-width: 760px) { #timer, #stage-name, #steps, .tb.wide span { display: none; } }
+
 
 #toast { position: fixed; left: 50%; bottom: 76px; transform: translateX(-50%); background: #FFFDF8; color: var(--ink); padding: 12px 20px; border-radius: 12px; font-weight: 700; box-shadow: 0 10px 30px rgba(0,0,0,.35); opacity: 0; z-index: 60; pointer-events: none; max-width: 90vw; }
 
@@ -119,3 +119,37 @@ body.print #print-pages { display: block; }
 @media print { html, body { height: auto; overflow: visible; } * { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
 
 @media (prefers-reduced-motion: reduce) { #wipe { transition: none; } }
+
+/* ---------- phone remote panel ---------- */
+#btn-remote.on { color: #7CE08F; }
+.remote-qr { display: flex; justify-content: center; margin: 12px 0; }
+.remote-code { text-align: center; font-size: 18px; } .remote-code b { font-size: 26px; letter-spacing: .12em; }
+#remote-status { text-align: center; font-weight: 700; padding: 8px; border-radius: 10px; background: var(--cream); }
+#remote-status[data-s="connected"] { background: #DFF5E3; color: var(--leaf-dark); }
+#remote-status[data-s="error"] { background: #FDE2E2; color: #9B1C1C; }
+
+/* ---------- phones and tablets ---------- */
+#toolbar { padding-bottom: env(safe-area-inset-bottom); height: calc(58px + env(safe-area-inset-bottom)); }
+@media (max-width: 900px) {
+  #timer .sep, #timer .stg { display: none; }
+  .tb.wide span { display: none; }
+  #steps { display: none; }
+}
+@media (max-width: 760px), (pointer: coarse) and (max-height: 520px) {
+  #toolbar { grid-template-columns: auto 1fr auto; height: calc(64px + env(safe-area-inset-bottom)); gap: 4px; padding-left: max(8px, env(safe-area-inset-left)); padding-right: max(8px, env(safe-area-inset-right)); }
+  .tb { height: 48px; min-width: 48px; border-radius: 14px; }
+  .tb svg { width: 24px; height: 24px; }
+  #stage-name, #timer, #btn-grid { display: none; }
+  .tb-mid { gap: 2px; }
+  #btn-prev, #btn-next { min-width: 64px; background: rgba(255,255,255,.08); }
+  #btn-next { background: var(--mango); color: #fff; }
+  #counter { min-width: 52px; font-size: 15px; }
+  .tb-right { gap: 0; }
+  .menu { left: 8px; right: 8px; bottom: calc(70px + env(safe-area-inset-bottom)); min-width: 0; border-radius: 18px; }
+  .menu button { padding: 14px 12px; font-size: 16px; }
+  .panel { left: 8px; right: 8px; width: auto; bottom: calc(72px + env(safe-area-inset-bottom)); max-height: 72vh; }
+  #notes { left: 8px; width: auto; }
+}
+@media (orientation: portrait) and (max-width: 760px) {
+  body::after { content: "Turn your phone sideways for a bigger slide"; position: fixed; left: 50%; top: 14px; transform: translateX(-50%); background: rgba(255,244,226,.12); color: #FFF4E2; font-size: 13px; padding: 6px 12px; border-radius: 99px; white-space: nowrap; pointer-events: none; }
+}

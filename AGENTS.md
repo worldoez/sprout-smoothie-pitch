@@ -20,6 +20,8 @@ Read `PLAN.md` first (the vision, the 21-slide storyline, the order system).
 | Deck engine (steps, transitions, toolbar, timer, print) | `deck/engine.js`, `deck/deck.css` |
 | Slide helpers (content layout, bars, QR, order card, splat) | `deck/slides/kit.js` |
 | Audio (synth fallbacks until mp3 files exist) | `deck/audio.js`, `assets/audio/` |
+| Phone remote (PeerJS + BroadcastChannel); deck side / phone side | `deck/remote-host.js`, `remote/index.html` |
+| Campus coordinates for slide 13 | `content/places.js` |
 
 ## Slide API (deck/engine.js)
 `Deck.add({ n, stage, title, budget(sec), notes, html(ctx), steps:[(el,ctx)=>gsap.timeline()], ambient, usesOrder, onOrder(el,order,ctx), music, interactive, printFix })`

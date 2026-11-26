@@ -185,6 +185,7 @@
       ctx.order = o;
       const s = slides[idx];
       if (s && s.onOrder) s.onOrder($("#slide"), o, ctx);
+      if (changed) updateUI();
       if (manual || changed) toast(o.source === "example" ? "No live order yet: showing Example Order #1" : `Order #1 loaded: ${o.name}, ${o.drinkName || ""} (${o.source})`);
     } finally { btn && btn.classList.remove("spin"); }
   }
@@ -205,7 +206,7 @@
     const el = $("#timer"); if (!el || !started) return;
     const s = slides[idx], used = Date.now() - (stageStart[s.stage] || Date.now()), budget = stageBudget(s.stage);
     const total = Date.now() - started;
-    el.innerHTML = `<b>${fmt(total)}</b> / 20:00 <span class="sep"></span> ${STAGES[s.stage].name} ${fmt(used)} / ${fmt(budget)}`;
+    el.innerHTML = `<b>${fmt(total)}</b> / 20:00 <span class="sep"></span><span class="stg">${STAGES[s.stage].name} ${fmt(used)} / ${fmt(budget)}</span>`;
     el.classList.toggle("warn", used > budget * 0.9 && used <= budget);
     el.classList.toggle("over", used > budget || total > 18.5 * 60000);
   }
@@ -221,6 +222,31 @@
     $("#btn-next").disabled = idx === slides.length - 1 && stepIdx >= steps - 1;
     $("#progress").style.width = `${((idx + (steps ? (stepIdx + 1) / steps : 1)) / slides.length) * 100}%`;
     updateTimer();
+    document.dispatchEvent(new CustomEvent("deck:state", { detail: state() }));
+  }
+  // Everything a phone remote / presenter view needs to show.
+  function state() {
+    const s = slides[idx] || {}, nx = slides[idx + 1];
+    return {
+      now: Date.now(), i: idx, total: slides.length, n: s.n, title: s.title, notes: s.notes || "",
+      stage: s.stage, stageName: (STAGES[s.stage] || {}).name, stageColor: (STAGES[s.stage] || {}).bg, stageFg: (STAGES[s.stage] || {}).fg,
+      step: stepIdx, steps: (s.steps || []).length, budget: s.budget || 0,
+      next: nx ? { n: nx.n, title: nx.title, stageName: STAGES[nx.stage].name } : null,
+      started, stageStart: stageStart[s.stage] || null, stageBudget: stageBudget(s.stage) / 1000,
+      muted: window.DeckAudio ? DeckAudio.muted : false,
+      order: ctx.order ? { name: ctx.order.name, drinkName: ctx.order.drinkName, source: ctx.order.source } : null,
+      slides: slides.map(x => ({ n: x.n, title: x.title, stageName: STAGES[x.stage].name }))
+    };
+  }
+  // Commands from a remote: {cmd:"next"|"prev"|"go"|"reload"|"mute"|"start", i}
+  function command(c) {
+    if (!c || !c.cmd) return;
+    if (c.cmd === "next") next();
+    else if (c.cmd === "prev") prev();
+    else if (c.cmd === "go" && Number.isInteger(c.i)) { if (!started) startTimer(); go(c.i); }
+    else if (c.cmd === "reload") refreshOrder(true);
+    else if (c.cmd === "mute") $("#btn-mute").click();
+    else if (c.cmd === "ping") document.dispatchEvent(new CustomEvent("deck:state", { detail: state() }));
   }
   function buildGrid() {
     const g = $("#grid-list");
@@ -273,13 +299,24 @@
       if (act === "keys") toggle("#keys");
       if (act === "restart") { started = null; clearInterval(timerHandle); stageStart = {}; go(0); toast("Timer reset"); }
       if (act === "home") location.href = "../index.html";
+      if (act === "remote" && window.DeckRemote) DeckRemote.open();
     };
     $$(".panel .close").forEach(b => b.onclick = () => b.closest(".panel").classList.remove("open"));
+    let lastPointer = "mouse", tStart = null, swiped = false;
+    document.addEventListener("pointerdown", (e) => { lastPointer = e.pointerType; }, true);
     $("#stage").addEventListener("click", (e) => {
+      if (swiped) { swiped = false; return; }
       if (e.target.closest("a, button, input, select, [data-interactive]")) return;
-      if (slides[idx] && slides[idx].interactive) return;
-      next();
+      if (slides[idx] && slides[idx].interactive && lastPointer !== "touch") return;
+      // On touch screens: tap the left quarter to go back, anywhere else to go forward.
+      if (lastPointer === "touch" && e.clientX < innerWidth * 0.25) prev(); else next();
     });
+    document.addEventListener("touchstart", (e) => { if (e.target.closest("#toolbar, .panel, #grid, .menu")) { tStart = null; return; } const t = e.touches[0]; tStart = { x: t.clientX, y: t.clientY, at: Date.now() }; }, { passive: true });
+    document.addEventListener("touchend", (e) => {
+      if (!tStart) return; const t = e.changedTouches[0], dx = t.clientX - tStart.x, dy = t.clientY - tStart.y;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5 && Date.now() - tStart.at < 700) { swiped = true; setTimeout(() => swiped = false, 400); dx < 0 ? next() : prev(); }
+      tStart = null;
+    }, { passive: true });
     document.addEventListener("keydown", (e) => {
       if (e.target.closest("input, select, textarea")) return;
       const k = e.key;
@@ -294,6 +331,7 @@
       else if (k === "n" || k === "N") toggle("#notes");
       else if (k === "o" || k === "O") { manualOrderPanel(); toggle("#order-panel"); }
       else if (k === "?") toggle("#keys");
+      else if ((k === "p" || k === "P") && window.DeckRemote) DeckRemote.open();
       else if (k === "Escape") $$(".panel.open, #grid.open").forEach(p => p.classList.remove("open"));
     });
     // toolbar auto-hide in fullscreen
@@ -334,7 +372,7 @@
       enter(fromHash >= 0 ? fromHash : 0, { transition: false });
       SproutOrders.latest().then(o => { ctx.order = o; });
     },
-    next, prev, go, toast, refreshOrder,
+    next, prev, go, toast, refreshOrder, state, command,
     get index() { return idx; }
   };
 })();

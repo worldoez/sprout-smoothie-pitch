@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1A100A">
 <title>Sprout Pitch Deck</title>
 <link rel="stylesheet" href="../shared/base.css">
 <link rel="stylesheet" href="deck.css">
@@ -29,6 +30,7 @@
   <div class="tb-right">
     <span id="timer">0:00 / 20:00</span>
     <button id="btn-order" class="tb wide" title="Reload Order #1 (R)"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/></svg><span>Reload order</span></button>
+    <button id="btn-remote" class="tb" title="Phone remote: notes + clicker on your phone" aria-label="Phone remote" onclick="DeckRemote.open()"><svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></button>
     <button id="btn-mute" class="tb" title="Sound (M)" aria-label="Toggle sound"><svg viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6L8 10H4z"/><path class="wave1" d="M16 9a4 4 0 0 1 0 6"/></svg></button>
     <button id="btn-grid" class="tb" title="All slides (G)" aria-label="Slide grid"><svg viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg></button>
     <button id="btn-full" class="tb" title="Fullscreen (F)" aria-label="Fullscreen"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
@@ -38,6 +40,7 @@
     <button data-act="pptx">Export as PPTX or video</button>
     <button data-act="html">Share as HTML</button>
     <hr>
+    <button data-act="remote">Phone remote (notes + clicker) <kbd>P</kbd></button>
     <button data-act="notes">Speaker notes <kbd>N</kbd></button>
     <button data-act="order">Enter order by hand <kbd>O</kbd></button>
     <button data-act="keys">Keyboard shortcuts <kbd>?</kbd></button>
@@ -49,15 +52,18 @@
 <div id="grid"><div class="grid-head"><h2>All slides</h2><button class="tb close-grid" onclick="this.closest('#grid').classList.remove('open')">Close</button></div><div id="grid-list"></div></div>
 <aside id="notes" class="panel"><button class="close">Close</button><div id="notes-body"></div></aside>
 <aside id="order-panel" class="panel"><button class="close">Close</button><h3>Enter Order #1 by hand</h3><div id="order-panel-body"></div></aside>
+<aside id="remote-panel" class="panel"><button class="close">Close</button><h3>Phone remote</h3><div id="remote-body"></div></aside>
 <aside id="keys" class="panel"><button class="close">Close</button><h3>Keyboard</h3>
-  <p><kbd>→</kbd> <kbd>space</kbd> next · <kbd>←</kbd> back · <kbd>F</kbd> fullscreen · <kbd>R</kbd> reload order · <kbd>M</kbd> sound · <kbd>G</kbd> all slides · <kbd>N</kbd> notes · <kbd>O</kbd> enter order · <kbd>Home</kbd>/<kbd>End</kbd></p>
-  <p>Clicking the slide also goes to the next step. A presentation clicker works too (it sends Page Down).</p></aside>
+  <p><kbd>→</kbd> <kbd>space</kbd> next · <kbd>←</kbd> back · <kbd>F</kbd> fullscreen · <kbd>R</kbd> reload order · <kbd>M</kbd> sound · <kbd>G</kbd> all slides · <kbd>N</kbd> notes · <kbd>O</kbd> enter order · <kbd>P</kbd> phone remote · <kbd>Home</kbd>/<kbd>End</kbd></p>
+  <p>Clicking the slide also goes to the next step. A presentation clicker works too (it sends Page Down).</p>
+  <p>On a phone or tablet: swipe left/right, or tap the right side for next and the left edge for back.</p></aside>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
 <script src="../content/brand.js"></script>
 <script src="../content/menu.js"></script>
 <script src="../content/data.js"></script>
@@ -66,6 +72,7 @@
 <script src="../shared/orders.js"></script>
 <script src="audio.js"></script>
 <script src="engine.js"></script>
+<script src="remote-host.js"></script>
 <script src="slides/kit.js"></script>
 <!-- One file per story stage. Add slides by copying a Deck.add({...}) block. -->
 <script src="slides/01-plant.js"></script>
