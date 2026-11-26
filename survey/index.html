@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sprout survey (copy for reference)</title>
+<meta name="description" content="Read-only copy of the Sprout CUHK smoothie survey. Answers are not collected here.">
+<link rel="stylesheet" href="../shared/base.css">
+<style>
+  body { padding: 0 0 64px; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px; }
+
+  header.hero { background: var(--mango); color: var(--ink); padding: 44px 0 36px; margin-bottom: 28px; border-bottom: 6px solid var(--ink); }
+  header.hero .wrap { display: flex; flex-direction: column; gap: 10px; }
+  .kicker { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #7a3a00; }
+  h1 { font-size: clamp(30px, 6vw, 44px); color: var(--ink); }
+  .lede { font-size: 17px; max-width: 62ch; color: #3d2a1a; }
+
+  .notice { background: var(--white); border: 2px solid var(--mango); border-left-width: 10px; border-radius: var(--radius); padding: 16px 18px; margin: 0 0 18px; font-size: 15px; box-shadow: var(--shadow); }
+  .notice strong { color: var(--berry); }
+
+  nav.toc { background: var(--cream); border: 1px solid var(--mango-soft); border-radius: var(--radius); padding: 14px 18px; margin-bottom: 30px; font-size: 15px; }
+  nav.toc b { display: block; margin-bottom: 6px; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+  nav.toc a { color: var(--berry); font-weight: 700; text-decoration: none; margin-right: 14px; white-space: nowrap; display: inline-block; padding: 4px 2px; }
+  nav.toc a:hover { text-decoration: underline; }
+
+  section.stage { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px 20px 10px; margin: 0 0 26px; }
+  section.stage > h2 { font-size: 26px; color: var(--berry); border-bottom: 3px solid var(--mango-soft); padding-bottom: 10px; margin-bottom: 4px; }
+  section.stage > p.stage-note { margin: 6px 0 14px; color: var(--ink-soft); font-size: 14px; }
+
+  fieldset.q { border: 1px solid #f0e2cd; background: #fffdf8; border-radius: 14px; padding: 14px 16px; margin: 0 0 14px; }
+  fieldset.q legend { padding: 0 6px; font-weight: 700; font-size: 14px; color: #fff; background: var(--mango); border-radius: 999px; padding: 4px 14px; }
+  .qtext { font-weight: 700; font-size: 17px; margin: 4px 0 4px; }
+  .qmeta { font-size: 12.5px; color: var(--ink-soft); margin: 0 0 10px; }
+  .opts { display: flex; flex-direction: column; gap: 8px; }
+  .opts.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; }
+  @media (max-width: 560px) { .opts.two-col { grid-template-columns: 1fr; } }
+  label.opt { display: flex; align-items: baseline; gap: 10px; padding: 8px 10px; border-radius: 10px; border: 1px solid #eee0cd; background: #fff; font-size: 15px; cursor: default; }
+  label.opt input { accent-color: var(--mango); width: 18px; height: 18px; flex: 0 0 auto; margin-top: 2px; }
+  .count { margin-left: auto; font-size: 12.5px; color: var(--ink-soft); white-space: nowrap; padding-left: 10px; }
+  .stat { display: inline-block; margin: 2px 0 4px; font-size: 13px; font-weight: 700; color: var(--leaf-dark); background: #eef7ef; border: 1px solid #cfe8d4; border-radius: 999px; padding: 2px 12px; }
+  .missing { font-size: 14px; color: var(--berry); background: #fbe9ee; border: 1px dashed var(--berry); border-radius: 10px; padding: 10px 12px; margin: 4px 0 2px; }
+  input[type="text"], textarea { width: 100%; padding: 10px 12px; border: 1px solid #e3d5c0; border-radius: 10px; font: inherit; background: #fafafa; color: var(--ink-soft); }
+  textarea { min-height: 64px; resize: vertical; }
+  .six { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+  .six div { border: 1px solid #eee0cd; border-radius: 10px; padding: 8px 10px; font-size: 14px; background:#fff; }
+  .six b { display: block; font-size: 13px; }
+  .six span { color: var(--ink-soft); font-size: 12px; }
+
+  footer.page { margin-top: 10px; font-size: 13px; color: var(--ink-soft); border-top: 1px solid var(--mango-soft); padding-top: 18px; }
+  footer.page a, a.back { color: var(--berry); font-weight: 700; }
+  .toplink { display: inline-block; margin-bottom: 14px; }
+  :focus-visible { outline: 3px solid var(--leaf); outline-offset: 2px; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="kicker">Sprout · CUHK smoothie study</span>
+    <h1>Sprout survey (copy for reference)</h1>
+    <p class="lede">The full questionnaire as shown to CUHK students for the Sprout smoothie project — 37 questions in five parts. This page exists so anyone scanning the QR code on slide 8 of the pitch can see exactly what we asked.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="notice" role="note">
+    <strong>Answers are not collected here.</strong> This is a read-only copy of the survey. Every input is disabled; nothing you type is saved or sent anywhere. The live study was a separate Google Form; results were analysed from that form only. Percentages shown next to options come from the cleaned dataset (n = 53) and are there for reference.
+  </div>
+
+  <nav class="toc" aria-label="Sections">
+    <b>The five sections</b>
+    <a href="#habits">1 · Habits</a>
+    <a href="#what-matters">2 · What matters</a>
+    <a href="#menu">3 · Menu</a>
+    <a href="#price">4 · Price</a>
+    <a href="#would-you-buy">5 · Would you buy</a>
+  </nav>
+
+  <!-- Question order and wording follow output/tables/10_question_coverage.csv (order, question).
+       Answer options come from the survey report (section "The survey: questions and the categories");
+       anything not recoverable from the analysis files is marked "options not recorded". -->
+
+  <!-- ============ SECTION 1 — HABITS ============ -->
+  <section class="stage" id="habits" aria-labelledby="h-habits">
+    <h2 id="h-habits">1 · Habits</h2>
+    <p class="stage-note">Who they are and how they actually buy drinks on campus today. Includes the about-you questions.</p>
+
+    <fieldset class="q" disabled>
+      <legend>Q1</legend>
+      <p class="qtext">How often are you on the CUHK campus?</p>
+      <p class="qmeta">Single choice · answered 69/69 (raw), 53/53 (cleaned) · only the levels observed in the data are shown</p>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="q1"> 1 to 2 days <span class="count">3 · 5.7%</span></label>
+        <label class="opt"><input type="radio" name="q1"> 3 to 4 days <span class="count">16 · 30.2%</span></label>
+        <label class="opt"><input type="radio" name="q1"> Everyday or Almost everyday <span class="count">34 · 64.2%</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q2</legend>
+      <p class="qtext">What is your affiliation?</p>
+      <p class="qmeta">Single choice · answered 65/65 (raw), 53/53 (cleaned)</p>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="q2"> Undergraduate <span class="count">50 · 94.3%</span></label>
+        <label class="opt"><input type="radio" name="q2"> Postgraduate <span class="count">2 · 3.8%</span></label>
+        <label class="opt"><input type="radio" name="q2"> Staff <span class="count">1 · 1.9%</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q3</legend>
+      <p class="qtext">Drinks bought on campus in a typical week</p>
+      <p class="qmeta">Single choice · answered 65/65 (raw), 53/53 (cleaned)</p>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="q3"> Never <span class="count">3 · 5.7%</span></label>
+        <label class="opt"><input type="radio" name="q3"> 1-4 times <span class="count">24 · 45.3%</span></label>
+        <label class="opt"><input type="radio" name="q3"> 5-9 times <span class="count">18 · 34.0%</span></label>
+        <label class="opt"><input type="radio" name="q3"> 10-14 times <span class="count">8 · 15.1%</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q6</legend>
+      <p class="qtext">Where have you bought a drink on campus (past month)?</p>
+      <p class="qmeta">Multi-select · answered 60 raw, 50/53 (cleaned) · option labels as recorded in the analysis file (some keys not decoded)</p>
+      <div class="opts two-col">
+        <label class="opt"><input type="checkbox"> canteens <span class="count">78% · 39</span></label>
+        <label class="opt"><input type="checkbox"> vending machines <span class="count">60% · 30</span></label>
+        <label class="opt"><input type="checkbox"> UC bubble tea (uc_boba) <span class="count">32% · 16</span></label>
+        <label class="opt"><input type="checkbox"> Tuck shops <span class="count">22% · 11</span></label>
+        <label class="opt"><input type="checkbox"> Café Tolo <span class="count">20% · 10</span></label>
+        <label class="opt"><input type="checkbox"> Kunkle (CC) (cc_kunkle) <span class="count">14% · 7</span></label>
+        <label class="opt"><input type="checkbox"> untitled (not decoded) <span class="count">14% · 7</span></label>
+        <label class="opt"><input type="checkbox"> na_boba (not decoded) <span class="count">8% · 4</span></label>
+        <label class="opt"><input type="checkbox"> mc_food (not decoded) <span class="count">8% · 4</span></label>
+        <label class="opt"><input type="checkbox"> Student café <span class="count">8% · 4</span></label>
+        <label class="opt"><input type="checkbox"> Starbucks <span class="count">6% · 3</span></label>
+        <label class="opt"><input type="checkbox"> sora_zen (not decoded) <span class="count">4% · 2</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q7</legend>
+      <p class="qtext">When do you buy drinks?</p>
+      <p class="qmeta">answered 60 raw, 50/53 (cleaned)</p>
+      <p class="missing">options not recorded</p>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q8</legend>
+      <p class="qtext">What are the main reasons you did not buy a drink on campus for a typical week? Select up to 3.</p>
+      <p class="qmeta">Multi-select · answered 0/53 (cleaned) — routed out / skipped by all respondents</p>
+      <p class="missing">options not recorded</p>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q10</legend>
+      <p class="qtext">Bought a smoothie anywhere in the past 3 months?</p>
+      <p class="qmeta">Single choice · answered 65/65 (raw), 53/53 (cleaned)</p>
+      <p class="missing">options not recorded</p>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q34</legend>
+      <p class="qtext">Gender</p>
+      <p class="qmeta">Single choice · answered 65/65 (raw), 53/53 (cleaned) · groups shown as recorded</p>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="q34"> Male <span class="count">32 · 60.4%</span></label>
+        <label class="opt"><input type="radio" name="q34"> Female <span class="count">21 · 39.6%</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q35</legend>
+      <p class="qtext">Country / region you are from</p>
+      <p class="qmeta">Single choice · answered 65/65 (raw), 53/53 (cleaned) · original option list not recorded; groups shown as grouped for analysis</p>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="q35"> Hong Kong <span class="count">30 · 56.6%</span></label>
+        <label class="opt"><input type="radio" name="q35"> Mainland China <span class="count">11 · 20.8%</span></label>
+        <label class="opt"><input type="radio" name="q35"> International <span class="count">12 · 22.6%</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q36</legend>
+      <p class="qtext">Do you live on campus?</p>
+      <p class="qmeta">Single choice · answered 65/65 (raw), 53/53 (cleaned) · recorded as TRUE / FALSE</p>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="q36"> Yes (on campus) <span class="count">33 · 62.3%</span></label>
+        <label class="opt"><input type="radio" name="q36"> No <span class="count">20 · 37.7%</span></label>
+      </div>
+    </fieldset>
+  </section>
+
+  <!-- ============ SECTION 2 — WHAT MATTERS ============ -->
+  <section class="stage" id="what-matters" aria-labelledby="h-what-matters">
+    <h2 id="h-what-matters">2 · What matters</h2>
+    <p class="stage-note">What students value when choosing a drink — the importance split, agreement statements, and the attention check.</p>
+
+    <fieldset class="q" disabled>
+      <legend>Q9</legend>
+      <p class="qtext">Importance of six factors (100 points)</p>
+      <p class="qmeta">Constant-sum · answered 65/65 (raw), 53/53 (cleaned) · respondents split 100 points across the six factors; mean share shown</p>
+      <div class="six">
+        <div><b>Taste</b><span>mean 28.1 / 100</span></div>
+        <div><b>Price</b><span>mean 22.3 / 100</span></div>
+        <div><b>Healthiness</b><span>mean 14.1 / 100</span></div>
+        <div><b>Convenience</b><span>mean 13.5 / 100</span></div>
+        <div><b>Wait time</b><span>mean 11.3 / 100</span></div>
+        <div><b>Freshness</b><span>mean 10.6 / 100</span></div>
+      </div>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q15</legend>
+      <p class="qtext">Smoothies would be healthier than other campus drinks</p>
+      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
+      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
+      <p class="qmeta"><span class="stat">mean 3.34 · 54.7% agree</span></p>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q16</legend>
+      <p class="qtext">I am concerned that smoothies contain too much sugar</p>
+      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
+      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
+      <p class="qmeta"><span class="stat">mean 3.40 · 54.7% agree</span></p>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q17</legend>
+      <p class="qtext">Attention check (instruction: select &ldquo;Disagree&rdquo;)</p>
+      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned) · used to screen out rushed responses (69 → 53)</p>
+      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files; the stated instruction names “Disagree” as the correct answer)</p>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q18</legend>
+      <p class="qtext">A comfortable place to sit matters</p>
+      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
+      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
+      <p class="qmeta"><span class="stat">mean 3.34 · 45.3% agree</span></p>
+    </fieldset>
+  </section>
+
+  <!-- ============ SECTION 3 — MENU ============ -->
+  <section class="stage" id="menu" aria-labelledby="h-menu">
+    <h2 id="h-menu">3 · Menu</h2>
+    <p class="stage-note">What goes in the cup: sizes, flavours, produce, add-ons and bases — plus the occasions people imagine drinking it.</p>
+
+    <fieldset class="q" disabled>
+      <legend>Q12</legend>
+      <p class="qtext">I would like a choice of cup sizes</p>
+      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
+      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
+      <p class="qmeta"><span class="stat">mean 3.85 · 73.6% agree</span></p>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q13</legend>
+      <p class="qtext">I am interested in seasonal flavours</p>
+      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
+      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
+      <p class="qmeta"><span class="stat">mean 3.91 · 73.6% agree</span></p>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q14</legend>
+      <p class="qtext">I prefer a shop with a wide variety</p>
+      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
+      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
+      <p class="qmeta"><span class="stat">mean 3.36 · 43.4% agree</span></p>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q21</legend>
+      <p class="qtext">I want to add more than one add-on</p>
+      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
+      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
+      <p class="qmeta"><span class="stat">mean 3.64 · 64.2% agree</span></p>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q23</legend>
+      <p class="qtext">I would prefer to build my own smoothie</p>
+      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
+      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
+      <p class="qmeta"><span class="stat">mean 3.28 · 37.7% agree</span></p>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q24</legend>
+      <p class="qtext">Occasions to buy a smoothie (pick up to 3)</p>
+      <p class="qmeta">Multi-select (max 3) · answered 65/65 (raw), 53/53 (cleaned)</p>
+      <div class="opts two-col">
+        <label class="opt"><input type="checkbox"> Hanging out with friends <span class="count">28 · 52.8%</span></label>
+        <label class="opt"><input type="checkbox"> Dessert or treat <span class="count">27 · 50.9%</span></label>
+        <label class="opt"><input type="checkbox"> To cool down in hot weather <span class="count">25 · 47.2%</span></label>
+        <label class="opt"><input type="checkbox"> While studying or working <span class="count">21 · 39.6%</span></label>
+        <label class="opt"><input type="checkbox"> Afternoon snack <span class="count">18 · 34.0%</span></label>
+        <label class="opt"><input type="checkbox"> With lunch <span class="count">10 · 18.9%</span></label>
+        <label class="opt"><input type="checkbox"> After exercise <span class="count">8 · 15.1%</span></label>
+        <label class="opt"><input type="checkbox"> With dinner <span class="count">3 · 5.7%</span></label>
+        <label class="opt"><input type="checkbox"> As a meal replacement <span class="count">3 · 5.7%</span></label>
+        <label class="opt"><input type="checkbox"> With breakfast <span class="count">2 · 3.8%</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q25</legend>
+      <p class="qtext">Fruits wanted (pick up to 5)</p>
+      <p class="qmeta">Multi-select (max 5) · answered 65/65 (raw), 53/53 (cleaned)</p>
+      <div class="opts two-col">
+        <label class="opt"><input type="checkbox"> Mango <span class="count">38 · 71.7%</span></label>
+        <label class="opt"><input type="checkbox"> Strawberry <span class="count">32 · 60.4%</span></label>
+        <label class="opt"><input type="checkbox"> Banana <span class="count">25 · 47.2%</span></label>
+        <label class="opt"><input type="checkbox"> Blueberry <span class="count">20 · 37.7%</span></label>
+        <label class="opt"><input type="checkbox"> Peach <span class="count">19 · 35.8%</span></label>
+        <label class="opt"><input type="checkbox"> Apple <span class="count">17 · 32.1%</span></label>
+        <label class="opt"><input type="checkbox"> Pineapple <span class="count">15 · 28.3%</span></label>
+        <label class="opt"><input type="checkbox"> Watermelon <span class="count">15 · 28.3%</span></label>
+        <label class="opt"><input type="checkbox"> Passion fruit <span class="count">14 · 26.4%</span></label>
+        <label class="opt"><input type="checkbox"> Kiwi <span class="count">10 · 18.9%</span></label>
+        <label class="opt"><input type="checkbox"> Orange <span class="count">9 · 17.0%</span></label>
+        <label class="opt"><input type="checkbox"> Lychee <span class="count">9 · 17.0%</span></label>
+        <label class="opt"><input type="checkbox"> Honeydew melon <span class="count">5 · 9.4%</span></label>
+        <label class="opt"><input type="checkbox"> Dragon fruit <span class="count">4 · 7.5%</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q26</legend>
+      <p class="qtext">Greens / vegetables (pick up to 3)</p>
+      <p class="qmeta">Multi-select (max 3) · answered 65/65 (raw), 53/53 (cleaned) · only the five most-picked options are in the analysis file; the rest are not recorded</p>
+      <div class="opts two-col">
+        <label class="opt"><input type="checkbox"> Mint <span class="count">30 · 56.6%</span></label>
+        <label class="opt"><input type="checkbox"> Avocado <span class="count">25 · 47.2%</span></label>
+        <label class="opt"><input type="checkbox"> Cucumber <span class="count">16 · 30.2%</span></label>
+        <label class="opt"><input type="checkbox"> Carrot <span class="count">16 · 30.2%</span></label>
+        <label class="opt"><input type="checkbox"> Spinach <span class="count">12 · 22.6%</span></label>
+      </div>
+      <p class="missing">remaining options not recorded</p>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q27</legend>
+      <p class="qtext">Add-ons of interest</p>
+      <p class="qmeta">Multi-select · answered 65/65 (raw), 53/53 (cleaned)</p>
+      <div class="opts two-col">
+        <label class="opt"><input type="checkbox"> Protein powder <span class="count">27 · 50.9%</span></label>
+        <label class="opt"><input type="checkbox"> Vitamin boost <span class="count">26 · 49.1%</span></label>
+        <label class="opt"><input type="checkbox"> Energy boost (matcha or coffee) <span class="count">22 · 41.5%</span></label>
+        <label class="opt"><input type="checkbox"> Oats <span class="count">20 · 37.7%</span></label>
+        <label class="opt"><input type="checkbox"> Chia seeds <span class="count">19 · 35.8%</span></label>
+        <label class="opt"><input type="checkbox"> Peanut or almond butter <span class="count">19 · 35.8%</span></label>
+        <label class="opt"><input type="checkbox"> Probiotics <span class="count">15 · 28.3%</span></label>
+        <label class="opt"><input type="checkbox"> Flaxseed <span class="count">6 · 11.3%</span></label>
+        <label class="opt"><input type="checkbox"> Collagen <span class="count">5 · 9.4%</span></label>
+        <label class="opt"><input type="checkbox"> Greens powder (wheatgrass or spirulina) <span class="count">4 · 7.5%</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q28</legend>
+      <p class="qtext">Preferred base (pick up to 3)</p>
+      <p class="qmeta">Multi-select (max 3) · answered 65/65 (raw), 53/53 (cleaned)</p>
+      <div class="opts two-col">
+        <label class="opt"><input type="checkbox"> Yogurt <span class="count">28 · 52.8%</span></label>
+        <label class="opt"><input type="checkbox"> Fruit juice <span class="count">28 · 52.8%</span></label>
+        <label class="opt"><input type="checkbox"> Fresh milk <span class="count">23 · 43.4%</span></label>
+        <label class="opt"><input type="checkbox"> Coconut milk <span class="count">16 · 30.2%</span></label>
+        <label class="opt"><input type="checkbox"> Tea <span class="count">14 · 26.4%</span></label>
+        <label class="opt"><input type="checkbox"> Oat milk <span class="count">11 · 20.8%</span></label>
+        <label class="opt"><input type="checkbox"> Soy milk <span class="count">7 · 13.2%</span></label>
+        <label class="opt"><input type="checkbox"> Water only <span class="count">7 · 13.2%</span></label>
+        <label class="opt"><input type="checkbox"> Almond milk <span class="count">4 · 7.5%</span></label>
+        <label class="opt"><input type="checkbox"> No preference <span class="count">3 · 5.7%</span></label>
+      </div>
+    </fieldset>
+  </section>
+
+  <!-- ============ SECTION 4 — PRICE ============ -->
+  <section class="stage" id="price" aria-labelledby="h-price">
+    <h2 id="h-price">4 · Price</h2>
+    <p class="stage-note">What students currently pay, what they would pay for a smoothie, and how they feel about paying more.</p>
+
+    <fieldset class="q" disabled>
+      <legend>Q4</legend>
+      <p class="qtext">Most you would pay for a drink on campus (HK$)</p>
+      <p class="qmeta">Numeric entry (HK$) · answered 65/65 (raw), 53/53 (cleaned) · median HK$30</p>
+      <input type="text" value="" placeholder="HK$…" aria-label="Most you would pay for a drink (HK$)">
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q5</legend>
+      <p class="qtext">Average spend per drink on campus (HK$)</p>
+      <p class="qmeta">Numeric entry (HK$) · answered 60 raw, 50/53 (cleaned; 1 blanked as an outlier) · median HK$10</p>
+      <input type="text" value="" placeholder="HK$…" aria-label="Average spend per drink (HK$)">
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q11</legend>
+      <p class="qtext">I would pay more for a smoothie made with fresh ingredients</p>
+      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
+      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
+      <p class="qmeta"><span class="stat">mean 3.53 · 56.6% agree</span></p>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q22</legend>
+      <p class="qtext">I would pay extra for add-ons</p>
+      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
+      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
+      <p class="qmeta"><span class="stat">mean 3.53 · 58.5% agree</span></p>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q29</legend>
+      <p class="qtext">Most you would pay for a regular smoothie + 1 add-on (HK$)</p>
+      <p class="qmeta">Numeric entry (HK$) · answered 65/65 (raw), 53/53 (cleaned) · median HK$30</p>
+      <input type="text" value="" placeholder="HK$…" aria-label="Most you would pay for a regular smoothie plus one add-on (HK$)">
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q30</legend>
+      <p class="qtext">Extra you would pay per additional add-on (HK$)</p>
+      <p class="qmeta">Numeric entry (HK$) · answered 65/65 (raw), 52/53 (cleaned) · median HK$5</p>
+      <input type="text" value="" placeholder="HK$…" aria-label="Extra you would pay per additional add-on (HK$)">
+    </fieldset>
+  </section>
+
+  <!-- ============ SECTION 5 — WOULD YOU BUY ============ -->
+  <section class="stage" id="would-you-buy" aria-labelledby="h-would-you-buy">
+    <h2 id="h-would-you-buy">5 · Would you buy</h2>
+    <p class="stage-note">The buying questions: how they would order, how they feel about the offer, and what they would actually do.</p>
+
+    <fieldset class="q" disabled>
+      <legend>Q19</legend>
+      <p class="qtext">I would use a mobile app to pre-order</p>
+      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
+      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
+      <p class="qmeta"><span class="stat">mean 3.64 · 64.2% agree</span></p>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q20</legend>
+      <p class="qtext">I would join a loyalty programme</p>
+      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
+      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
+      <p class="qmeta"><span class="stat">mean 3.28 · 43.4% agree</span></p>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q31</legend>
+      <p class="qtext">Purchase intent for the smoothie you created</p>
+      <p class="qmeta">Single choice · answered 65/65 (raw), 53/53 (cleaned) · scale anchor for point 1 not recorded; option “1” had no responses in the cleaned data</p>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="q31"> 2 — Probably would not <span class="count">6 · 11.3%</span></label>
+        <label class="opt"><input type="radio" name="q31"> 3 — Might or might not <span class="count">10 · 18.9%</span></label>
+        <label class="opt"><input type="radio" name="q31"> 4 — Probably would <span class="count">28 · 52.8%</span></label>
+        <label class="opt"><input type="radio" name="q31"> 5 — Definitely would <span class="count">9 · 17.0%</span></label>
+      </div>
+      <p class="qmeta"><span class="stat">top-two-box 69.8% (95% CI 56.5–80.5%)</span></p>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q32</legend>
+      <p class="qtext">Why that purchase intent? (free text)</p>
+      <p class="qmeta">Free text · answered 64 raw, 52/53 (cleaned)</p>
+      <textarea aria-label="Why that purchase intent" placeholder="Free text…"></textarea>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q33</legend>
+      <p class="qtext">Preferred location on campus (pick up to 2)</p>
+      <p class="qmeta">Multi-select (max 2) · answered 65/65 (raw), 53/53 (cleaned)</p>
+      <div class="opts">
+        <label class="opt"><input type="checkbox"> YIA Building <span class="count">25 · 47.2%</span></label>
+        <label class="opt"><input type="checkbox"> Central Campus (CC) teaching buildings <span class="count">25 · 47.2%</span></label>
+        <label class="opt"><input type="checkbox"> College areas (residential colleges) <span class="count">19 · 35.8%</span></label>
+        <label class="opt"><input type="checkbox"> LSK Building <span class="count">14 · 26.4%</span></label>
+        <label class="opt"><input type="checkbox"> University Station <span class="count">12 · 22.6%</span></label>
+        <label class="opt"><input type="checkbox"> Near sports facilities <span class="count">1 · 1.9%</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="q" disabled>
+      <legend>Q37</legend>
+      <p class="qtext">Anything else you would like to add? (free text)</p>
+      <p class="qmeta">Free text · answered 17 raw, 11/53 (cleaned)</p>
+      <textarea aria-label="Anything else you would like to add" placeholder="Free text…"></textarea>
+    </fieldset>
+  </section>
+
+  <footer class="page">
+    <a class="toplink" href="../index.html">&larr; Back to Sprout</a>
+    <p>Questions and per-question answer counts come from the survey analysis extract (10_question_coverage and the summary tables used to build the site, n = 53 usable responses; raw = 69). Percentages may not sum to 100 because of rounding and multi-select questions. Where an answer option could not be recovered from the analysis files, it is marked “options not recorded” rather than guessed. 5-point agreement scales show “labels not recorded” because the original anchor wording is not in the extract; observed statistics (means, % agree) are shown instead.</p>
+    <p>Prepared 2026-11-26 as a read-only reference for the Sprout pitch. No responses are collected, stored or transmitted by this page.</p>
+  </footer>
+</main>
+</body>
+</html>

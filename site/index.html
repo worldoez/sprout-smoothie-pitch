@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sprout</title>
+<meta name="description" content="Sprout — fresh smoothies for CUHK, built from 53 student answers.">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+
+<!-- ---------- 1. HERO ---------- -->
+<header class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <h1 class="logo display" id="heroTitle">Sprout</h1>
+      <p class="slogan" id="heroSlogan"></p>
+      <p class="tagline" id="heroTagline"></p>
+      <div class="hero-btns" id="heroBtns">
+        <a class="btn" href="../order/index.html">Order ahead</a>
+        <a class="btn ghost" href="../deck/index.html">Watch the pitch</a>
+      </div>
+    </div>
+    <div class="hero-stage" id="heroStage" aria-hidden="true">
+      <div class="hero-cup" id="heroCup"></div>
+      <div class="hero-mo" id="heroMo"></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ---------- 2. BUILT FROM 53 ANSWERS ---------- -->
+  <section class="facts" id="facts">
+    <div class="wrap">
+      <h2 class="display">Built from 53 answers</h2>
+      <p class="lede">We asked the campus what a smoothie shop should be, then built exactly that. Three numbers shaped everything.</p>
+      <div class="fact-row" id="factRow">
+        <div class="fact">
+          <p class="fact-num"><span class="num" data-count="0">0</span><span class="pct">%</span></p>
+          <p class="fact-body">would buy the smoothie they built themselves</p>
+          <p class="fact-src">Purchase intent survey, Q31 &mdash; 37 of 53 said probably or definitely would</p>
+        </div>
+        <div class="fact">
+          <p class="fact-num"><span class="num" data-count="0">0</span><span class="pct">%</span></p>
+          <p class="fact-body">picked mango, the fruit the whole menu leans on</p>
+          <p class="fact-src">Fruit choice survey, Q25 &mdash; strawberry came next at <span class="inline-num" data-count="0">0</span>%</p>
+        </div>
+        <div class="fact">
+          <p class="fact-num"><span class="num" data-count="0">0</span><span class="pct">%</span></p>
+          <p class="fact-body">would pay HK$25 for a smoothie with one add-on</p>
+          <p class="fact-src">Price test, Q29 &mdash; that share is what we priced from</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 3. MENU ---------- -->
+  <section class="menu" id="menu">
+    <div class="wrap">
+      <div class="menu-grid">
+        <div class="menu-copy">
+          <h2 class="display">Build your own</h2>
+          <p class="lede">Two fruits, one base, up to two boosters, and the size you want. Prices from HK$22 to HK$30.</p>
+
+          <h3 class="menu-head">Fruits <small>pick up to 2</small></h3>
+          <ul class="fruit-list" id="fruitList"></ul>
+
+          <h3 class="menu-head">Bases <small>pick 1</small></h3>
+          <ul class="base-list" id="baseList"></ul>
+        </div>
+
+        <div class="menu-side">
+          <div class="drop-stage" id="dropStage" aria-hidden="true">
+            <div class="drop-cup" id="dropCup"></div>
+          </div>
+
+          <h3 class="menu-head">Boosters <small>up to 2, +$5 each</small></h3>
+          <ul class="booster-list" id="boosterList"></ul>
+
+          <h3 class="menu-head">Sizes <small>74% of you asked for a choice</small></h3>
+          <ul class="size-list" id="sizeList"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 4. FIND US ---------- -->
+  <section class="find" id="find">
+    <div class="wrap">
+      <div class="find-grid">
+        <div class="find-copy">
+          <h2 class="display">Find us at YIA</h2>
+          <p class="lede">Asked where the cart should be, <strong><span class="inline-num" data-count="0">0</span>%</strong> of you said the YIA Building &mdash; so that is where we open first.</p>
+          <ul class="find-hours">
+            <li><strong>YIA Building, ground floor</strong> &mdash; cart spot by the stairwell</li>
+            <li><strong>Hours</strong> &mdash; placeholder: weekdays, term time only</li>
+          </ul>
+          <ul class="where-ranks" id="whereRanks"></ul>
+        </div>
+        <div class="map-box">
+          <svg class="campus-map" viewBox="0 0 460 330" role="img" aria-label="A simple illustrated map of the CUHK campus showing the YIA Building, the Central Campus teaching buildings, LSK, the residential colleges and University Station.">
+            <!-- campus ground -->
+            <path class="mp-ground" d="M20 30 Q120 -8 250 16 Q390 40 436 130 Q462 210 380 268 Q260 330 140 302 Q30 274 12 180 Q2 92 20 30 Z"/>
+            <!-- walking paths -->
+            <path class="mp-path" d="M64 236 Q120 240 132 200 T120 128"/>
+            <path class="mp-path" d="M132 128 Q200 110 262 96 T330 150 T300 232"/>
+            <!-- MTR East Rail line -->
+            <path class="mp-rail" d="M-10 300 Q90 292 200 312 T470 292"/>
+            <text class="mp-rail-label" x="356" y="316">East Rail Line</text>
+            <!-- University Station -->
+            <g class="mp-station">
+              <circle cx="52" cy="284" r="9"/>
+              <circle cx="52" cy="284" r="16" class="mp-ring"/>
+              <text class="mp-label" x="24" y="270">University Station</text>
+            </g>
+            <!-- colleges -->
+            <g class="mp-blk">
+              <rect x="56" y="196" width="72" height="44" rx="10"/>
+              <text class="mp-label" x="60" y="188">Colleges</text>
+            </g>
+            <!-- CC teaching buildings -->
+            <g class="mp-blk">
+              <rect x="212" y="52" width="46" height="34" rx="8"/>
+              <rect x="262" y="52" width="46" height="34" rx="8"/>
+              <rect x="212" y="90" width="96" height="34" rx="8"/>
+              <text class="mp-label" x="214" y="44">Central Campus</text>
+            </g>
+            <!-- LSK -->
+            <g class="mp-blk">
+              <rect x="318" y="128" width="54" height="40" rx="9"/>
+              <text class="mp-label" x="320" y="120">LSK</text>
+            </g>
+            <!-- sports -->
+            <g class="mp-blk">
+              <rect x="330" y="228" width="48" height="30" rx="8"/>
+              <text class="mp-label" x="330" y="252">Sports</text>
+            </g>
+            <!-- YIA, the star -->
+            <g class="mp-yia">
+              <rect x="86" y="58" width="88" height="62" rx="12"/>
+              <text class="mp-yia-label" x="100" y="96">YIA</text>
+              <g class="mp-pin">
+                <path class="mp-pin-body" d="M130 24 C142 24 150 32 150 42 C150 52 138 60 130 74 C122 60 110 52 110 42 C110 32 118 24 130 24 Z"/>
+                <circle cx="130" cy="41" r="6"/>
+              </g>
+              <text class="mp-yia-call" x="160" y="34">47% want us here</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- 5. APP TEASER ---------- -->
+  <section class="app" id="app">
+    <div class="wrap app-grid">
+      <div class="app-copy">
+        <h2 class="display">Skip the line</h2>
+        <p class="lede"><strong><span class="inline-num" data-count="0">0</span>%</strong> of you said you would use a pre-order app. Build on your phone, pay, and your cup is blended when you arrive.</p>
+        <ol class="app-points">
+          <li><strong>Six taps</strong> from fruit to pickup ticket</li>
+          <li><strong>Live queue</strong> shows when yours is ready</li>
+          <li><strong>Pay on pickup</strong> &mdash; cash or Octopus</li>
+        </ol>
+        <a class="btn leaf" href="../order/index.html">Try the order app</a>
+      </div>
+      <div class="phone-box" id="phoneBox">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="p-status" aria-hidden="true"><span class="p-time">9:41</span><span class="p-notch"></span><span class="p-sig">5G &#x1F50B;</span></div>
+            <div class="p-head">
+              <span class="p-brand display">Sprout</span>
+              <span class="p-where">YIA pickup</span>
+            </div>
+            <div class="p-drink">
+              <p class="p-drink-name display" id="pDrinkName"></p>
+              <p class="p-drink-meta" id="pDrinkMeta"></p>
+            </div>
+            <ol class="p-steps" id="pSteps"></ol>
+            <div class="p-ticket" id="pTicket">
+              <span class="p-ticket-num display" id="pTicketNum"></span>
+              <span class="p-ticket-note" id="pTicketNote"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ---------- 6. FOOTER ---------- -->
+<footer class="foot" id="foot">
+  <div class="wrap foot-grid">
+    <div>
+      <p class="foot-logo display" id="footLogo"></p>
+      <p class="foot-note" id="footNote"></p>
+    </div>
+    <nav class="foot-links" aria-label="Site links">
+      <a href="../index.html">Home</a>
+      <a href="../order/index.html">Order ahead</a>
+      <a href="../deck/index.html">The pitch</a>
+    </nav>
+    <p class="foot-team">A CUHK student project &mdash; team names coming soon.</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="../content/brand.js"></script>
+<script src="../content/menu.js"></script>
+<script src="../content/data.js"></script>
+<script src="../shared/art.js"></script>
+<script src="site.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFF4E2">
+<title>Sprout - order ahead</title>
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="order.css">
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="floaters" aria-hidden="true"></div>
+  <div class="phone" id="phone">
+    <div class="notch" aria-hidden="true"></div>
+    <div class="app" id="app">
+      <header class="top">
+        <span class="nav-l"><button class="icon-btn" id="back" aria-label="Back" hidden>&#8592;</button><a class="icon-btn home" id="home" href="../index.html" aria-label="Back to home page" title="Home">&#8962;</a></span>
+        <div class="brand display">Sprout</div>
+        <button class="icon-btn key" id="keyBtn" aria-label="GitHub token settings">&#128273;<span class="dot" id="keyDot"></span></button>
+      </header>
+      <div class="progress" id="progress" aria-hidden="true"><i id="bar"></i></div>
+      <main class="screens" id="screens"></main>
+      <footer class="foot" id="foot">
+        <div class="foot-info" id="footInfo"></div>
+        <button class="btn leaf next" id="next" disabled>Next</button>
+      </footer>
+    </div>
+    <dialog id="tokenDlg">
+      <form method="dialog">
+        <h3 class="display">Stage-screen key</h3>
+        <p>Paste a GitHub token (Contents read/write, this repo only) so orders appear on the stage screen. It stays on this phone only.</p>
+        <input id="tokenIn" type="password" placeholder="github_pat_..." autocomplete="off">
+        <div class="row">
+          <button class="btn ghost" value="cancel">Cancel</button>
+          <button class="btn leaf" id="tokenSave" value="ok">Save</button>
+        </div>
+      </form>
+    </dialog>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<script src="../content/brand.js"></script>
+<script src="../content/menu.js"></script>
+<script src="../shared/orders.js"></script>
+<script src="../shared/art.js"></script>
+<script src="order.js"></script>
+</body>
+</html>
