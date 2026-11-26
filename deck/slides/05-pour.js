@@ -18,10 +18,10 @@
       <div class="cupbox" style="position:absolute;left:470px;top:440px;width:500px;height:820px">${ctx.art.cup({ colorA: f[0] ? f[0].color : "#FFB020", colorB: f[1] ? f[1].color : (f[0] ? f[0].color : "#E8364F"), label: "Order #1" })}</div>
       <div class="reveal" style="position:absolute;left:1080px;top:110px;width:720px;color:#FFF4E2">
         <div class="s-kicker" style="color:#F6C445">Poured fresh for</div>
-        <h2 class="s-title who-name" style="font-size:110px;margin:6px 0 24px">${o.name || "Professor"}</h2>
+        <h2 class="s-title who-name" style="font-size:110px;margin:6px 0 24px">${o.name || "you"}</h2>
         <div class="order-card oc" style="position:relative;width:720px">${Kit.orderCardHTML(o, ctx)}</div>
       </div>
-      <div class="handoff" style="position:absolute;left:130px;top:430px;font-family:var(--font-display);font-weight:900;font-size:76px;color:#FFF4E2;max-width:11ch;opacity:0">Your smoothie is on its way, Professor →</div>`;
+      <div class="handoff" style="position:absolute;left:130px;top:430px;font-family:var(--font-display);font-weight:900;font-size:76px;color:#FFF4E2;max-width:11ch;opacity:0">Your smoothie is on its way</div>`;
     },
     steps: [
       (el) => {
@@ -58,7 +58,7 @@
     // Re-render the cup and card if a newer order arrives while on this slide.
     onOrder: (el, o, ctx) => {
       const oc = el.querySelector(".oc"); if (oc) oc.innerHTML = Kit.orderCardHTML(o, ctx);
-      const nm = el.querySelector(".who-name"); if (nm) nm.textContent = o.name || "Professor";
+      const nm = el.querySelector(".who-name"); if (nm) nm.textContent = o.name || "you";
     }
   });
 })();

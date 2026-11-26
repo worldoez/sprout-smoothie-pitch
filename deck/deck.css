@@ -153,3 +153,42 @@ body.print #print-pages { display: block; }
 @media (orientation: portrait) and (max-width: 760px) {
   body::after { content: "Turn your phone sideways for a bigger slide"; position: fixed; left: 50%; top: 14px; transform: translateX(-50%); background: rgba(255,244,226,.12); color: #FFF4E2; font-size: 13px; padding: 6px 12px; border-radius: 99px; white-space: nowrap; pointer-events: none; }
 }
+
+/* ===== Toolbar v2 ===== */
+#toolbar { background: #17100B; border-top: 1px solid rgba(255,244,226,.08); }
+#progress { position: absolute; left: 0; right: 0; top: -5px; height: 5px; width: auto !important; background: transparent; }
+#progress-segs { display: flex; gap: 3px; height: 100%; padding: 0 3px; }
+#progress-segs i { position: relative; display: block; border-radius: 3px; background: color-mix(in srgb, var(--c) 28%, #17100B); overflow: hidden; transition: transform .2s; }
+#progress-segs i b { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--c); transition: width .35s ease; }
+#progress-segs i.cur { transform: scaleY(1.6); transform-origin: bottom; }
+#stage-name { padding: 6px 12px 6px 10px; border-radius: 99px; background: var(--dot, #FF8A1F); color: var(--dotfg, #2A1A10); font-size: 13px; box-shadow: inset 0 0 0 1px rgba(255,244,226,.18); }
+#stage-name::before { width: 8px; height: 8px; background: currentColor; box-shadow: none; opacity: .7; }
+#steps i { width: 14px; height: 4px; border-radius: 2px; }
+#btn-prev { border-radius: 50%; }
+#btn-next { background: var(--mango); color: #fff; border-radius: 99px; min-width: 52px; box-shadow: 0 3px 0 #C7600A; }
+#btn-next:hover { background: #FF9A3A; }
+#counter { font-size: 15px; }
+#timer { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 99px; background: rgba(255,244,226,.07); font-size: 13px; }
+#timer svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; opacity: .8; }
+#timer b { font-size: 15px; }
+#timer .tot { opacity: .55; }
+#timer .stg { padding-left: 8px; margin-left: 2px; border-left: 1px solid rgba(255,244,226,.2); }
+#timer.warn { background: rgba(246,196,69,.18); color: #F6C445; }
+#timer.over { background: rgba(255,107,107,.18); color: #FF8C8C; animation: tpulse 2s ease-in-out infinite; }
+@keyframes tpulse { 50% { background: rgba(255,107,107,.32); } }
+#btn-order.wide { background: rgba(255,244,226,.07); color: #FFF4E2; font-weight: 600; font-size: 13px; gap: 8px; padding: 0 12px; }
+#btn-order .od { width: 8px; height: 8px; border-radius: 50%; background: #8C7B6B; }
+#btn-order.live .od { background: #4ADE80; box-shadow: 0 0 0 3px rgba(74,222,128,.2); }
+#btn-order svg { width: 16px; height: 16px; opacity: .7; }
+.tb-right { gap: 2px; }
+.tb-right > .tb:not(.wide) { opacity: .8; }
+.tb-right > .tb:not(.wide):hover { opacity: 1; }
+
+/* ===== on-slide time cup (presenter cue) ===== */
+#cuptimer { position: absolute; right: 26px; bottom: 22px; width: 64px; z-index: 30; opacity: 0; transform: translateY(16px); transition: opacity .5s, transform .5s; pointer-events: none; text-align: center; }
+#cuptimer.show { opacity: .92; transform: none; }
+#cuptimer svg { width: 64px; height: 88px; overflow: visible; filter: drop-shadow(0 4px 6px rgba(0,0,0,.25)); }
+#cuptimer .ct-label { display: block; font: 700 18px var(--font-body); color: #FFF4E2; text-shadow: 0 1px 4px rgba(0,0,0,.6); margin-top: 2px; }
+body.print #cuptimer { display: none; }
+@media (max-width: 900px) { #timer .tot { display: none; } }
+@media (max-width: 760px), (pointer: coarse) and (max-height: 520px) { #btn-order .olabel { display: none; } #btn-order.wide { padding: 0 10px; } }

@@ -83,30 +83,25 @@
 
 <div class="sheet" id="connect">
   <h2 class="display">Connect to the deck</h2>
-  <p class="hint">On the laptop deck press <b>P</b> (or tap the phone icon in the toolbar) and enter the 5-letter code, or just scan its QR code.</p>
+  <p class="hint">On the laptop deck press <b>P</b> (or the phone icon in the toolbar). Scan its QR code, or type the 5-letter code.</p>
   <div class="row"><input id="codein" maxlength="5" autocomplete="off" autocapitalize="characters" placeholder="CODE"><button class="btn" id="codego">Connect</button></div>
 </div>
 <div class="sheet" id="list"><div class="row" style="justify-content:space-between;align-items:center"><h2 class="display">Jump to slide</h2><button class="btn ghost" id="listclose" style="color:#FFF4E2;box-shadow:inset 0 0 0 2px #FFF4E2">Close</button></div><div class="list" id="listbody"></div></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mqtt@5.10.1/dist/mqtt.min.js"></script>
+<script src="../shared/relay.js"></script>
 <script>
 (function () {
   const $ = (s) => document.querySelector(s);
-  const PREFIX = "sprout-deck-";
   const params = new URLSearchParams(location.search);
-  let code = (params.get("code") || "").toUpperCase(), st = null, offset = 0, conn = null, peer = null, via = null;
-  const bc = ("BroadcastChannel" in window) ? new BroadcastChannel("sprout-deck") : null;
-
+  let code = (params.get("code") || "").toUpperCase(), st = null, offset = 0, relay = null, lastState = 0;
   const buzz = () => { try { navigator.vibrate && navigator.vibrate(12); } catch {} };
   const fmt = (ms) => { const s = Math.max(0, Math.floor(ms / 1000)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; };
   const esc = (t) => String(t || "").replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
   function pill(s, text) { $("#pill").dataset.s = s; $("#pilltext").textContent = text; }
 
   function send(cmd, extra) {
-    const m = Object.assign({ type: "cmd", cmd }, extra || {});
-    if (via === "bc" && bc) bc.postMessage(m);
-    else if (conn && conn.open) conn.send(m);
-    else if (bc) bc.postMessage(m);
+    if (relay) relay.send("cmd", Object.assign({ cmd }, extra || {}));
     buzz();
   }
 
@@ -135,49 +130,37 @@
     if (!st.started) { $("#total").textContent = "0:00"; $("#stageclock").textContent = "Timer starts on your first Next"; return; }
     const total = now - st.started, used = st.stageStart ? now - st.stageStart : 0, budget = st.stageBudget * 1000;
     $("#total").textContent = fmt(total);
-    $("#stageclock").textContent = `${st.stageName} ${fmt(used)} / ${fmt(budget)}`;
+    const left = budget - used, frac = used / budget;
+    $("#stageclock").textContent = left >= 0 ? `${st.stageName}: ${fmt(left)} left` : `${st.stageName}: ${fmt(-left)} over, wrap up`;
+    // buzz once at 80%, twice at 90%, long when over (per stage)
+    const k = st.stageName + (frac >= 1 ? "o" : frac >= 0.9 ? "9" : frac >= 0.8 ? "8" : "");
+    if (frac >= 0.8 && !warned[k]) { warned[k] = 1; try { navigator.vibrate && navigator.vibrate(frac >= 1 ? [300] : frac >= 0.9 ? [90, 70, 90] : [60]); } catch {} }
     $("#clock").classList.toggle("warn", used > budget * 0.9 && used <= budget);
     $("#clock").classList.toggle("over", used > budget || total > 18.5 * 60000);
   }
+  const warned = {};
   setInterval(tick, 500);
 
   function renderList() {
     $("#listbody").innerHTML = (st ? st.slides : []).map((x, i) => `<button data-i="${i}" class="${st && i === st.i ? "cur" : ""}"><b>${x.n}</b>${esc(x.title)}<small>${esc(x.stageName)}</small></button>`).join("");
   }
 
-  function onMsg(m, from) {
-    if (!m || m.type !== "state") return;
-    if (!via) via = from;
-    pill("on", from === "bc" ? "Connected (this computer)" : "Connected");
-    $("#connect").classList.remove("open");
-    render(m.state);
-  }
-
-  // 1) Same browser (presenter view in another window): BroadcastChannel, works offline.
-  if (bc) { bc.onmessage = (e) => onMsg(e.data, "bc"); bc.postMessage({ type: "hello" }); }
-
-  // 2) Phone: PeerJS
-  function connectPeer() {
-    if (!code || !window.Peer) { if (!window.Peer && !via) pill("off", "No internet for pairing"); return; }
+  function connect() {
+    if (!code) { $("#connect").classList.add("open"); return; }
+    if (relay) relay.close();
     pill("wait", "Connecting…");
-    if (!peer || peer.destroyed) {
-      peer = new Peer({ debug: 0 });
-      peer.on("open", openConn);
-      peer.on("error", (e) => { pill("off", e.type === "peer-unavailable" ? "Deck not found. Check the code" : "Connection problem, retrying…"); setTimeout(connectPeer, 2500); });
-      peer.on("disconnected", () => { try { peer.reconnect(); } catch {} });
-    } else openConn();
+    relay = SproutRelay.open(code, (type, data) => {
+      if (type !== "state") return;
+      lastState = Date.now();
+      pill("on", "Connected");
+      $("#connect").classList.remove("open");
+      render(data);
+    }, { onStatus: (s, n) => { if (Date.now() - lastState > 8000) pill(n ? "wait" : "off", n ? "Waiting for the deck…" : "Connecting…"); } });
+    const hello = () => relay && relay.send("hello", {});
+    setTimeout(hello, 1200); setTimeout(hello, 3500);
+    setInterval(() => { if (relay) relay.send("ping", {}); if (Date.now() - lastState > 20000 && lastState) pill("off", "Lost the deck, retrying…"); }, 6000);
   }
-  function openConn() {
-    conn = peer.connect(PREFIX + code, { reliable: true });
-    conn.on("open", () => { conn.send({ type: "hello" }); });
-    conn.on("data", (m) => onMsg(m, "peer"));
-    conn.on("close", () => { if (via === "peer") { pill("off", "Disconnected, reconnecting…"); setTimeout(openConn, 1500); } });
-  }
-
-  setTimeout(() => {
-    if (via) return;
-    if (code) connectPeer(); else $("#connect").classList.add("open");
-  }, 500);
+  setTimeout(connect, 100);
 
   // controls
   $("#next").onclick = () => send("next");
@@ -188,7 +171,7 @@
   $("#listclose").onclick = () => $("#list").classList.remove("open");
   $("#listbody").onclick = (e) => { const b = e.target.closest("button[data-i]"); if (b) { send("go", { i: +b.dataset.i }); $("#list").classList.remove("open"); } };
   let big = false; $("#t-text").onclick = () => { big = !big; document.documentElement.style.setProperty("--notes-size", big ? "24px" : "19px"); };
-  $("#codego").onclick = () => { code = $("#codein").value.trim().toUpperCase(); if (code.length === 5) { history.replaceState(null, "", "?code=" + code); connectPeer(); } };
+  $("#codego").onclick = () => { code = $("#codein").value.trim().toUpperCase(); if (code.length === 5) { history.replaceState(null, "", "?code=" + code); connect(); } };
   $("#codein").addEventListener("keydown", (e) => { if (e.key === "Enter") $("#codego").click(); });
   // laptop presenter view: keyboard works too
   document.addEventListener("keydown", (e) => {
@@ -199,7 +182,7 @@
   // keep the phone screen awake while presenting
   async function wake() { try { if ("wakeLock" in navigator) await navigator.wakeLock.request("screen"); } catch {} }
   document.addEventListener("click", wake, { once: true });
-  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") { wake(); if (via === "peer" && (!conn || !conn.open)) connectPeer(); } });
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") { wake(); if (relay) relay.send("hello", {}); } });
 })();
 </script>
 </body>

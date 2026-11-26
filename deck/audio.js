@@ -12,25 +12,124 @@
     return ctx;
   }
 
-  // --- tiny synth helpers ---
-  function tone({ f = 440, f2 = null, t = 0.15, type = "sine", vol = 0.25, delay = 0 }) {
-    const c = ac(); if (!c) return;
-    const o = c.createOscillator(), g = c.createGain(), now = c.currentTime + delay;
-    o.type = type; o.frequency.setValueAtTime(f, now);
-    if (f2) o.frequency.exponentialRampToValueAtTime(f2, now + t);
-    g.gain.setValueAtTime(0.0001, now); g.gain.exponentialRampToValueAtTime(vol, now + 0.01);
-    g.gain.exponentialRampToValueAtTime(0.0001, now + t);
-    o.connect(g).connect(c.destination); o.start(now); o.stop(now + t + 0.05);
+  // --- shared master chain: compressor + gentle reverb, built once ---
+  let busIn = null, noiseBuf = null;
+  function bus() {
+    const c = ac(); if (!c) return null;
+    if (busIn) return busIn;
+    // gentle compressor so layered voices sit together without clipping
+    const comp = c.createDynamicsCompressor();
+    comp.threshold.setValueAtTime(-16, c.currentTime);
+    comp.knee.setValueAtTime(18, c.currentTime);
+    comp.ratio.setValueAtTime(5, c.currentTime);
+    comp.attack.setValueAtTime(0.004, c.currentTime);
+    comp.release.setValueAtTime(0.22, c.currentTime);
+    comp.connect(c.destination);
+    // generated impulse response: decaying noise, ~1.3s tail
+    const irLen = Math.floor(c.sampleRate * 1.3), ir = c.createBuffer(2, irLen, c.sampleRate);
+    for (let ch = 0; ch < 2; ch++) {
+      const d = ir.getChannelData(ch);
+      for (let i = 0; i < irLen; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / irLen, 3);
+    }
+    const conv = c.createConvolver(); conv.buffer = ir;
+    const wet = c.createGain(); wet.gain.value = 0.18;
+    conv.connect(wet); wet.connect(comp);
+    const dry = c.createGain(); dry.gain.value = 1; dry.connect(comp);
+    busIn = c.createGain(); busIn.gain.value = 1;
+    busIn.connect(dry); busIn.connect(conv);
+    return busIn;
   }
-  function noise({ t = 0.3, vol = 0.3, from = 800, to = 200, type = "lowpass", delay = 0, q = 1 }) {
-    const c = ac(); if (!c) return;
-    const len = Math.floor(c.sampleRate * t), buf = c.createBuffer(1, len, c.sampleRate), d = buf.getChannelData(0);
-    for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
-    const s = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain(), now = c.currentTime + delay;
-    s.buffer = buf; f.type = type; f.Q.value = q;
-    f.frequency.setValueAtTime(from, now); f.frequency.exponentialRampToValueAtTime(Math.max(20, to), now + t);
-    g.gain.setValueAtTime(vol, now); g.gain.exponentialRampToValueAtTime(0.0001, now + t);
-    s.connect(f).connect(g).connect(c.destination); s.start(now);
+  function getNoise(c) {
+    if (!noiseBuf) {
+      const len = Math.floor(c.sampleRate * 2);
+      noiseBuf = c.createBuffer(1, len, c.sampleRate);
+      const d = noiseBuf.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    }
+    return noiseBuf;
+  }
+  const rand = (min, max) => min + Math.random() * (max - min);
+  const det = (cents) => (Math.random() - 0.5) * 2 * (cents == null ? 12 : cents); // random detune per play
+  const OUT = () => bus();
+
+  // --- tiny synth helpers ---
+  function tone({ f = 440, f2 = null, t = 0.15, type = "sine", vol = 0.25, delay = 0, attack = 0.008, pan = null, panTo = null, detune = 12 }) {
+    const c = ac(), out = OUT(); if (!c || !out) return;
+    const o = c.createOscillator(), g = c.createGain(), now = c.currentTime + delay;
+    o.type = type; o.frequency.setValueAtTime(f, now); o.detune.value = det(detune);
+    if (f2) o.frequency.exponentialRampToValueAtTime(Math.max(1, f2), now + t);
+    g.gain.setValueAtTime(0.0001, now);
+    g.gain.exponentialRampToValueAtTime(vol, now + attack);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + t);
+    o.connect(g);
+    let node = g;
+    if (pan !== null) { const p = c.createStereoPanner(); if (panTo !== null) { p.pan.setValueAtTime(pan, now); p.pan.linearRampToValueAtTime(panTo, now + t); } else p.pan.setValueAtTime(pan, now); g.connect(p); node = p; }
+    node.connect(out);
+    o.start(now); o.stop(now + t + 0.05);
+  }
+  // triangle voice with a slight two-oscillator chorus (±7 cents)
+  function chorusTone({ f, t, vol, delay = 0, type = "triangle" }) {
+    [-7, 7].forEach(cents => {
+      const c = ac(), out = OUT(); if (!c || !out) return;
+      const o = c.createOscillator(), g = c.createGain(), now = c.currentTime + delay;
+      o.type = type; o.frequency.setValueAtTime(f, now); o.detune.value = cents + det(4);
+      g.gain.setValueAtTime(0.0001, now);
+      g.gain.exponentialRampToValueAtTime(vol, now + 0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + t);
+      o.connect(g).connect(out);
+      o.start(now); o.stop(now + t + 0.05);
+    });
+  }
+  function noise({ t = 0.3, vol = 0.3, from = 800, to = 200, type = "lowpass", delay = 0, q = 1, pan = null, panTo = null, attack = 0.005 }) {
+    const c = ac(), out = OUT(); if (!c || !out) return;
+    const s = c.createBufferSource(); s.buffer = getNoise(c); s.loop = true;
+    const f = c.createBiquadFilter(), g = c.createGain(), now = c.currentTime + delay;
+    f.type = type; f.Q.value = q;
+    f.frequency.setValueAtTime(Math.max(20, from), now);
+    f.frequency.exponentialRampToValueAtTime(Math.max(20, to), now + t);
+    g.gain.setValueAtTime(0.0001, now);
+    g.gain.exponentialRampToValueAtTime(vol, now + attack);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + t);
+    s.connect(f); f.connect(g);
+    let node = g;
+    if (pan !== null) {
+      const p = c.createStereoPanner();
+      if (panTo !== null) { p.pan.setValueAtTime(pan, now); p.pan.linearRampToValueAtTime(panTo, now + t); }
+      else p.pan.setValueAtTime(pan, now);
+      g.connect(p); node = p;
+    }
+    node.connect(out);
+    s.start(now); s.stop(now + t + 0.05);
+  }
+  // band-passed noise with fast random filter sweeps — the "liquid" texture
+  function liquidNoise({ t = 1, vol = 0.25, delay = 0, min = 400, max = 1400, q = 2, sweeps = 9 }) {
+    const c = ac(), out = OUT(); if (!c || !out) return;
+    const s = c.createBufferSource(); s.buffer = getNoise(c); s.loop = true;
+    const f = c.createBiquadFilter(), g = c.createGain(), now = c.currentTime + delay;
+    f.type = "bandpass"; f.Q.value = q;
+    f.frequency.setValueAtTime(rand(min, max), now);
+    for (let i = 1; i <= sweeps; i++) f.frequency.exponentialRampToValueAtTime(rand(min, max), now + (t * i) / sweeps);
+    g.gain.setValueAtTime(0.0001, now);
+    g.gain.exponentialRampToValueAtTime(vol, now + 0.03);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + t);
+    s.connect(f); f.connect(g); g.connect(out);
+    s.start(now); s.stop(now + t + 0.05);
+  }
+  // low body thump underlying liquid hits
+  function thump({ f = 100, f2 = 45, t = 0.25, vol = 0.4, delay = 0 }) {
+    tone({ f, f2, t, type: "sine", vol, delay, attack: 0.006 });
+  }
+  // scattered droplet blips after a splash/pour
+  function droplets(n, delay, vol) {
+    for (let i = 0; i < n; i++) {
+      tone({ f: rand(750, 1650), f2: rand(320, 750), t: rand(0.05, 0.1), type: "sine", vol: vol * rand(0.5, 1), delay: delay + rand(0.02, 0.75) });
+    }
+  }
+  // bright tada chord, shared by tada and cheer
+  function tadaChord(delay = 0, vol = 0.16) {
+    [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => {
+      chorusTone({ f, t: i === 3 ? 0.75 : 0.2, vol, delay: delay + i * 0.09 });
+    });
   }
 
   // Blender: motor spins up, whines with wobble, liquid churns, ice chunks knock, spins down.
@@ -73,23 +172,88 @@
   }
 
   const SYNTH = {
-    pop: () => tone({ f: 500, f2: 1100, t: 0.12, type: "triangle", vol: 0.3 }),
-    click: () => tone({ f: 1400, t: 0.04, type: "square", vol: 0.08 }),
-    step: () => noise({ t: 0.08, vol: 0.25, from: 400, to: 120 }),
-    whoosh: () => noise({ t: 0.45, vol: 0.35, from: 300, to: 3000, type: "bandpass", q: 0.8 }),
-    swoosh: () => noise({ t: 0.35, vol: 0.3, from: 3000, to: 300, type: "bandpass", q: 0.8 }),
-    splat: () => { noise({ t: 0.35, vol: 0.6, from: 1200, to: 80 }); tone({ f: 120, f2: 50, t: 0.3, vol: 0.4 }); },
-    drop: () => { tone({ f: 900, f2: 300, t: 0.18, vol: 0.25 }); noise({ t: 0.12, vol: 0.2, from: 600, to: 100, delay: 0.16 }); },
-    thunk: () => { tone({ f: 180, f2: 60, t: 0.18, type: "triangle", vol: 0.5 }); noise({ t: 0.06, vol: 0.4, from: 2000, to: 400 }); },
-    sad: () => [392, 370, 349, 294].forEach((f, i) => tone({ f, f2: f * 0.97, t: i === 3 ? 0.7 : 0.28, type: "sawtooth", vol: 0.09, delay: i * 0.3 })),
-    tada: () => [523, 659, 784, 1047].forEach((f, i) => tone({ f, t: i === 3 ? 0.6 : 0.16, type: "triangle", vol: 0.2, delay: i * 0.09 })),
-    riser: () => tone({ f: 200, f2: 1600, t: 0.9, type: "sawtooth", vol: 0.06 }),
-    pour: () => noise({ t: 1.4, vol: 0.25, from: 900, to: 500, type: "bandpass", q: 2 }),
-    water: () => noise({ t: 1.2, vol: 0.22, from: 2500, to: 1200, type: "bandpass", q: 1.5 }),
+    pop: () => { tone({ f: 480, f2: 1120, t: 0.12, type: "triangle", vol: 0.32 }); tone({ f: 240, f2: 560, t: 0.1, type: "sine", vol: 0.2 }); },
+    click: () => { tone({ f: 1500, t: 0.03, type: "square", vol: 0.06, detune: 30 }); noise({ t: 0.02, vol: 0.09, from: 3200, to: 2400, type: "highpass" }); },
+    step: () => { noise({ t: 0.09, vol: 0.28, from: 500, to: 110 }); tone({ f: 95, f2: 55, t: 0.09, type: "sine", vol: 0.24 }); },
+    whoosh: () => { noise({ t: 0.5, vol: 0.38, from: 240, to: 3300, type: "bandpass", q: 1.1, pan: -0.75, panTo: 0.75, attack: 0.02 }); tone({ f: 300, f2: 900, t: 0.45, type: "sine", vol: 0.05, pan: -0.5, panTo: 0.5 }); },
+    swoosh: () => noise({ t: 0.38, vol: 0.34, from: 2800, to: 260, type: "bandpass", q: 1.1, pan: 0.75, panTo: -0.75, attack: 0.015 }),
+    splat: () => {
+      thump({ f: 125, f2: 46, t: 0.3, vol: 0.48 });
+      liquidNoise({ t: 0.3, vol: 0.5, min: 350, max: 1500, q: 1.4, sweeps: 7 });
+      droplets(3, 0.14, 0.22);
+    },
+    drop: () => { tone({ f: 870, f2: 285, t: 0.17, type: "sine", vol: 0.28 }); tone({ f: 1740, f2: 570, t: 0.1, type: "triangle", vol: 0.08, delay: 0.02 }); noise({ t: 0.1, vol: 0.18, from: 700, to: 110, delay: 0.15 }); },
+    thunk: () => { tone({ f: 172, f2: 57, t: 0.2, type: "triangle", vol: 0.5 }); tone({ f: 86, f2: 43, t: 0.22, type: "sine", vol: 0.3 }); noise({ t: 0.06, vol: 0.34, from: 1900, to: 320 }); },
+    sad: () => [392, 370, 349, 294].forEach((f, i) => {
+      tone({ f, f2: f * 0.97, t: i === 3 ? 0.7 : 0.28, type: "sawtooth", vol: 0.085, delay: i * 0.3, detune: 8 });
+      tone({ f: f * 1.005, f2: f * 0.975, t: i === 3 ? 0.7 : 0.28, type: "sawtooth", vol: 0.06, delay: i * 0.3, detune: 8 });
+    }),
+    tada: () => tadaChord(0, 0.16),
+    riser: () => { tone({ f: 185, f2: 1550, t: 0.92, type: "sawtooth", vol: 0.065, attack: 0.05 }); noise({ t: 0.92, vol: 0.08, from: 300, to: 4200, type: "bandpass", q: 2.5, attack: 0.05 }); },
+    pour: () => { liquidNoise({ t: 1.35, vol: 0.28, min: 480, max: 1150, q: 2.4, sweeps: 12 }); droplets(4, 0.15, 0.12); thump({ f: 115, f2: 68, t: 0.22, vol: 0.2, delay: 1.15 }); },
+    water: () => { liquidNoise({ t: 1.15, vol: 0.23, min: 950, max: 2600, q: 1.8, sweeps: 11 }); droplets(4, 0.1, 0.15); },
     blender: () => blenderSound(2.4),
-    sparkle: () => [1568, 2093, 2637].forEach((f, i) => tone({ f, t: 0.18, vol: 0.08, delay: i * 0.06 })),
-    seed: () => { tone({ f: 700, f2: 200, t: 0.2, vol: 0.2 }); noise({ t: 0.1, vol: 0.3, from: 500, to: 100, delay: 0.2 }); },
-    cheer: () => { noise({ t: 1.4, vol: 0.2, from: 1500, to: 2500, type: "bandpass", q: 0.5 }); SYNTH.tada(); }
+    sparkle: () => [1568, 2093, 2637, 3136].forEach((f, i) => tone({ f, t: 0.2, type: "sine", vol: 0.085, delay: i * 0.055, detune: 20 })),
+    seed: () => { tone({ f: 660, f2: 205, t: 0.18, type: "sine", vol: 0.24 }); noise({ t: 0.1, vol: 0.3, from: 520, to: 95, delay: 0.18 }); tone({ f: 1320, f2: 660, t: 0.07, type: "triangle", vol: 0.06, delay: 0.02 }); },
+    cheer: () => {
+      liquidNoise({ t: 1.5, vol: 0.2, min: 1100, max: 2500, q: 0.6, sweeps: 14 });
+      chorusTone({ f: 523.25, t: 0.9, vol: 0.09, delay: 0.35 });
+      chorusTone({ f: 659.25, t: 0.9, vol: 0.09, delay: 0.42 });
+      chorusTone({ f: 784, t: 1.0, vol: 0.09, delay: 0.49 });
+    },
+    splash: () => {
+      thump({ f: 98, f2: 38, t: 0.38, vol: 0.52 });
+      noise({ t: 0.5, vol: 0.48, from: 2900, to: 260, type: "lowpass", attack: 0.004 });
+      liquidNoise({ t: 0.5, vol: 0.32, min: 500, max: 1800, q: 1.2, sweeps: 8, delay: 0.02 });
+      droplets(6, 0.22, 0.2);
+    },
+    glass: () => {
+      const f = rand(1950, 2300);
+      tone({ f, t: 0.9, type: "sine", vol: 0.2, detune: 6 });
+      tone({ f: f * 2.76, t: 0.55, type: "sine", vol: 0.11, detune: 6 });
+      tone({ f: f * 5.4, t: 0.28, type: "sine", vol: 0.05, detune: 6 });
+      noise({ t: 0.02, vol: 0.08, from: 5000, to: 3800, type: "highpass" });
+    },
+    boing: () => {
+      const c = ac(), out = OUT(); if (!c || !out) return;
+      const o = c.createOscillator(), g = c.createGain(), now = c.currentTime;
+      o.type = "triangle"; o.detune.value = det(10);
+      o.frequency.setValueAtTime(95, now);
+      o.frequency.exponentialRampToValueAtTime(340, now + 0.09);
+      o.frequency.exponentialRampToValueAtTime(125, now + 0.21);
+      o.frequency.exponentialRampToValueAtTime(225, now + 0.32);
+      o.frequency.exponentialRampToValueAtTime(140, now + 0.45);
+      g.gain.setValueAtTime(0.0001, now);
+      g.gain.exponentialRampToValueAtTime(0.4, now + 0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
+      o.connect(g).connect(out);
+      o.start(now); o.stop(now + 0.55);
+      tone({ f: 48, f2: 40, t: 0.18, type: "sine", vol: 0.18 });
+    },
+    dart: () => {
+      noise({ t: 0.32, vol: 0.3, from: 480, to: 3900, type: "bandpass", q: 1.6, pan: -0.6, panTo: 0.6, attack: 0.01 });
+      tone({ f: 1500, f2: 2550, t: 0.3, type: "sine", vol: 0.055, pan: -0.4, panTo: 0.5 });
+      tone({ f: 225, f2: 68, t: 0.13, type: "triangle", vol: 0.42, delay: 0.34 });
+      noise({ t: 0.04, vol: 0.22, from: 1500, to: 350, delay: 0.34 });
+    },
+    confetti: () => {
+      tone({ f: 155, f2: 58, t: 0.12, type: "sine", vol: 0.4 });
+      noise({ t: 0.03, vol: 0.3, from: 900, to: 400 });
+      for (let i = 0; i < 26; i++) {
+        noise({ t: 0.012, vol: rand(0.08, 0.26), from: rand(1600, 4200), to: rand(1200, 3000), type: "highpass", delay: rand(0.03, 0.52), pan: rand(-0.8, 0.8) });
+      }
+      tone({ f: 2093, t: 0.15, type: "triangle", vol: 0.06, delay: 0.18, detune: 25 });
+    },
+    scratch: () => {
+      noise({ t: 0.16, vol: 0.2, from: 5200, to: 900, type: "bandpass", q: 2, attack: 0.004 });
+      tone({ f: 1100, f2: 150, t: 0.2, type: "sawtooth", vol: 0.07, attack: 0.004 });
+      noise({ t: 0.12, vol: 0.16, from: 900, to: 4800, type: "bandpass", q: 2, delay: 0.17, attack: 0.004 });
+    },
+    chime: () => {
+      tone({ f: 880, t: 0.9, type: "sine", vol: 0.16, attack: 0.01 });
+      tone({ f: 1318.5, t: 0.7, type: "sine", vol: 0.09, delay: 0.02, attack: 0.01 });
+      tone({ f: 1760, t: 0.4, type: "triangle", vol: 0.045, delay: 0.04, attack: 0.01 });
+    }
   };
 
   function sfx(name) {

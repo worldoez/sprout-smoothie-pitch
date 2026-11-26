@@ -208,7 +208,7 @@
     const p1 = rows(M().fruits, f => chosen("fruits").includes(f.key), f => `${f.emoji} ${f.name}`, () => "");
     const p2 = rows(M().bases, b => b.key === o.base, b => b.name, () => "");
     const p3 = rows(M().addons, a => chosen("addons").includes(a.key), a => a.fancy, a => `${a.name} +HK$${a.price}`);
-    const p4 = rows(M().sizes, s => s.key === o.size, s => `${s.name} · ${s.ml} ml`, s => `HK$${s.price}`);
+    const p4 = rows(M().sizes, s => s.key === o.size, s => `${s.name}, ${s.ml} ml`, s => `HK$${s.price}`);
     const panel = (n, head, chips, off) => `<div class="pstep" data-n="${n}" ${off ? `style="transform:translateX(110%)"` : ""}>
         <div class="pstep-h"><b>${n} / 4</b> ${head}</div><div class="pgrid">${chips}</div></div>`;
     return `<div class="pstage">
@@ -227,9 +227,9 @@
     const parts = [...fr.map(f => `${f.emoji} ${f.name}`), b && b.name, ...adds.map(a => a.fancy), sz && `${sz.name} ${sz.ml} ml`].filter(Boolean);
     return `<div class="pticket">
       <div class="pt-ok">✓ Order placed</div>
-      <div class="pt-no">Order #1 · ${o.name || "Professor"}</div>
+      <div class="pt-no">Order #1, ${o.name || "Guest"}</div>
       <div class="pt-drink">${o.drinkName || CONTENT.drinkName(o.fruits)}</div>
-      <div class="pt-lines">${parts.join(" · ")}</div>
+      <div class="pt-lines">${parts.join(", ")}</div>
       <div class="pt-price">HK$${price}</div>
       <div class="pt-cta">Ready at YIA — skip the queue</div>
     </div>`;
@@ -326,7 +326,7 @@
         <div class="s-kicker">Serve: order ahead</div>
         <h2 class="s-title tt" style="font-size:118px;margin:12px 0 44px">Skip the queue</h2>
         <ul class="points pp">
-          <li><span>The app the professor used: order ahead, pick up at YIA.</span></li>
+          <li><span>Order ahead in the app, pick up at YIA.</span></li>
           <li><span><b>${likert("Would use pre-order app")}</b> would use a pre-order app.</span></li>
           <li><span><b>${likert("Would join loyalty program")}</b> would join a loyalty programme.</span></li>
         </ul>
@@ -334,7 +334,7 @@
       <div class="pb-phone" style="position:absolute;left:1080px;top:50px">
         <div class="pb-screen">
           <div class="pb-notch"></div>
-          <div class="pb-bar"><span>9:41</span><span>${B().name} · YIA pickup</span></div>
+          <div class="pb-bar"><span>9:41</span><span>${B().name}, YIA pickup</span></div>
           ${pbScreens(o, ctx)}
           ${pbTicket(o, ctx)}
           <div class="pb-finger"></div>
@@ -402,7 +402,7 @@
              The animated GSAP mini-ad below stands in until assets/video/promo.mp4 exists. -->
         <div class="v-frame">
           ${adHTML(ctx)}
-          <div class="v-rec"><i></i> promo · looping</div>
+          <div class="v-rec"><i></i> promo, looping</div>
         </div>
         <div class="occ-row">${occHTML()}</div>
       </div>

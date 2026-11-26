@@ -6,7 +6,8 @@
 window.CONTENT = window.CONTENT || {};
 window.CONTENT.places = {
   target: "yia",                // where the dart lands (our pick)
-  finalZoom: 16.4,              // satellite zoom when the dart lands (higher = closer)
+  landZoom: 17.8,               // satellite zoom when the dart lands: building level (higher = closer, max ~19)
+  finalZoom: 16.4,              // pulled-back zoom that shows every hotspot
   spots: [
     { key: "yia",          name: "YIA Building",       lat: 22.4160, lng: 114.2093, label: "left" },
     { key: "cc",           name: "Central Campus",     lat: 22.4196, lng: 114.2062, label: "left" },

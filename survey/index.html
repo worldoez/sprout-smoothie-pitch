@@ -3,502 +3,1599 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sprout survey (copy for reference)</title>
-<meta name="description" content="Read-only copy of the Sprout CUHK smoothie survey. Answers are not collected here.">
+<title>The survey behind Sprout</title>
+<meta name="description" content="The Sprout CUHK smoothie survey in two views: the form we ran (42 questions in 8 sections) and the results (charts, R figures and takeaways from 53 cleaned responses).">
 <link rel="stylesheet" href="../shared/base.css">
 <style>
-  body { padding: 0 0 64px; }
-  .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px; }
+  body { margin: 0; padding: 0 0 64px; overflow-wrap: break-word; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; }
 
-  header.hero { background: var(--mango); color: var(--ink); padding: 44px 0 36px; margin-bottom: 28px; border-bottom: 6px solid var(--ink); }
+  header.hero { background: var(--mango); color: var(--ink); padding: 36px 0 28px; margin-bottom: 18px; border-bottom: 6px solid var(--ink); }
   header.hero .wrap { display: flex; flex-direction: column; gap: 10px; }
-  .kicker { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #7a3a00; }
+  .kicker { font-size: 14px; font-weight: 700; color: var(--soil); margin: 0; }
   h1 { font-size: clamp(30px, 6vw, 44px); color: var(--ink); }
-  .lede { font-size: 17px; max-width: 62ch; color: #3d2a1a; }
+  .lede { font-size: 17px; max-width: 64ch; color: #3d2a1a; line-height: 1.45; margin: 0; }
+  .links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+  .links a { color: var(--ink); font-weight: 700; text-decoration: none; background: var(--white); padding: 10px 16px; border-radius: 999px; border: 2px solid var(--ink); }
 
-  .notice { background: var(--white); border: 2px solid var(--mango); border-left-width: 10px; border-radius: var(--radius); padding: 16px 18px; margin: 0 0 18px; font-size: 15px; box-shadow: var(--shadow); }
-  .notice strong { color: var(--berry); }
+  .mode-bar { padding: 4px 0 18px; }
+  .mode-toggle { display: flex; max-width: 560px; border: 3px solid var(--ink); border-radius: 999px; overflow: hidden; background: var(--white); }
+  .mode-toggle button { flex: 1 1 0; min-height: 58px; border: 0; background: transparent; color: var(--ink);
+    font-family: var(--font-display); font-size: clamp(18px, 4vw, 24px); font-weight: 900; padding: 12px 10px; }
+  .mode-toggle button[aria-selected="true"] { background: var(--mango); }
+  .mode-toggle button:hover { background: var(--mango-soft); }
+  .mode-toggle button[aria-selected="true"]:hover { background: var(--mango); }
 
-  nav.toc { background: var(--cream); border: 1px solid var(--mango-soft); border-radius: var(--radius); padding: 14px 18px; margin-bottom: 30px; font-size: 15px; }
-  nav.toc b { display: block; margin-bottom: 6px; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
-  nav.toc a { color: var(--berry); font-weight: 700; text-decoration: none; margin-right: 14px; white-space: nowrap; display: inline-block; padding: 4px 2px; }
-  nav.toc a:hover { text-decoration: underline; }
+  .panel { padding-bottom: 8px; }
+  .panel:focus { outline: none; }
+  .panel:focus-visible { outline: 3px solid var(--leaf); outline-offset: 4px; }
+  .panel > h2 { font-size: clamp(24px, 5vw, 32px); color: var(--berry); margin: 0 0 8px; }
+  .panel .intro { font-size: 16px; line-height: 1.5; margin: 0 0 20px; max-width: 68ch; }
 
-  section.stage { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px 20px 10px; margin: 0 0 26px; }
-  section.stage > h2 { font-size: 26px; color: var(--berry); border-bottom: 3px solid var(--mango-soft); padding-bottom: 10px; margin-bottom: 4px; }
-  section.stage > p.stage-note { margin: 6px 0 14px; color: var(--ink-soft); font-size: 14px; }
+  h3.sub { font-size: 22px; margin: 26px 0 10px; }
+  p.note-soft { font-size: 14px; color: var(--ink-soft); line-height: 1.45; margin: 0 0 12px; max-width: 68ch; }
 
-  fieldset.q { border: 1px solid #f0e2cd; background: #fffdf8; border-radius: 14px; padding: 14px 16px; margin: 0 0 14px; }
-  fieldset.q legend { padding: 0 6px; font-weight: 700; font-size: 14px; color: #fff; background: var(--mango); border-radius: 999px; padding: 4px 14px; }
-  .qtext { font-weight: 700; font-size: 17px; margin: 4px 0 4px; }
-  .qmeta { font-size: 12.5px; color: var(--ink-soft); margin: 0 0 10px; }
-  .opts { display: flex; flex-direction: column; gap: 8px; }
-  .opts.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; }
-  @media (max-width: 560px) { .opts.two-col { grid-template-columns: 1fr; } }
-  label.opt { display: flex; align-items: baseline; gap: 10px; padding: 8px 10px; border-radius: 10px; border: 1px solid #eee0cd; background: #fff; font-size: 15px; cursor: default; }
-  label.opt input { accent-color: var(--mango); width: 18px; height: 18px; flex: 0 0 auto; margin-top: 2px; }
-  .count { margin-left: auto; font-size: 12.5px; color: var(--ink-soft); white-space: nowrap; padding-left: 10px; }
-  .stat { display: inline-block; margin: 2px 0 4px; font-size: 13px; font-weight: 700; color: var(--leaf-dark); background: #eef7ef; border: 1px solid #cfe8d4; border-radius: 999px; padding: 2px 12px; }
-  .missing { font-size: 14px; color: var(--berry); background: #fbe9ee; border: 1px dashed var(--berry); border-radius: 10px; padding: 10px 12px; margin: 4px 0 2px; }
-  input[type="text"], textarea { width: 100%; padding: 10px 12px; border: 1px solid #e3d5c0; border-radius: 10px; font: inherit; background: #fafafa; color: var(--ink-soft); }
-  textarea { min-height: 64px; resize: vertical; }
-  .six { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
-  .six div { border: 1px solid #eee0cd; border-radius: 10px; padding: 8px 10px; font-size: 14px; background:#fff; }
-  .six b { display: block; font-size: 13px; }
-  .six span { color: var(--ink-soft); font-size: 12px; }
+  .flow { display: flex; flex-direction: column; margin: 8px 0 26px; }
+  .flow-step { background: var(--white); border: 3px solid var(--ink); border-radius: 14px; padding: 12px 16px; }
+  .flow-step h3 { font-size: 20px; margin: 0 0 4px; }
+  .flow-step p { margin: 0; font-size: 14px; line-height: 1.45; color: var(--ink); }
+  .flow-step ol { margin: 6px 0 0; padding-left: 20px; font-size: 14px; line-height: 1.5; columns: 2; column-gap: 24px; }
+  .flow-step ul { margin: 6px 0 0; padding-left: 20px; font-size: 14px; line-height: 1.5; }
+  .flow-branch { border: 2px dashed var(--berry); background: #FBE9EE; border-radius: 12px; padding: 10px 14px; margin: 10px 0 0 20px; }
+  .flow-branch p { margin: 0; font-size: 14px; color: var(--berry); font-weight: 700; line-height: 1.4; }
+  .flow-arrow { display: flex; justify-content: center; padding: 4px 0; }
+  .flow-end { border-color: var(--leaf); border-width: 4px; }
+  .flow-end h3 { color: var(--leaf-dark); }
 
-  footer.page { margin-top: 10px; font-size: 13px; color: var(--ink-soft); border-top: 1px solid var(--mango-soft); padding-top: 18px; }
-  footer.page a, a.back { color: var(--berry); font-weight: 700; }
-  .toplink { display: inline-block; margin-bottom: 14px; }
+  details.sec { background: var(--white); border: 3px solid var(--ink); border-radius: var(--radius); padding: 0 16px 10px; margin: 0 0 14px; }
+  details.sec > summary { cursor: pointer; font-family: var(--font-display); font-size: clamp(19px, 4vw, 24px); font-weight: 900; padding: 14px 0; }
+  details.sec > summary:focus-visible { outline: 3px solid var(--leaf); outline-offset: 2px; border-radius: 6px; }
+  .sec-note { font-size: 14px; color: var(--ink-soft); line-height: 1.45; margin: 0 0 12px; }
+
+  article.q { background: var(--cream); border: 2px solid var(--ink); border-radius: 12px; padding: 12px; margin: 0 0 10px; }
+  .qhead { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+  .qnum { font-size: 13px; font-weight: 700; color: var(--white); background: var(--ink); padding: 2px 10px; border-radius: 999px; }
+  .chip { font-size: 12px; font-weight: 700; color: var(--ink); background: var(--mango-soft); padding: 2px 10px; border-radius: 999px; border: 1px solid var(--mango); }
+  .chip.badge { background: var(--gold); border-color: var(--ink); }
+  .chip.badge.attn { background: #F6C7D3; border-color: var(--berry); color: var(--berry); }
+  .qtext { font-weight: 700; font-size: 16px; margin: 4px 0; line-height: 1.35; }
+  .qmeta { font-size: 13px; color: var(--ink-soft); margin: 0 0 8px; }
+  .opts { display: flex; flex-direction: column; gap: 5px; padding: 0; margin: 0; list-style: none; }
+  .opts li { background: var(--white); border: 1px solid var(--mango-soft); border-radius: 9px; padding: 7px 10px; font-size: 14px; line-height: 1.35; }
+  .callout { margin: 6px 0 8px; padding: 8px 12px; border-radius: 10px; font-size: 14px; font-weight: 700; line-height: 1.4; }
+  .callout.screen { background: #FFF3CD; border: 1px solid #D9A500; color: #6B4A00; }
+  .callout.attn { background: #FBE9EE; border: 1px solid var(--berry); color: var(--berry); }
+  .note { font-size: 13px; color: var(--ink-soft); margin: 6px 0 0; line-height: 1.4; }
+  .stats { display: flex; flex-wrap: wrap; gap: 12px; margin: 4px 0 22px; }
+  .stat { flex: 1 1 190px; background: var(--white); border: 3px solid var(--ink); border-radius: var(--radius); padding: 14px 16px; }
+  .stat .num { font-family: var(--font-display); font-size: clamp(32px, 7vw, 42px); font-weight: 900; line-height: 1.05; }
+  .stat .lbl { font-size: 14px; font-weight: 700; margin-top: 4px; }
+  .stat .sub { font-size: 13px; color: var(--ink-soft); margin-top: 2px; line-height: 1.35; }
+
+  .topics { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; padding: 0; border: 0; }
+  .topics button { min-height: 44px; border: 2px solid var(--ink); background: var(--white); color: var(--ink);
+    font-weight: 700; font-size: 15px; border-radius: 999px; padding: 8px 14px; }
+  .topics button[aria-selected="true"] { background: var(--ink); color: var(--cream); }
+  .topics button:hover { background: var(--mango-soft); }
+  .topics button[aria-selected="true"]:hover { background: var(--ink); }
+
+  .topic-panel { padding-bottom: 10px; }
+  .topic-panel:focus { outline: none; }
+  .topic-panel:focus-visible { outline: 3px solid var(--leaf); outline-offset: 4px; }
+  .topic-panel h3 { font-size: clamp(22px, 5vw, 28px); color: var(--berry); margin: 0 0 6px; }
+
+  .chart-block { background: var(--white); border: 3px solid var(--ink); border-radius: var(--radius); padding: 14px 16px; margin: 0 0 16px; }
+  .chart-block h4 { font-family: var(--font-display); font-size: 20px; margin: 0 0 2px; }
+  .chart-n { font-size: 13px; color: var(--ink-soft); margin: 8px 0 10px; }
+  .chart-hint { font-size: 13px; color: var(--ink-soft); margin: 0 0 10px; }
+
+  .bar-row { position: relative; margin: 0; padding: 6px 8px; border-radius: 10px; }
+  .bar-row:hover, .bar-row:focus, .bar-row.open { background: #FBE9D4; }
+  .bar-row:focus { outline: none; }
+  .bar-row:focus-visible { outline: 3px solid var(--leaf); outline-offset: 1px; }
+  .bar-top { display: flex; gap: 10px; align-items: baseline; }
+  .bar-label { flex: 1 1 auto; min-width: 0; font-size: 15px; line-height: 1.3; }
+  .bar-pct { flex: 0 0 auto; font-weight: 700; font-variant-numeric: tabular-nums; font-size: 15px; }
+  .bar-track { height: 10px; background: #EADDC7; border: 1px solid var(--ink); border-radius: 6px; overflow: hidden; margin-top: 5px; }
+  .bar-fill { height: 100%; background: var(--mango); }
+  .bar-detail { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .bar-row:hover .bar-detail, .bar-row:focus .bar-detail, .bar-row.open .bar-detail {
+    position: static; width: auto; height: auto; clip-path: none; white-space: normal;
+    font-size: 13px; color: var(--ink-soft); margin-top: 4px; line-height: 1.35;
+  }
+
+  .price-rows { display: flex; flex-direction: column; gap: 10px; margin: 0 0 8px; }
+  .price-row { background: var(--cream); border: 2px solid var(--ink); border-radius: 12px; padding: 10px 12px; }
+  .price-row .pr-name { font-weight: 700; font-size: 15px; }
+  .price-row .pr-main { font-family: var(--font-display); font-size: 28px; font-weight: 900; }
+  .price-row .pr-sub { font-size: 13px; color: var(--ink-soft); line-height: 1.4; }
+
+  .dc-wrap { margin: 0 0 8px; }
+  .dc-svg { width: 100%; height: auto; display: block; background: var(--cream); border: 2px solid var(--ink); border-radius: 12px; touch-action: none; cursor: crosshair; }
+  .dc-svg:focus-visible { outline: 3px solid var(--leaf); outline-offset: 2px; }
+  .dc-readout { font-family: var(--font-display); font-size: clamp(20px, 4.5vw, 26px); font-weight: 900; margin: 10px 0 4px; }
+
+  .figs { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 16px; }
+  button.fig-thumb { border: 2px solid var(--ink); background: var(--white); border-radius: 12px; padding: 6px; cursor: pointer; }
+  button.fig-thumb:hover { background: var(--mango-soft); }
+  button.fig-thumb img { display: block; width: clamp(112px, 26vw, 160px); height: auto; border-radius: 6px; }
+  button.fig-thumb .fig-cap { display: block; font-size: 12px; color: var(--ink-soft); max-width: 160px; margin-top: 4px; line-height: 1.3; }
+
+  .lightbox { position: fixed; inset: 0; z-index: 50; background: rgba(42, 26, 16, .88); display: flex; align-items: center; justify-content: center; padding: 16px; }
+  .lightbox[hidden] { display: none; }
+  .lb-inner { background: var(--cream); border: 3px solid var(--ink); border-radius: 18px; padding: 14px; max-width: 96vw; max-height: 92vh; overflow: auto; }
+  .lb-inner img { display: block; max-width: min(1100px, 90vw); width: 100%; height: auto; border-radius: 8px; }
+  .lb-inner img:focus-visible { outline: 3px solid var(--leaf); outline-offset: 2px; }
+  .lb-bar { display: flex; gap: 12px; align-items: center; justify-content: space-between; margin-top: 10px; flex-wrap: wrap; }
+  .lb-cap { font-size: 14px; color: var(--ink); line-height: 1.4; flex: 1 1 200px; }
+  .lb-close { min-height: 44px; min-width: 44px; border: 2px solid var(--ink); background: var(--mango); color: var(--ink); font-weight: 700; border-radius: 999px; padding: 8px 18px; }
+
+  .takeaways { background: var(--white); border: 3px solid var(--ink); border-left: 10px solid var(--gold); border-radius: var(--radius); padding: 14px 16px; margin: 0 0 16px; }
+  .takeaways h4 { font-family: var(--font-display); font-size: 20px; margin: 0 0 8px; }
+  .takeaways ul { margin: 0; padding-left: 20px; }
+  .takeaways li { font-size: 15px; line-height: 1.5; margin: 0 0 10px; }
+  .takeaways .who { color: var(--ink-soft); font-size: 13px; }
+  .limits { background: #FBE9EE; border: 3px solid var(--berry); border-radius: var(--radius); padding: 14px 16px; margin: 22px 0 0; }
+  .limits h3 { font-size: 22px; color: var(--berry); margin: 0 0 6px; }
+  .limits p { font-size: 15px; line-height: 1.5; margin: 0; }
+
+  footer.page { margin-top: 26px; font-size: 13px; color: var(--ink-soft); border-top: 1px solid var(--mango-soft); padding-top: 18px; line-height: 1.5; }
+  footer.page a { color: var(--berry); font-weight: 700; }
+
   :focus-visible { outline: 3px solid var(--leaf); outline-offset: 2px; }
+
+  @media (max-width: 520px) {
+    .flow-step ol { columns: 1; }
+    .flow-branch { margin-left: 8px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
 </style>
 </head>
 <body>
 
 <header class="hero">
   <div class="wrap">
-    <span class="kicker">Sprout · CUHK smoothie study</span>
-    <h1>Sprout survey (copy for reference)</h1>
-    <p class="lede">The full questionnaire as shown to CUHK students for the Sprout smoothie project — 37 questions in five parts. This page exists so anyone scanning the QR code on slide 8 of the pitch can see exactly what we asked.</p>
+    <p class="kicker">Sprout · CUHK smoothie study</p>
+    <h1>The survey behind Sprout</h1>
+    <p class="lede">69 responses, 53 kept after cleaning, 42 questions in 8 sections, run on Google Forms. Two views: the form we ran, and what the answers say. Read-only; answers are not collected here.</p>
+    <div class="links">
+      <a href="../index.html">Back to Sprout</a>
+      <a href="../site/index.html">Pitch site</a>
+      <a href="../deck/index.html">Open the deck</a>
+    </div>
   </div>
 </header>
 
+<div class="wrap">
+  <div class="mode-bar">
+    <div class="mode-toggle" role="tablist" aria-label="Page mode">
+      <button type="button" role="tab" id="tab-form" aria-controls="panel-form" aria-selected="true" data-mode="form">The form</button>
+      <button type="button" role="tab" id="tab-results" aria-controls="panel-results" aria-selected="false" tabindex="-1" data-mode="results">The results</button>
+    </div>
+  </div>
+</div>
 <main class="wrap">
 
-  <div class="notice" role="note">
-    <strong>Answers are not collected here.</strong> This is a read-only copy of the survey. Every input is disabled; nothing you type is saved or sent anywhere. The live study was a separate Google Form; results were analysed from that form only. Percentages shown next to options come from the cleaned dataset (n = 53) and are there for reference.
+<section class="panel" id="panel-form" role="tabpanel" aria-labelledby="tab-form" tabindex="0">
+  <h2>The form</h2>
+  <p class="intro">What we asked and how the form worked. 69 responses came in, 53 were kept after cleaning. 42 questions in 8 sections, run on Google Forms. Every question below keeps its real wording, type and answer options.</p>
+
+  <h3 class="sub">How the form works</h3>
+  <p class="note-soft">From the first screen to the cleaned data set.</p>
+
+  <div class="flow">
+    <div class="flow-step">
+      <h3>69 responses opened the form</h3>
+      <p>Google Forms collected the answers. Nobody was paid; this was a convenience sample.</p>
+    </div>
+    <div class="flow-arrow" aria-hidden="true">
+      <svg width="26" height="30" viewBox="0 0 26 30"><path d="M13 2 v20 M5 16 l8 10 8-10" fill="none" stroke="#2A1A10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="flow-step">
+      <h3>Q1 screening: how often are you on campus?</h3>
+      <p>Answering “Rarely or never on campus” ends the form there and then.</p>
+      <div class="flow-branch">
+        <p>Form ends: <span id="funnel-screened">4</span> people were not eligible.</p>
+      </div>
+    </div>
+    <div class="flow-arrow" aria-hidden="true">
+      <svg width="26" height="30" viewBox="0 0 26 30"><path d="M13 2 v20 M5 16 l8 10 8-10" fill="none" stroke="#2A1A10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="flow-step">
+      <h3>Eight sections run in order</h3>
+      <ol>
+        <li>Eligibility</li>
+        <li>Drink habits and spend</li>
+        <li>Importance of six factors</li>
+        <li>Agreement statements</li>
+        <li>Product choices and place</li>
+        <li>Price and purchase intent</li>
+        <li>Free text</li>
+        <li>Demographics</li>
+      </ol>
+    </div>
+    <div class="flow-arrow" aria-hidden="true">
+      <svg width="26" height="30" viewBox="0 0 26 30"><path d="M13 2 v20 M5 16 l8 10 8-10" fill="none" stroke="#2A1A10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="flow-step">
+      <h3>Hidden attention check</h3>
+      <p>Buried inside the agreement statements: one statement tells people to pick Disagree. It sits between ordinary statements and looks like one of them.</p>
+    </div>
+    <div class="flow-arrow" aria-hidden="true">
+      <svg width="26" height="30" viewBox="0 0 26 30"><path d="M13 2 v20 M5 16 l8 10 8-10" fill="none" stroke="#2A1A10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="flow-step">
+      <h3>Price and intent</h3>
+      <p>What people would pay for a drink, what they would pay for their own smoothie build, and how likely they would be to buy it.</p>
+    </div>
+    <div class="flow-arrow" aria-hidden="true">
+      <svg width="26" height="30" viewBox="0 0 26 30"><path d="M13 2 v20 M5 16 l8 10 8-10" fill="none" stroke="#2A1A10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="flow-step">
+      <h3>Free text</h3>
+      <p>Two open questions: why that price and intent, and anything else. Optional writing, coded later into themes.</p>
+    </div>
+    <div class="flow-arrow" aria-hidden="true">
+      <svg width="26" height="30" viewBox="0 0 26 30"><path d="M13 2 v20 M5 16 l8 10 8-10" fill="none" stroke="#2A1A10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="flow-step">
+      <h3>Demographics</h3>
+      <p>Gender, home region, and whether they live on campus. Last, so it cannot colour the earlier answers.</p>
+    </div>
+    <div class="flow-arrow" aria-hidden="true">
+      <svg width="26" height="30" viewBox="0 0 26 30"><path d="M13 2 v20 M5 16 l8 10 8-10" fill="none" stroke="#2A1A10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="flow-step flow-end">
+      <h3>Cleaning steps</h3>
+      <ul id="funnel-steps">
+        <li>Eligible (on campus at least sometimes): <b>65</b></li>
+        <li>Completed core questions: <b>65</b></li>
+        <li>Not duplicates: <b>64</b></li>
+        <li>Passed attention check: <b>53</b></li>
+      </ul>
+      <p style="margin-top:8px">Kept for analysis: <b id="funnel-kept">53</b> people.</p>
+    </div>
   </div>
 
-  <nav class="toc" aria-label="Sections">
-    <b>The five sections</b>
-    <a href="#habits">1 · Habits</a>
-    <a href="#what-matters">2 · What matters</a>
-    <a href="#menu">3 · Menu</a>
-    <a href="#price">4 · Price</a>
-    <a href="#would-you-buy">5 · Would you buy</a>
-  </nav>
+  <h3 class="sub">The 8 sections, every question</h3>
+  <p class="note-soft">Wording, type and options as respondents saw them. Open a section to read its questions.</p>
+  <details class="sec" id="sec-eligibility" open>
+    <summary>1 · Eligibility</summary>
+    <p class="sec-note">Who was allowed into the study.</p>
 
-  <!-- Question order and wording follow output/tables/10_question_coverage.csv (order, question).
-       Answer options come from the survey report (section "The survey: questions and the categories");
-       anything not recoverable from the analysis files is marked "options not recorded". -->
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q1</span><span class="chip">single choice</span><span class="chip badge">Screening</span></div>
+      <p class="qtext">How often are you on the CUHK campus in a typical week?</p>
+      <p class="qmeta">single choice · 69 answered (all), 53 (cleaned)</p>
+      <div class="callout screen">Screening question: answering Rarely or never ends the form; those respondents are not eligible.</div>
+      <ul class="opts">
+        <li>Rarely or never</li>
+        <li>1 to 2 days</li>
+        <li>3 to 4 days</li>
+        <li>Everyday or Almost everyday</li>
+      </ul>
+    </article>
 
-  <!-- ============ SECTION 1 — HABITS ============ -->
-  <section class="stage" id="habits" aria-labelledby="h-habits">
-    <h2 id="h-habits">1 · Habits</h2>
-    <p class="stage-note">Who they are and how they actually buy drinks on campus today. Includes the about-you questions.</p>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q2</span><span class="chip">single choice</span></div>
+      <p class="qtext">What is your affiliation with CUHK? If you are an exchange student, please select the option that best matches your current level of study.</p>
+      <p class="qmeta">single choice · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts">
+        <li>Staff (Professor / Administration / etc.)</li>
+        <li>Year 4 Undergraduate Student</li>
+        <li>Year 3 Undergraduate Student</li>
+        <li>Postgraduate Student</li>
+        <li>Year 1 Undergraduate Student</li>
+        <li>Year 2 Undergraduate Student</li>
+        <li>Year 5+ Undergraduate Student</li>
+      </ul>
+    </article>
+  </details>
 
-    <fieldset class="q" disabled>
-      <legend>Q1</legend>
-      <p class="qtext">How often are you on the CUHK campus?</p>
-      <p class="qmeta">Single choice · answered 69/69 (raw), 53/53 (cleaned) · only the levels observed in the data are shown</p>
-      <div class="opts">
-        <label class="opt"><input type="radio" name="q1"> 1 to 2 days <span class="count">3 · 5.7%</span></label>
-        <label class="opt"><input type="radio" name="q1"> 3 to 4 days <span class="count">16 · 30.2%</span></label>
-        <label class="opt"><input type="radio" name="q1"> Everyday or Almost everyday <span class="count">34 · 64.2%</span></label>
-      </div>
-    </fieldset>
+  <details class="sec" id="sec-habits">
+    <summary>2 · Drink habits and spend</summary>
+    <p class="sec-note">How respondents buy drinks on campus today.</p>
 
-    <fieldset class="q" disabled>
-      <legend>Q2</legend>
-      <p class="qtext">What is your affiliation?</p>
-      <p class="qmeta">Single choice · answered 65/65 (raw), 53/53 (cleaned)</p>
-      <div class="opts">
-        <label class="opt"><input type="radio" name="q2"> Undergraduate <span class="count">50 · 94.3%</span></label>
-        <label class="opt"><input type="radio" name="q2"> Postgraduate <span class="count">2 · 3.8%</span></label>
-        <label class="opt"><input type="radio" name="q2"> Staff <span class="count">1 · 1.9%</span></label>
-      </div>
-    </fieldset>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q3</span><span class="chip">number in HK$</span></div>
+      <p class="qtext">What is the most you would pay for a drink on campus? HK$ ____ (0 is allowed)</p>
+      <p class="qmeta">number in HK$ · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts"><li>a number in HK$ (0 allowed)</li></ul>
+    </article>
 
-    <fieldset class="q" disabled>
-      <legend>Q3</legend>
-      <p class="qtext">Drinks bought on campus in a typical week</p>
-      <p class="qmeta">Single choice · answered 65/65 (raw), 53/53 (cleaned)</p>
-      <div class="opts">
-        <label class="opt"><input type="radio" name="q3"> Never <span class="count">3 · 5.7%</span></label>
-        <label class="opt"><input type="radio" name="q3"> 1-4 times <span class="count">24 · 45.3%</span></label>
-        <label class="opt"><input type="radio" name="q3"> 5-9 times <span class="count">18 · 34.0%</span></label>
-        <label class="opt"><input type="radio" name="q3"> 10-14 times <span class="count">8 · 15.1%</span></label>
-      </div>
-    </fieldset>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q4</span><span class="chip">single choice</span></div>
+      <p class="qtext">In a typical week, how many times do you purchase a drink on campus? Examples include boba, coffee, smoothies, canteen drinks, and bottled or canned beverages. Count drinks purchased separately or as part of a meal (e.g., a drink bought with lunch or dinner).</p>
+      <p class="qmeta">single choice · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts">
+        <li>Never</li>
+        <li>1-4 times</li>
+        <li>5-9 times</li>
+        <li>10-14 times</li>
+      </ul>
+    </article>
 
-    <fieldset class="q" disabled>
-      <legend>Q6</legend>
-      <p class="qtext">Where have you bought a drink on campus (past month)?</p>
-      <p class="qmeta">Multi-select · answered 60 raw, 50/53 (cleaned) · option labels as recorded in the analysis file (some keys not decoded)</p>
-      <div class="opts two-col">
-        <label class="opt"><input type="checkbox"> canteens <span class="count">78% · 39</span></label>
-        <label class="opt"><input type="checkbox"> vending machines <span class="count">60% · 30</span></label>
-        <label class="opt"><input type="checkbox"> UC bubble tea (uc_boba) <span class="count">32% · 16</span></label>
-        <label class="opt"><input type="checkbox"> Tuck shops <span class="count">22% · 11</span></label>
-        <label class="opt"><input type="checkbox"> Café Tolo <span class="count">20% · 10</span></label>
-        <label class="opt"><input type="checkbox"> Kunkle (CC) (cc_kunkle) <span class="count">14% · 7</span></label>
-        <label class="opt"><input type="checkbox"> untitled (not decoded) <span class="count">14% · 7</span></label>
-        <label class="opt"><input type="checkbox"> na_boba (not decoded) <span class="count">8% · 4</span></label>
-        <label class="opt"><input type="checkbox"> mc_food (not decoded) <span class="count">8% · 4</span></label>
-        <label class="opt"><input type="checkbox"> Student café <span class="count">8% · 4</span></label>
-        <label class="opt"><input type="checkbox"> Starbucks <span class="count">6% · 3</span></label>
-        <label class="opt"><input type="checkbox"> sora_zen (not decoded) <span class="count">4% · 2</span></label>
-      </div>
-    </fieldset>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q5</span><span class="chip">number in HK$</span></div>
+      <p class="qtext">On average, how much do you spend on one drink on campus? HK$ ____</p>
+      <p class="qmeta">number in HK$ · 60 answered (all), 50 (cleaned)</p>
+      <p class="note">Form bug: people who answered Never to drinks per week were still forced to answer this; those answers are blanked.</p>
+      <ul class="opts"><li>a number in HK$ (0 allowed)</li></ul>
+    </article>
 
-    <fieldset class="q" disabled>
-      <legend>Q7</legend>
-      <p class="qtext">When do you buy drinks?</p>
-      <p class="qmeta">answered 60 raw, 50/53 (cleaned)</p>
-      <p class="missing">options not recorded</p>
-    </fieldset>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q6</span><span class="chip">multiple choice</span></div>
+      <p class="qtext">Which of these have you bought a drink from on campus in the past month? Select all that apply. If none, please select the Other option and input none.</p>
+      <p class="qmeta">multiple choice, select all that apply · 60 answered (all), 50 (cleaned)</p>
+      <p class="note">Form bug: people who answered Never to drinks per week were still forced to answer this; those answers are blanked.</p>
+      <ul class="opts">
+        <li>CC Kunkle</li><li>UC Boba</li><li>NA Boba</li><li>Cafe Tolo</li><li>MC Food</li><li>Student-run cafe</li><li>Canteens (e.g. iced lemon tea, milk tea)</li><li>Sora Zen</li><li>Untitled Coffee</li><li>SHHO Starbucks</li><li>Vending machine</li><li>College tuck shop</li><li>Other (write-in)</li>
+      </ul>
+    </article>
 
-    <fieldset class="q" disabled>
-      <legend>Q8</legend>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q7</span><span class="chip">multiple choice</span></div>
+      <p class="qtext">When do you (or would you) purchase a drink on campus usually? Select all that apply.</p>
+      <p class="qmeta">multiple choice, select all that apply · 60 answered (all), 50 (cleaned)</p>
+      <p class="note">Form bug: people who answered Never to drinks per week were still forced to answer this; those answers are blanked.</p>
+      <ul class="opts">
+        <li>Before morning classes (8:00-10:00)</li>
+        <li>Late morning (10:00-12:00)</li>
+        <li>Lunchtime (12:00-14:00)</li>
+        <li>Afternoon classes (14:00-17:00)</li>
+        <li>Evening (After 17:00)</li>
+        <li>Other (write-in)</li>
+      </ul>
+    </article>
+
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q8</span><span class="chip">multiple choice</span></div>
       <p class="qtext">What are the main reasons you did not buy a drink on campus for a typical week? Select up to 3.</p>
-      <p class="qmeta">Multi-select · answered 0/53 (cleaned) — routed out / skipped by all respondents</p>
-      <p class="missing">options not recorded</p>
-    </fieldset>
+      <p class="qmeta">multiple choice, pick up to 3 · 0 answered (all), 0 (cleaned)</p>
+      <p class="note">Form bug: this section was never shown to anyone, so 0 answers were collected.</p>
+      <ul class="opts"><li>none recorded</li></ul>
+    </article>
 
-    <fieldset class="q" disabled>
-      <legend>Q10</legend>
-      <p class="qtext">Bought a smoothie anywhere in the past 3 months?</p>
-      <p class="qmeta">Single choice · answered 65/65 (raw), 53/53 (cleaned)</p>
-      <p class="missing">options not recorded</p>
-    </fieldset>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q15</span><span class="chip">single choice</span></div>
+      <p class="qtext">In the past 3 months, have you bought a smoothie anywhere (on or off campus)?</p>
+      <p class="qmeta">single choice · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts">
+        <li>Yes</li>
+        <li>No</li>
+      </ul>
+    </article>
+  </details>
+  <details class="sec" id="sec-importance">
+    <summary>3 · Importance of six factors</summary>
+    <p class="sec-note">Respondents allocated 100 points across six factors: Taste, Healthiness, Price, Convenience of location, Waiting time / queue length, Freshness of ingredients. 100-point allocation · 65 answered (all), 53 (cleaned).</p>
 
-    <fieldset class="q" disabled>
-      <legend>Q34</legend>
-      <p class="qtext">Gender</p>
-      <p class="qmeta">Single choice · answered 65/65 (raw), 53/53 (cleaned) · groups shown as recorded</p>
-      <div class="opts">
-        <label class="opt"><input type="radio" name="q34"> Male <span class="count">32 · 60.4%</span></label>
-        <label class="opt"><input type="radio" name="q34"> Female <span class="count">21 · 39.6%</span></label>
-      </div>
-    </fieldset>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q9</span><span class="chip">100 points</span></div>
+      <p class="qtext">Allocate exactly 100 points across the six factors below to reflect their relative importance to you. You may assign 0 to 100 points to each factor. The total across all six factors must equal 100. Higher points indicate greater importance. Factor: Taste.</p>
+      <p class="qmeta">100-point allocation · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts"><li>0 to 100 points per factor; the six factors must total 100</li></ul>
+    </article>
+    <article class="q"><div class="qhead"><span class="qnum">Q10</span><span class="chip">100 points</span></div><p class="qtext">Factor: Healthiness.</p><p class="qmeta">100-point allocation · 65 answered (all), 53 (cleaned)</p><ul class="opts"><li>0 to 100 points per factor; the six factors must total 100</li></ul></article>
+    <article class="q"><div class="qhead"><span class="qnum">Q11</span><span class="chip">100 points</span></div><p class="qtext">Factor: Price.</p><p class="qmeta">100-point allocation · 65 answered (all), 53 (cleaned)</p><ul class="opts"><li>0 to 100 points per factor; the six factors must total 100</li></ul></article>
+    <article class="q"><div class="qhead"><span class="qnum">Q12</span><span class="chip">100 points</span></div><p class="qtext">Factor: Convenience of location.</p><p class="qmeta">100-point allocation · 65 answered (all), 53 (cleaned)</p><ul class="opts"><li>0 to 100 points per factor; the six factors must total 100</li></ul></article>
+    <article class="q"><div class="qhead"><span class="qnum">Q13</span><span class="chip">100 points</span></div><p class="qtext">Factor: Waiting time / queue length.</p><p class="qmeta">100-point allocation · 65 answered (all), 53 (cleaned)</p><ul class="opts"><li>0 to 100 points per factor; the six factors must total 100</li></ul></article>
+    <article class="q"><div class="qhead"><span class="qnum">Q14</span><span class="chip">100 points</span></div><p class="qtext">Factor: Freshness of ingredients.</p><p class="qmeta">100-point allocation · 65 answered (all), 53 (cleaned)</p><ul class="opts"><li>0 to 100 points per factor; the six factors must total 100</li></ul></article>
+  </details>
 
-    <fieldset class="q" disabled>
-      <legend>Q35</legend>
-      <p class="qtext">Country / region you are from</p>
-      <p class="qmeta">Single choice · answered 65/65 (raw), 53/53 (cleaned) · original option list not recorded; groups shown as grouped for analysis</p>
-      <div class="opts">
-        <label class="opt"><input type="radio" name="q35"> Hong Kong <span class="count">30 · 56.6%</span></label>
-        <label class="opt"><input type="radio" name="q35"> Mainland China <span class="count">11 · 20.8%</span></label>
-        <label class="opt"><input type="radio" name="q35"> International <span class="count">12 · 22.6%</span></label>
-      </div>
-    </fieldset>
+  <details class="sec" id="sec-agreement">
+    <summary>4 · Agreement statements</summary>
+    <p class="sec-note">Level of agreement, 1 to 5 rating (Strongly disagree, Disagree, Neutral, Agree, Strongly agree). One statement is the hidden attention check.</p>
 
-    <fieldset class="q" disabled>
-      <legend>Q36</legend>
-      <p class="qtext">Do you live on campus?</p>
-      <p class="qmeta">Single choice · answered 65/65 (raw), 53/53 (cleaned) · recorded as TRUE / FALSE</p>
-      <div class="opts">
-        <label class="opt"><input type="radio" name="q36"> Yes (on campus) <span class="count">33 · 62.3%</span></label>
-        <label class="opt"><input type="radio" name="q36"> No <span class="count">20 · 37.7%</span></label>
-      </div>
-    </fieldset>
-  </section>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q16</span><span class="chip">rating</span></div>
+      <p class="qtext">I would pay more for a smoothie made with fresh ingredients than for one made with frozen or pre-mixed ingredients.</p>
+      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
+    </article>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q17</span><span class="chip">rating</span></div>
+      <p class="qtext">I would like the choice of different cup sizes.</p>
+      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
+    </article>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q18</span><span class="chip">rating</span></div>
+      <p class="qtext">I would be interested in seasonal menu items.</p>
+      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
+    </article>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q19</span><span class="chip">rating</span></div>
+      <p class="qtext">I prefer a shop with a wide variety of smoothie options over a small, focused menu.</p>
+      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
+    </article>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q20</span><span class="chip">rating</span></div>
+      <p class="qtext">Smoothies would be a healthier choice than most other drinks sold on campus.</p>
+      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
+    </article>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q21</span><span class="chip">rating</span></div>
+      <p class="qtext">I am concerned that smoothies contain too much sugar.</p>
+      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
+    </article>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q22</span><span class="chip">rating</span><span class="chip badge attn">Attention check</span></div>
+      <p class="qtext">As an attention check, please select Disagree for this statement.</p>
+      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <div class="callout attn">Attention check: the statement tells respondents to select Disagree; strict rule = only Disagree passes.</div>
+      <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
+    </article>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q23</span><span class="chip">rating</span></div>
+      <p class="qtext">A comfortable place to sit and enjoy my drink is important to me.</p>
+      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
+    </article>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q24</span><span class="chip">rating</span></div>
+      <p class="qtext">I would use a mobile app to pre-order a smoothie.</p>
+      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
+    </article>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q25</span><span class="chip">rating</span></div>
+      <p class="qtext">I would join a loyalty points program if one were offered.</p>
+      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
+    </article>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q30</span><span class="chip">rating</span></div>
+      <p class="qtext">I want to be able to add more than one add-ons like those from the previous question to my drink.</p>
+      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
+    </article>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q31</span><span class="chip">rating</span></div>
+      <p class="qtext">I would be willing to pay extra for add-ons.</p>
+      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
+    </article>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q32</span><span class="chip">rating</span></div>
+      <p class="qtext">I would prefer to build my own smoothie rather than choose a ready-made recipe.</p>
+      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
+    </article>
+  </details>
+  <details class="sec" id="sec-product">
+    <summary>5 · Product choices and place</summary>
+    <p class="sec-note">What goes in the cup and where to buy.</p>
 
-  <!-- ============ SECTION 2 — WHAT MATTERS ============ -->
-  <section class="stage" id="what-matters" aria-labelledby="h-what-matters">
-    <h2 id="h-what-matters">2 · What matters</h2>
-    <p class="stage-note">What students value when choosing a drink — the importance split, agreement statements, and the attention check.</p>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q26</span><span class="chip">multiple choice</span></div>
+      <p class="qtext">For which occasions would you most likely purchase a smoothie? Select up to 3.</p>
+      <p class="qmeta">multiple choice, pick up to 3 · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts">
+        <li>With breakfast</li><li>With lunch</li><li>With dinner</li><li>As a meal replacement</li><li>Afternoon snack</li><li>Dessert or treat</li><li>After exercise</li><li>While studying or working</li><li>Hanging out with friends</li><li>To cool down in hot weather</li><li>Other (write-in)</li>
+      </ul>
+    </article>
 
-    <fieldset class="q" disabled>
-      <legend>Q9</legend>
-      <p class="qtext">Importance of six factors (100 points)</p>
-      <p class="qmeta">Constant-sum · answered 65/65 (raw), 53/53 (cleaned) · respondents split 100 points across the six factors; mean share shown</p>
-      <div class="six">
-        <div><b>Taste</b><span>mean 28.1 / 100</span></div>
-        <div><b>Price</b><span>mean 22.3 / 100</span></div>
-        <div><b>Healthiness</b><span>mean 14.1 / 100</span></div>
-        <div><b>Convenience</b><span>mean 13.5 / 100</span></div>
-        <div><b>Wait time</b><span>mean 11.3 / 100</span></div>
-        <div><b>Freshness</b><span>mean 10.6 / 100</span></div>
-      </div>
-    </fieldset>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q27</span><span class="chip">multiple choice</span></div>
+      <p class="qtext">Which fruits would you most want in a smoothie? Select up to 5.</p>
+      <p class="qmeta">multiple choice, pick up to 5 · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts">
+        <li>Mango</li><li>Strawberry</li><li>Banana</li><li>Pineapple</li><li>Apple</li><li>Orange</li><li>Blueberry</li><li>Watermelon</li><li>Kiwi</li><li>Dragon fruit</li><li>Passion fruit</li><li>Lychee</li><li>Peach</li><li>Honeydew melon</li><li>Other (write-in)</li>
+      </ul>
+    </article>
 
-    <fieldset class="q" disabled>
-      <legend>Q15</legend>
-      <p class="qtext">Smoothies would be healthier than other campus drinks</p>
-      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
-      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
-      <p class="qmeta"><span class="stat">mean 3.34 · 54.7% agree</span></p>
-    </fieldset>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q28</span><span class="chip">multiple choice</span></div>
+      <p class="qtext">Which greens or vegetables would you be open to adding? Select up to 3.</p>
+      <p class="qmeta">multiple choice, pick up to 3 · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts">
+        <li>Avocado</li><li>Spinach</li><li>Kale</li><li>Cucumber</li><li>Carrot</li><li>Celery</li><li>Beetroot</li><li>Mint</li><li>Other (write-in)</li>
+      </ul>
+    </article>
 
-    <fieldset class="q" disabled>
-      <legend>Q16</legend>
-      <p class="qtext">I am concerned that smoothies contain too much sugar</p>
-      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
-      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
-      <p class="qmeta"><span class="stat">mean 3.40 · 54.7% agree</span></p>
-    </fieldset>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q29</span><span class="chip">multiple choice</span></div>
+      <p class="qtext">Which add-ons would you be interested in? Select all that apply. If none, please select the Other option and input none.</p>
+      <p class="qmeta">multiple choice, select all that apply · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts">
+        <li>Protein powder</li><li>Chia seeds</li><li>Flaxseed</li><li>Oats</li><li>Peanut or almond butter</li><li>Collagen</li><li>Greens powder (wheatgrass or spirulina)</li><li>Probiotics</li><li>Vitamin boost</li><li>Energy boost (matcha or coffee)</li><li>Other (write-in)</li>
+      </ul>
+    </article>
 
-    <fieldset class="q" disabled>
-      <legend>Q17</legend>
-      <p class="qtext">Attention check (instruction: select &ldquo;Disagree&rdquo;)</p>
-      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned) · used to screen out rushed responses (69 → 53)</p>
-      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files; the stated instruction names “Disagree” as the correct answer)</p>
-    </fieldset>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q34</span><span class="chip">multiple choice</span></div>
+      <p class="qtext">Which base would you prefer in your smoothie? Select up to 3.</p>
+      <p class="qmeta">multiple choice, pick up to 3 · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts">
+        <li>Fresh milk</li><li>Soy milk</li><li>Oat milk</li><li>Almond milk</li><li>Coconut milk</li><li>Yogurt</li><li>Fruit juice</li><li>Tea</li><li>Water only</li><li>No preference</li><li>Other (write-in)</li>
+      </ul>
+    </article>
 
-    <fieldset class="q" disabled>
-      <legend>Q18</legend>
-      <p class="qtext">A comfortable place to sit matters</p>
-      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
-      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
-      <p class="qmeta"><span class="stat">mean 3.34 · 45.3% agree</span></p>
-    </fieldset>
-  </section>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q37</span><span class="chip">multiple choice</span></div>
+      <p class="qtext">Where on campus would you most prefer to buy or pick up a smoothie? Select up to 2.</p>
+      <p class="qmeta">multiple choice, pick up to 2 · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts">
+        <li>University Station</li><li>YIA Building</li><li>Central Campus (CC) teaching buildings</li><li>LSK Building</li><li>College areas (residential colleges)</li><li>Near sports facilities</li><li>Other (write-in)</li>
+      </ul>
+    </article>
+  </details>
 
-  <!-- ============ SECTION 3 — MENU ============ -->
-  <section class="stage" id="menu" aria-labelledby="h-menu">
-    <h2 id="h-menu">3 · Menu</h2>
-    <p class="stage-note">What goes in the cup: sizes, flavours, produce, add-ons and bases — plus the occasions people imagine drinking it.</p>
+  <details class="sec" id="sec-price">
+    <summary>6 · Price and purchase intent</summary>
+    <p class="sec-note">Price anchors and purchase intent.</p>
 
-    <fieldset class="q" disabled>
-      <legend>Q12</legend>
-      <p class="qtext">I would like a choice of cup sizes</p>
-      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
-      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
-      <p class="qmeta"><span class="stat">mean 3.85 · 73.6% agree</span></p>
-    </fieldset>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q33</span><span class="chip">number in HK$</span></div>
+      <p class="qtext">About how much extra would you be willing to pay for each additional add-on? HK$ ____</p>
+      <p class="qmeta">number in HK$ · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts"><li>a number in HK$ (0 allowed)</li></ul>
+    </article>
 
-    <fieldset class="q" disabled>
-      <legend>Q13</legend>
-      <p class="qtext">I am interested in seasonal flavours</p>
-      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
-      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
-      <p class="qmeta"><span class="stat">mean 3.91 · 73.6% agree</span></p>
-    </fieldset>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q35</span><span class="chip">rating</span></div>
+      <p class="qtext">Considering the drink options currently available on campus, how likely would you be to purchase the smoothie you created (including the fruits, base, and add-ons selected above) if it were offered at a price you consider fair?</p>
+      <p class="qmeta">1-5 rating (likelihood) · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts">
+        <li>2 - Probably would not</li>
+        <li>3 - Might or might not</li>
+        <li>4 - Probably would</li>
+        <li>5 - Definitely would</li>
+      </ul>
+    </article>
 
-    <fieldset class="q" disabled>
-      <legend>Q14</legend>
-      <p class="qtext">I prefer a shop with a wide variety</p>
-      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
-      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
-      <p class="qmeta"><span class="stat">mean 3.36 · 43.4% agree</span></p>
-    </fieldset>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q38</span><span class="chip">number in HK$</span></div>
+      <p class="qtext">What is the most you would be willing to pay for one regular-size smoothie with one optional add-on of your choice included (16 oz, about 470 ml) on campus? HK$ ____</p>
+      <p class="qmeta">number in HK$ · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts"><li>a number in HK$ (0 allowed)</li></ul>
+    </article>
+  </details>
 
-    <fieldset class="q" disabled>
-      <legend>Q21</legend>
-      <p class="qtext">I want to add more than one add-on</p>
-      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
-      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
-      <p class="qmeta"><span class="stat">mean 3.64 · 64.2% agree</span></p>
-    </fieldset>
+  <details class="sec" id="sec-freetext">
+    <summary>7 · Free text</summary>
+    <p class="sec-note">Open responses.</p>
 
-    <fieldset class="q" disabled>
-      <legend>Q23</legend>
-      <p class="qtext">I would prefer to build my own smoothie</p>
-      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
-      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
-      <p class="qmeta"><span class="stat">mean 3.28 · 37.7% agree</span></p>
-    </fieldset>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q36</span><span class="chip">free text</span></div>
+      <p class="qtext">Please briefly describe the factors that influenced your answer to the previous question.</p>
+      <p class="qmeta">free text · 64 answered (all), 52 (cleaned)</p>
+      <ul class="opts"><li>open text</li></ul>
+    </article>
 
-    <fieldset class="q" disabled>
-      <legend>Q24</legend>
-      <p class="qtext">Occasions to buy a smoothie (pick up to 3)</p>
-      <p class="qmeta">Multi-select (max 3) · answered 65/65 (raw), 53/53 (cleaned)</p>
-      <div class="opts two-col">
-        <label class="opt"><input type="checkbox"> Hanging out with friends <span class="count">28 · 52.8%</span></label>
-        <label class="opt"><input type="checkbox"> Dessert or treat <span class="count">27 · 50.9%</span></label>
-        <label class="opt"><input type="checkbox"> To cool down in hot weather <span class="count">25 · 47.2%</span></label>
-        <label class="opt"><input type="checkbox"> While studying or working <span class="count">21 · 39.6%</span></label>
-        <label class="opt"><input type="checkbox"> Afternoon snack <span class="count">18 · 34.0%</span></label>
-        <label class="opt"><input type="checkbox"> With lunch <span class="count">10 · 18.9%</span></label>
-        <label class="opt"><input type="checkbox"> After exercise <span class="count">8 · 15.1%</span></label>
-        <label class="opt"><input type="checkbox"> With dinner <span class="count">3 · 5.7%</span></label>
-        <label class="opt"><input type="checkbox"> As a meal replacement <span class="count">3 · 5.7%</span></label>
-        <label class="opt"><input type="checkbox"> With breakfast <span class="count">2 · 3.8%</span></label>
-      </div>
-    </fieldset>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q42</span><span class="chip">free text</span></div>
+      <p class="qtext">Is there anything else you would like to add about how you choose a drink on campus, your smoothie preferences, or anything we did not ask about?</p>
+      <p class="qmeta">free text · 17 answered (all), 11 (cleaned)</p>
+      <ul class="opts"><li>open text</li></ul>
+    </article>
+  </details>
 
-    <fieldset class="q" disabled>
-      <legend>Q25</legend>
-      <p class="qtext">Fruits wanted (pick up to 5)</p>
-      <p class="qmeta">Multi-select (max 5) · answered 65/65 (raw), 53/53 (cleaned)</p>
-      <div class="opts two-col">
-        <label class="opt"><input type="checkbox"> Mango <span class="count">38 · 71.7%</span></label>
-        <label class="opt"><input type="checkbox"> Strawberry <span class="count">32 · 60.4%</span></label>
-        <label class="opt"><input type="checkbox"> Banana <span class="count">25 · 47.2%</span></label>
-        <label class="opt"><input type="checkbox"> Blueberry <span class="count">20 · 37.7%</span></label>
-        <label class="opt"><input type="checkbox"> Peach <span class="count">19 · 35.8%</span></label>
-        <label class="opt"><input type="checkbox"> Apple <span class="count">17 · 32.1%</span></label>
-        <label class="opt"><input type="checkbox"> Pineapple <span class="count">15 · 28.3%</span></label>
-        <label class="opt"><input type="checkbox"> Watermelon <span class="count">15 · 28.3%</span></label>
-        <label class="opt"><input type="checkbox"> Passion fruit <span class="count">14 · 26.4%</span></label>
-        <label class="opt"><input type="checkbox"> Kiwi <span class="count">10 · 18.9%</span></label>
-        <label class="opt"><input type="checkbox"> Orange <span class="count">9 · 17.0%</span></label>
-        <label class="opt"><input type="checkbox"> Lychee <span class="count">9 · 17.0%</span></label>
-        <label class="opt"><input type="checkbox"> Honeydew melon <span class="count">5 · 9.4%</span></label>
-        <label class="opt"><input type="checkbox"> Dragon fruit <span class="count">4 · 7.5%</span></label>
-      </div>
-    </fieldset>
+  <details class="sec" id="sec-demographics">
+    <summary>8 · Demographics</summary>
+    <p class="sec-note">Who responded.</p>
 
-    <fieldset class="q" disabled>
-      <legend>Q26</legend>
-      <p class="qtext">Greens / vegetables (pick up to 3)</p>
-      <p class="qmeta">Multi-select (max 3) · answered 65/65 (raw), 53/53 (cleaned) · only the five most-picked options are in the analysis file; the rest are not recorded</p>
-      <div class="opts two-col">
-        <label class="opt"><input type="checkbox"> Mint <span class="count">30 · 56.6%</span></label>
-        <label class="opt"><input type="checkbox"> Avocado <span class="count">25 · 47.2%</span></label>
-        <label class="opt"><input type="checkbox"> Cucumber <span class="count">16 · 30.2%</span></label>
-        <label class="opt"><input type="checkbox"> Carrot <span class="count">16 · 30.2%</span></label>
-        <label class="opt"><input type="checkbox"> Spinach <span class="count">12 · 22.6%</span></label>
-      </div>
-      <p class="missing">remaining options not recorded</p>
-    </fieldset>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q39</span><span class="chip">single choice</span></div>
+      <p class="qtext">What is your gender?</p>
+      <p class="qmeta">single choice · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts">
+        <li>Male</li><li>Female</li><li>Prefer not to say</li>
+      </ul>
+    </article>
 
-    <fieldset class="q" disabled>
-      <legend>Q27</legend>
-      <p class="qtext">Add-ons of interest</p>
-      <p class="qmeta">Multi-select · answered 65/65 (raw), 53/53 (cleaned)</p>
-      <div class="opts two-col">
-        <label class="opt"><input type="checkbox"> Protein powder <span class="count">27 · 50.9%</span></label>
-        <label class="opt"><input type="checkbox"> Vitamin boost <span class="count">26 · 49.1%</span></label>
-        <label class="opt"><input type="checkbox"> Energy boost (matcha or coffee) <span class="count">22 · 41.5%</span></label>
-        <label class="opt"><input type="checkbox"> Oats <span class="count">20 · 37.7%</span></label>
-        <label class="opt"><input type="checkbox"> Chia seeds <span class="count">19 · 35.8%</span></label>
-        <label class="opt"><input type="checkbox"> Peanut or almond butter <span class="count">19 · 35.8%</span></label>
-        <label class="opt"><input type="checkbox"> Probiotics <span class="count">15 · 28.3%</span></label>
-        <label class="opt"><input type="checkbox"> Flaxseed <span class="count">6 · 11.3%</span></label>
-        <label class="opt"><input type="checkbox"> Collagen <span class="count">5 · 9.4%</span></label>
-        <label class="opt"><input type="checkbox"> Greens powder (wheatgrass or spirulina) <span class="count">4 · 7.5%</span></label>
-      </div>
-    </fieldset>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q40</span><span class="chip">single choice</span></div>
+      <p class="qtext">Which country or region are you from?</p>
+      <p class="qmeta">single choice · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts">
+        <li>Hong Kong (Local)</li><li>Canada</li><li>Mainland China</li><li>singapore</li><li>Middle east</li><li>Italy</li><li>South Korea</li><li>UK</li><li>Czech Republic</li><li>India</li><li>South Africa</li><li>Scotland</li><li>Macau</li><li>france</li>
+      </ul>
+    </article>
 
-    <fieldset class="q" disabled>
-      <legend>Q28</legend>
-      <p class="qtext">Preferred base (pick up to 3)</p>
-      <p class="qmeta">Multi-select (max 3) · answered 65/65 (raw), 53/53 (cleaned)</p>
-      <div class="opts two-col">
-        <label class="opt"><input type="checkbox"> Yogurt <span class="count">28 · 52.8%</span></label>
-        <label class="opt"><input type="checkbox"> Fruit juice <span class="count">28 · 52.8%</span></label>
-        <label class="opt"><input type="checkbox"> Fresh milk <span class="count">23 · 43.4%</span></label>
-        <label class="opt"><input type="checkbox"> Coconut milk <span class="count">16 · 30.2%</span></label>
-        <label class="opt"><input type="checkbox"> Tea <span class="count">14 · 26.4%</span></label>
-        <label class="opt"><input type="checkbox"> Oat milk <span class="count">11 · 20.8%</span></label>
-        <label class="opt"><input type="checkbox"> Soy milk <span class="count">7 · 13.2%</span></label>
-        <label class="opt"><input type="checkbox"> Water only <span class="count">7 · 13.2%</span></label>
-        <label class="opt"><input type="checkbox"> Almond milk <span class="count">4 · 7.5%</span></label>
-        <label class="opt"><input type="checkbox"> No preference <span class="count">3 · 5.7%</span></label>
-      </div>
-    </fieldset>
-  </section>
+    <article class="q">
+      <div class="qhead"><span class="qnum">Q41</span><span class="chip">single choice</span></div>
+      <p class="qtext">Do you live on campus (in a hall, residence, or staff quarters)?</p>
+      <p class="qmeta">single choice · 65 answered (all), 53 (cleaned)</p>
+      <ul class="opts">
+        <li>Yes</li><li>No</li>
+      </ul>
+    </article>
+  </details>
+</section>
+<section class="panel" id="panel-results" role="tabpanel" aria-labelledby="tab-results" tabindex="0" hidden>
+  <h2>The results</h2>
+  <p class="intro">Explore the data with the analysis. Charts below are drawn from the same numbers as the R report; hover, tap or focus a bar for the count and the 95% range. The R figures open larger, and each topic ends with what the analysis says.</p>
 
-  <!-- ============ SECTION 4 — PRICE ============ -->
-  <section class="stage" id="price" aria-labelledby="h-price">
-    <h2 id="h-price">4 · Price</h2>
-    <p class="stage-note">What students currently pay, what they would pay for a smoothie, and how they feel about paying more.</p>
+  <div class="stats">
+    <div class="stat">
+      <div class="num" id="stat-n">53</div>
+      <div class="lbl">respondents kept</div>
+      <div class="sub">from 69 responses after cleaning</div>
+    </div>
+    <div class="stat">
+      <div class="num" id="stat-buy">70%</div>
+      <div class="lbl">would buy</div>
+      <div class="sub" id="stat-buy-ci">95% CI 56.5% to 80.5%</div>
+    </div>
+    <div class="stat">
+      <div class="num" id="stat-median">HK$30</div>
+      <div class="lbl">median max price</div>
+      <div class="sub">for one smoothie with one add-on</div>
+    </div>
+    <div class="stat">
+      <div class="num" id="stat-best">HK$25</div>
+      <div class="lbl">best price keeps <span id="stat-best-share">77%</span></div>
+      <div class="sub">highest revenue on the demand curve</div>
+    </div>
+  </div>
 
-    <fieldset class="q" disabled>
-      <legend>Q4</legend>
-      <p class="qtext">Most you would pay for a drink on campus (HK$)</p>
-      <p class="qmeta">Numeric entry (HK$) · answered 65/65 (raw), 53/53 (cleaned) · median HK$30</p>
-      <input type="text" value="" placeholder="HK$…" aria-label="Most you would pay for a drink (HK$)">
-    </fieldset>
+  <div class="topics" role="tablist" aria-label="Result topics">
+    <button type="button" role="tab" id="topic-sample" aria-controls="topicpanel-sample" aria-selected="true" data-topic="sample">Sample</button>
+    <button type="button" role="tab" id="topic-habits" aria-controls="topicpanel-habits" aria-selected="false" tabindex="-1" data-topic="habits">Habits and competition</button>
+    <button type="button" role="tab" id="topic-matters" aria-controls="topicpanel-matters" aria-selected="false" tabindex="-1" data-topic="matters">What matters</button>
+    <button type="button" role="tab" id="topic-menu" aria-controls="topicpanel-menu" aria-selected="false" tabindex="-1" data-topic="menu">Menu</button>
+    <button type="button" role="tab" id="topic-place" aria-controls="topicpanel-place" aria-selected="false" tabindex="-1" data-topic="place">Place and occasions</button>
+    <button type="button" role="tab" id="topic-price" aria-controls="topicpanel-price" aria-selected="false" tabindex="-1" data-topic="price">Price</button>
+    <button type="button" role="tab" id="topic-buy" aria-controls="topicpanel-buy" aria-selected="false" tabindex="-1" data-topic="buy">Would they buy</button>
+    <button type="button" role="tab" id="topic-segments" aria-controls="topicpanel-segments" aria-selected="false" tabindex="-1" data-topic="segments">Segments</button>
+    <button type="button" role="tab" id="topic-sure" aria-controls="topicpanel-sure" aria-selected="false" tabindex="-1" data-topic="sure">How sure are we</button>
+  </div>
 
-    <fieldset class="q" disabled>
-      <legend>Q5</legend>
-      <p class="qtext">Average spend per drink on campus (HK$)</p>
-      <p class="qmeta">Numeric entry (HK$) · answered 60 raw, 50/53 (cleaned; 1 blanked as an outlier) · median HK$10</p>
-      <input type="text" value="" placeholder="HK$…" aria-label="Average spend per drink (HK$)">
-    </fieldset>
+  <div class="topic-panel" id="topicpanel-sample" role="tabpanel" aria-labelledby="topic-sample" tabindex="0">
+    <h3>Sample</h3>
+    <p class="note-soft">Who the 53 kept respondents are. Small groups cannot carry a claim on their own.</p>
 
-    <fieldset class="q" disabled>
-      <legend>Q11</legend>
-      <p class="qtext">I would pay more for a smoothie made with fresh ingredients</p>
-      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
-      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
-      <p class="qmeta"><span class="stat">mean 3.53 · 56.6% agree</span></p>
-    </fieldset>
+    <div class="chart-block">
+      <h4>Who answered</h4>
+      <p class="chart-hint">Hover, tap or focus a bar for the count.</p>
+      <div id="chart-affil"></div>
+      <div id="chart-gender"></div>
+      <div id="chart-origin"></div>
+      <div id="chart-res"></div>
+    </div>
 
-    <fieldset class="q" disabled>
-      <legend>Q22</legend>
-      <p class="qtext">I would pay extra for add-ons</p>
-      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
-      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
-      <p class="qmeta"><span class="stat">mean 3.53 · 58.5% agree</span></p>
-    </fieldset>
+    <div class="takeaways">
+      <h4>What the analysis says</h4>
+      <ul>
+        <li>Five filters (screening, incompletes, duplicates, attention check, outlier prices) plus two form-bug fixes; the attention check removed 11 of 64 and does not change the median WTP.</li>
+        <li>94% undergraduates, so do not generalise to staff or postgraduates.</li>
+        <li>Of 16 responses removed, 11 failed the attention check; a few extreme prices are blanked in tier C only.</li>
+      </ul>
+    </div>
+  </div>
 
-    <fieldset class="q" disabled>
-      <legend>Q29</legend>
-      <p class="qtext">Most you would pay for a regular smoothie + 1 add-on (HK$)</p>
-      <p class="qmeta">Numeric entry (HK$) · answered 65/65 (raw), 53/53 (cleaned) · median HK$30</p>
-      <input type="text" value="" placeholder="HK$…" aria-label="Most you would pay for a regular smoothie plus one add-on (HK$)">
-    </fieldset>
+  <div class="topic-panel" id="topicpanel-habits" role="tabpanel" aria-labelledby="topic-habits" tabindex="0" hidden>
+    <h3>Habits and competition</h3>
+    <p class="note-soft">What students drink on campus today and who sells it to them.</p>
 
-    <fieldset class="q" disabled>
-      <legend>Q30</legend>
-      <p class="qtext">Extra you would pay per additional add-on (HK$)</p>
-      <p class="qmeta">Numeric entry (HK$) · answered 65/65 (raw), 52/53 (cleaned) · median HK$5</p>
-      <input type="text" value="" placeholder="HK$…" aria-label="Extra you would pay per additional add-on (HK$)">
-    </fieldset>
-  </section>
+    <div class="chart-block">
+      <h4>Drinks bought per week on campus</h4>
+      <p class="chart-hint">Hover, tap or focus a bar for the count.</p>
+      <div id="chart-drinks"></div>
+    </div>
 
-  <!-- ============ SECTION 5 — WOULD YOU BUY ============ -->
-  <section class="stage" id="would-you-buy" aria-labelledby="h-would-you-buy">
-    <h2 id="h-would-you-buy">5 · Would you buy</h2>
-    <p class="stage-note">The buying questions: how they would order, how they feel about the offer, and what they would actually do.</p>
+    <div class="chart-block">
+      <h4>Where they bought a drink in the past month</h4>
+      <p class="chart-hint">Select all that apply, so shares add to more than 100%.</p>
+      <div id="chart-shops"></div>
+    </div>
 
-    <fieldset class="q" disabled>
-      <legend>Q19</legend>
-      <p class="qtext">I would use a mobile app to pre-order</p>
-      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
-      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
-      <p class="qmeta"><span class="stat">mean 3.64 · 64.2% agree</span></p>
-    </fieldset>
+    <div class="figs">
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/02_shops.png" alt="Bar chart of where students bought drinks on campus in the past month; canteens highest at 78%">
+        <span class="fig-cap">R figure: where they buy drinks</span>
+      </button>
+    </div>
 
-    <fieldset class="q" disabled>
-      <legend>Q20</legend>
-      <p class="qtext">I would join a loyalty programme</p>
-      <p class="qmeta">5-point agreement scale · labels not recorded · answered 65/65 (raw), 53/53 (cleaned)</p>
-      <p class="missing">options not recorded — 5-point agreement scale (anchor wording not present in the analysis files)</p>
-      <p class="qmeta"><span class="stat">mean 3.28 · 43.4% agree</span></p>
-    </fieldset>
+    <div class="takeaways">
+      <h4>What the analysis says</h4>
+      <ul>
+        <li>Canteens (78%) and vending machines (60%) are the main competition. In their words: “Mostly taste and price. I'd buy it as an afternoon snack or while studying if the queue is short and it costs about the same as a boba drink, since I already buy those on campus.” <span class="who">(respondent row 47, purchase intent 4/5)</span></li>
+        <li>The typical student pays about HK$10 per drink today and says they would pay about HK$30 for a smoothie with one add-on. In their words: “price, volume and amount of sugar” <span class="who">(respondent row 15, purchase intent 5/5)</span> · “Location and I would likely be more pricy than a soda” <span class="who">(respondent row 58, purchase intent 3/5)</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="topic-panel" id="topicpanel-matters" role="tabpanel" aria-labelledby="topic-matters" tabindex="0" hidden>
+    <h3>What matters</h3>
+    <p class="note-soft">How 100 points were split across six factors, and what the agreement statements support.</p>
 
-    <fieldset class="q" disabled>
-      <legend>Q31</legend>
-      <p class="qtext">Purchase intent for the smoothie you created</p>
-      <p class="qmeta">Single choice · answered 65/65 (raw), 53/53 (cleaned) · scale anchor for point 1 not recorded; option “1” had no responses in the cleaned data</p>
-      <div class="opts">
-        <label class="opt"><input type="radio" name="q31"> 2 — Probably would not <span class="count">6 · 11.3%</span></label>
-        <label class="opt"><input type="radio" name="q31"> 3 — Might or might not <span class="count">10 · 18.9%</span></label>
-        <label class="opt"><input type="radio" name="q31"> 4 — Probably would <span class="count">28 · 52.8%</span></label>
-        <label class="opt"><input type="radio" name="q31"> 5 — Definitely would <span class="count">9 · 17.0%</span></label>
-      </div>
-      <p class="qmeta"><span class="stat">top-two-box 69.8% (95% CI 56.5–80.5%)</span></p>
-    </fieldset>
+    <div class="chart-block">
+      <h4>Importance of the six factors</h4>
+      <p class="chart-hint">Mean share of 100 points. Hover, tap or focus a bar for the 95% range.</p>
+      <div id="chart-importance"></div>
+    </div>
 
-    <fieldset class="q" disabled>
-      <legend>Q32</legend>
-      <p class="qtext">Why that purchase intent? (free text)</p>
-      <p class="qmeta">Free text · answered 64 raw, 52/53 (cleaned)</p>
-      <textarea aria-label="Why that purchase intent" placeholder="Free text…"></textarea>
-    </fieldset>
+    <div class="chart-block">
+      <h4>Agreement statements</h4>
+      <p class="chart-hint">Share who agree or strongly agree. Hover, tap or focus a bar for the 95% range.</p>
+      <div id="chart-likert"></div>
+    </div>
 
-    <fieldset class="q" disabled>
-      <legend>Q33</legend>
-      <p class="qtext">Preferred location on campus (pick up to 2)</p>
-      <p class="qmeta">Multi-select (max 2) · answered 65/65 (raw), 53/53 (cleaned)</p>
-      <div class="opts">
-        <label class="opt"><input type="checkbox"> YIA Building <span class="count">25 · 47.2%</span></label>
-        <label class="opt"><input type="checkbox"> Central Campus (CC) teaching buildings <span class="count">25 · 47.2%</span></label>
-        <label class="opt"><input type="checkbox"> College areas (residential colleges) <span class="count">19 · 35.8%</span></label>
-        <label class="opt"><input type="checkbox"> LSK Building <span class="count">14 · 26.4%</span></label>
-        <label class="opt"><input type="checkbox"> University Station <span class="count">12 · 22.6%</span></label>
-        <label class="opt"><input type="checkbox"> Near sports facilities <span class="count">1 · 1.9%</span></label>
-      </div>
-    </fieldset>
+    <div class="figs">
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/02_importance.png" alt="Bar chart of mean points allocated to the six drink factors; taste highest at 28%">
+        <span class="fig-cap">R figure: factor importance</span>
+      </button>
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/11_box_importance.png" alt="Box plots of the 100-point allocations for the six factors">
+        <span class="fig-cap">R figure: spread of the 100 points</span>
+      </button>
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/02_likert.png" alt="Bar chart of agreement shares for the twelve statement items">
+        <span class="fig-cap">R figure: agreement statements</span>
+      </button>
+    </div>
 
-    <fieldset class="q" disabled>
-      <legend>Q37</legend>
-      <p class="qtext">Anything else you would like to add? (free text)</p>
-      <p class="qmeta">Free text · answered 17 raw, 11/53 (cleaned)</p>
-      <textarea aria-label="Anything else you would like to add" placeholder="Free text…"></textarea>
-    </fieldset>
-  </section>
+    <div class="takeaways">
+      <h4>What the analysis says</h4>
+      <ul>
+        <li>The ranking is taste &gt; price &gt; healthiness; position on the leaders and treat the rest as reasons to believe. In their words: “highkey i just built an awesome smoothie in my mind and now i must consume it” <span class="who">(respondent row 37, purchase intent 4/5)</span> · “I don't purchase drinks on sudden desire - I try to enjoy my drinks” <span class="who">(respondent row 38, purchase intent 5/5)</span></li>
+        <li>“Want cup-size choice” (74% agree) and “interested in seasonal items” (74% agree) have the strongest support.</li>
+      </ul>
+    </div>
+  </div>
 
-  <footer class="page">
-    <a class="toplink" href="../index.html">&larr; Back to Sprout</a>
-    <p>Questions and per-question answer counts come from the survey analysis extract (10_question_coverage and the summary tables used to build the site, n = 53 usable responses; raw = 69). Percentages may not sum to 100 because of rounding and multi-select questions. Where an answer option could not be recovered from the analysis files, it is marked “options not recorded” rather than guessed. 5-point agreement scales show “labels not recorded” because the original anchor wording is not in the extract; observed statistics (means, % agree) are shown instead.</p>
-    <p>Prepared 2026-11-26 as a read-only reference for the Sprout pitch. No responses are collected, stored or transmitted by this page.</p>
-  </footer>
+  <div class="topic-panel" id="topicpanel-menu" role="tabpanel" aria-labelledby="topic-menu" tabindex="0" hidden>
+    <h3>Menu</h3>
+    <p class="note-soft">Which fruits, greens, add-ons and bases students chose for their own build.</p>
+
+    <div class="chart-block">
+      <h4>Fruits wanted (pick up to 5)</h4>
+      <p class="chart-hint">Hover, tap or focus a bar for the count and the 95% range.</p>
+      <div id="chart-fruit"></div>
+    </div>
+
+    <div class="chart-block">
+      <h4>Greens and vegetables (pick up to 3)</h4>
+      <div id="chart-veg"></div>
+    </div>
+
+    <div class="chart-block">
+      <h4>Add-ons of interest</h4>
+      <div id="chart-addons"></div>
+    </div>
+
+    <div class="chart-block">
+      <h4>Preferred bases (pick up to 3)</h4>
+      <div id="chart-base"></div>
+    </div>
+
+    <div class="figs">
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/04_fruit.png" alt="Bar chart of wanted fruits; mango 72% and strawberry 60% at the top">
+        <span class="fig-cap">R figure: fruits</span>
+      </button>
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/04_veg.png" alt="Bar chart of greens and vegetables students would add; mint highest at 57%">
+        <span class="fig-cap">R figure: greens</span>
+      </button>
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/04_addons.png" alt="Bar chart of add-ons of interest; protein powder 51% and vitamin boost 49% at the top">
+        <span class="fig-cap">R figure: add-ons</span>
+      </button>
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/04_base.png" alt="Bar chart of preferred smoothie bases; yogurt and fruit juice tied at 53%">
+        <span class="fig-cap">R figure: bases</span>
+      </button>
+    </div>
+
+    <div class="takeaways">
+      <h4>What the analysis says</h4>
+      <ul>
+        <li>Lead with mango and strawberry; add-ons: protein powder 51% and vitamin boost 49% (ranges overlap, so they cannot be ranked); bases: yogurt and fruit juice.</li>
+        <li>Mint and avocado are the only greens above 45%. In their words: “Depends on protein and caffeine options and being able to customize. I care about macros and sugar, and I would use a pre-order app to skip the queue between classes. Price has to stay reasonable.” <span class="who">(respondent row 67, purchase intent 3/5)</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="topic-panel" id="topicpanel-place" role="tabpanel" aria-labelledby="topic-place" tabindex="0" hidden>
+    <h3>Place and occasions</h3>
+    <p class="note-soft">Where on campus the shop should be, and when a smoothie fits into the day.</p>
+
+    <div class="chart-block">
+      <h4>Where they would buy or pick up (pick up to 2)</h4>
+      <p class="chart-hint">Hover, tap or focus a bar for the count and the 95% range.</p>
+      <div id="chart-where"></div>
+    </div>
+
+    <div class="chart-block">
+      <h4>Occasions for a smoothie (pick up to 3)</h4>
+      <div id="chart-occasion"></div>
+    </div>
+
+    <div class="figs">
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/04_where.png" alt="Bar chart of preferred campus locations to buy or pick up a smoothie; YIA Building and Central Campus teaching buildings tied at 47%">
+        <span class="fig-cap">R figure: where on campus</span>
+      </button>
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/04_occasion.png" alt="Bar chart of occasions for buying a smoothie; hanging out with friends highest at 53%">
+        <span class="fig-cap">R figure: occasions</span>
+      </button>
+    </div>
+
+    <div class="takeaways">
+      <h4>What the analysis says</h4>
+      <ul>
+        <li>YIA Building 47% and Central Campus (CC) teaching buildings 47% are statistically tied (their ranges overlap); the leading occasions are hanging out with friends, dessert or treat, to cool down in hot weather. In their words: “No smoothie option near university library area” <span class="who">(respondent row 60, purchase intent 4/5)</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="topic-panel" id="topicpanel-price" role="tabpanel" aria-labelledby="topic-price" tabindex="0" hidden>
+    <h3>Price</h3>
+    <p class="note-soft">What they pay today, what they would pay for a smoothie, and what happens to demand as the price moves.</p>
+
+    <div class="chart-block">
+      <h4>Demand curve: who would still buy at each price</h4>
+      <p class="chart-hint">Drag, hover or tap the chart to move the price marker. With the chart focused, arrow keys move it by HK$1 (up and down by HK$5), Home and End jump to the ends.</p>
+      <div class="dc-wrap" id="dc-wrap"></div>
+      <p class="dc-readout" id="dc-readout">At HK$25, 77% would still buy</p>
+    </div>
+
+    <div class="chart-block">
+      <h4>Prices people gave</h4>
+      <div class="price-rows" id="price-rows"></div>
+    </div>
+
+    <div class="chart-block">
+      <h4>Candidate prices and revenue</h4>
+      <p class="chart-hint">Share who would still buy at each candidate price. Hover, tap or focus a bar for the revenue index.</p>
+      <div id="chart-candidates"></div>
+      <p class="chart-n">Revenue index is price multiplied by share of buyers; it ignores cost per cup.</p>
+    </div>
+
+    <div class="figs">
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/03_demand_curve.png" alt="Demand curve of the share who would still buy at each price from HK$10 to HK$60">
+        <span class="fig-cap">R figure: demand curve</span>
+      </button>
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/03_demand_curve_by_tier.png" alt="Demand curves drawn separately for the three cleaning tiers">
+        <span class="fig-cap">R figure: curve by cleaning tier</span>
+      </button>
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/11_box_prices_three_tiers.png" alt="Box plots of price answers under the three cleaning tiers">
+        <span class="fig-cap">R figure: prices by tier</span>
+      </button>
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/11_box_wtp_by_group.png" alt="Box plots of willingness to pay split by respondent group">
+        <span class="fig-cap">R figure: pay by group</span>
+      </button>
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/11_box_spend_by_group.png" alt="Box plots of usual drink spend split by respondent group">
+        <span class="fig-cap">R figure: spend by group</span>
+      </button>
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/12_wtp_gap_hist.png" alt="Histogram of the gap between smoothie willingness to pay and usual drink spend">
+        <span class="fig-cap">R figure: pay minus spend</span>
+      </button>
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/12_wtp_vs_spend_scatter.png" alt="Scatter plot of willingness to pay against usual drink spend">
+        <span class="fig-cap">R figure: pay against spend</span>
+      </button>
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/12_price_by_study_year.png" alt="Chart of price tolerance by study year">
+        <span class="fig-cap">R figure: price by study year</span>
+      </button>
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/12_models_coef_plot.png" alt="Coefficient plot from models predicting willingness to pay">
+        <span class="fig-cap">R figure: what predicts pay</span>
+      </button>
+    </div>
+
+    <div class="takeaways">
+      <h4>What the analysis says</h4>
+      <ul>
+        <li>77% would pay HK$25, 53% HK$30, 40% HK$35. The revenue-maximising price on this curve is HK$25.</li>
+        <li>Median HK$30 (bootstrap range HK$28-34); average HK$30.9 once outliers are blanked. In their words: “Uniqueness, price” <span class="who">(respondent row 57, purchase intent 5/5)</span> · “Mostly the price. I watch my spending, so I would only buy one if it costs about the same as a boba or a bottled drink. I would treat it as an occasional treat on hot days.” <span class="who">(respondent row 68, purchase intent 3/5)</span></li>
+        <li>HK$25 has the highest revenue index (price x share); give a range, not a point, and remember cost per cup is not included.</li>
+        <li>4 of 15 pricing tests are statistically significant. The clearest is the paired test: the same people say they would pay far more for a smoothie than they usually spend. Differences between groups (past buyers, residents, gender, origin) are mostly not significant, which means we cannot tell, not that they are equal.</li>
+        <li>92% would pay more than they spend now; a strong result, but hypothetical.</li>
+        <li>Usual spend goes with willingness to pay (p = 0.0008); group differences are mostly not detectable.</li>
+        <li>Usual spend varies by group; for study year, 1 of 3 tests are below 0.05 and the groups are small, so the evidence is mixed.</li>
+        <li>HK$25 vs HK$28 is a 17-point difference in buyers on stated demand; a real test needs about 117 people per price.</li>
+        <li>The best price depends on a cost we have not measured; get the real cost per cup before quoting a margin.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="topic-panel" id="topicpanel-buy" role="tabpanel" aria-labelledby="topic-buy" tabindex="0" hidden>
+    <h3>Would they buy</h3>
+    <p class="note-soft">Stated purchase intent, the reasons counted from the open answers, and support for the pre-order app and loyalty scheme.</p>
+
+    <div class="chart-block">
+      <h4>Purchase intent for the smoothie they built</h4>
+      <p class="chart-hint">Hover, tap or focus a bar for the count.</p>
+      <div id="chart-intent"></div>
+    </div>
+
+    <div class="chart-block">
+      <h4>Reasons counted from the open answers</h4>
+      <p class="chart-hint">Share of the coded answers that mention each theme. Hover, tap or focus a bar for the count and the 95% range.</p>
+      <div id="chart-themes"></div>
+      <p class="chart-n">Themes come from AI coding of the free text; two people still have to verify them.</p>
+    </div>
+
+    <div class="figs">
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/06_theme_bars.png" alt="Bar chart of themes counted from the open-ended answers">
+        <span class="fig-cap">R figure: open-answer themes</span>
+      </button>
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/06_theme_by_intent.png" alt="Theme counts split by stated purchase intent">
+        <span class="fig-cap">R figure: themes by intent</span>
+      </button>
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/06_theme_cooccurrence.png" alt="Matrix of which open-answer themes appear together">
+        <span class="fig-cap">R figure: themes together</span>
+      </button>
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/06_bigrams.png" alt="Chart of the most common word pairs in the open-ended answers">
+        <span class="fig-cap">R figure: word pairs</span>
+      </button>
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/06_word_map.png" alt="Word map of the open-ended answers">
+        <span class="fig-cap">R figure: word map</span>
+      </button>
+    </div>
+
+    <div class="takeaways">
+      <h4>What the analysis says</h4>
+      <ul>
+        <li>70% say probably or definitely (95% range 56%-80%); stated intent overstates real buying.</li>
+        <li>The most-cited reasons are taste enjoyment, price value, convenience access; see the full table for what holds people back. In their words: “I would purchase a healthy fruit based drink often if it is convenient and well priced.” <span class="who">(respondent row 3, purchase intent 4/5)</span> · “i don't have smoothies normally but i guess if it were with friends maybe id try?” <span class="who">(respondent row 22, purchase intent 3/5)</span></li>
+        <li>The R keyword pass ranks taste enjoyment, low need habit, price value, variety menu; the AI coding ranks taste enjoyment, price value, convenience access, low need habit. The AI coding reads the answers and is more accurate; neither is final until two people verify.</li>
+        <li>Pre-order app 64% agree vs loyalty programme 43%. In their words: “A mango or strawberry smoothie with yogurt would be great in summer. A student discount or loyalty card would help a lot.” <span class="who">(respondent row 47, purchase intent 4/5)</span></li>
+        <li>Affordability and health-first positioning both need rewording. In their words: “Fresh fruit and a fair price matter most. I already buy boba and coffee, so a fruity, refreshing drink for hot afternoons would be a nice change, as long as it is not too sugary or slow to get.” <span class="who">(respondent row 66, purchase intent 4/5)</span></li>
+        <li>Demand (70%), price headroom (HK$30 vs HK$10) and taste-first positioning support the product; the risks are the small convenience sample, stated (not real) behaviour and unmeasured cost.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="topic-panel" id="topicpanel-segments" role="tabpanel" aria-labelledby="topic-segments" tabindex="0" hidden>
+    <h3>Segments</h3>
+    <p class="note-soft">Three small groups of students who value different things, and how much group difference the data can actually show.</p>
+
+    <div class="chart-block">
+      <h4>The three segments</h4>
+      <p class="chart-hint">Bars show the share in each segment who would buy. Hover, tap or focus a bar for the size and prices.</p>
+      <div id="chart-segments"></div>
+    </div>
+
+    <div class="figs">
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/12_effect_heatmap.png" alt="Heat map of group differences, marking which ones the data can detect">
+        <span class="fig-cap">R figure: what differences are real</span>
+      </button>
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/12_oncampus_vs_off_prop.png" alt="Comparison of answer shares for on-campus residents against others">
+        <span class="fig-cap">R figure: residents vs others</span>
+      </button>
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/12_oncampus_vs_off_numeric.png" alt="Comparison of numeric answers for on-campus residents against others">
+        <span class="fig-cap">R figure: residents vs others (numbers)</span>
+      </button>
+      <button type="button" class="fig-thumb">
+        <img src="../assets/figures/12_correlation_map.png" alt="Correlation map between the survey measures">
+        <span class="fig-cap">R figure: how answers move together</span>
+      </button>
+    </div>
+
+    <div class="takeaways">
+      <h4>What the analysis says</h4>
+      <ul>
+        <li>3 small segments (segment 1 (12 people) = taste + health; segment 2 (19 people) = taste + freshness; segment 3 (22 people) = taste + price).</li>
+        <li>Very few differences are detectable. Green cells are the only real signals, and some of those are fragile across cleaning tiers. In their words: “I mainly go for cheap vending machine drinks, only about 1-2x per week, and will occasionally treat myself to a coffee at cafe330. I consider smoothies more as food than as a drink.” <span class="who">(respondent row 30, purchase intent 4/5)</span></li>
+        <li>Years 3-5 (n = 38) have a median WTP of HK$30 vs HK$21 for years 1-2 (n = 12). Years 1-2 vs 3-5: p = 0.046; trend (Spearman): p = 0.35; year groups (Kruskal): p = 0.12. 1 of 3 tests are below 0.05, the youngest group is small and many tests were run, so treat it as a lead, not a finding.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="topic-panel" id="topicpanel-sure" role="tabpanel" aria-labelledby="topic-sure" tabindex="0" hidden>
+    <h3>How sure are we</h3>
+    <p class="note-soft">What survives different cleaning choices, and how many people a precise number would need.</p>
+
+    <div class="chart-block">
+      <h4>Tests that change with cleaning</h4>
+      <p class="chart-hint">Four conclusions flip between the cleaning tiers. These are they.</p>
+      <ul id="tier-list" class="note-soft" style="padding-left:20px"></ul>
+      <p class="chart-n">Tiers: A is all submissions, B is cleaned, C is cleaned with extreme prices blanked. Median WTP and the best price are the same in every tier.</p>
+    </div>
+
+    <div class="chart-block">
+      <h4>Sample size: what we have against what a precise share needs</h4>
+      <div id="chart-samplesize"></div>
+      <p class="chart-n">Target is plus or minus 8 points on a percentage, worst case. Recruit more than the target because some responses get cleaned out.</p>
+    </div>
+
+    <div class="takeaways">
+      <h4>What the analysis says</h4>
+      <ul>
+        <li>The median WTP is the same in every tier; only the averages move because of tier A's extreme answers.</li>
+        <li>4 of 31 tests change with cleaning (mostly because of tier A's extreme answers); median WTP and the revenue-maximising price are the same in every tier.</li>
+        <li>We have 53; a precise percentage (+/-8 points) needs about 151.</li>
+        <li>5 respondents who never buy drinks had spend answers blanked; the two Q9 scoring rules differ by only 1.7 points in taste share; no one chose a purchase-intent score below 2.</li>
+        <li>Comparisons that survive correction in the main sample: On campus daily (vs 1-4 d) vs Campus drinks / week; Price weighted &gt; median vs Weight: freshness; none of them is about smoothie willingness to pay or purchase intent.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="limits">
+    <h3>Limits</h3>
+    <p>The sample is small: 53 respondents, mostly undergraduates, from one campus convenience sample. Prices and intent are what people say, not what they do; the open answers are AI-coded and not yet verified; cost per cup is not measured. 4 of 31 tests change with cleaning.</p>
+  </div>
+</section>
+
+<footer class="page">
+  <a href="../index.html">Back to Sprout</a>
+  <p>Question wording, types and answer options come from the questionnaire. Charts are drawn from content/data.js; figures and takeaways come from the team's R analysis.</p>
+</footer>
+
 </main>
+
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Figure viewer">
+  <div class="lb-inner">
+    <img id="lb-img" src="" alt="" tabindex="0">
+    <div class="lb-bar">
+      <p class="lb-cap" id="lb-caption"></p>
+      <button type="button" class="lb-close" id="lb-close">Close</button>
+    </div>
+  </div>
+</div>
+
+<script src="../content/data.js"></script>
+<script>
+(function () {
+  "use strict";
+  var D = (window.CONTENT && window.CONTENT.data) || {};
+  var R = D.results || {};
+
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function $all(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function pct1(x) { return Math.round(x * 1000) / 10; }
+  function pctLabel(x) { return (Math.round(x * 1000) / 10) + "%"; }
+  function rangeLabel(lo, hi) { return pct1(lo) + "% to " + pct1(hi) + "%"; }
+
+  /* ---------- bar charts ---------- */
+  var barSeq = 0;
+  function renderBars(containerId, rows, nLabel) {
+    var host = document.getElementById(containerId);
+    if (!host || !rows.length) return;
+    rows.forEach(function (r) {
+      var row = el("div", "bar-row");
+      row.tabIndex = 0;
+      var top = el("div", "bar-top");
+      top.appendChild(el("span", "bar-label", r.label));
+      top.appendChild(el("span", "bar-pct", r.valueLabel));
+      row.appendChild(top);
+      var track = el("div", "bar-track");
+      var fill = el("div", "bar-fill");
+      fill.style.width = Math.max(0, Math.min(100, r.value)) + "%";
+      track.appendChild(fill);
+      row.appendChild(track);
+      if (r.detail) {
+        barSeq += 1;
+        var did = "bar-detail-" + barSeq;
+        var det = el("div", "bar-detail", r.detail);
+        det.id = did;
+        row.appendChild(det);
+        row.setAttribute("aria-describedby", did);
+        row.addEventListener("click", function () { row.classList.toggle("open"); });
+      }
+      host.appendChild(row);
+    });
+    if (nLabel) host.appendChild(el("p", "chart-n", nLabel));
+  }
+
+  function rowsFromProfile(variable, labelMap) {
+    var rows = (D["02_sample_profile"] || []).filter(function (r) { return r.variable === variable; });
+    rows.sort(function (a, b) { return b.n - a.n; });
+    return rows.map(function (r) {
+      return {
+        label: (labelMap && labelMap[r.level]) || r.level,
+        value: r.pct,
+        valueLabel: (Math.round(r.pct * 10) / 10) + "%",
+        detail: r.n + " of 53 kept respondents"
+      };
+    });
+  }
+
+  function rowsFromOptions(table, nFallback) {
+    return (table || []).map(function (r) {
+      var n = r.n_answered != null ? r.n_answered : nFallback;
+      var detail = r.count + " of " + n + " people asked";
+      if (r.lo != null && r.hi != null) detail += " · 95% range " + rangeLabel(r.lo, r.hi);
+      return { label: r.option, value: pct1(r.pct), valueLabel: pctLabel(r.pct), detail: detail };
+    });
+  }
+
+  function buildSampleCharts() {
+    renderBars("chart-affil", rowsFromProfile("affil_group", {
+      "Undergraduate": "Undergraduate", "Postgraduate": "Postgraduate", "Staff": "Staff"
+    }), "Affiliation. n = 53 kept respondents.");
+    renderBars("chart-gender", rowsFromProfile("gender", {
+      "Male": "Male", "Female": "Female"
+    }), "Gender. n = 53 kept respondents.");
+    renderBars("chart-origin", rowsFromProfile("origin_group", {
+      "Hong Kong": "Hong Kong", "Mainland China": "Mainland China", "International": "International (other)"
+    }), "Home region. n = 53 kept respondents.");
+    renderBars("chart-res", rowsFromProfile("on_campus_res", {
+      "TRUE": "Lives on campus", "FALSE": "Lives off campus"
+    }), "Living situation. n = 53 kept respondents.");
+  }
+
+  function buildHabitsCharts() {
+    var drinks = (D["02_drinks_per_week"] || []).slice().sort(function (a, b) { return b.n - a.n; });
+    renderBars("chart-drinks", drinks.map(function (r) {
+      return {
+        label: r.drinks_per_week,
+        value: r.pct,
+        valueLabel: (Math.round(r.pct * 10) / 10) + "%",
+        detail: r.n + " of 53 kept respondents"
+      };
+    }), "Drinks bought on campus in a typical week. n = 53.");
+
+    var shopNames = {
+      canteens: "Canteens", vending: "Vending machine", uc_boba: "UC Boba", tuck_shop: "College tuck shop",
+      cafe_tolo: "Cafe Tolo", cc_kunkle: "CC Kunkle", untitled: "Untitled Coffee", na_boba: "NA Boba",
+      mc_food: "MC Food", student_cafe: "Student-run cafe", starbucks: "SHHO Starbucks", sora_zen: "Sora Zen"
+    };
+    renderBars("chart-shops", (D["02_shops_used"] || []).map(function (r) {
+      return {
+        label: shopNames[r.shop] || r.shop,
+        value: pct1(r.share),
+        valueLabel: pctLabel(r.share),
+        detail: "share of the 50 cleaned answers to this question"
+      };
+    }), "Bought a drink here in the past month. n = 50 cleaned answers.");
+  }
+  function buildMattersCharts() {
+    renderBars("chart-importance", (D["02_importance"] || []).map(function (r) {
+      return {
+        label: r.factor,
+        value: pct1(r.mean),
+        valueLabel: pctLabel(r.mean),
+        detail: "mean of 100-point allocations · n = " + r.n + " · 95% range " + rangeLabel(r.lo, r.hi)
+      };
+    }), "Mean share of the 100 points. n = 53.");
+
+    renderBars("chart-likert", (D["02_likert_summary"] || []).map(function (r) {
+      return {
+        label: r.item,
+        value: pct1(r.pct_agree),
+        valueLabel: pctLabel(r.pct_agree),
+        detail: "agree or strongly agree · n = " + r.n + " · 95% range " + rangeLabel(r.lo, r.hi)
+      };
+    }), "Share who agree or strongly agree. n = 53.");
+  }
+
+  function buildMenuCharts() {
+    renderBars("chart-fruit", rowsFromOptions(D["04_fruit"], 53), "Fruits wanted, pick up to 5. n = 53.");
+    renderBars("chart-veg", rowsFromOptions((R.veg || []), 53), "Greens and vegetables, pick up to 3. n = 53.");
+    renderBars("chart-addons", rowsFromOptions(D["04_addons"], 53), "Add-ons of interest, select all that apply. n = 53.");
+    renderBars("chart-base", rowsFromOptions(D["04_base"], 53), "Preferred bases, pick up to 3. n = 53.");
+  }
+
+  function buildPlaceCharts() {
+    renderBars("chart-where", rowsFromOptions(D["04_where"], 53), "Where to buy or pick up, pick up to 2. n = 53.");
+    renderBars("chart-occasion", rowsFromOptions(D["04_occasion"], 53), "Occasions for a smoothie, pick up to 3. n = 53.");
+  }
+
+  /* ---------- price topic ---------- */
+  var PRICE_LABELS = {
+    "Max for any drink (Q3)": "Most for any drink on campus",
+    "Usual spend today (Q5)": "Usual spend on one drink today",
+    "Max for smoothie+1 add-on (Q23)": "Most for a smoothie with one add-on",
+    "Extra per add-on (Q18)": "Extra per additional add-on"
+  };
+
+  function buildPriceRows() {
+    var host = document.getElementById("price-rows");
+    if (!host) return;
+    (D["03_price_summary"] || []).forEach(function (r) {
+      var row = el("div", "price-row");
+      row.appendChild(el("div", "pr-name", PRICE_LABELS[r.variable] || r.variable));
+      row.appendChild(el("div", "pr-main", "HK$" + r.median_clean + " median"));
+      var sub = "Average HK$" + (Math.round(r.mean_clean * 10) / 10) +
+        " · bootstrap range HK$" + Math.round(r.boot_lo) + " to HK$" + Math.round(r.boot_hi) +
+        " · n = " + r.n_clean;
+      if (r.n_blanked) sub += " · " + r.n_blanked + " extreme answer blanked";
+      row.appendChild(el("div", "pr-sub", sub));
+      host.appendChild(row);
+    });
+  }
+
+  function buildCandidateChart() {
+    renderBars("chart-candidates", (D["03_candidate_prices"] || []).map(function (r) {
+      return {
+        label: "HK$" + r.price,
+        value: pct1(r.share),
+        valueLabel: pctLabel(r.share),
+        detail: "would still buy · revenue index " + (Math.round(r.revenue_index * 10) / 10)
+      };
+    }), "Candidate prices from the demand curve.");
+  }
+
+  /* ---------- demand curve with price marker ---------- */
+  var dcPoints = [];
+  var dcPrice = 25;
+  var W = 560, H = 300, L = 52, RT = 538, TP = 18, BT = 248;
+  var P_MIN = 10, P_MAX = 60;
+
+  function dcX(p) { return L + (p - P_MIN) / (P_MAX - P_MIN) * (RT - L); }
+  function dcY(s) { return BT - s * (BT - TP); }
+
+  function dcShareAt(p) {
+    for (var i = 0; i < dcPoints.length; i++) {
+      if (dcPoints[i].price === p) return dcPoints[i].share;
+    }
+    return 0;
+  }
+
+  function dcReadout(p) {
+    var s = dcShareAt(p);
+    return "At HK$" + p + ", " + Math.round(s * 100) + "% would still buy";
+  }
+
+  function dcUpdate() {
+    var svg = $("#dc-svg");
+    if (!svg) return;
+    var s = dcShareAt(dcPrice);
+    var mk = $("#dc-marker", svg);
+    var dot = $("#dc-dot", svg);
+    if (mk) { mk.setAttribute("x1", dcX(dcPrice)); mk.setAttribute("x2", dcX(dcPrice)); }
+    if (dot) { dot.setAttribute("cx", dcX(dcPrice)); dot.setAttribute("cy", dcY(s)); }
+    var readout = $("#dc-readout");
+    if (readout) readout.textContent = dcReadout(dcPrice);
+    svg.setAttribute("aria-valuenow", String(dcPrice));
+    svg.setAttribute("aria-valuetext", dcReadout(dcPrice));
+  }
+
+  function dcSetPrice(p) {
+    dcPrice = Math.max(P_MIN, Math.min(P_MAX, Math.round(p)));
+    dcUpdate();
+  }
+
+  function dcPriceFromEvent(e) {
+    var svg = $("#dc-svg");
+    var rect = svg.getBoundingClientRect();
+    var sx = (e.clientX - rect.left) / rect.width * W;
+    var p = P_MIN + (sx - L) / (RT - L) * (P_MAX - P_MIN);
+    return Math.max(P_MIN, Math.min(P_MAX, Math.round(p)));
+  }
+
+  function buildDemandCurve() {
+    dcPoints = D["03_demand_curve"] || (R.price && R.price.demand_curve) || [];
+    var host = document.getElementById("dc-wrap");
+    if (!host || !dcPoints.length) return;
+    P_MIN = dcPoints[0].price;
+    P_MAX = dcPoints[dcPoints.length - 1].price;
+
+    var pts = dcPoints.map(function (d) { return dcX(d.price) + "," + dcY(d.share); }).join(" ");
+    var xTicks = [10, 20, 30, 40, 50, 60].filter(function (p) { return p >= P_MIN && p <= P_MAX; });
+    var yTicks = [0, 0.25, 0.5, 0.75, 1];
+    var best = (D["03_candidate_prices"] || []).reduce(function (a, b) {
+      return (a && a.revenue_index >= b.revenue_index) ? a : b;
+    }, null);
+    dcPrice = best ? best.price : 25;
+
+    var svgHtml = '<svg id="dc-svg" class="dc-svg" viewBox="0 0 ' + W + ' ' + H + '" role="slider" tabindex="0"' +
+      ' aria-label="Price marker on the demand curve" aria-valuemin="' + P_MIN + '" aria-valuemax="' + P_MAX + '"' +
+      ' aria-valuenow="' + dcPrice + '" aria-valuetext="' + dcReadout(dcPrice) + '">';
+    yTicks.forEach(function (t) {
+      svgHtml += '<line x1="' + L + '" y1="' + dcY(t) + '" x2="' + RT + '" y2="' + dcY(t) + '" stroke="#E0CFAF" stroke-width="1"/>';
+      svgHtml += '<text x="' + (L - 8) + '" y="' + (dcY(t) + 4) + '" text-anchor="end" font-size="13" fill="#6B5646">' + Math.round(t * 100) + '%</text>';
+    });
+    xTicks.forEach(function (t) {
+      svgHtml += '<text x="' + dcX(t) + '" y="' + (BT + 22) + '" text-anchor="middle" font-size="13" fill="#6B5646">HK$' + t + '</text>';
+    });
+    svgHtml += '<line x1="' + L + '" y1="' + TP + '" x2="' + L + '" y2="' + BT + '" stroke="#2A1A10" stroke-width="2"/>';
+    svgHtml += '<line x1="' + L + '" y1="' + BT + '" x2="' + RT + '" y2="' + BT + '" stroke="#2A1A10" stroke-width="2"/>';
+    svgHtml += '<polyline points="' + pts + '" fill="none" stroke="#FF8A1F" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>';
+    svgHtml += '<line id="dc-marker" x1="' + dcX(dcPrice) + '" y1="' + TP + '" x2="' + dcX(dcPrice) + '" y2="' + BT + '" stroke="#B0244A" stroke-width="2" stroke-dasharray="6 5"/>';
+    svgHtml += '<circle id="dc-dot" cx="' + dcX(dcPrice) + '" cy="' + dcY(dcShareAt(dcPrice)) + '" r="8" fill="#B0244A" stroke="#FFF4E2" stroke-width="3"/>';
+    svgHtml += '<text x="' + RT + '" y="' + (H - 8) + '" text-anchor="end" font-size="12" fill="#6B5646">price per cup</text>';
+    svgHtml += "</svg>";
+    host.innerHTML = svgHtml;
+
+    var svg = $("#dc-svg", host);
+    var dragging = false;
+    svg.addEventListener("pointerdown", function (e) {
+      dragging = true;
+      if (svg.setPointerCapture) svg.setPointerCapture(e.pointerId);
+      dcSetPrice(dcPriceFromEvent(e));
+    });
+    svg.addEventListener("pointermove", function (e) {
+      if (dragging || e.pointerType === "mouse") dcSetPrice(dcPriceFromEvent(e));
+    });
+    svg.addEventListener("pointerup", function () { dragging = false; });
+    svg.addEventListener("pointercancel", function () { dragging = false; });
+    svg.addEventListener("keydown", function (e) {
+      var step = 0;
+      if (e.key === "ArrowLeft" || e.key === "ArrowDown") step = -1;
+      else if (e.key === "ArrowRight" || e.key === "ArrowUp") step = 1;
+      else if (e.key === "PageDown") step = -5;
+      else if (e.key === "PageUp") step = 5;
+      else if (e.key === "Home") { e.preventDefault(); dcSetPrice(P_MIN); return; }
+      else if (e.key === "End") { e.preventDefault(); dcSetPrice(P_MAX); return; }
+      if (step) { e.preventDefault(); dcSetPrice(dcPrice + step); }
+    });
+    dcUpdate();
+  }
+  /* ---------- buy, segments, sure ---------- */
+  function buildBuyCharts() {
+    var intentRows = (R.intent && R.intent.distribution) || D["05_intent_distribution"] || [];
+    renderBars("chart-intent", intentRows.map(function (r) {
+      return {
+        label: r.intent_raw,
+        value: r.pct,
+        valueLabel: (Math.round(r.pct * 10) / 10) + "%",
+        detail: r.n + " of 53 kept respondents"
+      };
+    }), "Stated purchase intent. n = 53.");
+
+    var themeNames = {
+      taste_enjoyment: "Taste enjoyment", low_need_habit: "Low need or habit", price_value: "Price value",
+      variety_menu: "Variety or menu", convenience_location: "Convenience or location",
+      health_nutrition: "Health or nutrition", freshness_natural: "Freshness or natural",
+      sugar_calorie_worry: "Sugar or calorie worry", curiosity_social: "Curiosity or social",
+      heat_refreshing: "Heat or refreshing", loyalty_discount: "Loyalty or discount",
+      competition_gap: "Competition gap", smoothie_is_food: "Smoothie is food", survey_feedback: "Survey feedback"
+    };
+    var themes = (D["06_theme_counts"] || []).slice().sort(function (a, b) { return b.share_retained - a.share_retained; });
+    renderBars("chart-themes", themes.map(function (r) {
+      return {
+        label: (themeNames[r.theme] || r.theme) + " (" + r.kind + ")",
+        value: pct1(r.share_retained),
+        valueLabel: pctLabel(r.share_retained),
+        detail: r.n_retained + " of " + r.of_retained + " coded answers · 95% range " + rangeLabel(r.lo, r.hi)
+      };
+    }), "Share of coded answers mentioning each theme.");
+  }
+
+  function buildSegmentChart() {
+    renderBars("chart-segments", (D["05_segments"] || []).map(function (r) {
+      return {
+        label: "Segment " + r.segment + ": " + r.label,
+        value: pct1(r.pct_top2),
+        valueLabel: pctLabel(r.pct_top2),
+        detail: "n = " + r.n + " · median max price HK$" + r.median_wtp + " · average intent " +
+          (Math.round(r.intent_mean * 10) / 10) + " out of 5"
+      };
+    }), "Share in each segment who say they would buy.");
+  }
+
+  function fmtP(p) {
+    if (p == null) return "n/a";
+    if (p < 0.001) return "below 0.001";
+    return (Math.round(p * 1000) / 1000) + "";
+  }
+
+  function buildSureContent() {
+    var list = document.getElementById("tier-list");
+    var changing = (D["08_tier_stability"] || []).filter(function (r) { return r.conclusion_changes === "TRUE"; });
+    if (list) {
+      changing.forEach(function (r) {
+        var li = el("li", null, r.test + " on " + r.question +
+          ": p = " + fmtP(r.p_A) + " on all submissions, " + fmtP(r.p_B) + " cleaned, " +
+          fmtP(r.p_C) + " with extreme prices blanked.");
+        li.style.margin = "0 0 8px";
+        list.appendChild(li);
+      });
+      if (!changing.length) list.appendChild(el("li", null, "None in the data table."));
+    }
+
+    var target = (D["09_sample_size_targets"] || []).filter(function (r) {
+      return r.item === "proportion" && r.target.indexOf("8 pp") !== -1 && r.target.indexOf("worst") !== -1;
+    })[0] || { n_needed: 151, recruit: 197 };
+    var have = (R.n && R.n.usable) || 53;
+    var maxV = Math.max(have, target.n_needed);
+    renderBars("chart-samplesize", [
+      {
+        label: "We have " + have + " respondents",
+        value: have / maxV * 100,
+        valueLabel: String(have),
+        detail: "kept after cleaning"
+      },
+      {
+        label: "Needed for plus or minus 8 points",
+        value: target.n_needed / maxV * 100,
+        valueLabel: String(target.n_needed),
+        detail: "recruit " + target.recruit + " to keep that many"
+      }
+    ], "Sample size targets from the analysis.");
+  }
+
+  /* ---------- headline numbers and funnel ---------- */
+  function fillHeadline() {
+    var n = (R.n && R.n.usable) || 53;
+    setText("stat-n", String(n));
+    var it = R.intent || {};
+    if (it.top2 != null) setText("stat-buy", Math.round(it.top2 * 100) + "%");
+    if (it.ci_lo != null && it.ci_hi != null) {
+      setText("stat-buy-ci", "95% CI " + pct1(it.ci_lo) + "% to " + pct1(it.ci_hi) + "%");
+    }
+    var pr = R.price || {};
+    if (pr.median_wtp != null) setText("stat-median", "HK$" + pr.median_wtp);
+    var best = (pr.candidates || D["03_candidate_prices"] || []).reduce(function (a, b) {
+      return (a && a.revenue_index >= b.revenue_index) ? a : b;
+    }, null);
+    if (best) {
+      setText("stat-best", "HK$" + best.price);
+      setText("stat-best-share", Math.round(best.share * 100) + "%");
+    }
+  }
+
+  function setText(id, text) {
+    var e = document.getElementById(id);
+    if (e) e.textContent = text;
+  }
+
+  function fillFunnel() {
+    var funnel = D["01_funnel"] || (R.n && R.n.funnel) || [];
+    if (!funnel.length) return;
+    var host = document.getElementById("funnel-steps");
+    if (host && funnel.length > 1) {
+      host.innerHTML = "";
+      funnel.slice(1).forEach(function (step) {
+        var li = document.createElement("li");
+        li.appendChild(document.createTextNode(step.step + ": "));
+        var b = document.createElement("b");
+        b.textContent = step.n;
+        li.appendChild(b);
+        host.appendChild(li);
+      });
+    }
+    if (funnel.length > 1) {
+      setText("funnel-kept", String(funnel[funnel.length - 1].n));
+      setText("funnel-screened", String(funnel[0].n - funnel[1].n));
+    }
+  }
+  /* ---------- figure lightbox ---------- */
+  function setupLightbox() {
+    var lb = document.getElementById("lightbox");
+    var img = document.getElementById("lb-img");
+    var cap = document.getElementById("lb-caption");
+    var closeBtn = document.getElementById("lb-close");
+    var lastFocus = null;
+
+    function openLb(thumb) {
+      var im = thumb.querySelector("img");
+      if (!im) return;
+      lastFocus = thumb;
+      img.src = im.src;
+      img.alt = im.alt;
+      cap.textContent = im.alt;
+      lb.hidden = false;
+      closeBtn.focus();
+      document.addEventListener("keydown", onKey, true);
+    }
+    function closeLb() {
+      lb.hidden = true;
+      img.src = "";
+      document.removeEventListener("keydown", onKey, true);
+      if (lastFocus) lastFocus.focus();
+    }
+    function onKey(e) {
+      if (e.key === "Escape") { e.preventDefault(); closeLb(); return; }
+      if (e.key === "Tab") {
+        var focusables = [closeBtn, img];
+        var i = focusables.indexOf(document.activeElement);
+        e.preventDefault();
+        var next = e.shiftKey ? (i <= 0 ? focusables.length - 1 : i - 1) : (i === focusables.length - 1 ? 0 : i + 1);
+        focusables[next].focus();
+      }
+    }
+
+    $all("button.fig-thumb").forEach(function (thumb) {
+      thumb.addEventListener("click", function () { openLb(thumb); });
+    });
+    closeBtn.addEventListener("click", closeLb);
+    lb.addEventListener("click", function (e) { if (e.target === lb) closeLb(); });
+  }
+
+  /* ---------- mode tabs (The form / The results) ---------- */
+  function modeFromHash() { return location.hash === "#results" ? "results" : "form"; }
+
+  function setMode(mode, updateHash) {
+    var tabs = $all("[data-mode]");
+    tabs.forEach(function (t) {
+      var on = t.getAttribute("data-mode") === mode;
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      t.tabIndex = on ? 0 : -1;
+    });
+    document.getElementById("panel-form").hidden = mode !== "form";
+    document.getElementById("panel-results").hidden = mode !== "results";
+    if (updateHash && location.hash !== "#" + mode) {
+      history.replaceState(null, "", "#" + mode);
+    }
+  }
+
+  function setupModeTabs() {
+    var tabs = $all("[data-mode]");
+    tabs.forEach(function (t, i) {
+      t.addEventListener("click", function () { setMode(t.getAttribute("data-mode"), true); });
+      t.addEventListener("keydown", function (e) {
+        var next = null;
+        if (e.key === "ArrowRight" || e.key === "ArrowDown") next = (i + 1) % tabs.length;
+        else if (e.key === "ArrowLeft" || e.key === "ArrowUp") next = (i - 1 + tabs.length) % tabs.length;
+        else if (e.key === "Home") next = 0;
+        else if (e.key === "End") next = tabs.length - 1;
+        if (next != null) {
+          e.preventDefault();
+          tabs[next].focus();
+          setMode(tabs[next].getAttribute("data-mode"), true);
+        }
+      });
+    });
+    window.addEventListener("hashchange", function () { setMode(modeFromHash(), false); });
+    setMode(modeFromHash(), false);
+  }
+
+  /* ---------- topic tabs ---------- */
+  function setTopic(topic, focusTab) {
+    var tabs = $all("[data-topic]");
+    tabs.forEach(function (t) {
+      var on = t.getAttribute("data-topic") === topic;
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      t.tabIndex = on ? 0 : -1;
+      if (on && focusTab) t.focus();
+    });
+    $all(".topic-panel").forEach(function (p) {
+      p.hidden = p.id !== "topicpanel-" + topic;
+    });
+  }
+
+  function setupTopicTabs() {
+    var tabs = $all("[data-topic]");
+    tabs.forEach(function (t, i) {
+      t.addEventListener("click", function () { setTopic(t.getAttribute("data-topic"), false); });
+      t.addEventListener("keydown", function (e) {
+        var next = null;
+        if (e.key === "ArrowRight" || e.key === "ArrowDown") next = (i + 1) % tabs.length;
+        else if (e.key === "ArrowLeft" || e.key === "ArrowUp") next = (i - 1 + tabs.length) % tabs.length;
+        else if (e.key === "Home") next = 0;
+        else if (e.key === "End") next = tabs.length - 1;
+        if (next != null) {
+          e.preventDefault();
+          setTopic(tabs[next].getAttribute("data-topic"), true);
+        }
+      });
+    });
+    setTopic("sample", false);
+  }
+
+  /* ---------- init ---------- */
+  fillFunnel();
+  fillHeadline();
+  buildSampleCharts();
+  buildHabitsCharts();
+  buildMattersCharts();
+  buildMenuCharts();
+  buildPlaceCharts();
+  buildPriceRows();
+  buildDemandCurve();
+  buildCandidateChart();
+  buildBuyCharts();
+  buildSegmentChart();
+  buildSureContent();
+  setupLightbox();
+  setupModeTabs();
+  setupTopicTabs();
+})();
+</script>
 </body>
 </html>

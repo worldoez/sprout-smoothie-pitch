@@ -19,7 +19,7 @@
               <span class="fruit-emoji" style="font-size:84px">${f.emoji}</span></div>
             <span style="position:absolute;left:30px;top:50%;transform:translateY(-50%);font-weight:700;font-size:34px;color:#2A1A10;mix-blend-mode:multiply">${f.name}</span>
             <span class="pv" style="position:absolute;right:30px;top:50%;transform:translateY(-50%);font-weight:900;font-size:44px;font-family:var(--font-display)">${pct(f.pct)}</span>
-            <span class="crown" style="position:absolute;right:150px;top:-26px;font-size:60px;opacity:0">👑 <small style="font-size:26px;font-weight:700;vertical-align:middle">Professor's pick</small></span>
+            <span class="crown" style="position:absolute;right:150px;top:-26px;font-size:60px;opacity:0"><span style="display:inline-block;background:#B0244A;color:#FFF4E2;border:4px solid #2A1A10;border-radius:99px;padding:4px 16px;font-size:26px;font-weight:700;vertical-align:middle">Order #1 pick</span></span>
           </div>`).join("")}</div>
       </div>
       <div class="source">04_fruit.csv: share of 53 students who picked each fruit</div>`,

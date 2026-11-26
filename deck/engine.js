@@ -103,7 +103,9 @@
     const s = slides[i];
     const stageChange = prevStage !== null && prevStage !== s.stage;
     busy = true;
+    let swapped = false;
     const swap = () => {
+      if (swapped) return; swapped = true;
       killAll();
       idx = i; stepIdx = 0;
       render(i, $("#slide"));
@@ -116,12 +118,21 @@
       if (window.DeckAudio) DeckAudio.loop(s.music || s.stage, s.musicVol);
       history.replaceState(null, "", "#" + s.n);
       updateUI();
+      if (window.Transitions && !PRINT) Transitions.onEnter(s.n, i);
     };
-    if (transition && stageChange && !toEnd) await liquidWipe(STAGES[s.stage], swap);
-    else if (transition && idx >= 0) await softSwap(swap, toEnd ? -1 : 1);
-    else swap();
-    busy = false;
+    try {
+      const T = window.Transitions, calm = reduceMotion();
+      if (transition && stageChange && !calm && T && T.has(s.stage)) await T.stage(s.stage, swap);
+      else if (transition && stageChange && !calm) await liquidWipe(STAGES[s.stage], swap);
+      else if (transition && idx >= 0 && !calm && T) await T.push(swap, toEnd ? -1 : 1);
+      else if (transition && idx >= 0) await softSwap(swap, toEnd ? -1 : 1, calm);
+      else swap();
+    } catch (e) { console.error(e); }
+    finally { swap(); busy = false; }
   }
+  const reduceMotion = () => !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+  // Presenter pressed a key mid-transition: jump it to its end (swap still runs) and release `busy`.
+  function skipTransition() { if (window.Transitions) Transitions.finish(); }
 
   // Stage change: a wave of the next stage's colour sweeps up the screen.
   function liquidWipe(st, mid) {
@@ -142,18 +153,18 @@
         .set(w, { display: "none" });
     });
   }
-  function softSwap(mid, dir) {
+  function softSwap(mid, dir, calm) {
     return new Promise(res => {
       const el = $("#slide");
       gsap.timeline({ onComplete: res })
-        .to(el, { opacity: 0, x: -40 * dir, duration: 0.18, ease: "power1.in" })
+        .to(el, { opacity: 0, x: calm ? 0 : -40 * dir, duration: 0.18, ease: "power1.in" })
         .add(mid)
-        .fromTo(el, { opacity: 0, x: 40 * dir }, { opacity: 1, x: 0, duration: 0.25, ease: "power2.out" });
+        .fromTo(el, { opacity: 0, x: calm ? 0 : 40 * dir }, { opacity: 1, x: 0, duration: 0.25, ease: "power2.out" });
     });
   }
 
   function next() {
-    if (busy) return;
+    if (busy) { skipTransition(); return; }
     window.DeckAudio && DeckAudio.unlock();
     if (!started) startTimer();
     if (currentTl && currentTl.isActive()) { currentTl.progress(1); return; }
@@ -162,7 +173,7 @@
     enter(idx + 1);
   }
   function prev() {
-    if (busy) return;
+    if (busy) { skipTransition(); return; }
     if (stepIdx > 0) { // rebuild this slide at the previous step
       const target = stepIdx - 1;
       killAll(); render(idx, $("#slide"));
@@ -174,7 +185,7 @@
     }
     enter(idx - 1, { toEnd: true });
   }
-  const go = (i) => enter(i, { transition: true });
+  const go = (i) => { if (busy) { skipTransition(); setTimeout(() => enter(i, { transition: true }), 0); } else enter(i, { transition: true }); };
 
   // ---------- order ----------
   async function refreshOrder(manual) {
@@ -186,6 +197,7 @@
       const s = slides[idx];
       if (s && s.onOrder) s.onOrder($("#slide"), o, ctx);
       if (changed) updateUI();
+      const ob = $("#btn-order"); if (ob) { ob.querySelector(".olabel").textContent = o.source === "example" ? "Order #1: waiting" : `Order #1: ${o.name || "Guest"}`; ob.classList.toggle("live", o.source !== "example"); }
       if (manual || changed) toast(o.source === "example" ? "No live order yet: showing Example Order #1" : `Order #1 loaded: ${o.name}, ${o.drinkName || ""} (${o.source})`);
     } finally { btn && btn.classList.remove("spin"); }
   }
@@ -202,25 +214,59 @@
     started = Date.now(); stageStart = { [slides[idx].stage]: started };
     timerHandle = setInterval(updateTimer, 500);
   }
+  let warned = {};
   function updateTimer() {
-    const el = $("#timer"); if (!el || !started) return;
-    const s = slides[idx], used = Date.now() - (stageStart[s.stage] || Date.now()), budget = stageBudget(s.stage);
-    const total = Date.now() - started;
-    el.innerHTML = `<b>${fmt(total)}</b> / 20:00 <span class="sep"></span><span class="stg">${STAGES[s.stage].name} ${fmt(used)} / ${fmt(budget)}</span>`;
-    el.classList.toggle("warn", used > budget * 0.9 && used <= budget);
-    el.classList.toggle("over", used > budget || total > 18.5 * 60000);
+    const el = $("#timer"); if (!el) return;
+    const s = slides[idx]; if (!s) return;
+    const budget = stageBudget(s.stage);
+    if (!started) { el.querySelector("b").textContent = "0:00"; el.querySelector(".stg").textContent = `${STAGES[s.stage].name} ${fmt(budget)}`; return; }
+    const used = Date.now() - (stageStart[s.stage] || Date.now()), total = Date.now() - started, left = budget - used;
+    el.querySelector("b").textContent = fmt(total);
+    el.querySelector(".stg").textContent = left >= 0 ? `${fmt(left)} left` : `${fmt(-left)} over`;
+    const warn = used > budget * 0.8 && used <= budget, over = used > budget || total > 18.5 * 60000;
+    el.classList.toggle("warn", warn); el.classList.toggle("over", over);
+    cupTimer(s.stage, used, budget);
+  }
+  // On-theme time warning on the slide itself: a small cup that drains during the last 20% of a stage,
+  // wobbles at 90%, and drips when the stage runs over. T hides it.
+  let cupHidden = false;
+  function cupTimer(stage, used, budget) {
+    const c = $("#cuptimer"); if (!c) return;
+    const frac = used / budget, show = !cupHidden && frac >= 0.8;
+    c.classList.toggle("show", show);
+    if (!show) return;
+    const remain = Math.max(0, Math.min(1, (1 - frac) / 0.2));
+    gsap.to(c.querySelector(".ct-fill"), { attr: { y: 30 + (1 - remain) * 76 }, duration: 0.5, overwrite: true });
+    c.querySelector(".ct-fill").setAttribute("fill", STAGES[stage].accent === "#FFF4E2" ? "#B0244A" : (STAGES[stage].bg === "#FF8A1F" ? "#B0244A" : "#FF8A1F"));
+    const left = budget - used;
+    c.querySelector(".ct-label").textContent = left > 0 ? `${Math.ceil(left / 1000)}s` : "wrap up";
+    const key = stage + (frac >= 1 ? "over" : frac >= 0.9 ? "90" : "80");
+    if (!warned[key]) {
+      warned[key] = true;
+      if (frac >= 0.9) gsap.fromTo(c, { rotate: -10 }, { rotate: 0, duration: 0.6, ease: "elastic.out(1.2,0.3)" });
+      if (frac >= 1) gsap.fromTo(c.querySelector(".ct-drip"), { opacity: 1, y: 0 }, { y: 24, opacity: 0, duration: 0.9, repeat: 2, ease: "power1.in" });
+    }
   }
   function updateUI() {
     const s = slides[idx]; if (!s) return;
     $("#counter").textContent = `${idx + 1} / ${slides.length}`;
     $("#stage-name").textContent = STAGES[s.stage].name;
     $("#stage-name").style.setProperty("--dot", STAGES[s.stage].bg);
+    $("#stage-name").style.setProperty("--dotfg", STAGES[s.stage].fg);
     const steps = (s.steps || []).length;
     $("#steps").innerHTML = steps > 1 ? Array.from({ length: steps }, (_, k) => `<i class="${k <= stepIdx ? "on" : ""}"></i>`).join("") : "";
     $("#notes-body").innerHTML = `<h3>${s.n}. ${s.title}</h3><p>${(s.notes || "No notes yet.").replace(/\n/g, "<br>")}</p><p class="meta">Budget ${fmt((s.budget || 0) * 1000)} · step ${stepIdx + 1} of ${steps || 1}</p>`;
     $("#btn-prev").disabled = idx === 0 && stepIdx === 0;
     $("#btn-next").disabled = idx === slides.length - 1 && stepIdx >= steps - 1;
-    $("#progress").style.width = `${((idx + (steps ? (stepIdx + 1) / steps : 1)) / slides.length) * 100}%`;
+    // progress: one segment per stage, coloured, filled up to the current step
+    const segs = $("#progress-segs");
+    if (segs && !segs.childElementCount) segs.innerHTML = Object.keys(STAGES).map(k => { const n = slides.filter(x => x.stage === k).length; return n ? `<i data-st="${k}" style="flex:${n};--c:${STAGES[k].bg}"><b></b></i>` : ""; }).join("");
+    if (segs) segs.querySelectorAll("i").forEach(seg => {
+      const list = slides.map((x, j) => [x, j]).filter(([x]) => x.stage === seg.dataset.st), first = list[0][1], n = list.length;
+      const pos = idx + (steps ? (stepIdx + 1) / steps : 1) - first;
+      seg.querySelector("b").style.width = `${Math.max(0, Math.min(1, pos / n)) * 100}%`;
+      seg.classList.toggle("cur", s.stage === seg.dataset.st);
+    });
     updateTimer();
     document.dispatchEvent(new CustomEvent("deck:state", { detail: state() }));
   }
@@ -330,7 +376,9 @@
       else if (k === "g" || k === "G") toggle("#grid");
       else if (k === "n" || k === "N") toggle("#notes");
       else if (k === "o" || k === "O") { manualOrderPanel(); toggle("#order-panel"); }
+      else if (k === "x" || k === "X") window.Transitions && Transitions.surprise();
       else if (k === "?") toggle("#keys");
+      else if (k === "t" || k === "T") { cupHidden = !cupHidden; toast(cupHidden ? "Time cup hidden" : "Time cup shown"); updateTimer(); }
       else if ((k === "p" || k === "P") && window.DeckRemote) DeckRemote.open();
       else if (k === "Escape") $$(".panel.open, #grid.open").forEach(p => p.classList.remove("open"));
     });

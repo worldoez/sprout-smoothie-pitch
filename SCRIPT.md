@@ -123,6 +123,17 @@ Speaker notes reference the analysis outputs; where a figure was not available i
 - Sources: 02_importance.csv: mean share of 100 points, n = 53
 - Animation: On entry (the only beat) the title slides in, the six baskets bounce up and fruit drops into each pile with a bounce; the Taste basket pulses at the end. No clicks.
 
+## 10.5. Audience game: guess the number
+- Stage: Harvest · Role: R3 · Time: 0:45
+- Kicker: Harvest: your turn
+- Title: Guess the number.
+- Points:
+  1. (QR code + short link + room code; question "What % of the 53 students said they would buy a Sprout smoothie?"; live counter "<b>N</b> guesses"; a 0–100 number line where each phone guess lands as a fruit dot)
+  2. After click: the real answer <b>70%</b> drops onto the line, "Room average: X%. Real answer: 70%." and a podium of the three closest nicknames.
+- Speaker notes: About 45 seconds. Say: "Before I show you the result, guess it. Scan the code, slide to what percent of the 53 students said they would buy, tap Lock in." Let guesses land for about 20 seconds and point at the cluster. Click: guessing closes, the arrow drops on the real answer (70%), read the room average and call the three closest names. If nobody joins, click straight to the answer. Then go on to slide 11 ("7 in 10 said yes").
+- Sources: results.json (top-2-box, n = 53); guesses come from phones via play/index.html (public relay, nicknames only)
+- Animation: On entry the title and QR card pop in; each incoming guess drops onto the number line as a dot with a pop sound and the counter bumps. Click 1: guessing closes, the QR leaves, a berry arrow drops onto 70% with a thunk, the average marker, result line and podium appear. Phones show how close each guess was; podium players get confetti. With no players the podium is replaced by a big 70% card.
+
 ## 11. Would they buy?
 - Stage: Harvest · Role: R3 · Time: 0:40
 - Kicker: Harvest: would they buy?
@@ -256,11 +267,11 @@ Speaker notes reference the analysis outputs; where a figure was not available i
 | --- | --- | --- |
 | Plant | 1–6 | 3:25 |
 | Water | 7–9 | 3:30 |
-| Harvest | 10–12 | 2:00 |
+| Harvest | 10–12 (incl. game 10.5) | 2:45 |
 | Blend | 13–15 | 2:10 |
 | Pour | 16 | 0:35 |
 | Serve | 17–19 | 2:45 |
 | Cheers | 20–21 | 2:00 |
-| **Total** | **1–21** | **16:25** |
+| **Total** | **1–21 (+10.5)** | **17:10** |
 
-Sum of the per-slide budgets above is **16:25** — equal to the figure in PLAN.md and under the 18:30 ceiling (20:00 hard limit leaves 3:35 of buffer).
+Sum of the per-slide budgets above is **17:10** (16:25 plus the 0:45 audience game; PLAN.md still says 16:25) and under the 18:30 ceiling (20:00 hard limit leaves 2:50 of buffer). Drop the game if time is tight.

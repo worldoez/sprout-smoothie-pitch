@@ -10,13 +10,20 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 </head>
 <body>
-<div id="stage"><div id="slide" class="slide"></div></div>
+<div id="stage"><div id="slide" class="slide"></div>
+  <div id="cuptimer" aria-hidden="true"><svg viewBox="0 0 80 110"><defs><clipPath id="ctclip"><path d="M14 30 L66 30 L60 102 Q40 107 20 102 Z"/></clipPath></defs>
+    <path class="ct-straw" d="M46 32 L54 4 L62 4" stroke="#2FA84F" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <g clip-path="url(#ctclip)"><rect class="ct-fill" x="0" y="30" width="80" height="80" fill="#FF8A1F"/></g>
+    <path d="M14 30 L66 30 L60 102 Q40 107 20 102 Z" fill="none" stroke="#2A1A10" stroke-width="5" stroke-linejoin="round"/>
+    <rect x="9" y="25" width="62" height="8" rx="4" fill="#FFF4E2" stroke="#2A1A10" stroke-width="4"/>
+    <circle class="ct-drip" cx="40" cy="104" r="4" fill="#FF8A1F" opacity="0"/></svg><span class="ct-label"></span></div>
+</div>
 <div id="wipe"><svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0 60 Q180 0 360 60 T720 60 T1080 60 T1440 60 V120 H0Z"/></svg><div id="wipe-label"></div></div>
 <div id="print-pages"></div>
 <div id="toast" role="status"></div>
 
 <nav id="toolbar" aria-label="Slideshow controls">
-  <div id="progress"></div>
+  <div id="progress"><div id="progress-segs"></div></div>
   <div class="tb-left">
     <button id="btn-menu" class="tb" title="Menu" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     <span id="stage-name"></span>
@@ -28,8 +35,8 @@
     <button id="btn-next" class="tb" title="Next (→ or space)" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
   </div>
   <div class="tb-right">
-    <span id="timer">0:00 / 20:00</span>
-    <button id="btn-order" class="tb wide" title="Reload Order #1 (R)"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/></svg><span>Reload order</span></button>
+    <span id="timer" title="Total time / 20:00 and time left in this stage"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg><b>0:00</b><span class="tot">/ 20:00</span><span class="stg"></span></span>
+    <button id="btn-order" class="tb wide" title="Reload Order #1 (R)"><i class="od"></i><span class="olabel">Order #1</span><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/></svg></button>
     <button id="btn-remote" class="tb" title="Phone remote: notes + clicker on your phone" aria-label="Phone remote" onclick="DeckRemote.open()"><svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></button>
     <button id="btn-mute" class="tb" title="Sound (M)" aria-label="Toggle sound"><svg viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6L8 10H4z"/><path class="wave1" d="M16 9a4 4 0 0 1 0 6"/></svg></button>
     <button id="btn-grid" class="tb" title="All slides (G)" aria-label="Slide grid"><svg viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg></button>
@@ -54,7 +61,7 @@
 <aside id="order-panel" class="panel"><button class="close">Close</button><h3>Enter Order #1 by hand</h3><div id="order-panel-body"></div></aside>
 <aside id="remote-panel" class="panel"><button class="close">Close</button><h3>Phone remote</h3><div id="remote-body"></div></aside>
 <aside id="keys" class="panel"><button class="close">Close</button><h3>Keyboard</h3>
-  <p><kbd>→</kbd> <kbd>space</kbd> next · <kbd>←</kbd> back · <kbd>F</kbd> fullscreen · <kbd>R</kbd> reload order · <kbd>M</kbd> sound · <kbd>G</kbd> all slides · <kbd>N</kbd> notes · <kbd>O</kbd> enter order · <kbd>P</kbd> phone remote · <kbd>Home</kbd>/<kbd>End</kbd></p>
+  <p><kbd>→</kbd> <kbd>space</kbd> next · <kbd>←</kbd> back · <kbd>F</kbd> fullscreen · <kbd>R</kbd> reload order · <kbd>M</kbd> sound · <kbd>G</kbd> all slides · <kbd>N</kbd> notes · <kbd>O</kbd> enter order · <kbd>P</kbd> phone remote · <kbd>X</kbd> surprise · <kbd>Home</kbd>/<kbd>End</kbd></p>
   <p>Clicking the slide also goes to the next step. A presentation clicker works too (it sends Page Down).</p>
   <p>On a phone or tablet: swipe left/right, or tap the right side for next and the left edge for back.</p></aside>
 
@@ -63,21 +70,25 @@
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mqtt@5.10.1/dist/mqtt.min.js"></script>
 <script src="../content/brand.js"></script>
 <script src="../content/menu.js"></script>
 <script src="../content/data.js"></script>
 <script src="../content/places.js"></script>
 <script src="../shared/art.js"></script>
 <script src="../shared/orders.js"></script>
+<script src="../shared/relay.js"></script>
 <script src="audio.js"></script>
+<script src="music.js"></script>
 <script src="engine.js"></script>
+<script src="transitions.js"></script>
 <script src="remote-host.js"></script>
 <script src="slides/kit.js"></script>
 <!-- One file per story stage. Add slides by copying a Deck.add({...}) block. -->
 <script src="slides/01-plant.js"></script>
 <script src="slides/02-water.js"></script>
 <script src="slides/03-harvest.js"></script>
+<script src="slides/03b-game.js"></script>
 <script src="slides/04-place.js"></script>
 <script src="slides/04-blend.js"></script>
 <script src="slides/05-pour.js"></script>

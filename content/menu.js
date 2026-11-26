@@ -38,7 +38,7 @@ window.CONTENT.menu = {
   ],
   // Fallback when no live order is found
   exampleOrder: {
-    id: "example", name: "Professor", fruits: ["mango", "strawberry"], base: "yogurt",
+    id: "example", name: "Guest", fruits: ["mango", "strawberry"], base: "yogurt",
     addons: ["protein"], size: "M", price: 30, drinkName: "Mango Sunrise", at: "2026-12-01T10:00:00Z", example: true
   }
 };

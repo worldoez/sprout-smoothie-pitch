@@ -1,0 +1,81 @@
+Appendix B: every survey question that was asked, in survey order
+In this section:1 Eligibility
+2 Drink habits and spend
+3 Importance of six factors: 100 points
+4 Agreement statements
+5 Product choices and place
+6 Price and purchase intent
+7 Free text
+8 Demographics
+The full questionnaire as it appears in data/survey.xlsx, grouped by section: 42 numbered questions in 26 blocks. Questions that share one instruction are shown once, with their items listed under it. "Answered (all / cleaned)" counts respondents who answered the question: all submissions that reached it, then the cleaned sample (tier B). Answer options come from the form definition (multiple choice) or from the distinct answers in the data (single choice and ratings).
+1 Eligibility
+No. | Question wording as shown to respondents | Type | Answered, all / cleaned | Answer options and notes | 
+1 | How often are you on the CUHK campus in a typical week? | single choice | 69 / 53 | Rarely or never | 1 to 2 days | 3 to 4 days | Everyday or Almost everydaySCREENING: answering "Rarely or never" ends the form; those respondents are not eligible.
+ | 
+2 | What is your affiliation with CUHK?
+If you are an exchange student, please select the option that best matches your current level of study. | single choice | 65 / 53 | Staff (Professor / Administration / etc.) | Year 4 Undergraduate Student | Year 3 Undergraduate Student | Postgraduate Student | Year 1 Undergraduate Student | Year 2 Undergraduate Student | Year 5+ Undergraduate Student | 
+2 Drink habits and spend
+No. | Question wording as shown to respondents | Type | Answered, all / cleaned | Answer options and notes | 
+3 | What is the most you would pay for a drink on campus? HK$ ____ (0 is allowed) | number in HK$ | 65 / 53 | a number in HK$ (0 allowed) | 
+4 | In a typical week, how many times do you purchase a drink on campus?
+Examples include boba, coffee, smoothies, canteen drinks, and bottled or canned beverages.
+Count drinks purchased separately or as part of a meal (e.g., a drink bought with lunch or dinner). | single choice | 65 / 53 | Never | 1-4 times | 5-9 times | 10-14 times | 
+5 | On average, how much do you spend on one drink on campus? HK$ ____ | number in HK$ | 60 / 50 | a number in HK$ (0 allowed)FORM BUG: people who answered "Never" to drinks per week were still forced to answer this; those answers are blanked.
+ | 
+6 | Which of these have you bought a drink from on campus in the past month? Select all that apply. If none, please select the "Other" option and input "none". | multiple choice, select all that apply | 60 / 50 | CC Kunkle | UC Boba | NA Boba | Cafe Tolo | MC Food | Student-run cafe | Canteens (e.g. iced lemon tea, milk tea) | Sora Zen | Untitled Coffee | SHHO Starbucks | Vending machine | College tuck shop | Other (write-in)FORM BUG: people who answered "Never" to drinks per week were still forced to answer this; those answers are blanked.
+ | 
+7 | When do you (or would you) purchase a drink on campus usually? Select all that apply. | multiple choice, select all that apply | 60 / 50 | Before morning classes (8:00-10:00) | Late morning (10:00-12:00) | Lunchtime (12:00-14:00) | Afternoon classes (14:00-17:00) | Evening (After 17:00) | Other (write-in)FORM BUG: people who answered "Never" to drinks per week were still forced to answer this; those answers are blanked.
+ | 
+8 | What are the main reasons you did not buy a drink on campus for a typical week? Select up to 3. | multiple choice, pick up to 3 | 0 / 0 | FORM BUG: this section was never shown to anyone, so 0 answers were collected (01_why_not_inferred.csv is analyst inference, not student words).
+ | 
+15 | In the past 3 months, have you bought a smoothie anywhere (on or off campus)? | single choice | 65 / 53 | Yes | No | 
+3 Importance of six factors: 100 points
+No. | Question wording as shown to respondents | Type | Answered, all / cleaned | Answer options and notes | 
+9 to 14 | Allocate exactly 100 points across the six factors below to reflect their relative importance to you.
+You may assign 0 to 100 points to each factor. The total across all six factors must equal 100. Higher points indicate greater importance.
+Example shown to respondents: A=40, B=20, C to F=10 each; total 100
+9 Taste10 Healthiness11 Price12 Convenience of location13 Waiting time / queue length14 Freshness of ingredients
+ | 100-point allocation | 65 / 53 | 0 to 100 points per factor; the six factors must total 100 | 
+4 Agreement statements
+No. | Question wording as shown to respondents | Type | Answered, all / cleaned | Answer options and notes | 
+16 to 25 | Please select your level of agreement to the following statements:
+I would pay more for a smoothie made with fresh ingredients than for one made with frozen or pre-mixed ingredients.
+I would like the choice of different cup sizes
+I would be interested in seasonal menu items
+I prefer a shop with a wide variety of smoothie options over a small, focused menu.
+Smoothies would be a healthier choice than most other drinks sold on campus.
+I am concerned that smoothies contain too much sugar.
+As an attention check, please select "Disagree" for this statement. ATTENTION CHECK
+A comfortable place to sit and enjoy my drink is important to me.
+I would use a mobile app to pre-order a smoothie.
+I would join a loyalty points program if one were offered
+ | 1-5 rating (agreement), one item is the attention check | 65 / 53 | Strongly disagree | Disagree | Neutral | Agree | Strongly agreeATTENTION CHECK: the statement tells respondents to select "Disagree"; strict rule = only "Disagree" passes.
+ | 
+30 to 32 | Please select your level of agreement to the following statement:
+I want to be able to add more than one “add-ons” like those from the previous question to my drink.
+I would be willing to pay extra for “add-ons”.
+I would prefer to build my own smoothie rather than choose a ready-made recipe.
+ | 1-5 rating (agreement) | 65 / 53 | Strongly disagree | Disagree | Neutral | Agree | Strongly agree | 
+5 Product choices and place
+No. | Question wording as shown to respondents | Type | Answered, all / cleaned | Answer options and notes | 
+26 | For which occasions would you most likely purchase a smoothie? Select up to 3. | multiple choice, pick up to 3 | 65 / 53 | With breakfast | With lunch | With dinner | As a meal replacement | Afternoon snack | Dessert or treat | After exercise | While studying or working | Hanging out with friends | To cool down in hot weather | Other (write-in) | 
+27 | Which fruits would you most want in a smoothie? Select up to 5. | multiple choice, pick up to 5 | 65 / 53 | Mango | Strawberry | Banana | Pineapple | Apple | Orange | Blueberry | Watermelon | Kiwi | Dragon fruit | Passion fruit | Lychee | Peach | Honeydew melon | Other (write-in) | 
+28 | Which greens or vegetables would you be open to adding? Select up to 3. | multiple choice, pick up to 3 | 65 / 53 | Avocado | Spinach | Kale | Cucumber | Carrot | Celery | Beetroot | Mint | Other (write-in) | 
+29 | Which add-ons would you be interested in? Select all that apply. If none, please select the "Other" option and input "none". | multiple choice, select all that apply | 65 / 53 | Protein powder | Chia seeds | Flaxseed | Oats | Peanut or almond butter | Collagen | Greens powder (wheatgrass or spirulina) | Probiotics | Vitamin boost | Energy boost (matcha or coffee) | Other (write-in) | 
+34 | Which base would you prefer in your smoothie? Select up to 3. | multiple choice, pick up to 3 | 65 / 53 | Fresh milk | Soy milk | Oat milk | Almond milk | Coconut milk | Yogurt | Fruit juice | Tea | Water only | No preference | Other (write-in) | 
+37 | Where on campus would you most prefer to buy or pick up a smoothie? Select up to 2. | multiple choice, pick up to 2 | 65 / 53 | University Station | YIA Building | Central Campus (CC) teaching buildings | LSK Building | College areas (residential colleges) | Near sports facilities | Other (write-in) | 
+6 Price and purchase intent
+No. | Question wording as shown to respondents | Type | Answered, all / cleaned | Answer options and notes | 
+33 | About how much extra would you be willing to pay for each additional add-on? HK$ ____ | number in HK$ | 65 / 53 | a number in HK$ (0 allowed) | 
+35 | Considering the drink options currently available on campus, how likely would you be to purchase the smoothie you created (including the fruits, base, and add-ons selected above) if it were offered at a price you consider fair? | 1-5 rating (likelihood) | 65 / 53 | 2 - Probably would not | 3 - Might or might not | 4 - Probably would | 5 - Definitely would | 
+38 | What is the most you would be willing to pay for one regular-size smoothie with one optional add-on of your choice included (16 oz, about 470 ml) on campus? HK$ ____ | number in HK$ | 65 / 53 | a number in HK$ (0 allowed) | 
+7 Free text
+No. | Question wording as shown to respondents | Type | Answered, all / cleaned | Answer options and notes | 
+36 | Please briefly describe the factors that influenced your answer to the previous question. | free text | 64 / 52 | open text | 
+42 | Is there anything else you would like to add about how you choose a drink on campus, your smoothie preferences, or anything we did not ask about? | free text | 17 / 11 | open text | 
+8 Demographics
+No. | Question wording as shown to respondents | Type | Answered, all / cleaned | Answer options and notes | 
+39 | What is your gender? | single choice | 65 / 53 | Male | Female | Prefer not to say | 
+40 | Which country or region are you from? | single choice | 65 / 53 | Hong Kong (Local) | Canada | Mainland China | singapore | Middle east | Italy | South Korea | UK | Czech Republic | India | South Africa | Scotland | Macau | france | 
+41 | Do you live on campus (in a hall, residence, or staff quarters)? | single choice | 65 / 53 | Yes | No | 
+Sources: data/survey.xlsx (header row), R/00_setup.R (option lists), output/tables/10_question_coverage.csv (answer counts).

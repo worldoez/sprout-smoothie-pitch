@@ -102,7 +102,7 @@
       ${segs.map((s, i) => `<div class="seg ${s.segment === 2 ? "target" : ""}" style="position:absolute;left:${X[i]}px;top:330px;transform:translate(-50%,-50%);text-align:center;color:#FFF4E2">
         <div style="width:${160 + s.n * 9}px;height:${160 + s.n * 9}px;border-radius:50%;margin:0 auto;background:${["#41C163", "#FF8A1F", "#F6C445"][i]};display:grid;place-items:center;font-size:110px">${["💚", "🌿", "💰"][i]}</div>
         <div style="font-family:var(--font-display);font-weight:900;font-size:46px;margin-top:16px">${s.label}</div>
-        <div style="font-size:28px;opacity:.8">${s.n} people · ${Math.round(s.pct_top2 * 100)}% would buy</div></div>`).join("")}
+        <div style="font-size:28px;opacity:.8">${s.n} people, ${Math.round(s.pct_top2 * 100)}% would buy</div></div>`).join("")}
       <div class="pos" style="position:absolute;left:180px;right:180px;bottom:120px;text-align:center;font-family:var(--font-display);font-size:54px;line-height:1.2;color:#FFF4E2"><span class="typed"></span><span class="caret" style="color:#F6C445">|</span></div>
       <div class="badge" style="position:absolute;left:960px;top:70px;transform:translateX(-50%);background:#F6C445;color:#2A1A10;padding:12px 30px;border-radius:99px;font-weight:700;font-size:30px;opacity:0">Our target</div>
       <div class="source" style="color:#FFF4E2">05_segments.csv; positioning line is a placeholder</div>`;

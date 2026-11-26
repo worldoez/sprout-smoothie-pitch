@@ -4,8 +4,9 @@
 
    Click 1 (entry): Earth in space, slowly turning.
    Click 2: the dart flies in, the camera dives to Hong Kong, then satellite zoom to CUHK, THUNK.
-   Click 3: the satellite photo turns "animated"; hotspots + survey shares pop in.
-   Click 4: the verdict card.
+   Click 3: building-level close-up of our pick + "Why here?" card.
+   Click 4: pull back; the satellite photo turns "animated"; hotspots + survey shares pop in.
+   Click 5: the verdict card.
 
    Libraries: three.js r128 (globe), Leaflet 1.9.4 + Esri World Imagery tiles (satellite).
    Places/coordinates: content/places.js. Textures: assets/img/earth/ (NASA Blue Marble).
@@ -94,7 +95,7 @@
     if (prefetched) return; prefetched = true;
     window._sproutTiles = [];
     // landing zooms first (what the audience stares at), then the fly-through zooms
-    for (const z of [16, 17, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6]) {
+    for (const z of [18, 16, 17, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6]) {
       const n = 2 ** z, x = Math.floor((lng + 180) / 360 * n);
       const r = lat * DEG, y = Math.floor((1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2 * n);
       const rx = z >= 16 ? 4 : z >= 12 ? 3 : 2, ry = z >= 16 ? 3 : z >= 12 ? 2 : 1;
@@ -108,7 +109,7 @@
 
   Deck.add({
     n: 13, stage: "blend", title: "Place: a dart from space", budget: 50,
-    notes: "Role 4. Click 2: the dart flies from space into CUHK and sticks at YIA (pause on the thunk).\nClick 3: the photo turns animated; the hotspots are where students want the shop: YIA and Central Campus tie at 47%, colleges 36%.\nClick 4: why YIA. Coordinates are approximate placeholders in content/places.js.",
+    notes: "Role 4. Click 2: the dart flies from space into CUHK and sticks at YIA (pause on the thunk).\nClick 3: close-up of YIA and why it works.\nClick 4: the photo turns animated; the hotspots are where students want the shop: YIA and Central Campus tie at 47%, colleges 36%.\nClick 5: the verdict. Coordinates are approximate placeholders in content/places.js.",
     html: () => `
       <div class="space" style="position:absolute;inset:0;background:#02040A url(../assets/img/earth/night-sky.png) center/cover"></div>
       <canvas class="globe3d" width="1920" height="1080" style="position:absolute;inset:0;width:1920px;height:1080px"></canvas>
@@ -123,12 +124,13 @@
         <div class="s-kicker" style="color:#F6C445">Blend: place</div>
         <h2 class="s-title" style="font-size:110px;margin-top:10px">Where should<br>Sprout live?</h2>
       </div>
+      <div class="why order-card" style="left:90px;top:110px;width:680px;opacity:0"></div>
       <div class="verdict order-card" style="left:90px;bottom:90px;width:660px;opacity:0">
         <div class="who">Our pick</div><h4 class="vt">YIA Building</h4>
         <div class="vlines"></div>
         <div class="src">04_where.csv (n = 53). Students passing between University Station and classes. Second cart at Central Campus in phase 2.</div>
       </div>
-      <div class="source" style="color:#FFF4E2;text-shadow:0 2px 8px rgba(0,0,0,.6)">Earth: NASA Blue Marble · Satellite: Esri World Imagery · 04_where.csv</div>`,
+      <div class="source" style="color:#FFF4E2;text-shadow:0 2px 8px rgba(0,0,0,.6)">Earth: NASA Blue Marble. Satellite: Esri World Imagery. Data: 04_where.csv</div>`,
     steps: [
       // 1. Earth in space
       (el) => {
@@ -144,7 +146,7 @@
       (el) => {
         const g = el._g, m = el._m, P0 = P(), t = P0.spots.find(s => s.key === P0.target);
         const db = el.querySelector(".dart-back");
-        const tl = gsap.timeline({ onComplete: () => { if (m) { m.map.stop(); m.map.setView([t.lat, t.lng], P0.finalZoom, { animate: false }); } } });
+        const tl = gsap.timeline({ onComplete: () => { if (m) { m.map.stop(); m.map.setView([t.lat, t.lng], P0.landZoom || 17.8, { animate: false }); } } });
         tl.to(el.querySelector(".head"), { opacity: 0, x: -60, duration: 0.4 }, 0)
           .add(() => Deck.ctx.sfx("whoosh"), 0)
           .fromTo(db, { x: 2050, y: 1250, scale: 3.4, opacity: 1 }, { x: 960, y: 540, scale: 0.42, duration: 1.7, ease: "power2.in" }, 0)
@@ -162,7 +164,7 @@
           .to(el.querySelector(".sat"), { opacity: 1, duration: 0.3 }, 2.2)
           .to(el.querySelector(".flash"), { opacity: 0, duration: 0.5 }, 2.3)
           .to(el.querySelector(".globe3d"), { opacity: 0, duration: 0.3 }, 2.25)
-          .add(() => { if (m) { m.map.setView([t.lat, t.lng], 6, { animate: false }); m.map.flyTo([t.lat, t.lng], P0.finalZoom, { duration: 2.3, easeLinearity: 0.1 }); } }, 2.2)
+          .add(() => { if (m) { m.map.setView([t.lat, t.lng], 6, { animate: false }); m.map.flyTo([t.lat, t.lng], P0.landZoom || 17.8, { duration: 2.3, easeLinearity: 0.1 }); } }, 2.2)
           .add(() => Deck.ctx.sfx("riser"), 2.3)
           .to(db, { scale: 0.22, duration: 2.3, ease: "power1.in" }, 2.2)
           // impact
@@ -174,10 +176,28 @@
           .to(el.querySelector(".sat"), { x: 10, duration: 0.05, yoyo: true, repeat: 5 }, 4.57);
         return tl;
       },
-      // 3. Satellite photo turns "animated" + hotspots
+      // 3. Close-up: why this spot (building level)
+      (el) => {
+        const W = where(), L = (CONTENT.data["02_likert_summary"] || []).find(r => /pre-order/i.test(r.item));
+        const t = P().spots.find(s => s.key === P().target), st = W.univ_station;
+        el.querySelector(".why").innerHTML = `<div class="who">Close-up</div><h4>Why ${t.name}?</h4>
+          <div class="line"><span>Students who want the shop here</span><span class="ev">${W[t.key] ? Math.round(W[t.key].pct * 100) + "%" : ""}</span></div>
+          ${st ? `<div class="line"><span>University Station, next door</span><span class="ev">${Math.round(st.pct * 100)}%</span></div>` : ""}
+          ${L ? `<div class="line"><span>Would pre-order and pick up on the way</span><span class="ev">${Math.round(L.pct_agree * 100)}%</span></div>` : ""}
+          <div class="src">04_where.csv, 02_likert_summary.csv (n = 53)</div>`;
+        return gsap.timeline()
+          .fromTo(el.querySelector(".why"), { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.5, ease: "back.out(1.8)" })
+          .fromTo(el.querySelector(".ring"), { scale: 0.3, opacity: 0.9 }, { scale: 5, opacity: 0, duration: 1.1, ease: "power2.out", repeat: 1 }, 0)
+          .add(() => Deck.ctx.sfx("chime"), 0.1);
+      },
+      // 4. Pull back: satellite photo turns "animated" + hotspots for every option
       (el) => {
         const m = el._m, W = where(), svg = el.querySelector(".hot"), P0 = P();
-        if (m) { m.map.stop(); const t = P0.spots.find(s => s.key === P0.target); m.map.setView([t.lat, t.lng], P0.finalZoom, { animate: false }); }
+        gsap.to(el.querySelector(".why"), { opacity: 0, x: -60, duration: 0.3 });
+        gsap.to(el.querySelector(".dart-side"), { scale: 0.6, duration: 0.6, ease: "power2.inOut" });
+        if (m) { m.map.stop(); const t = P0.spots.find(s => s.key === P0.target); m.map.setView([t.lat, t.lng], P0.finalZoom, { animate: false });
+          // the map jumps to the wider zoom; scaling it from the old size back to 1 reads as a smooth pull-back
+          gsap.fromTo(el.querySelector(".sat"), { scale: 2 ** ((P0.landZoom || 17.8) - P0.finalZoom), transformOrigin: "50% 50%" }, { scale: 1, duration: 0.9, ease: "power3.inOut" }); }
         const pt = (s) => m ? m.map.latLngToContainerPoint([s.lat, s.lng]) : { x: 960 + (s.lng - 114.2093) * 9000, y: 540 - (s.lat - 22.416) * 9000 };
         svg.innerHTML = P0.spots.map(s => {
           const p = pt(s), r = W[s.key] ? W[s.key].pct : 0, on = s.key === P0.target, lab = `${s.name} ${Math.round(r * 100)}%`;
@@ -206,7 +226,8 @@
       }
     ],
     printFix: (el) => {
-      gsap.set(el.querySelectorAll(".dart-back, .flash, .ring"), { opacity: 0 });
+      gsap.set(el.querySelectorAll(".dart-back, .flash, .ring, .why"), { opacity: 0 });
+      gsap.set(el.querySelector(".dart-side"), { scale: 0.6 });
       gsap.set(el.querySelector(".dart-side"), { opacity: 1, x: 0, y: 0, rotate: -32 });
     }
   });

@@ -32,7 +32,7 @@
           <li><span>Their words became the <b>survey's answer options</b>.</span></li>
         </ul>
       </div>
-      <div class="source">Interview notes (n = 2, exploratory, not part of the survey sample)</div>`,
+      <div class="source" style="color:#FFF4E2;opacity:.85">Interview notes (n = 2, exploratory, not part of the survey sample)</div>`,
     steps: [
       (el) => {
         gsap.set(el.querySelectorAll(".pp li"), { opacity: 0, x: -30 });
@@ -78,13 +78,13 @@
       <div class="pad" style="right:1100px">
         <div class="s-kicker" style="color:#1E7A38">Water: the survey</div>
         <h2 class="s-title tt" style="font-size:100px;margin:14px 0 30px">${n} questions, grown in order.</h2>
-        <div class="qrbox" style="display:flex;gap:28px;align-items:center;margin-bottom:34px">${Kit.qrSVG(Kit.siteURL("survey/index.html"), 230, "#10324A")}<div style="font-size:30px;font-weight:700;max-width:9ch">Scan to see the survey</div></div>
+        <div class="qrbox" style="display:flex;gap:28px;align-items:center;margin-bottom:34px"><a href="../survey/index.html" target="_blank" rel="noopener" data-interactive>${Kit.qrSVG(Kit.siteURL("survey/index.html"), 230, "#10324A")}</a><div style="font-size:30px;font-weight:700;max-width:9ch">Scan or click to see the survey</div></div>
         <ul class="points pp" style="font-size:34px">
           <li><span>Price asked twice: <b>any drink</b> and <b>a smoothie</b>.</span></li>
           <li><span>A hidden <b>attention check</b> caught rushed answers.</span></li>
         </ul>
       </div>
-      <div class="source">10_question_coverage.csv; report section "Survey design"</div>`;
+      <div class="source" style="color:#FFF4E2;opacity:.85">10_question_coverage.csv; report section "Survey design"</div>`;
     },
     steps: [
       (el) => {
