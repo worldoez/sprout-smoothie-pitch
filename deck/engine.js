@@ -197,7 +197,7 @@
       const s = slides[idx];
       if (s && s.onOrder) s.onOrder($("#slide"), o, ctx);
       if (changed) updateUI();
-      const ob = $("#btn-order"); if (ob) { ob.querySelector(".olabel").textContent = o.source === "example" ? "Order #1: waiting" : `Order #1: ${o.name || "Guest"}`; ob.classList.toggle("live", o.source !== "example"); }
+      const ob = $("#btn-order"); if (ob) { ob.querySelector(".olabel").textContent = o.source === "example" ? "#1" : `#1 ${(o.name || "Guest").split(" ")[0].slice(0, 10)}`; ob.title = (o.source === "example" ? "No live order yet" : `Order #1 from ${o.name || "Guest"}`) + ". Click to reload (R)"; ob.classList.toggle("live", o.source !== "example"); }
       if (manual || changed) toast(o.source === "example" ? "No live order yet: showing Example Order #1" : `Order #1 loaded: ${o.name}, ${o.drinkName || ""} (${o.source})`);
     } finally { btn && btn.classList.remove("spin"); }
   }
@@ -219,10 +219,11 @@
     const el = $("#timer"); if (!el) return;
     const s = slides[idx]; if (!s) return;
     const budget = stageBudget(s.stage);
-    if (!started) { el.querySelector("b").textContent = "0:00"; el.querySelector(".stg").textContent = `${STAGES[s.stage].name} ${fmt(budget)}`; return; }
+    if (!started) { el.querySelector("b").textContent = "0:00"; el.querySelector(".stg").textContent = fmt(budget); return; }
     const used = Date.now() - (stageStart[s.stage] || Date.now()), total = Date.now() - started, left = budget - used;
     el.querySelector("b").textContent = fmt(total);
-    el.querySelector(".stg").textContent = left >= 0 ? `${fmt(left)} left` : `${fmt(-left)} over`;
+    el.querySelector(".stg").textContent = left >= 0 ? fmt(left) : "+" + fmt(-left);
+    el.title = `Talk time ${fmt(total)} of 20:00. ${STAGES[s.stage].name}: ${left >= 0 ? fmt(left) + " left" : fmt(-left) + " over"}`;
     const warn = used > budget * 0.8 && used <= budget, over = used > budget || total > 18.5 * 60000;
     el.classList.toggle("warn", warn); el.classList.toggle("over", over);
     cupTimer(s.stage, used, budget);

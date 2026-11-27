@@ -30,13 +30,16 @@
     <span id="steps"></span>
   </div>
   <div class="tb-mid">
-    <button id="btn-prev" class="tb" title="Back (←)" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
-    <span id="counter">1 / 1</span>
-    <button id="btn-next" class="tb" title="Next (→ or space)" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    <div class="navpill">
+      <button id="btn-prev" class="tb" title="Back (←)" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <span id="counter">1 / 1</span>
+      <button id="btn-next" class="tb" title="Next (→ or space)" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
   </div>
   <div class="tb-right">
-    <span id="timer" title="Total time / 20:00 and time left in this stage"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg><b>0:00</b><span class="tot">/ 20:00</span><span class="stg"></span></span>
-    <button id="btn-order" class="tb wide" title="Reload Order #1 (R)"><i class="od"></i><span class="olabel">Order #1</span><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/></svg></button>
+    <span id="timer" title="Talk time of 20:00, and time left in this stage"><b>0:00</b><span class="stg"></span></span>
+    <button id="btn-order" class="tb wide" title="Reload Order #1 (R)"><i class="od"></i><span class="olabel">#1</span></button>
+    <i class="tb-div" aria-hidden="true"></i>
     <button id="btn-remote" class="tb" title="Phone remote: notes + clicker on your phone" aria-label="Phone remote" onclick="DeckRemote.open()"><svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></button>
     <button id="btn-mute" class="tb" title="Sound (M)" aria-label="Toggle sound"><svg viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6L8 10H4z"/><path class="wave1" d="M16 9a4 4 0 0 1 0 6"/></svg></button>
     <button id="btn-grid" class="tb" title="All slides (G)" aria-label="Slide grid"><svg viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg></button>

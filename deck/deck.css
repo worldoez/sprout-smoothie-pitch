@@ -192,3 +192,43 @@ body.print #print-pages { display: block; }
 body.print #cuptimer { display: none; }
 @media (max-width: 900px) { #timer .tot { display: none; } }
 @media (max-width: 760px), (pointer: coarse) and (max-height: 520px) { #btn-order .olabel { display: none; } #btn-order.wide { padding: 0 10px; } }
+
+/* ===== Toolbar v3: quieter, grouped ===== */
+#toolbar { height: calc(52px + env(safe-area-inset-bottom)); font-size: 13px; }
+.tb { height: 34px; min-width: 34px; border-radius: 9px; }
+.tb svg { width: 18px; height: 18px; }
+#stage-name { padding: 4px 10px 4px 9px; font-size: 12px; }
+/* Back · counter · Next as one control */
+.navpill { display: inline-flex; align-items: center; gap: 2px; padding: 3px; border-radius: 99px; background: rgba(255,244,226,.07); }
+.navpill .tb { border-radius: 99px; height: 32px; min-width: 36px; }
+.navpill #counter { min-width: 58px; font-size: 13px; font-weight: 700; opacity: .9; }
+.navpill #btn-next { background: var(--mango); color: #2A1A10; min-width: 44px; box-shadow: none; }
+.navpill #btn-next:hover { background: #FF9A3A; }
+/* Timer: total, then this stage's remaining time as a small tag */
+#timer { gap: 8px; padding: 0 4px 0 10px; height: 30px; background: none; font-size: 12px; opacity: 1; margin-right: 2px; }
+#timer b { font-size: 14px; font-weight: 700; color: #FFF4E2; }
+#timer .stg { border: 0; margin: 0; padding: 3px 8px; border-radius: 99px; background: rgba(255,244,226,.08); color: rgba(255,244,226,.75); font-weight: 600; }
+#timer.warn, #timer.over { background: none; animation: none; }
+#timer.warn .stg { background: rgba(246,196,69,.2); color: #F6C445; }
+#timer.over .stg { background: rgba(255,107,107,.22); color: #FF9C9C; }
+#timer.over b { color: #FF9C9C; }
+/* Order: a small status chip */
+#btn-order.wide { height: 28px; padding: 0 10px 0 8px; gap: 6px; border-radius: 99px; font-size: 12px; font-weight: 700; background: rgba(255,244,226,.07); color: rgba(255,244,226,.85); }
+#btn-order .od { width: 7px; height: 7px; }
+#btn-order.live .od { box-shadow: 0 0 0 2px rgba(74,222,128,.25); }
+#btn-order.spin .od { animation: odpulse .6s ease-in-out infinite alternate; }
+@keyframes odpulse { to { opacity: .2; } }
+.tb-div { width: 1px; height: 20px; background: rgba(255,244,226,.14); margin: 0 6px; }
+.tb-right > .tb:not(.wide) { opacity: .7; }
+@media (max-width: 900px) { #btn-order .olabel { display: inline; } }
+@media (max-width: 760px), (pointer: coarse) and (max-height: 520px) {
+  #toolbar { height: calc(62px + env(safe-area-inset-bottom)); }
+  .tb { height: 44px; min-width: 44px; }
+  .tb svg { width: 22px; height: 22px; }
+  .navpill .tb { height: 44px; min-width: 56px; }
+  #btn-prev { background: transparent; }
+  .tb-div { display: none; }
+  #btn-order.wide { height: 32px; padding: 0 10px; }
+  #btn-order .olabel { display: inline; max-width: 4.5em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #timer .stg { display: none; }
+}
