@@ -95,14 +95,37 @@
   const $ = (s) => document.querySelector(s);
   const params = new URLSearchParams(location.search);
   let code = (params.get("code") || "").toUpperCase(), st = null, offset = 0, relay = null, lastState = 0;
-  const buzz = () => { try { navigator.vibrate && navigator.vibrate(12); } catch {} };
+  // Haptics: Android uses navigator.vibrate; iPhone (iOS 18+) has no vibrate API, but toggling a
+  // hidden <input switch> inside a tap gives a system haptic tick, so we use that as the fallback.
+  const canVibrate = typeof navigator.vibrate === "function";
+  const iosTick = (() => {
+    if (canVibrate) return null;
+    const l = document.createElement("label"), i = document.createElement("input");
+    i.type = "checkbox"; i.setAttribute("switch", ""); l.appendChild(i);
+    l.style.cssText = "position:fixed;left:-9999px;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none";
+    l.setAttribute("aria-hidden", "true"); document.body.appendChild(l);
+    return () => l.click();
+  })();
+  const buzz = (pattern = 30) => {
+    try {
+      if (canVibrate) { navigator.vibrate(pattern); return; }
+      if (!iosTick) return;
+      const n = Array.isArray(pattern) ? Math.ceil(pattern.length / 2) : 1;
+      for (let k = 0; k < n; k++) setTimeout(iosTick, k * 120);
+    } catch {}
+  };
+  const HAPTIC = { next: 35, prev: [20, 50, 20] };
+  // Buzz the moment a finger lands on any button, so it feels instant.
+  document.addEventListener("pointerdown", (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    buzz(b.id === "next" ? HAPTIC.next : b.id === "back" ? HAPTIC.prev : 20);
+  }, { passive: true });
   const fmt = (ms) => { const s = Math.max(0, Math.floor(ms / 1000)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; };
   const esc = (t) => String(t || "").replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
   function pill(s, text) { $("#pill").dataset.s = s; $("#pilltext").textContent = text; }
 
   function send(cmd, extra) {
     if (relay) relay.send("cmd", Object.assign({ cmd }, extra || {}));
-    buzz();
   }
 
   function render(s) {
