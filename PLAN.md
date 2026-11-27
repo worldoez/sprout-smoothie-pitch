@@ -83,8 +83,7 @@ Orders go live over the public relay (`shared/relay.js`) from the order app stra
 
 1. **Placing the order.** The professor scans the QR on slide 4, which opens the order app linked to the deck's room code. Placing the order sends it over the public relay (shared/relay.js, MQTT over WebSocket); the deck shows it within a second or two and acknowledges it. No GitHub token. Fallbacks: O key to type it in, or the example order.
 2. **Saving.** The app keeps a copy on the phone, sends the order to the deck's room, waits for the deck's acknowledgement, then shows a pickup ticket.
-3. **Reading in the deck.** The deck runs `fetch()` automatically when a slide that shows the order opens (slides 14, 15, 16, 18), and when you press **Reload Order** in the toolbar or the R key. Only the data changes, not the page.
-4. **Freshness.** The deck reads through the API endpoint (not the cached raw file), so a new order shows within seconds. That allows 60 unauthenticated reads an hour, which is plenty.
+3. **Showing in the deck.** The deck listens on its room the whole time; the order appears (with a chime and a toast) on whatever slide is up, and the order slides (14, 15, 16, 18) use it. The R key or the #1 chip re-reads the saved copy. Only the data changes, not the page.
 
 **Backups:**
 - "Example Order #1" loads if nothing is fetched.
