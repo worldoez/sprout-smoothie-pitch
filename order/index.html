@@ -38,22 +38,13 @@
       <div class="backdrop" id="sheetBackdrop"></div>
       <section class="sheet" id="sheet" role="dialog" aria-modal="true"></section>
     </div>
-    <dialog id="tokenDlg">
-      <form method="dialog">
-        <h3 class="display">Stage connection</h3>
-        <p>Paste a GitHub token (Contents read and write, this repo only) so orders reach the stage screen. It stays on this phone.</p>
-        <input id="tokenIn" type="password" placeholder="github_pat_..." autocomplete="off">
-        <div class="row">
-          <button class="btn ghost" value="cancel">Cancel</button>
-          <button class="btn leaf" id="tokenSave" value="ok">Save</button>
-        </div>
-      </form>
-    </dialog>
   </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 <script src="../content/brand.js"></script>
 <script src="../content/menu.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mqtt@5.10.1/dist/mqtt.min.js"></script>
+<script src="../shared/relay.js"></script>
 <script src="../shared/orders.js"></script>
 <script src="../shared/art.js"></script>
 <script src="order.js"></script>

@@ -10,6 +10,7 @@ window.CONTENT.brand = {
     berry: "#B0244A", ink: "#2A1A10", soil: "#5B3A22", sky: "#8FD3F4", gold: "#F6C445"
   },
   // GitHub repo that stores orders (data/orders.json). Fill in after creating the repo.
+  // Unused since orders moved to the live relay (shared/orders.js); kept for reference.
   repo: { owner: "worldoez", name: "sprout-smoothie-pitch", branch: "main", path: "data/orders.json" },
   // Drop files into assets/audio/ with these names. Missing files fall back to synth sounds.
   audio: {

@@ -198,7 +198,7 @@
       if (s && s.onOrder) s.onOrder($("#slide"), o, ctx);
       if (changed) updateUI();
       const ob = $("#btn-order"); if (ob) { ob.querySelector(".olabel").textContent = o.source === "example" ? "#1" : `#1 ${(o.name || "Guest").split(" ")[0].slice(0, 10)}`; ob.title = (o.source === "example" ? "No live order yet" : `Order #1 from ${o.name || "Guest"}`) + ". Click to reload (R)"; ob.classList.toggle("live", o.source !== "example"); }
-      if (manual || changed) toast(o.source === "example" ? "No live order yet: showing Example Order #1" : `Order #1 loaded: ${o.name}, ${o.drinkName || ""} (${o.source})`);
+      if (manual || changed) toast(o.source === "example" ? "No live order yet: showing Example Order #1" : `Order #1 ${o.source === "live" ? "arrived" : "loaded"}: ${o.name}, ${o.drinkName || ""}`);
     } finally { btn && btn.classList.remove("spin"); }
   }
 
@@ -332,6 +332,8 @@
     $("#btn-grid").onclick = () => toggle("#grid");
     $("#btn-full").onclick = fullscreen;
     $("#btn-order").onclick = () => refreshOrder(true);
+    // Live orders: the phone sends Order #1 over the relay; it shows up here without pressing anything.
+    if (window.SproutOrders.listen) SproutOrders.listen(() => { refreshOrder(false); window.DeckAudio && DeckAudio.sfx("chime"); });
     $("#btn-mute").onclick = () => { const m = DeckAudio.toggleMute(); $("#btn-mute").classList.toggle("off", m); toast(m ? "Sound off" : "Sound on"); };
     $("#btn-menu").onclick = (e) => { e.stopPropagation(); toggle("#menu"); };
     document.addEventListener("click", (e) => { if (!e.target.closest("#menu")) toggle("#menu", false); });
@@ -346,6 +348,7 @@
       if (act === "keys") toggle("#keys");
       if (act === "restart") { started = null; clearInterval(timerHandle); stageStart = {}; go(0); toast("Timer reset"); }
       if (act === "home") location.href = "../index.html";
+      if (act === "fresh") { SproutOrders.reset(); location.reload(); }
       if (act === "remote" && window.DeckRemote) DeckRemote.open();
     };
     $$(".panel .close").forEach(b => b.onclick = () => b.closest(".panel").classList.remove("open"));

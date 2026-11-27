@@ -16,7 +16,7 @@ Read `PLAN.md` first (the vision, the 21-slide storyline, the order system).
 | Menu: fruit, bases, add-ons (fancy names), sizes, prices | `content/menu.js` |
 | Survey numbers (auto-generated, don't hand-edit) | `content/data.js` |
 | Mascot + cup SVG (keep class names when replacing art) | `shared/art.js` |
-| Order storage (GitHub API) | `shared/orders.js`, `data/orders.json` |
+| Orders (live over the relay) | `shared/orders.js`, `shared/relay.js` |
 | Deck engine (steps, transitions, toolbar, timer, print) | `deck/engine.js`, `deck/deck.css` |
 | Slide helpers (content layout, bars, QR, order card, splat) | `deck/slides/kit.js` |
 | Audio (synth fallbacks until mp3 files exist) | `deck/audio.js`, `assets/audio/` |

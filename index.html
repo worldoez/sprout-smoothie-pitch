@@ -89,7 +89,9 @@ h1.logo i { color: var(--leaf); font-style: italic; }
   });
 
   // QR
-  if (location.protocol !== "file:" && window.qrcode) {
+  // No "scan with your phone" QR when you're already on a phone or tablet; the card just opens the app.
+  var onPhone = window.matchMedia("(hover: none) and (pointer: coarse)").matches || window.matchMedia("(max-width: 760px)").matches;
+  if (!onPhone && location.protocol !== "file:" && window.qrcode) {
     try {
       var url = new URL("order/index.html", location.href).href;
       var q = qrcode(0, "M"); q.addData(url); q.make();

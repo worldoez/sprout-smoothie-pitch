@@ -290,19 +290,16 @@
 
   // ---------- me ----------
   function renderMe(dir) {
-    var on = !!window.SproutOrders.getToken();
+    var on = window.SproutOrders.linked();
     show(
       '<h2 class="h2 display">Me</h2>' +
       '<a class="me-row" href="../index.html">' + ICON.home +
       '<span class="body">Back to Sprout home page<span class="sub">The pitch site and the big deck</span></span></a>' +
-      '<button type="button" class="me-row" id="stageRow">' + ICON.link +
-      '<span class="body">Stage connection<span class="sub">' + (on ? "Orders go to the stage screen" : "Not connected yet") + "</span></span>" +
-      '<span class="dot' + (on ? " on" : "") + '"></span></button>' +
-      '<p class="me-note">Orders are saved on this phone first. With a GitHub token they also reach the stage screen at the stall.</p>',
-      dir,
-      function (el) {
-        el.querySelector("#stageRow").addEventListener("click", openToken);
-      }
+      '<div class="me-row" id="stageRow">' + ICON.link +
+      '<span class="body">Stage connection<span class="sub">' + (on ? "Linked: your order goes straight to the big screen" : "Not linked. Scan the QR on the slide to link") + "</span></span>" +
+      '<span class="dot' + (on ? " on" : "") + '"></span></div>' +
+      '<p class="me-note">Orders are saved on this phone. When you open the app from the QR on the slide, they also appear on the big screen.</p>',
+      dir
     );
   }
 
@@ -579,7 +576,7 @@
   }
 
   function ticket(res, lines, total, name) {
-    var where = res && res.where === "github" ? "Sent to the stage screen" : "Saved on this phone";
+    var where = res && res.where === "stage" ? "On the big screen now" : res && res.where === "sent" ? "Sent to the big screen" : "Saved on this phone";
     var c = cupColors(lines[0].fruits);
     show(
       '<div class="ticket">' +
@@ -593,7 +590,7 @@
           "<span>HK$" + it.price + "</span></div>";
       }).join("") +
       '<div class="tot"><span>Total</span><span>HK$' + total + "</span></div></div>" +
-      '<div class="saved' + (res && res.where === "github" ? "" : " local") + '">' + where + "</div>" +
+      '<div class="saved' + (res && res.where !== "local" ? "" : " local") + '">' + where + "</div>" +
       '<button type="button" class="btn ghost again" id="againBtn">Order again</button></div>',
       "push",
       function (el) {
@@ -615,17 +612,6 @@
       }
     );
   }
-
-  // ---------- token dialog ----------
-  var dlg = $("#tokenDlg");
-  function openToken() {
-    $("#tokenIn").value = window.SproutOrders.getToken();
-    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
-  }
-  $("#tokenSave").addEventListener("click", function () {
-    window.SproutOrders.setToken($("#tokenIn").value || "");
-    if (state.tab === "me") renderMe("fade");
-  });
 
   // ---------- boot ----------
   $("#tabs").addEventListener("click", function (e) {

@@ -79,10 +79,10 @@ There are 21 slides in 7 stages, running 16:25. That leaves 3:35 of buffer under
 
 ## 5. Professor's Order #1
 
-Orders are saved to `data/orders.json` in the GitHub repo through the GitHub Contents API, the same pattern as the strategy-in-the-news site. The deck fetches the file in the background and **never reloads the page**, so fullscreen and the current slide stay put.
+Orders go live over the public relay (`shared/relay.js`) from the order app straight to the deck. The deck **never reloads the page**, so fullscreen and the current slide stay put.
 
-1. **Placing the order.** The professor orders on *our* phone. That phone holds a fine-grained GitHub token (Contents: read/write, this repo only), entered once via the key icon and kept in localStorage. The token is never in the public code.
-2. **Saving.** The app sends a PUT request that adds the order to `orders.json`, then shows a pickup ticket.
+1. **Placing the order.** The professor scans the QR on slide 4, which opens the order app linked to the deck's room code. Placing the order sends it over the public relay (shared/relay.js, MQTT over WebSocket); the deck shows it within a second or two and acknowledges it. No GitHub token. Fallbacks: O key to type it in, or the example order.
+2. **Saving.** The app keeps a copy on the phone, sends the order to the deck's room, waits for the deck's acknowledgement, then shows a pickup ticket.
 3. **Reading in the deck.** The deck runs `fetch()` automatically when a slide that shows the order opens (slides 14, 15, 16, 18), and when you press **Reload Order** in the toolbar or the R key. Only the data changes, not the page.
 4. **Freshness.** The deck reads through the API endpoint (not the cached raw file), so a new order shows within seconds. That allows 60 unauthenticated reads an hour, which is plenty.
 
@@ -114,7 +114,6 @@ PRESENTATION/
   assets/figures/       copied from ../output/figures
   tools/sync_data.py    rebuilds content/data.js from the R outputs
   tools/export/         Playwright scripts: PDF, MP4 per slide, PPTX
-  data/orders.json      order storage
 ```
 
 - **Content as `.js` files** (`window.CONTENT = {...}`) so the site also runs opened straight from disk.
@@ -161,7 +160,7 @@ The Export entry in the deck menu opens print mode for PDF; PPTX and MP4 are mad
 | Wi-Fi fails in the room | Example Order #1 + O-key panel; all libraries can be vendored into `shared/vendor/` |
 | Professor declines to order | Use Example Order #1; ask the instructor in advance |
 | Overrun | Section timer turns amber at 90% of each budget; every beat skippable |
-| Token leak | Token only on our phone, fine-grained, one repo, contents only; revoke after the talk |
+| Relay blocked on campus Wi-Fi | Three brokers at once; laptop on a phone hotspot; O key to type the order in |
 | Browser blocks audio | Audio starts on first click; a mute button is always visible |
 
 **Open decisions for the team:** final brand name, slogan and mascot; the fancy add-on names; whether Competition moves into Plant; whether the reveal happens at slide 16; the CUHK spot for the dart; Booster Juice facts (need sources).
