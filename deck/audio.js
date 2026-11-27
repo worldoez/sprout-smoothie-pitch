@@ -171,6 +171,43 @@
     }
   }
 
+  // Dart flight from space (slide 13), timed to its 4.57 s animation:
+  // 0–1.7 s the dart streaks in, fins fluttering, air tearing past; 2.15 s it punches through the
+  // atmosphere (boom); 2.2–4.45 s a falling whistle as it dives to campus; 4.45 s close fly-by.
+  function dartFlightSound() {
+    const c = ac(), out = OUT(); if (!c || !out) return;
+    const now = c.currentTime;
+    // 1) rushing air with fin flutter (tremolo) that speeds up as the dart nears
+    const src = c.createBufferSource(); src.buffer = getNoise(c); src.loop = true;
+    const bp = c.createBiquadFilter(); bp.type = "bandpass"; bp.Q.value = 1.4;
+    bp.frequency.setValueAtTime(350, now); bp.frequency.exponentialRampToValueAtTime(2600, now + 1.7);
+    bp.frequency.exponentialRampToValueAtTime(700, now + 2.3); bp.frequency.exponentialRampToValueAtTime(3800, now + 4.45);
+    const g = c.createGain(); g.gain.setValueAtTime(0.0001, now);
+    g.gain.exponentialRampToValueAtTime(0.32, now + 1.5); g.gain.exponentialRampToValueAtTime(0.12, now + 2.4);
+    g.gain.exponentialRampToValueAtTime(0.38, now + 4.4); g.gain.exponentialRampToValueAtTime(0.0001, now + 4.6);
+    const trem = c.createGain(); trem.gain.value = 0.65;
+    const lfo = c.createOscillator(), lfoG = c.createGain(); lfo.type = "triangle";
+    lfo.frequency.setValueAtTime(7, now); lfo.frequency.exponentialRampToValueAtTime(22, now + 1.7);
+    lfo.frequency.setValueAtTime(14, now + 2.2); lfo.frequency.exponentialRampToValueAtTime(34, now + 4.45);
+    lfoG.gain.value = 0.35; lfo.connect(lfoG).connect(trem.gain);
+    let tail = g;
+    if (c.createStereoPanner) { const pn = c.createStereoPanner(); pn.pan.setValueAtTime(0.7, now); pn.pan.linearRampToValueAtTime(0, now + 1.7); pn.pan.linearRampToValueAtTime(-0.3, now + 4.4); g.connect(pn); tail = pn; }
+    src.connect(bp).connect(trem).connect(g); tail.connect(out);
+    src.start(now); lfo.start(now); src.stop(now + 4.7); lfo.stop(now + 4.7);
+    // 2) incoming whine (pitch falls slightly as it streaks away into the screen)
+    tone({ f: 2400, f2: 1300, t: 1.7, type: "sine", vol: 0.05, attack: 0.4 });
+    tone({ f: 2412, f2: 1306, t: 1.7, type: "sine", vol: 0.03, attack: 0.4 });
+    // 3) atmosphere entry: low boom + crackle at the flash
+    tone({ f: 70, f2: 32, t: 0.9, type: "sine", vol: 0.5, delay: 2.12, attack: 0.01 });
+    noise({ t: 0.6, vol: 0.3, from: 2200, to: 180, delay: 2.12, attack: 0.005 });
+    for (let i = 0; i < 10; i++) noise({ t: 0.02, vol: rand(0.06, 0.16), from: rand(2500, 5000), to: rand(1500, 3000), type: "highpass", delay: 2.15 + rand(0, 0.45), pan: rand(-0.7, 0.7) });
+    // 4) the classic falling whistle while it dives to campus
+    tone({ f: 1900, f2: 520, t: 2.25, type: "sine", vol: 0.09, delay: 2.2, attack: 0.3 });
+    tone({ f: 3800, f2: 1040, t: 2.25, type: "triangle", vol: 0.018, delay: 2.2, attack: 0.3 });
+    // 5) close fly-by right before the THUNK
+    noise({ t: 0.18, vol: 0.4, from: 900, to: 5200, type: "bandpass", q: 1.4, delay: 4.38, pan: 0.6, panTo: -0.6, attack: 0.02 });
+  }
+
   const SYNTH = {
     pop: () => { tone({ f: 480, f2: 1120, t: 0.12, type: "triangle", vol: 0.32 }); tone({ f: 240, f2: 560, t: 0.1, type: "sine", vol: 0.2 }); },
     click: () => { tone({ f: 1500, t: 0.03, type: "square", vol: 0.06, detune: 30 }); noise({ t: 0.02, vol: 0.09, from: 3200, to: 2400, type: "highpass" }); },
@@ -193,6 +230,7 @@
     pour: () => { liquidNoise({ t: 1.35, vol: 0.28, min: 480, max: 1150, q: 2.4, sweeps: 12 }); droplets(4, 0.15, 0.12); thump({ f: 115, f2: 68, t: 0.22, vol: 0.2, delay: 1.15 }); },
     water: () => { liquidNoise({ t: 1.15, vol: 0.23, min: 950, max: 2600, q: 1.8, sweeps: 11 }); droplets(4, 0.1, 0.15); },
     blender: () => blenderSound(2.4),
+    dartflight: () => dartFlightSound(),
     sparkle: () => [1568, 2093, 2637, 3136].forEach((f, i) => tone({ f, t: 0.2, type: "sine", vol: 0.085, delay: i * 0.055, detune: 20 })),
     seed: () => { tone({ f: 660, f2: 205, t: 0.18, type: "sine", vol: 0.24 }); noise({ t: 0.1, vol: 0.3, from: 520, to: 95, delay: 0.18 }); tone({ f: 1320, f2: 660, t: 0.07, type: "triangle", vol: 0.06, delay: 0.02 }); },
     cheer: () => {

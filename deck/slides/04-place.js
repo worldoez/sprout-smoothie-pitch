@@ -148,7 +148,7 @@
         const db = el.querySelector(".dart-back");
         const tl = gsap.timeline({ onComplete: () => { if (m) { m.map.stop(); m.map.setView([t.lat, t.lng], P0.landZoom || 17.8, { animate: false }); } } });
         tl.to(el.querySelector(".head"), { opacity: 0, x: -60, duration: 0.4 }, 0)
-          .add(() => Deck.ctx.sfx("whoosh"), 0)
+          .add(() => Deck.ctx.sfx("dartflight"), 0)
           .fromTo(db, { x: 2050, y: 1250, scale: 3.4, opacity: 1 }, { x: 960, y: 540, scale: 0.42, duration: 1.7, ease: "power2.in" }, 0)
           .fromTo(db.querySelector(".spin"), { rotate: 0 }, { rotate: 900, duration: 4.6, ease: "none", transformOrigin: "50% 50%" }, 0);
         if (g) {
@@ -165,7 +165,6 @@
           .to(el.querySelector(".flash"), { opacity: 0, duration: 0.5 }, 2.3)
           .to(el.querySelector(".globe3d"), { opacity: 0, duration: 0.3 }, 2.25)
           .add(() => { if (m) { m.map.setView([t.lat, t.lng], 6, { animate: false }); m.map.flyTo([t.lat, t.lng], P0.landZoom || 17.8, { duration: 2.3, easeLinearity: 0.1 }); } }, 2.2)
-          .add(() => Deck.ctx.sfx("riser"), 2.3)
           .to(db, { scale: 0.22, duration: 2.3, ease: "power1.in" }, 2.2)
           // impact
           .set(db, { opacity: 0 }, 4.55)
