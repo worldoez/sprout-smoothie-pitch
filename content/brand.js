@@ -15,7 +15,7 @@ window.CONTENT.brand = {
   },
   // GitHub repo that stores orders (data/orders.json). Fill in after creating the repo.
   // Unused since orders moved to the live relay (shared/orders.js); kept for reference.
-  repo: { owner: "worldoez", name: "sprout-smoothie-pitch", branch: "main", path: "data/orders.json" },
+  repo: { owner: "worldoez", name: "cue-smoothie-pitch", branch: "main", path: "data/orders.json" },
   // Drop files into assets/audio/ with these names. Missing files fall back to synth sounds.
   audio: {
     brandSong: "assets/audio/brand-song.mp3",
