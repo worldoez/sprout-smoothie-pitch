@@ -34,7 +34,7 @@
     const face = [[90, 96, 23, 20], [130, 96, 23, 20], [110, 120, 42, 30]];
     const faceStroke = face.map(([x, y, rx, ry]) => `<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="${TAN}" stroke="${LN}" stroke-width="3.4"/>`).join("");
     const faceFill = face.map(([x, y, rx, ry]) => `<ellipse cx="${x}" cy="${y}" rx="${rx - 1}" ry="${ry - 1}" fill="${TAN}"/>`).join("");
-    const freckles = cx => [[-6, 0], [2, -3], [5, 4], [-1, 6], [-9, 6]].map(([x, y]) => `<circle cx="${cx + x}" cy="${125 + y}" r="1.3" fill="#A8683F"/>`).join("");
+    const freckles = (cx, s = 1) => [[-6, 0], [2, -3], [5, 4], [-1, 6], [-9, 6]].map(([x, y]) => `<circle cx="${cx + x * s}" cy="${125 + y}" r="1.3" fill="#A8683F"/>`).join("");
     return `
 <svg class="mo-root" viewBox="0 0 220 280" xmlns="http://www.w3.org/2000/svg" overflow="visible" aria-label="Cue the monkey mascot">
   <ellipse class="mo-shadow" cx="110" cy="270" rx="64" ry="8" fill="${LN}" opacity=".16"/>
@@ -49,13 +49,13 @@
     <ellipse cx="110" cy="198" rx="21" ry="29" fill="${TAN}"/>
     ${ear(44, 1)}${ear(176, -1)}
     <ellipse cx="110" cy="96" rx="66" ry="60" fill="${FUR}" stroke="${LN}" stroke-width="3.8"/>
-    <path d="M152 52 C180 74 186 118 158 148 C170 118 168 80 152 52 Z" fill="${FUR_D}" opacity=".45"/>
-    <path d="M60 64 Q76 46 100 42" stroke="${FUR_L}" stroke-width="7" stroke-linecap="round" fill="none"/>
+    <clipPath id="${id}h"><ellipse cx="110" cy="96" rx="64" ry="58"/></clipPath><path clip-path="url(#${id}h)" d="M146 40 C186 70 190 124 150 156 C168 120 164 78 146 40 Z" fill="${FUR_D}" opacity=".5"/>
+    <path d="M52 82 Q54 66 66 56" stroke="${FUR_L}" stroke-width="6" stroke-linecap="round" fill="none"/>
     ${faceStroke}${faceFill}
     <path d="M94 152 L110 159 L126 152 L119 172 L110 165 L101 172 Z" fill="${GLOVE}" stroke="${LN}" stroke-width="3.2" stroke-linejoin="round"/>
     <circle cx="110" cy="158" r="5" fill="${GLOVE}" stroke="${LN}" stroke-width="2.8"/>
     <ellipse cx="80" cy="122" rx="12" ry="8" fill="#D98A6A" opacity=".5"/><ellipse cx="140" cy="122" rx="12" ry="8" fill="#D98A6A" opacity=".5"/>
-    ${freckles(80)}${freckles(140)}
+    ${freckles(80)}${freckles(140, -1)}
     <g class="mo-eyes" style="transform-origin:110px 100px">
       <path d="M81 98 C81 84 96 80 101 90 C105 100 99 114 91 114 C84 114 81 107 81 98 Z" fill="#FFF" stroke="${LN}" stroke-width="3"/>
       <path d="M139 98 C139 84 124 80 119 90 C115 100 121 114 129 114 C136 114 139 107 139 98 Z" fill="#FFF" stroke="${LN}" stroke-width="3"/>
@@ -72,7 +72,7 @@
       <path d="M100 140 Q110 135 120 140 Q116 148 110 148 Q104 148 100 140 Z" fill="#F08A8F"/>
     </g>
     <path class="mo-mouth-sad" d="M96 142 Q110 130 124 142" stroke="${LN}" stroke-width="4" stroke-linecap="round" fill="none" opacity="0"/>
-    <g class="mo-leaf" style="transform-origin:112px 58px"><g transform="translate(0 7) rotate(-9 112 48)">
+    <g class="mo-leaf" style="transform-origin:112px 58px"><g transform="translate(-2 8) rotate(-8 112 48)">
       <ellipse cx="112" cy="50" rx="36" ry="7.5" fill="#33363A" stroke="${LN}" stroke-width="3.4"/>
       <path d="M90 48 C88 24 100 16 112 16 C124 16 136 24 134 48 Q112 56 90 48 Z" fill="#33363A" stroke="${LN}" stroke-width="3.4" stroke-linejoin="round"/>
       <path d="M90 44 Q112 52 134 44 L134 36 Q112 44 90 36 Z" fill="${GLOVE}" stroke="${LN}" stroke-width="2.8" stroke-linejoin="round"/>
