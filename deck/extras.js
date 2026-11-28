@@ -14,7 +14,8 @@
   const pick = (a) => a[Math.floor(Math.random() * a.length)];
 
   let enabled = true, timer = null, lastAt = 0, curN = null, live = null;
-  try { enabled = localStorage.getItem(KEY) !== "0"; } catch {}
+  // Quiet by default in the printed-label deck: opt in with K (or the menu). Code is unchanged.
+  try { enabled = localStorage.getItem(KEY) === "1"; } catch (e) { enabled = false; }
 
   function canShow() {
     if (PRINT || !enabled || !window.Deck || !window.CueArt) return false;

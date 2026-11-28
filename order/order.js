@@ -73,9 +73,11 @@
     var f = (fruits || []).map(fruit).filter(Boolean).map(function (o) { return o.color; });
     return { colorA: f[0] || "#FFB020", colorB: f[1] || f[0] || "#E08A45" };
   }
-  function cupSVG(fruits) { return window.CueArt.cup(cupColors(fruits)); }
-  function recolorCup(box, fruits) {
+  function cupSVG(fruits, base, addons) { return "<img src=\"../" + CONTENT.drinkImage(fruits, base, addons) + "\" alt=\"\" class=\"drink-img\">"; }
+  function recolorCup(box, fruits, base, addons) {
     if (!box) return;
+    var img = box.querySelector("img");
+    if (img) { var src = "../" + CONTENT.drinkImage(fruits, base, addons); if (img.getAttribute("src") !== src) img.setAttribute("src", src); return; }
     var c = cupColors(fruits), a = box.querySelector(".cup-layer-a"), b = box.querySelector(".cup-layer-b");
     if (a) a.setAttribute("fill", c.colorA);
     if (b) b.setAttribute("fill", c.colorB);
@@ -146,7 +148,7 @@
   function drinkCard(p) {
     var c = cupColors(p.fruits);
     return '<button type="button" class="card" data-open="' + p.slug + '">' +
-      '<span class="art" style="background:' + c.colorA + '22">' + cupSVG(p.fruits) + "</span>" +
+      '<span class="art" style="background:' + c.colorA + '22">' + cupSVG(p.fruits, p.base, p.addons) + "</span>" +
       '<span class="body"><span class="nm">' + esc(p.name) +
       (p.signature ? '<span class="sig-pill">Signature</span>' : "") + "</span>" +
       '<span class="ds">' + esc(p.desc) + "</span>" +
@@ -288,7 +290,7 @@
         '<button type="button" class="btn leaf" id="toMenu" style="display:flex;margin:8px auto 0">Browse the menu</button>';
     } else {
       body = state.bag.map(function (it) {
-        return '<div class="bag-item"><div class="cupbox">' + cupSVG(it.fruits) + "</div>" +
+        return '<div class="bag-item"><div class="cupbox">' + cupSVG(it.fruits, it.base, it.addons) + "</div>" +
           '<div class="body"><div class="nm">' + esc(it.drinkName) + "</div>" +
           '<div class="opts-sum">' + esc(optionSummary(it)) + "</div>" +
           '<div class="row"><div class="stepper">' +
@@ -423,7 +425,7 @@
     openSheet(
       '<button type="button" class="close" data-close aria-label="Close">' + ICON.x + "</button>" +
       '<div class="scroll">' +
-      '<div class="detail-hero"><div class="cupbox" id="dCup">' + cupSVG(cfg.fruits) + "</div>" +
+      '<div class="detail-hero"><div class="cupbox" id="dCup">' + cupSVG(cfg.fruits, cfg.base, cfg.addons) + "</div>" +
       '<div><h2 class="display">' + esc(cfg.name) + '</h2><p class="ds">' + esc(cfg.desc) + "</p></div></div>" +
       '<div class="sect"><div class="hd"><h3 class="display">Fruit</h3><span class="hint" id="fruitHint"></span></div>' +
       '<div class="opts">' + fruitOpts() + "</div></div>" +
@@ -468,7 +470,7 @@
             btn.disabled = !valid();
             btn.textContent = "Add to bag · HK$" + unitPrice(cfg) * cfg.qty;
           }
-          recolorCup(el.querySelector("#dCup"), cfg.fruits);
+          recolorCup(el.querySelector("#dCup"), cfg.fruits, cfg.base, cfg.addons);
         }
         el.addEventListener("click", function (e) {
           if (e.target.closest("[data-close]")) return closeSheet();
@@ -621,7 +623,7 @@
     var c = cupColors(lines[0].fruits);
     show(
       '<div class="ticket">' +
-      '<div class="cupbox">' + window.CueArt.cup({ colorA: c.colorA, colorB: c.colorB }) + "</div>" +
+      '<div class="cupbox">' + cupSVG(lines[0].fruits, lines[0].base, lines[0].addons) + "</div>" +
       '<h2 class="display">Order #1</h2>' +
       '<div class="stub"><div class="lbl">Pickup number</div><div class="num">1</div>' +
       '<div class="who">for ' + esc(name) + "</div></div>" +
@@ -636,20 +638,7 @@
       "push",
       function (el) {
         el.querySelector("#againBtn").addEventListener("click", function () { setTab("home"); });
-        var fill = el.querySelector(".cup-fill");
-        if (fill && fill.animate) {
-          fill.animate([{ transform: "translateY(130px)" }, { transform: "translateY(0)" }],
-            { duration: 1600, easing: "cubic-bezier(.3,.8,.3,1)", fill: "both" });
-        }
-        var colors = ["#E08A45", "#6A9467", "#9A3E4B", "#E8C26A", "#9EC4C0"];
-        setTimeout(function () {
-          if (!window.confetti) return;
-          window.confetti({ particleCount: 90, spread: 80, origin: { y: 0.55 }, colors: colors });
-          setTimeout(function () {
-            window.confetti({ particleCount: 60, angle: 60, spread: 60, origin: { x: 0, y: 0.7 }, colors: colors });
-            window.confetti({ particleCount: 60, angle: 120, spread: 60, origin: { x: 1, y: 0.7 }, colors: colors });
-          }, 350);
-        }, 500);
+        /* confetti removed */
       }
     );
   }

@@ -10,8 +10,8 @@
 </head>
 <body>
 
-<!-- ---------- 1. STICKY NAV ---------- -->
-<header class="nav" id="nav">
+<!-- ---------- 1. STICKY NAV: charcoal bar, hairline under ---------- -->
+<header class="nav on-dark dark" id="nav">
   <div class="nav-inner">
     <a class="nav-logo" href="#top" aria-label="CUE — back to top">
       <span class="brandmark">
@@ -19,12 +19,6 @@
              onerror="this.parentNode.classList.add('txt')">
         <span class="bm-text display">CUE</span>
       </span>
-      <svg class="slice slice-nav" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-        <circle cx="50" cy="50" r="45" fill="#E08A45" stroke="#25292B" stroke-width="6"/>
-        <circle cx="50" cy="50" r="34" fill="#FFDEA6" stroke="#E08A45" stroke-width="4"/>
-        <path d="M50 16V84M16 50h68M26 26l48 48M74 26 26 74" stroke="#E08A45" stroke-width="5" stroke-linecap="round"/>
-        <circle cx="50" cy="50" r="5" fill="#E08A45"/>
-      </svg>
     </a>
     <nav class="nav-links" aria-label="Sections">
       <a href="#menu">Menu</a>
@@ -37,142 +31,127 @@
 </header>
 
 <main>
-  <!-- ---------- 2. HERO ---------- -->
-  <section class="hero" id="top" aria-label="CUE smoothies">
+  <!-- ---------- 2. HERO: charcoal + grain, sticker left, drink renders right ---------- -->
+  <section class="hero dark on-dark grain" id="top" aria-label="CUE smoothies">
     <div class="hero-inner">
       <div class="hero-copy">
-        <h1 class="hero-title" id="heroTitle">
+        <h1 class="hero-title display">
           <span class="brandmark brandmark-lg">
-            <img src="../assets/img/cue-logo.png"
+            <img class="boil" src="../assets/img/cue-logo.png"
                  alt="CUE logo — a cream smoothie cup with striped straw and sparkles on a dark charcoal oval sticker"
                  onerror="this.parentNode.classList.add('txt')">
             <span class="bm-text display">CUE</span>
           </span>
         </h1>
-        <svg class="slice slice-hero" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-          <circle cx="50" cy="50" r="45" fill="#E08A45" stroke="#25292B" stroke-width="6"/>
-          <circle cx="50" cy="50" r="34" fill="#FFDEA6" stroke="#E08A45" stroke-width="4"/>
-          <path d="M50 16V84M16 50h68M26 26l48 48M74 26 26 74" stroke="#E08A45" stroke-width="5" stroke-linecap="round"/>
-          <circle cx="50" cy="50" r="5" fill="#E08A45"/>
-        </svg>
         <p class="hero-slogan" id="heroSlogan"></p>
         <p class="hero-tagline" id="heroTagline"></p>
-        <div class="hero-btns" id="heroBtns">
-          <a class="btn berry hero-btn" href="../order/index.html">Order ahead</a>
+        <div class="hero-btns hero-fade">
+          <a class="btn hero-btn" href="../order/index.html">Order ahead</a>
           <a class="btn ghost hero-btn" href="../deck/index.html">Watch the pitch</a>
         </div>
       </div>
-      <div class="hero-art" id="heroArt" aria-hidden="true">
-        <span class="hero-halo"></span>
-        <div class="hero-fruits" id="heroFruits"></div>
-        <div class="hero-cup" id="heroCup"></div>
-        <div class="hero-mo" id="heroMo"></div>
+      <div class="hero-art" id="heroArt">
+        <span class="hero-shadow" aria-hidden="true"></span>
+        <img class="hero-drink hero-drink-side" src="../assets/img/drinks/mango.png"
+             alt="CUE cup of the mango sunrise smoothie" width="420" height="560">
+        <img class="hero-drink hero-drink-main" src="../assets/img/drinks/matcha.png"
+             alt="CUE cup of the matcha banana smoothie" width="420" height="560">
+        <img class="hero-drink hero-drink-side" src="../assets/img/drinks/berry-layers.png"
+             alt="CUE cup of the layered berry and yogurt smoothie" width="420" height="560">
+        <div class="hero-mo boil" id="heroMo" aria-hidden="true"></div>
       </div>
     </div>
   </section>
 
-  <!-- ---------- 3. MENU ---------- -->
+  <!-- ---------- 3. MENU: peach ground, board with drink renders ---------- -->
   <section class="menu" id="menu">
-    <div class="menu-band">
-      <div class="wrap menu-band-inner">
-        <h2 class="menu-title display">Menu</h2>
-        <svg class="slice slice-band" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-          <circle cx="50" cy="50" r="45" fill="#E08A45" stroke="#25292B" stroke-width="6"/>
-          <circle cx="50" cy="50" r="34" fill="#FFDEA6" stroke="#E08A45" stroke-width="4"/>
-          <path d="M50 16V84M16 50h68M26 26l48 48M74 26 26 74" stroke="#E08A45" stroke-width="5" stroke-linecap="round"/>
-          <circle cx="50" cy="50" r="5" fill="#E08A45"/>
-        </svg>
-        <p class="menu-sub">Blended at the cart the hour you order. Named blends are 500 ml; mix your own comes in three sizes.</p>
-      </div>
-    </div>
     <div class="wrap">
+      <h2 class="display menu-title">Menu</h2>
+      <p class="lede">Blended at the cart the hour you order. Named blends are 500 ml; mix your own comes in three sizes.</p>
       <!-- filled from content/menu.js — the single source of truth -->
       <div class="menu-board" id="menuBoard"></div>
       <p class="menu-foot" id="menuFoot"></p>
     </div>
   </section>
 
-  <!-- ---------- 4. MADE FROM 55 ANSWERS ---------- -->
-  <section class="facts" id="facts">
+  <!-- ---------- 4. MADE FROM 55 ANSWERS: charcoal, hairline columns ---------- -->
+  <section class="facts dark on-dark grain" id="facts">
     <div class="wrap">
       <h2 class="display facts-title">Made from 55 answers</h2>
       <p class="lede">We asked the campus what a smoothie shop should be, then built exactly that.</p>
-      <ul class="stamp-row" id="stampRow">
-        <li class="stamp">
-          <p class="stamp-num display"><span class="num" id="nIntent">69</span><span class="stamp-unit">%</span></p>
-          <p class="stamp-body">would buy the smoothie they built</p>
+      <ul class="fact-row" id="factRow">
+        <li class="fact">
+          <p class="fact-num display"><span class="num" id="nIntent">69</span><span class="fact-unit">%</span></p>
+          <p class="fact-body">would buy the smoothie they built</p>
         </li>
-        <li class="stamp">
-          <p class="stamp-num display"><span class="num" id="nMango">72</span><span class="stamp-unit">%</span></p>
-          <p class="stamp-body">picked mango, the heart of the menu</p>
+        <li class="fact">
+          <p class="fact-num display"><span class="num" id="nMango">72</span><span class="fact-unit">%</span></p>
+          <p class="fact-body">picked mango, the heart of the menu</p>
         </li>
-        <li class="stamp">
-          <p class="stamp-num display"><span class="num" id="nPrice">75</span><span class="stamp-unit">%</span></p>
-          <p class="stamp-body">would pay HK$25 for a smoothie</p>
+        <li class="fact">
+          <p class="fact-num display"><span class="num" id="nPrice">75</span><span class="fact-unit">%</span></p>
+          <p class="fact-body">would pay HK$25 for a smoothie</p>
         </li>
-        <li class="stamp">
-          <p class="stamp-num display"><span class="num" id="nApp">65</span><span class="stamp-unit">%</span></p>
-          <p class="stamp-body">would use an app to pre-order</p>
+        <li class="fact">
+          <p class="fact-num display"><span class="num" id="nApp">65</span><span class="fact-unit">%</span></p>
+          <p class="fact-body">would use an app to pre-order</p>
         </li>
       </ul>
       <p class="facts-src" id="factsSrc"></p>
     </div>
   </section>
 
-  <!-- ---------- 5. OUR STORY ---------- -->
+  <!-- ---------- 5. OUR STORY: paper, four line icons ---------- -->
   <section class="story" id="story">
     <div class="wrap">
       <h2 class="display">Our story, farm to cup</h2>
       <p class="lede">Every drink travels the same four steps, and you can walk past each one.</p>
       <ol class="steps" id="steps">
         <li class="step">
-          <span class="step-badge" aria-hidden="true">
-            <svg viewBox="0 0 100 100" class="step-svg">
-              <path d="M18 78 Q50 62 82 78 L82 86 Q50 96 18 86 Z" fill="#4B4239" stroke="#25292B" stroke-width="5" stroke-linejoin="round"/>
-              <path d="M50 72 L50 46" stroke="#25292B" stroke-width="6" stroke-linecap="round" fill="none"/>
-              <path d="M50 50 C36 52 28 40 30 30 C42 28 50 36 50 50 Z" fill="#6A9467" stroke="#48714A" stroke-width="4" stroke-linejoin="round"/>
-              <path d="M50 46 C64 48 72 36 70 26 C58 24 50 32 50 46 Z" fill="#6A9467" stroke="#48714A" stroke-width="4" stroke-linejoin="round"/>
-              <ellipse cx="42" cy="34" rx="4" ry="7" fill="#FFF" opacity=".45" transform="rotate(-28 42 34)"/>
+          <span class="step-icon" aria-hidden="true">
+            <svg class="boil" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M24 40V22"/>
+              <path d="M24 30c-7.5 0-11-5.5-11-11 4.5 0 11 4 11 11Z"/>
+              <path d="M24 26c7.5 0 11-5.5 11-11-4.5 0-11 4-11 11Z"/>
+              <path d="M13 40h22"/>
             </svg>
           </span>
           <h3 class="step-name display">Plant</h3>
           <p class="step-say">Seeds go into soil trays the week before the pop-up.</p>
         </li>
         <li class="step">
-          <span class="step-badge" aria-hidden="true">
-            <svg viewBox="0 0 100 100" class="step-svg">
-              <path d="M30 44 L74 44 L70 74 Q52 82 34 74 Z" fill="#9EC4C0" stroke="#25292B" stroke-width="5" stroke-linejoin="round"/>
-              <path d="M40 44 L40 34 L64 22" stroke="#25292B" stroke-width="6" stroke-linecap="round" fill="none"/>
-              <path d="M28 36 Q18 34 16 26" stroke="#25292B" stroke-width="6" stroke-linecap="round" fill="none"/>
-              <circle cx="14" cy="22" r="7" fill="#9EC4C0" stroke="#25292B" stroke-width="4"/>
-              <ellipse cx="48" cy="52" rx="5" ry="9" fill="#FFF" opacity=".5" transform="rotate(-20 48 52)"/>
+          <span class="step-icon" aria-hidden="true">
+            <svg class="boil" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 18h16v12a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6Z"/>
+              <path d="M16 22l-8-7"/>
+              <path d="M8 15h6"/>
+              <path d="M32 20c5 0 8 3 8 7"/>
+              <path d="M10 27v3M6 30l-1 3"/>
             </svg>
           </span>
           <h3 class="step-name display">Water</h3>
           <p class="step-say">A daily pour, and fruit bowls are refilled from the market.</p>
         </li>
         <li class="step">
-          <span class="step-badge" aria-hidden="true">
-            <svg viewBox="0 0 100 100" class="step-svg">
-              <path d="M22 52 L78 52 L72 82 Q50 90 28 82 Z" fill="#E8C26A" stroke="#25292B" stroke-width="5" stroke-linejoin="round"/>
-              <path d="M28 52 Q30 36 50 36 Q70 36 72 52" fill="none" stroke="#25292B" stroke-width="5" stroke-linecap="round"/>
-              <circle cx="42" cy="46" r="8" fill="#E8364F" stroke="#25292B" stroke-width="4"/>
-              <circle cx="58" cy="46" r="8" fill="#FFB020" stroke="#25292B" stroke-width="4"/>
-              <circle cx="50" cy="40" r="0" fill="none"/>
-              <ellipse cx="55" cy="53" rx="5" ry="9" fill="#FFF" opacity=".5" transform="rotate(18 55 53)"/>
+          <span class="step-icon" aria-hidden="true">
+            <svg class="boil" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 24h24l-3.5 14h-17Z"/>
+              <circle cx="18" cy="18" r="4.5"/>
+              <circle cx="29" cy="19" r="4"/>
+              <path d="M6 24h36"/>
             </svg>
           </span>
           <h3 class="step-name display">Harvest</h3>
           <p class="step-say">Fruit is cut the hour you order, never the night before.</p>
         </li>
         <li class="step">
-          <span class="step-badge" aria-hidden="true">
-            <svg viewBox="0 0 100 100" class="step-svg">
-              <path d="M34 24 L66 24 L62 70 Q50 76 38 70 Z" fill="#F8EBDA" stroke="#25292B" stroke-width="5" stroke-linejoin="round"/>
-              <path d="M36 48 L64 48 L62 70 Q50 76 38 70 Z" fill="#FFB020" stroke="#25292B" stroke-width="4" stroke-linejoin="round"/>
-              <path d="M28 20 L72 20" stroke="#25292B" stroke-width="7" stroke-linecap="round"/>
-              <path d="M38 78 L62 78 L58 92 L42 92 Z" fill="#E8C26A" stroke="#25292B" stroke-width="4" stroke-linejoin="round"/>
-              <ellipse cx="44" cy="38" rx="4" ry="9" fill="#FFF" opacity=".5" transform="rotate(-14 44 38)"/>
+          <span class="step-icon" aria-hidden="true">
+            <svg class="boil" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 8h16l-2.5 22h-11Z"/>
+              <path d="M14 8h20"/>
+              <path d="M32 13h5v9h-4"/>
+              <path d="M14 38h20"/>
+              <path d="M19 34l-2 4M29 34l2 4"/>
             </svg>
           </span>
           <h3 class="step-name display">Blend</h3>
@@ -182,7 +161,7 @@
     </div>
   </section>
 
-  <!-- ---------- 6. FIND US ---------- -->
+  <!-- ---------- 6. FIND US: peach, hairline map ---------- -->
   <section class="find" id="find">
     <div class="wrap find-grid">
       <div class="find-copy">
@@ -193,10 +172,10 @@
           <p class="find-line">Ground floor, cart by the stairwell</p>
           <p class="find-line">Mon&ndash;Fri 10:00&ndash;19:00 <em>(placeholder hours)</em></p>
         </div>
-        <a class="btn leaf find-btn" href="../order/index.html">Order for pickup at YIA</a>
+        <a class="btn find-btn" href="../order/index.html">Order for pickup at YIA</a>
       </div>
       <div class="map-box">
-        <svg class="campus-map" viewBox="0 0 460 330" role="img" aria-label="A simple illustrated map of the CUHK campus showing the YIA Building, the Central Campus teaching buildings, LSK, the residential colleges and University Station.">
+        <svg class="campus-map" viewBox="0 0 460 330" role="img" aria-label="A simple map of the CUHK campus showing the YIA Building, the Central Campus teaching buildings, LSK, the residential colleges and University Station.">
           <path class="mp-ground" d="M20 30 Q120 -8 250 16 Q390 40 436 130 Q462 210 380 268 Q260 330 140 302 Q30 274 12 180 Q2 92 20 30 Z"/>
           <path class="mp-path" d="M64 236 Q120 240 132 200 T120 128"/>
           <path class="mp-path" d="M132 128 Q200 110 262 96 T330 150 T300 232"/>
@@ -239,18 +218,18 @@
     </div>
   </section>
 
-  <!-- ---------- 7. SURVEY ---------- -->
-  <section class="survey" id="survey">
+  <!-- ---------- 7. SURVEY CTA: charcoal-2 band ---------- -->
+  <section class="survey dark on-dark grain" id="survey">
     <div class="wrap survey-inner">
       <h2 class="display survey-title" id="surveyTitle"></h2>
       <p class="lede survey-lede">The menu on this page is the menu the survey voted for. Every chart is one click away.</p>
-      <a class="btn cream survey-btn" href="../survey/index.html">See the survey we ran</a>
+      <a class="btn solid survey-btn" href="../survey/index.html">See the survey we ran</a>
     </div>
   </section>
 </main>
 
-<!-- ---------- 8. FOOTER ---------- -->
-<footer class="foot" id="foot">
+<!-- ---------- 8. FOOTER: charcoal ---------- -->
+<footer class="foot dark on-dark" id="foot">
   <div class="wrap foot-grid">
     <p class="foot-logo">
       <span class="brandmark">
@@ -266,16 +245,15 @@
       <a href="../survey/index.html">Survey</a>
     </nav>
     <p class="foot-pickup" id="footPickup"></p>
-    <p class="foot-team">A CUHK student project. Cuethie waves from the cart.</p>
+    <p class="foot-team">A CUHK student project. The cart sells what the campus picked.</p>
   </div>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="../content/brand.js"></script>
 <script src="../content/menu.js"></script>
 <script src="../content/data.js"></script>
 <script src="../shared/art.js"></script>
+<script src="../shared/boil.js"></script>
 <script src="site.js"></script>
 </body>
 </html>

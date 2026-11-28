@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#1B1E20">
+<meta name="theme-color" content="#25292B">
 <title>CUE Pitch Deck</title>
 <link rel="stylesheet" href="../shared/base.css">
 <link rel="stylesheet" href="deck.css">
@@ -11,14 +11,13 @@
 </head>
 <body>
 <div id="stage"><div id="slide" class="slide"></div>
-  <div id="cuptimer" aria-hidden="true"><svg viewBox="0 0 80 110"><defs><clipPath id="ctclip"><path d="M14 30 L66 30 L60 102 Q40 107 20 102 Z"/></clipPath></defs>
-    <path class="ct-straw" d="M46 32 L54 4 L62 4" stroke="#6A9467" stroke-width="6" fill="none" stroke-linecap="round"/>
-    <g clip-path="url(#ctclip)"><rect class="ct-fill" x="0" y="30" width="80" height="80" fill="#E08A45"/></g>
-    <path d="M14 30 L66 30 L60 102 Q40 107 20 102 Z" fill="none" stroke="#25292B" stroke-width="5" stroke-linejoin="round"/>
-    <rect x="9" y="25" width="62" height="8" rx="4" fill="#F2D9C2" stroke="#25292B" stroke-width="4"/>
-    <circle class="ct-drip" cx="40" cy="104" r="4" fill="#E08A45" opacity="0"/></svg><span class="ct-label"></span></div>
+  <div id="cuptimer" aria-hidden="true"><svg class="boil" viewBox="0 0 80 110"><defs><clipPath id="ctclip"><path d="M14 30 L66 30 L60 102 Q40 107 20 102 Z"/></clipPath></defs>
+    <g clip-path="url(#ctclip)"><rect class="ct-fill" x="0" y="30" width="80" height="80" fill="#B83A32"/></g>
+    <path d="M14 30 L66 30 L60 102 Q40 107 20 102 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+    <path class="ct-straw" d="M46 32 L54 4 L62 4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <circle class="ct-drip" cx="40" cy="104" r="2.5" fill="#B83A32" opacity="0"/></svg><span class="ct-label"></span></div>
 </div>
-<div id="wipe"><svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0 60 Q180 0 360 60 T720 60 T1080 60 T1440 60 V120 H0Z"/></svg><div id="wipe-label"></div></div>
+<div id="wipe"></div>
 <div id="talkbanner" role="status" data-lv=""><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2.5h6"/></svg><span class="tbt"></span></div>
 <div id="print-pages"></div>
 <div id="toast" role="status"></div>
@@ -92,6 +91,7 @@
 <script src="../content/menu.js"></script>
 <script src="../content/data.js"></script>
 <script src="../content/places.js"></script>
+<script src="../shared/boil.js"></script>
 <script src="../shared/art.js"></script>
 <script src="../shared/orders.js"></script>
 <script src="../shared/relay.js"></script>

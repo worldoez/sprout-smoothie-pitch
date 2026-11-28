@@ -231,6 +231,7 @@
     const price = o.price != null ? o.price : (sz ? sz.price : 0) + adds.reduce((a, x) => a + (x.price || 0), 0);
     const parts = [...fr.map(f => `${f.emoji} ${f.name}`), b && b.name, ...adds.map(a => a.fancy), sz && (sz.name.includes("ml") ? sz.name : `${sz.name} ${sz.ml} ml`)].filter(Boolean);
     return `<div class="pticket">
+      <img src="../${CONTENT.drinkImage(o)}" alt="" style="width:160px;height:200px;object-fit:contain;margin:0 auto 6px">
       <div class="pt-ok">✓ Order placed</div>
       <div class="pt-no">Order #1, ${o.name || "Guest"}</div>
       <div class="pt-drink">${o.drinkName || CONTENT.drinkName(o.fruits, o.base)}</div>

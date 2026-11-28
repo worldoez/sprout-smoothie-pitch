@@ -18,14 +18,16 @@
  * ctx = { $, $$, sfx, order, data, menu, brand, gsap, art }
  */
 (function () {
+  // Printed-label palette (see base.css tokens): charcoal / peach grounds alternate;
+  // accents are straw-red or one muted product colour. Keys and shape are stable — slides read them.
   const STAGES = {
-    plant:   { name: "Plant the seed", bg: "#25292B", fg: "#F2D9C2", accent: "#E08A45" },
-    water:   { name: "Water & grow",   bg: "#9EC4C0", fg: "#1F3335", accent: "#6A9467" },
-    harvest: { name: "Harvest",        bg: "#E8C26A", fg: "#25292B", accent: "#9A3E4B" },
-    blend:   { name: "Blend",          bg: "#E08A45", fg: "#25292B", accent: "#F2D9C2", sfx: "blender" },
-    pour:    { name: "Pour",           bg: "#9A3E4B", fg: "#F2D9C2", accent: "#E8C26A" },
-    serve:   { name: "Serve",          bg: "#6A9467", fg: "#F8EBDA", accent: "#E8C26A" },
-    cheers:  { name: "Cheers",         bg: "#E8A597", fg: "#25292B", accent: "#F2D9C2" }
+    plant:   { name: "Plant the seed", bg: "#25292B", fg: "#F2D9C2", accent: "#B83A32" },
+    water:   { name: "Water & grow",   bg: "#F2D9C2", fg: "#25292B", accent: "#B83A32" },
+    harvest: { name: "Harvest",        bg: "#30363A", fg: "#F2D9C2", accent: "#E3B23C" },
+    blend:   { name: "Blend",          bg: "#E9CDB0", fg: "#25292B", accent: "#B83A32", sfx: "blender" },
+    pour:    { name: "Pour",           bg: "#25292B", fg: "#F2D9C2", accent: "#B5506A" },
+    serve:   { name: "Serve",          bg: "#F2D9C2", fg: "#25292B", accent: "#9BB36A" },
+    cheers:  { name: "Cheers",         bg: "#30363A", fg: "#F2D9C2", accent: "#B83A32" }
   };
   const W = 1920, H = 1080;
   const slides = [];
@@ -134,22 +136,17 @@
   // Presenter pressed a key mid-transition: jump it to its end (swap still runs) and release `busy`.
   function skipTransition() { if (window.Transitions) Transitions.finish(); }
 
-  // Stage change: a wave of the next stage's colour sweeps up the screen.
+  // Stage change: one hairline sweeps down the screen in 350 ms while the slide swaps under it.
   function liquidWipe(st, mid) {
     return new Promise(res => {
       const w = $("#wipe");
-      w.style.setProperty("--wipe", st.bg);
-      $("#wipe-label").textContent = st.name;
-      $("#wipe-label").style.color = st.fg;
+      w.style.background = st.fg;
       ctx.sfx("whoosh"); if (st.sfx) ctx.sfx(st.sfx);
       const tl = gsap.timeline({ onComplete: res });
-      tl.set(w, { display: "block", yPercent: 110 })
-        .to(w, { yPercent: 0, duration: 0.55, ease: "power3.in" })
-        .fromTo("#wipe-label", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "back.out(2)" }, "-=0.1")
+      tl.set(w, { display: "block", top: 0, opacity: 1 })
+        .to(w, { top: "55%", duration: 0.15, ease: "power2.in" })
         .add(mid)
-        .to({}, { duration: 0.35 })
-        .to("#wipe-label", { opacity: 0, y: -40, duration: 0.2 })
-        .to(w, { yPercent: -115, duration: 0.55, ease: "power3.out" })
+        .to(w, { top: "100%", duration: 0.2, ease: "power2.out" })
         .set(w, { display: "none" });
     });
   }
@@ -157,9 +154,9 @@
     return new Promise(res => {
       const el = $("#slide");
       gsap.timeline({ onComplete: res })
-        .to(el, { opacity: 0, x: calm ? 0 : -40 * dir, duration: 0.18, ease: "power1.in" })
+        .to(el, { opacity: 0, x: calm ? 0 : -18 * dir, duration: 0.15, ease: "power1.in" })
         .add(mid)
-        .fromTo(el, { opacity: 0, x: calm ? 0 : 40 * dir }, { opacity: 1, x: 0, duration: 0.25, ease: "power2.out" });
+        .fromTo(el, { opacity: 0, x: calm ? 0 : 18 * dir }, { opacity: 1, x: 0, duration: 0.2, ease: "power2.out" });
     });
   }
 
@@ -254,26 +251,28 @@
     const text = level === "over" ? "Time is up. Say thank you." : level === "final" ? `Last ${Math.max(1, Math.ceil(left / 1000))} seconds. Finish now.` : `Wrap up the talk: ${fmt(left)} left`;
     banner.querySelector(".tbt").textContent = text;
     banner.dataset.lv = level; banner.classList.add("show");
-    if (!warned["talk" + level]) { warned["talk" + level] = true; gsap.fromTo(banner, { y: -30, scale: 0.9 }, { y: 0, scale: 1, duration: 0.6, ease: "elastic.out(1.1,0.4)" }); }
+    if (!warned["talk" + level]) { warned["talk" + level] = true; gsap.fromTo(banner, { y: -30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power2.out" }); }
   }
-  // On-theme time warning on the slide itself: a small cup that drains during the last 20% of a stage,
-  // wobbles at 90%, and drips when the stage runs over. T hides it.
+  // Time warning on the slide itself: a small line cup that drains during the last 20% of a section,
+  // quietly pulses at 90%, and drips when the section runs over. T hides it.
   let cupHidden = false, talkHidden = false;
   function cupTimer(stage, used, budget) {
     const c = $("#cuptimer"); if (!c) return;
     const frac = used / budget, show = !cupHidden && frac >= 0.8;
     c.classList.toggle("show", show);
     if (!show) return;
+    const st = STAGES[stage] || STAGES.plant;
+    c.style.setProperty("--ct-fg", st.fg);
     const remain = Math.max(0, Math.min(1, (1 - frac) / 0.2));
-    gsap.to(c.querySelector(".ct-fill"), { attr: { y: 30 + (1 - remain) * 76 }, duration: 0.5, overwrite: true });
-    c.querySelector(".ct-fill").setAttribute("fill", STAGES[stage].accent === "#F2D9C2" ? "#9A3E4B" : (STAGES[stage].bg === "#E08A45" ? "#9A3E4B" : "#E08A45"));
+    gsap.to(c.querySelector(".ct-fill"), { attr: { y: 30 + (1 - remain) * 76 }, duration: 0.4, overwrite: true });
+    c.querySelector(".ct-fill").setAttribute("fill", st.accent);
     const left = budget - used;
     c.querySelector(".ct-label").innerHTML = `<i>section</i>${left > 0 ? Math.ceil(left / 1000) + "s" : "wrap up"}`;
     const key = stage + (frac >= 1 ? "over" : frac >= 0.9 ? "90" : "80");
     if (!warned[key]) {
       warned[key] = true;
-      if (frac >= 0.9) gsap.fromTo(c, { rotate: -10 }, { rotate: 0, duration: 0.6, ease: "elastic.out(1.2,0.3)" });
-      if (frac >= 1) gsap.fromTo(c.querySelector(".ct-drip"), { opacity: 1, y: 0 }, { y: 24, opacity: 0, duration: 0.9, repeat: 2, ease: "power1.in" });
+      if (frac >= 0.9) gsap.fromTo(c, { opacity: 0.35 }, { opacity: 1, duration: 0.4, ease: "power2.out" });
+      if (frac >= 1) gsap.fromTo(c.querySelector(".ct-drip"), { opacity: 1, y: 0 }, { y: 24, opacity: 0, duration: 0.8, repeat: 2, ease: "power1.in" });
     }
   }
   function updateUI() {
@@ -283,7 +282,7 @@
     $("#counter").title = `Slide ${idx + 1} of ${slides.length}`;
     $("#stage-name").innerHTML = `${STAGES[s.stage].name}<small>${posInStage} of ${inStage.length}</small>`;
     $("#stage-name").title = `${STAGES[s.stage].name}: slide ${posInStage} of ${inStage.length} in this section`;
-    $("#stage-name").style.setProperty("--dot", STAGES[s.stage].bg);
+    $("#stage-name").style.setProperty("--dot", STAGES[s.stage].accent);
     $("#stage-name").style.setProperty("--dotfg", STAGES[s.stage].fg);
     const steps = (s.steps || []).length;
     $("#steps").innerHTML = steps > 1 ? Array.from({ length: steps }, (_, k) => `<i class="${k <= stepIdx ? "on" : ""}"></i>`).join("") : "";
@@ -292,7 +291,7 @@
     $("#btn-next").disabled = idx === slides.length - 1 && stepIdx >= steps - 1;
     // progress: one segment per stage, coloured, filled up to the current step
     const segs = $("#progress-segs");
-    if (segs && !segs.childElementCount) segs.innerHTML = Object.keys(STAGES).map(k => { const n = slides.filter(x => x.stage === k).length; return n ? `<i data-st="${k}" style="flex:${n};--c:${STAGES[k].bg}"><b></b></i>` : ""; }).join("");
+    if (segs && !segs.childElementCount) segs.innerHTML = Object.keys(STAGES).map(k => { const n = slides.filter(x => x.stage === k).length; return n ? `<i data-st="${k}" style="flex:${n};--c:${STAGES[k].accent}"><b></b></i>` : ""; }).join("");
     if (segs) segs.querySelectorAll("i").forEach(seg => {
       const list = slides.map((x, j) => [x, j]).filter(([x]) => x.stage === seg.dataset.st), first = list[0][1], n = list.length;
       const pos = idx + (steps ? (stepIdx + 1) / steps : 1) - first;
@@ -378,10 +377,10 @@
   function testAudio() {
     if (!window.DeckAudio) { toast("Audio engine not loaded"); return; }
     DeckAudio.unlock();
-    if (DeckAudio.muted) { toast("Sound is muted. Press M to turn it on, then test again."); const m = $("#btn-mute"); m && gsap.fromTo(m, { scale: 1.4 }, { scale: 1, duration: 0.5, ease: "back.out(3)" }); return; }
+    if (DeckAudio.muted) { toast("Sound is muted. Press M to turn it on, then test again."); const m = $("#btn-mute"); m && gsap.fromTo(m, { scale: 1.2 }, { scale: 1, duration: 0.4, ease: "power2.out" }); return; }
     DeckAudio.sfx("jingle");
     toast("Playing a short jingle. Can the back row hear it? If not, raise the volume or check the output device.");
-    const b = $("#pf-test"); if (b) { b.classList.add("played"); gsap.fromTo(b, { scale: 1.12 }, { scale: 1, duration: 0.5, ease: "back.out(3)" }); }
+    const b = $("#pf-test"); if (b) { b.classList.add("played"); gsap.fromTo(b, { scale: 1.08 }, { scale: 1, duration: 0.4, ease: "power2.out" }); }
   }
   // The pre-flight card is only visible until the timer starts (first Next).
   function updatePreflight() {

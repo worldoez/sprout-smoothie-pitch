@@ -250,7 +250,7 @@
           .to(mo.querySelector(".mo-arm-l"), { rotate: 120, duration: 0.15, yoyo: true, repeat: 9 }, 0)
           .to(mo.querySelector(".mo-arm-r"), { rotate: -60, duration: 0.15, yoyo: true, repeat: 9 }, 0)
           .to(mo.querySelector(".mo-body"), { scaleY: 0.94, scaleX: 1.04, duration: 0.15, yoyo: true, repeat: 11, ease: "sine.inOut" }, 0)
-          .add(() => window.confetti && confetti({ particleCount: 80, spread: 100, origin: { y: 0.6 } }), 0.4);
+          .add(() => {}, 0.4);
       },
       (el) => {
         const mo = el.querySelector(".mo"), hand = mo.querySelector(".mo-hand-cup"), arm = mo.querySelector(".mo-arm-r");
@@ -335,11 +335,7 @@
           .to(mo, { y: 0, duration: 0.6, ease: "back.out(1.7)" }, 1.7)
           .to(arm, { rotate: 20, duration: 0.22, yoyo: true, repeat: 5, ease: "sine.inOut" }, 2.2)
           .to(mo.querySelector(".mo-leaf"), { rotate: 8, duration: 0.5, yoyo: true, repeat: 3, ease: "sine.inOut" }, 2.2)
-          .add(() => {
-            if (!window.confetti || document.body.classList.contains("print")) return;
-            const end = Date.now() + 1800;
-            (function f() { confetti({ particleCount: 5, angle: 60, spread: 60, origin: { x: 0 } }); confetti({ particleCount: 5, angle: 120, spread: 60, origin: { x: 1 } }); if (Date.now() < end) requestAnimationFrame(f); })();
-          }, 1.4);
+          .add(() => {}, 1.4);
         if (window.CueArt && CueArt.blink) tl.add(CueArt.blink(mo, { double: true }), 2.6);
         return tl;
       }

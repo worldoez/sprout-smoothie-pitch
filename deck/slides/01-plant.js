@@ -2,6 +2,14 @@
 (function () {
   const B = () => CONTENT.brand;
 
+  // Load the cel-line boil filter if the deck hasn't already. Idempotent.
+  if (!document.getElementById("cue-boil-defs") && !window.__boilRequested) {
+    window.__boilRequested = true;
+    const s = document.createElement("script");
+    s.src = "../shared/boil.js";
+    document.head.appendChild(s);
+  }
+
   // Seeded random so the splat looks identical every time (and in the PDF).
   function rng(seed) { return () => (seed = (seed * 16807) % 2147483647) / 2147483647; }
   function blobPath(cx, cy, r, pts, seed, wob = 0.35) {
@@ -16,17 +24,17 @@
     let drops = "";
     for (let i = 0; i < 26; i++) {
       const a = rand() * Math.PI * 2, d = 380 + rand() * 520, r = 14 + rand() * 46;
-      drops += `<circle class="sp-drop" cx="${960 + Math.cos(a) * d}" cy="${540 + Math.sin(a) * d * 0.7}" r="${r}" fill="${i % 3 ? "#FFB020" : "#E8364F"}"/>`;
+      drops += `<circle class="sp-drop" cx="${960 + Math.cos(a) * d}" cy="${540 + Math.sin(a) * d * 0.7}" r="${r}" fill="${i % 3 ? "#E3B23C" : "#B5506A"}"/>`;
     }
     let drips = "";
-    for (let i = 0; i < 9; i++) { const x = 640 + i * 80 + rand() * 30, w = 26 + rand() * 26; drips += `<rect class="sp-drip" x="${x}" y="560" width="${w}" height="${180 + rand() * 300}" rx="${w / 2}" fill="#E69A55"/>`; }
-    return `<svg class="splat" viewBox="0 0 1920 1080" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+    for (let i = 0; i < 9; i++) { const x = 640 + i * 80 + rand() * 30, w = 26 + rand() * 26; drips += `<rect class="sp-drip" x="${x}" y="560" width="${w}" height="${180 + rand() * 300}" rx="${w / 2}" fill="#E3B23C"/>`; }
+    return `<svg class="splat" viewBox="0 0 1920 1080" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" aria-hidden="true">
       <g class="sp-main" style="transform-origin:960px 540px">
         ${drips}
-        <path d="${blobPath(960, 520, 470, 22, 3, 0.6)}" fill="#E69A55"/>
-        <path d="${blobPath(930, 520, 330, 16, 11, 0.5)}" fill="#FFB020"/>
-        <path d="${blobPath(1010, 470, 190, 12, 5, 0.5)}" fill="#E8364F" opacity=".85"/>
-        <ellipse cx="840" cy="400" rx="70" ry="30" fill="#FFF" opacity=".45" transform="rotate(-25 840 400)"/>
+        <path d="${blobPath(960, 520, 470, 22, 3, 0.6)}" fill="#E3B23C"/>
+        <path d="${blobPath(930, 520, 330, 16, 11, 0.5)}" fill="#EBCDB1"/>
+        <path d="${blobPath(1010, 470, 190, 12, 5, 0.5)}" fill="#B5506A" opacity=".9"/>
+        <ellipse cx="840" cy="400" rx="70" ry="30" fill="#F8EBDA" opacity=".7" transform="rotate(-25 840 400)"/>
       </g>
       ${drops}
     </svg>`;
@@ -43,47 +51,36 @@
       .to(mo.querySelector(".mo-body"), { y: 0, duration: 0.18, ease: "sine.in" }, 0.18)
       .add(() => Deck.ctx.sfx("step"), 0.1);
   }
+  // Ambient idle: barely-there breathing, one slow cycle every 8 s.
   const idle = (mo) => gsap.timeline({ repeat: -1, yoyo: true })
-    .to(mo.querySelector(".mo-body"), { y: -6, scaleY: 1.02, duration: 0.9, ease: "sine.inOut" }, 0)
-    .to(mo.querySelector(".mo-leaf"), { rotate: 8, duration: 0.9, ease: "sine.inOut" }, 0);
+    .to(mo.querySelector(".mo-body"), { y: -4, duration: 4, ease: "sine.inOut" }, 0)
+    .to(mo.querySelector(".mo-leaf"), { rotate: 4, duration: 4, ease: "sine.inOut" }, 0);
 
-  const sceneBG = `<div style="position:absolute;inset:0;background:linear-gradient(#FFE4B8 0%, #FFD08A 62%, #6A9467 62%, #24903F 100%)"></div>
-    <div class="sun" style="position:absolute;right:180px;top:120px;width:220px;height:220px;border-radius:50%;background:#F2D9C2;box-shadow:0 0 0 30px rgba(255,244,226,.35),0 0 0 70px rgba(255,244,226,.18)"></div>
-    <svg style="position:absolute;left:0;bottom:350px;width:100%" viewBox="0 0 1920 120" preserveAspectRatio="none"><path d="M0 120 Q240 30 480 90 T960 70 T1440 90 T1920 50 V120Z" fill="#7CC576"/></svg>`;
+  const sceneBG = `<div style="position:absolute;inset:0;background:#F8EBDA"></div>
+    <div style="position:absolute;left:0;right:0;bottom:0;height:190px;background:#EBCDB1"></div>
+    <div class="sun" style="position:absolute;right:180px;top:120px;width:170px;height:170px;border-radius:50%;background:transparent;border:2px solid #25292B"></div>
+    <svg style="position:absolute;left:0;bottom:190px;width:100%" viewBox="0 0 1920 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 120 Q240 30 480 90 T960 70 T1440 90 T1920 50 V120Z" fill="#F2D9C2" stroke="#25292B" stroke-width="2"/></svg>`;
 
   Object.assign(Kit, { splatSVG, walkCycle, idle, sceneBG, blobPath });
 
   // ---------------- 1. Brand intro ----------------
-  const ORBIT = ["🥭", "🍓", "🍌", "🫐", "🍑", "🥝", "🍍", "🍊"];
   Deck.add({
     n: 1, stage: "plant", title: "Brand intro", budget: 20, music: "brand", musicVol: 0.3,
     notes: "Role 1. Let the logo loop while you greet the room.\n\"Hi, we're team ___. This is CUE: smoothies made from what CUHK students told us. Blended fresh on your cue.\"",
     html: () => `
-      <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 45%, #FFB347 0%, #E08A45 38%, #D9481F 75%, #9A3E4B 100%)"></div>
-      <div class="orbit" style="position:absolute;left:960px;top:520px;width:0;height:0">
-        ${ORBIT.map((f, i) => `<div class="orb" style="position:absolute;transform:rotate(${i * 45}deg) translateX(560px) rotate(${-i * 45}deg)"><span class="orb-in fruit-emoji" style="display:block;font-size:110px;margin:-60px">${f}</span></div>`).join("")}
-      </div>
-      <div style="position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:#F2D9C2">
+      <div style="position:absolute;inset:0;background:#F8EBDA"></div>
+      <div style="position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:#25292B">
         <div>
-          <div class="pill" style="display:inline-block;padding:14px 30px;border-radius:99px;background:#F2D9C2;color:#9A3E4B;font-weight:700;font-size:30px">Fresh smoothies for CUHK</div>
-          <h1 class="logo" style="margin:20px 0 70px"><span class="ch" style="display:inline-block"><img src="../assets/img/cue-logo.png" alt="CUE" style="height:380px;width:auto;display:block;filter:drop-shadow(0 16px 0 rgba(90,20,20,.25))"></span></h1>
-          <div class="slogan" style="font-size:54px;font-family:var(--font-display);font-weight:500">${Kit.splitLetters(B().slogan, "sl")}</div>
+          <div class="pill" style="display:inline-block;padding:14px 30px;border-radius:999px;background:#25292B;color:#F8EBDA;font-weight:600;font-size:26px;letter-spacing:.02em">Fresh smoothies for CUHK</div>
+          <h1 class="logo" style="margin:26px 0 48px"><span class="ch" style="display:inline-block"><img class="boil" src="../assets/img/cue-logo.png" alt="CUE" style="height:360px;width:auto;display:block"></span></h1>
+          <div class="slogan" style="font-size:54px;font-family:var(--font-display);font-weight:500;color:#25292B">${Kit.splitLetters(B().slogan, "sl")}</div>
         </div>
       </div>`,
-    ambient: (el) => {
-      const tl = gsap.timeline();
-      tl.to(el.querySelector(".orbit"), { rotate: 360, duration: 40, ease: "none", repeat: -1 }, 0);
-      tl.to(el.querySelectorAll(".orb-in"), { rotate: -360, duration: 40, ease: "none", repeat: -1 }, 0);
-      tl.to(el.querySelectorAll(".logo .ch"), { y: -14, duration: 1.1, ease: "sine.inOut", stagger: { each: 0.12, repeat: -1, yoyo: true } }, 2);
-      return tl;
-    },
     steps: [
       (el) => gsap.timeline()
-        .from(el.querySelectorAll(".logo .ch"), { y: -700, rotate: () => gsap.utils.random(-40, 40), duration: 0.9, ease: "bounce.out", stagger: 0.08 })
-        .add(() => Deck.ctx.sfx("pop"), 0.5)
-        .from(el.querySelector(".pill"), { scale: 0, duration: 0.5, ease: "back.out(3)" }, 0.6)
-        .from(el.querySelectorAll(".slogan .sl"), { opacity: 0, duration: 0.01, stagger: 0.035 }, 0.9)
-        .from(el.querySelectorAll(".orb-in"), { scale: 0, duration: 0.6, ease: "back.out(2)", stagger: 0.06 }, 0.4)
+        .from(el.querySelectorAll(".logo .ch"), { y: -120, opacity: 0, duration: 0.5, ease: "power2.out" })
+        .from(el.querySelector(".pill"), { opacity: 0, y: 16, duration: 0.4, ease: "power2.out" }, 0.2)
+        .from(el.querySelectorAll(".slogan .sl"), { opacity: 0, duration: 0.01, stagger: 0.03 }, 0.4)
     ]
   });
 
@@ -92,21 +89,21 @@
     n: 2, stage: "plant", title: "Cuethie walks out", budget: 20, music: "brand", musicVol: 0.2,
     notes: "\"Meet Cuethie, our mascot. Cuethie has been carrying our first smoothie all week...\"",
     html: (ctx) => `${sceneBG}
-      <div class="mo" style="position:absolute;left:760px;top:330px;width:420px;height:540px">${ctx.art.mascot({ cup: true })}</div>
+      <div class="mo boil" style="position:absolute;left:760px;top:330px;width:420px;height:540px">${ctx.art.mascot({ cup: true })}</div>
       <div class="bubble b1" style="left:1150px;top:220px">Fresh smoothie, coming through!</div>
-      <div class="sparkles" style="position:absolute;left:1060px;top:300px;font-size:60px">✨</div>
+      <svg class="sparkle boil" viewBox="0 0 40 40" style="position:absolute;left:1060px;top:300px;width:56px;height:56px" aria-hidden="true"><path d="M20 2 L24.6 15.4 L38 20 L24.6 24.6 L20 38 L15.4 24.6 L2 20 L15.4 15.4 Z" fill="#B83A32"/></svg>
       <h2 class="s-title t" style="position:absolute;left:130px;top:110px;color:#25292B;font-size:110px">Meet Cuethie.</h2>`,
     steps: [
       (el) => {
         const mo = el.querySelector(".mo");
-        gsap.set([el.querySelector(".b1"), el.querySelector(".sparkles")], { opacity: 0, scale: 0.5 });
+        gsap.set([el.querySelector(".b1"), el.querySelector(".sparkle")], { opacity: 0, scale: 0.5 });
         const walk = walkCycle(mo, 7);
         return gsap.timeline({ onComplete: () => walk.kill() })
           .from(mo, { x: -1300, duration: 2.5, ease: "none" }, 0)
           .add(walk, 0)
-          .from(el.querySelector(".t"), { y: -80, opacity: 0, duration: 0.5, ease: "back.out(2)" }, 0.4)
+          .from(el.querySelector(".t"), { y: -60, opacity: 0, duration: 0.5, ease: "power2.out" }, 0.4)
           .to(mo.querySelectorAll(".mo-leg-l, .mo-leg-r"), { rotate: 0, duration: 0.15 }, 2.5)
-          .to(el.querySelector(".b1"), { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2.5)" }, 2.55)
+          .to(el.querySelector(".b1"), { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out" }, 2.55)
           .add(() => Deck.ctx.sfx("pop"), 2.55);
       },
       (el) => {
@@ -114,11 +111,11 @@
         return gsap.timeline()
           .add(() => Deck.ctx.sfx("tada"))
           .to(mo, { scaleX: -1, duration: 0.25, yoyo: true, repeat: 3, ease: "power1.inOut" })
-          .to(mo.querySelector(".mo-arm-r"), { rotate: -35, duration: 0.3, ease: "back.out(2)" }, 0.2)
-          .to(mo.querySelector(".mo-hand-cup"), { y: -60, rotate: -8, duration: 0.3, ease: "back.out(2)" }, 0.2)
-          .to(el.querySelector(".sparkles"), { opacity: 1, scale: 1.4, rotate: 20, duration: 0.4, ease: "back.out(3)" }, 0.5)
+          .to(mo.querySelector(".mo-arm-r"), { rotate: -35, duration: 0.3, ease: "power2.out" }, 0.2)
+          .to(mo.querySelector(".mo-hand-cup"), { y: -60, rotate: -8, duration: 0.3, ease: "power2.out" }, 0.2)
+          .to(el.querySelector(".sparkle"), { opacity: 1, scale: 1.15, rotate: 12, duration: 0.4, ease: "power2.out" }, 0.5)
           .add(() => Deck.ctx.sfx("sparkle"), 0.5)
-          .to(mo, { y: -40, duration: 0.25, yoyo: true, repeat: 1, ease: "power2.out" }, 1.0);
+          .to(mo, { y: -36, duration: 0.3, yoyo: true, repeat: 1, ease: "power2.out" }, 1.0);
       }
     ]
   });
@@ -128,9 +125,9 @@
     n: 3, stage: "plant", title: "The spill", budget: 20, music: "brand", musicVol: 0.15,
     notes: "Click once: Cuethie trips and the smoothie splats. Act surprised: \"Oh no, Cuethie!\"\nClick again: \"That's okay. We'll show you how to make a new one, from the seed up.\"",
     html: (ctx) => `${sceneBG}
-      <div class="mo" style="position:absolute;left:760px;top:330px;width:420px;height:540px">${ctx.art.mascot({ cup: true })}</div>
+      <div class="mo boil" style="position:absolute;left:760px;top:330px;width:420px;height:540px">${ctx.art.mascot({ cup: true })}</div>
       <div class="splat-wrap">${splatSVG()}</div>
-      <div class="bubble b1" style="left:250px;top:150px;font-size:110px;background:#9A3E4B;color:#F2D9C2">Oh no!!</div>
+      <div class="bubble b1" style="left:250px;top:150px;font-size:110px;background:#B83A32;color:#F8EBDA">Oh no!!</div>
       <div class="bubble b2" style="left:250px;top:150px;font-size:58px;max-width:900px;line-height:1.1">That's okay… we'll show you how to make a new one.</div>`,
     ambient: (el) => idle(el.querySelector(".mo")),
     steps: [
@@ -149,22 +146,22 @@
           .add(() => Deck.ctx.sfx("whoosh"), 0.05)
           .to(cup, { x: 120, y: -420, rotate: 540, scale: 3.4, duration: 0.55, ease: "power2.out" }, 0.08)
           .to(cup, { opacity: 0, duration: 0.05 }, 0.6)
-          .to(el.querySelector(".sp-main"), { scale: 1, duration: 0.25, ease: "back.out(1.4)" }, 0.6)
-          .to(el.querySelectorAll(".sp-drop"), { scale: 1, duration: 0.3, ease: "back.out(2)", stagger: 0.008 }, 0.62)
+          .to(el.querySelector(".sp-main"), { scale: 1, duration: 0.25, ease: "power2.out" }, 0.6)
+          .to(el.querySelectorAll(".sp-drop"), { scale: 1, duration: 0.3, ease: "power2.out", stagger: 0.008 }, 0.62)
           .add(() => Deck.ctx.sfx("splat"), 0.6)
           .to(el.querySelectorAll(".sp-drip"), { scaleY: 1, duration: 2.2, ease: "power1.in", stagger: 0.12 }, 0.9)
-          .to(mo.querySelector(".mo-body"), { rotate: 0, duration: 0.3, ease: "back.out(2)" }, 0.8)
+          .to(mo.querySelector(".mo-body"), { rotate: 0, duration: 0.3, ease: "power2.out" }, 0.8)
           .to(mo.querySelectorAll(".mo-leg-r, .mo-arm-r"), { rotate: 0, duration: 0.3 }, 0.8)
           .to(mo.querySelector(".mo-mouth"), { opacity: 0, duration: 0.1 }, 0.9)
           .to(mo.querySelector(".mo-mouth-sad"), { opacity: 1, duration: 0.1 }, 0.9)
-          .to(el.querySelector(".b1"), { opacity: 1, scale: 1, rotate: -4, duration: 0.35, ease: "back.out(3)" }, 1.0)
+          .to(el.querySelector(".b1"), { opacity: 1, scale: 1, rotate: -4, duration: 0.35, ease: "power2.out" }, 1.0)
           .add(() => Deck.ctx.sfx("sad"), 1.1);
       },
       (el) => {
         const mo = el.querySelector(".mo");
         return gsap.timeline()
           .to(el.querySelector(".b1"), { opacity: 0, scale: 0.6, duration: 0.2 })
-          .to(el.querySelector(".b2"), { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, 0.1)
+          .to(el.querySelector(".b2"), { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out" }, 0.1)
           .to(mo.querySelector(".mo-mouth-sad"), { opacity: 0, duration: 0.1 }, 0.3)
           .to(mo.querySelector(".mo-mouth"), { opacity: 1, duration: 0.1 }, 0.3)
           .to(mo.querySelector(".mo-arm-l"), { rotate: 60, duration: 0.3, yoyo: true, repeat: 1 }, 0.3)
@@ -178,14 +175,14 @@
     n: 4, stage: "plant", title: "Let's grow something new", budget: 40, usesOrder: true,
     notes: "Hand the phone to the professor (order app already open).\n\"Professor, you're our first customer. Build your smoothie as we go: we'll reveal it at the end of Blend.\"\nPress R any time to pull in the newest order.",
     html: (ctx) => `
-      <div style="position:absolute;inset:0;background:#E69A55"></div>
+      <div style="position:absolute;inset:0;background:#25292B"></div>
       <div class="splat-wrap">${splatSVG()}</div>
       <div class="pad" style="display:grid;grid-template-columns:1fr 520px 620px;gap:60px;align-items:center">
         <div>
-          <h2 class="s-title big" style="font-size:150px;color:#25292B">${Kit.splitLetters("Let's grow", "w")}<br>${Kit.splitLetters("something new.", "w")}</h2>
-          <p class="s-sub ask" style="color:#25292B;margin-top:40px">What should we make? <b>You decide:</b> scan to place Order #1.</p>
+          <h2 class="s-title big" style="font-size:150px;color:#F2D9C2">${Kit.splitLetters("Let's grow", "w")}<br>${Kit.splitLetters("something new.", "w")}</h2>
+          <p class="s-sub ask" style="color:#F2D9C2;opacity:.85;margin-top:40px">What should we make? <b>You decide:</b> scan to place Order #1.</p>
         </div>
-        <div class="qrbox" style="text-align:center;color:#25292B"><a href="../order/index.html?room=${CueOrders.room()}" target="_blank" rel="noopener" data-interactive>${Kit.qrSVG(Kit.siteURL("order/index.html?room=" + CueOrders.room()), 440)}</a><div style="font-weight:700;font-size:28px;margin-top:16px">Scan to order</div></div>
+        <div class="qrbox" style="text-align:center;color:#F2D9C2"><a href="../order/index.html?room=${CueOrders.room()}" target="_blank" rel="noopener" data-interactive>${Kit.qrSVG(Kit.siteURL("order/index.html?room=" + CueOrders.room()), 440)}</a><div style="font-weight:600;font-size:28px;margin-top:16px">Scan to order</div></div>
         <div class="order-card oc" style="position:relative">${Kit.orderCardHTML(null, ctx)}</div>
       </div>`,
     onOrder: (el, o, ctx) => { const c = el.querySelector(".oc"); if (c) c.innerHTML = o.source === "example" ? `<div class="who">Order #1</div><h4>Waiting for the next order…</h4><div class="src">It appears here the moment it's placed</div>` : Kit.orderCardHTML(o, ctx); },
@@ -197,12 +194,12 @@
           .add(() => Deck.ctx.sfx("riser"))
           .to(el.querySelector(".splat-wrap"), { scale: 0.02, rotate: 200, duration: 0.8, ease: "power3.in", transformOrigin: "50% 48%" })
           .add(() => Deck.ctx.sfx("pop"))
-          .from(el.querySelectorAll(".big .w"), { y: 120, opacity: 0, rotate: 10, duration: 0.5, ease: "back.out(2)", stagger: 0.03 });
+          .from(el.querySelectorAll(".big .w"), { y: 90, opacity: 0, duration: 0.5, ease: "power2.out", stagger: 0.03 });
       },
       (el) => gsap.timeline()
         .to(el.querySelector(".ask"), { opacity: 1, y: 0, duration: 0.4 })
-        .to(el.querySelector(".qrbox"), { opacity: 1, y: 0, duration: 0.5, ease: "back.out(2)" }, 0.15)
-        .to(el.querySelector(".oc"), { opacity: 1, y: 0, duration: 0.5, ease: "back.out(2)" }, 0.3)
+        .to(el.querySelector(".qrbox"), { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 0.15)
+        .to(el.querySelector(".oc"), { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 0.3)
     ]
   });
 
@@ -211,14 +208,15 @@
     n: 5, stage: "plant", title: "The seed: our idea", budget: 45,
     notes: "Role 1: who we are and the idea.\nThe inspiration: Booster Juice, a Canadian chain built on fresh smoothies with optional \"boosters\" — the add-a-shot idea CUE keeps.",
     html: () => `
-      <div style="position:absolute;left:0;right:0;bottom:0;height:330px;background:#4B4239"></div>
-      <div style="position:absolute;left:0;right:0;bottom:300px;height:60px;background:radial-gradient(circle at 20px 60px,#4B4239 34px,transparent 35px) 0 0/80px 60px repeat-x"></div>
-      <svg class="plant" viewBox="0 0 400 600" style="position:absolute;right:300px;bottom:240px;width:400px;height:600px;overflow:visible">
-        <ellipse class="hole" cx="200" cy="520" rx="70" ry="16" fill="#2E1C0F"/>
-        <path class="stem" d="M200 520 C200 430 190 380 205 300" stroke="#6A9467" stroke-width="16" stroke-linecap="round" fill="none"/>
-        <path class="leaf1" d="M203 340 C150 300 120 320 110 350 C150 370 180 360 203 340Z" fill="#6A9467" stroke="#48714A" stroke-width="4"/>
-        <path class="leaf2" d="M205 300 C250 240 300 250 310 280 C270 310 235 315 205 300Z" fill="#7FA77C" stroke="#48714A" stroke-width="4"/>
-        <ellipse class="seed" cx="200" cy="510" rx="22" ry="30" fill="#8A6A4A" stroke="#25292B" stroke-width="4"/>
+      <div style="position:absolute;inset:0;background:#F8EBDA;color:#25292B">
+      <div style="position:absolute;left:0;right:0;bottom:0;height:330px;background:#EBCDB1"></div>
+      <div style="position:absolute;left:0;right:0;bottom:330px;height:3px;background:repeating-linear-gradient(90deg,#25292B 0 26px,transparent 26px 44px)"></div>
+      <svg class="plant boil" viewBox="0 0 400 600" style="position:absolute;right:300px;bottom:240px;width:400px;height:600px;overflow:visible" aria-hidden="true">
+        <ellipse class="hole" cx="200" cy="520" rx="70" ry="16" fill="#25292B" opacity=".18"/>
+        <path class="stem" d="M200 520 C200 430 190 380 205 300" stroke="#25292B" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path class="leaf1" d="M203 340 C150 300 120 320 110 350 C150 370 180 360 203 340Z" fill="#F2D9C2" stroke="#25292B" stroke-width="2" stroke-linejoin="round"/>
+        <path class="leaf2" d="M205 300 C250 240 300 250 310 280 C270 310 235 315 205 300Z" fill="#EBCDB1" stroke="#25292B" stroke-width="2" stroke-linejoin="round"/>
+        <ellipse class="seed" cx="200" cy="510" rx="22" ry="30" fill="#25292B"/>
       </svg>
       <div class="pad">
         <div class="s-kicker">Plant the seed</div>
@@ -228,6 +226,7 @@
           <li><span>Inspired by <b>Booster Juice</b>, Canada's fresh-smoothie-and-boosters chain.</span></li>
           <li><span>Our question: would CUHK students buy one, and <b>which one</b>?</span></li>
         </ul>
+      </div>
       </div>`,
     steps: [
       (el) => {
@@ -235,16 +234,16 @@
         gsap.set(el.querySelector(".stem"), { strokeDasharray: 260, strokeDashoffset: 260 });
         gsap.set(el.querySelectorAll(".leaf1, .leaf2"), { scale: 0, transformOrigin: "100% 100%" });
         return gsap.timeline()
-          .from(el.querySelector(".tt"), { y: 40, opacity: 0, duration: 0.5 })
-          .from(el.querySelector(".seed"), { y: -900, duration: 0.8, ease: "bounce.out" }, 0.1)
+          .from(el.querySelector(".tt"), { y: 40, opacity: 0, duration: 0.5, ease: "power2.out" })
+          .from(el.querySelector(".seed"), { y: -900, duration: 0.7, ease: "power2.in" }, 0.1)
           .add(() => Deck.ctx.sfx("seed"), 0.5)
-          .to(el.querySelector(".seed"), { scaleY: 0.4, y: 14, duration: 0.3 }, 1.0)
-          .to(el.querySelector(".stem"), { strokeDashoffset: 0, duration: 1.0, ease: "power2.out" }, 1.1)
-          .to(el.querySelector(".leaf1"), { scale: 1, duration: 0.5, ease: "back.out(2.5)" }, 1.6)
-          .to(el.querySelector(".leaf2"), { scale: 1, duration: 0.5, ease: "back.out(2.5)" }, 1.8)
+          .to(el.querySelector(".seed"), { scaleY: 0.4, y: 14, duration: 0.3 }, 0.95)
+          .to(el.querySelector(".stem"), { strokeDashoffset: 0, duration: 1.0, ease: "power2.out" }, 1.05)
+          .to(el.querySelector(".leaf1"), { scale: 1, duration: 0.5, ease: "power2.out" }, 1.55)
+          .to(el.querySelector(".leaf2"), { scale: 1, duration: 0.5, ease: "power2.out" }, 1.75)
           .add(() => Deck.ctx.sfx("pop"), 1.7);
       },
-      (el) => gsap.timeline().to(el.querySelectorAll(".pp li"), { opacity: 1, x: 0, stagger: 0.15, duration: 0.35 })
+      (el) => gsap.timeline().to(el.querySelectorAll(".pp li"), { opacity: 1, x: 0, stagger: 0.15, duration: 0.35, ease: "power2.out" })
     ]
   });
 

@@ -1,7 +1,6 @@
 /* CUE site. Reads CONTENT.brand / CONTENT.menu / CONTENT.data and CueArt.
-   Works from file:// : classic script, no fetch, no modules. GSAP is optional —
-   every animated element starts at its final state, so the page is complete
-   without it and unchanged under prefers-reduced-motion. */
+   Works from file:// : classic script, no fetch, no modules. No GSAP — the only
+   entrance is a 400 ms CSS fade on the hero, disabled under reduced motion. */
 (function () {
   "use strict";
 
@@ -11,8 +10,6 @@
 
   var reduce = false;
   try { reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
-  var gsapOK = false;
-  try { gsapOK = !reduce && typeof window.gsap === "function" && typeof window.ScrollTrigger === "object"; } catch (e) {}
 
   function $(sel, root) { return (root || document).querySelector(sel); }
   function $all(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
@@ -45,33 +42,20 @@
   $("#factsSrc").textContent = ((D.results.n && D.results.n.usable) || 55) + " usable responses, harvested " + D.results.generated +
     ". Purchase intent Q31, fruit Q25, price Q29, pre-order app Q19.";
 
-  /* ---------- hero: huge cup + mascot + fruit chunks ---------- */
-  $("#heroCup").innerHTML = CueArt.cup({ label: B.name });
-  $("#heroMo").innerHTML = CueArt.mascot(); // no cup in hand: both arms free, one waves
+  /* ---------- hero: Cuethie, no cup in hand, just standing with the cups ---------- */
+  var heroMo = $("#heroMo");
+  if (heroMo && window.CueArt) heroMo.innerHTML = CueArt.mascot();
 
-  var chunkPos = [
-    { left: "6%",  top: "18%", size: 54 },
-    { left: "20%", top: "4%",  size: 40 },
-    { left: "76%", top: "10%", size: 46 },
-    { left: "88%", top: "38%", size: 60 },
-    { left: "10%", top: "58%", size: 34 }
-  ];
-  var fruitHolder = $("#heroFruits");
-  M.fruits.forEach(function (f, i) {
-    var pos = chunkPos[i % chunkPos.length];
-    var span = document.createElement("span");
-    span.style.left = pos.left;
-    span.style.top = pos.top;
-    span.innerHTML =
-      '<svg width="' + pos.size + '" height="' + pos.size + '" viewBox="0 0 100 100">' +
-      '<circle cx="50" cy="50" r="42" fill="' + f.color + '" stroke="#25292B" stroke-width="8"/>' +
-      '<ellipse cx="38" cy="36" rx="11" ry="6" fill="#FFF" opacity=".6" transform="rotate(-28 38 36)"/>' +
-      '<path d="M30 64 Q50 76 70 64" fill="none" stroke="rgba(37, 41, 43,.35)" stroke-width="6" stroke-linecap="round"/>' +
-      "</svg>";
-    fruitHolder.appendChild(span);
-  });
-
-  /* ---------- menu board, rendered from content/menu.js ---------- */
+  /* ---------- menu board, rendered from content/menu.js ----------
+     Each named drink shows its render beside the row. drinkImage returns a path
+     relative to the PRESENTATION root, so pages in /site/ prefix "../". */
+  function renderSrc(d) {
+    var p = window.CONTENT.drinkImage(d);
+    return p.indexOf("assets/") === 0 ? "../" + p : p;
+  }
+  function renderAlt(d) {
+    return (d.fruits && d.fruits.length) ? "CUE cup of the " + d.name + " smoothie" : "CUE logo sticker cup";
+  }
   function sectionPrice(sec) {
     // Morning Blends have no confirmed price: "TBC", never a number.
     return sec.price != null ? "HK$" + sec.price : "TBC";
@@ -80,13 +64,18 @@
     return sec.price != null ? "HK$" + sec.price : "price " + sec.priceText;
   }
   function drinkRow(d, sec) {
+    var img = window.CONTENT.drinkImage(d);
+    var imgCls = "row-img" + (img.indexOf("cue-logo") > -1 ? " row-logo" : "");
     return '<li class="menu-row">' +
+      '<img class="' + imgCls + '" src="' + renderSrc(d) + '" alt="' + renderAlt(d) + '" loading="lazy">' +
+      '<div class="row-body">' +
       '<div class="row-main">' +
       '<span class="row-name">' + d.name + (d.signature ? ' <span class="sig-pill">Signature</span>' : "") + "</span>" +
       '<span class="row-dots" aria-hidden="true"></span>' +
       '<span class="row-price">' + sectionPrice(sec) + "</span>" +
       "</div>" +
       '<p class="row-desc">' + d.desc + "</p>" +
+      "</div>" +
       "</li>";
   }
   function mixPanel() {
@@ -104,7 +93,7 @@
       '<ul class="mix-sizes">' + M.sizes.map(function (s) {
         return "<li><span>" + s.name + '</span><span class="row-price">HK$' + s.price + "</span></li>";
       }).join("") + "</ul>" +
-      '<a class="btn leaf mix-btn" href="../order/index.html">Mix it in the order app</a>' +
+      '<a class="btn mix-btn" href="../order/index.html">Mix it in the order app</a>' +
       "</section>";
   }
   $("#menuBoard").innerHTML = M.sections.map(function (sec) {
@@ -143,28 +132,5 @@
       });
     }, { threshold: 0.6 });
     $all(".facts .num").forEach(function (el) { counted.observe(el); });
-  }
-
-  /* ---------- hero load: cup pops, Mo slides in, copy follows (one timeline only) ---------- */
-  function heroMoment() {
-    if (!gsapOK) return; // final states are already in the markup
-    try {
-      var tl = window.gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.from("#heroCup", { y: 36, scale: 0.9, opacity: 0, duration: 0.6 })
-        .from(".hero-halo", { scale: 0.7, opacity: 0, duration: 0.5, transformOrigin: "50% 100%" }, "-=0.35")
-        .from("#heroFruits svg", { y: 20, opacity: 0, duration: 0.4, stagger: 0.06 }, "-=0.3")
-        .from("#heroMo", { x: 60, y: 30, rotation: 10, opacity: 0, duration: 0.5, ease: "back.out(1.7)" }, "-=0.35")
-        .from("#heroTitle", { y: 26, opacity: 0, duration: 0.5 }, "-=0.4")
-        .from(["#heroSlogan", "#heroTagline"], { y: 16, opacity: 0, duration: 0.45, stagger: 0.09 }, "-=0.3")
-        .from("#heroBtns a", { y: 12, opacity: 0, duration: 0.4, stagger: 0.07 }, "-=0.25");
-    } catch (e) { /* leave final states */ }
-  }
-
-  function init() { heroMoment(); }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
   }
 })();

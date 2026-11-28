@@ -18,7 +18,7 @@
   const ESRI = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
 
   // A dart seen from behind (flying away from us into the screen) and from the side (stuck in).
-  const dartBack = `<svg viewBox="-100 -100 200 200" width="200" height="200" style="overflow:visible">
+  const dartBack = `<svg class="boil" viewBox="-100 -100 200 200" width="200" height="200" style="overflow:visible">
     <g class="spin">
       <path d="M0 0 L-70 -70 Q-40 -88 -12 -60 Z" fill="#9A3E4B" stroke="#25292B" stroke-width="5"/>
       <path d="M0 0 L70 -70 Q88 -40 60 -12 Z" fill="#E08A45" stroke="#25292B" stroke-width="5"/>
@@ -26,7 +26,7 @@
       <path d="M0 0 L-70 70 Q-88 40 -60 12 Z" fill="#E08A45" stroke="#25292B" stroke-width="5"/>
       <circle r="18" fill="#25292B"/><circle r="8" fill="#C9CED6"/>
     </g></svg>`;
-  const dartSide = `<svg viewBox="0 0 320 120" width="320" height="120" style="overflow:visible">
+  const dartSide = `<svg class="boil" viewBox="0 0 320 120" width="320" height="120" style="overflow:visible">
     <g class="wob" style="transform-origin:0px 60px">
       <path d="M0 60 L60 52 L60 68 Z" fill="#C9CED6" stroke="#25292B" stroke-width="4"/>
       <rect x="58" y="48" width="120" height="24" rx="10" fill="#25292B"/>
