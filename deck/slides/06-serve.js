@@ -148,10 +148,10 @@
         <div class="sf-h">Menu</div>
         <svg class="sf-squig" viewBox="0 0 190 16"><path d="M4 10 Q30 2 56 10 T108 10 T160 10 T186 8" stroke="#F2D9C2" stroke-width="5" fill="none" stroke-linecap="round" opacity=".8"/></svg>
         <div class="sf-sub">${B().name} smoothies</div>
-        ${(M().sections || []).map(sec => `<div class="sf-row"><span class="sf-name">${sec.title}${sec.ml ? `<small>${sec.ml} ml</small>` : ""}</span>${sec.price ? flapHTML("HK$" + sec.price) : `<span class="sf-tbc">price to be confirmed</span>`}</div>`).join("")}
+        ${(M().sections || []).map(sec => `<div class="sf-row"><span class="sf-name">${sec.title}${sec.ml ? `` : ""}</span></div>`).join("")}
         <div class="sf-div">Cup sizes</div>
         ${M().sizes.map(s => `<div class="sf-row"><span class="sf-name">${s.name}</span>${flapHTML("HK$" + s.price)}</div>`).join("")}
-        <div class="sf-row"><span class="sf-name">Boosts<small>one scoop each</small></span>${flapHTML("+HK$5")}</div>
+        <div class="sf-row"><span class="sf-name">Extras<small>first one free</small></span>${flapHTML("+HK$5")}</div>
       </div>
       <div class="chartcard dc-card" style="position:absolute;left:1260px;top:190px">
         <div class="dc-h">What they would pay</div>
@@ -213,7 +213,7 @@
     const p2 = rows(M().bases, b => b.key === o.base, b => b.name, () => "");
     const p3 = rows(M().addons, a => chosen("addons").includes(a.key), a => a.fancy,
       a => a.fancy === a.name ? `${a.pctNote ? a.pctNote + " · " : ""}+HK$${a.price}` : `${a.name} +HK$${a.price}`);
-    const p4 = rows(M().sizes, s => s.key === o.size, s => s.name, s => s.name.includes("ml") ? `HK$${s.price}` : `HK$${s.price} · ${s.ml} ml`);
+    const p4 = rows(M().sizes, s => s.key === o.size, s => s.name, s => `HK$${s.price} · ${s.oz} oz`);
     const panel = (n, head, chips, off) => `<div class="pstep" data-n="${n}" ${off ? `style="transform:translateX(110%)"` : ""}>
         <div class="pstep-h"><b>${n} / 4</b> ${head}</div><div class="pgrid">${chips}</div></div>`;
     return `<div class="pstage">
@@ -229,7 +229,7 @@
     const b = ctx.base(o.base);
     const adds = (o.addons || []).map(k => ctx.addon(k)).filter(Boolean);
     const price = o.price != null ? o.price : (sz ? sz.price : 0) + adds.reduce((a, x) => a + (x.price || 0), 0);
-    const parts = [...fr.map(f => `${f.emoji} ${f.name}`), b && b.name, ...adds.map(a => a.fancy), sz && (sz.name.includes("ml") ? sz.name : `${sz.name} ${sz.ml} ml`)].filter(Boolean);
+    const parts = [...fr.map(f => `${f.emoji} ${f.name}`), b && b.name, ...adds.map(a => a.fancy), sz && `${sz.name} ${sz.oz} oz`].filter(Boolean);
     return `<div class="pticket">
       <img src="../${CONTENT.drinkImage(o)}" alt="" style="width:160px;height:200px;object-fit:contain;margin:0 auto 6px">
       <div class="pt-ok">✓ Order placed</div>
@@ -323,7 +323,7 @@
 
   Deck.add({
     n: 18, stage: "serve", title: "Skip the queue", budget: 35, usesOrder: true,
-    notes: "Role 5.\nClick 1: the phone slides up and taps the professor's fruit.\nClick 2: base, boosters and size get tapped in turn.\nClick 3: the Order placed ticket.\nClick 4: the points.\nIf a new live order arrives (toolbar Reload Order or R), the flow rebuilds and replays.",
+    notes: "Role 5.\nClick 1: the phone slides up and taps the professor's fruit.\nClick 2: base, extras and size get tapped in turn.\nClick 3: the Order placed ticket.\nClick 4: the points.\nIf a new live order arrives (toolbar Reload Order or R), the flow rebuilds and replays.",
     html: (ctx) => {
       const o = ctx.order || M().exampleOrder;
       pbSig = orderSig(o); pbPhase = 0;

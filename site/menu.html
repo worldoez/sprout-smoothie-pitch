@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CUE — Menu</title>
+<meta name="description" content="The CUE menu at CUHK: Golden Hour, Fruit Classics and Morning Blends, cup-size prices for students and walk-ins, extras, and mix your own.">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="site.css">
+</head>
+<body class="page-menu">
+
+<main id="top">
+  <!-- ---------- MENU HEAD: peach, title + lede ---------- -->
+  <section class="menu-head" aria-label="Menu">
+    <div class="wrap">
+      <h1 class="display menu-title">Menu</h1>
+      <p class="lede">Three collections, ten named blends. Every drink is priced by cup size, not by recipe — see the size table below.</p>
+    </div>
+  </section>
+
+  <!-- ---------- COLLECTION TABS: sticky under the site nav ---------- -->
+  <nav class="col-tabs" aria-label="Collections">
+    <div class="wrap col-tabs-inner">
+      <a class="col-tab" href="#golden">Golden Hour</a>
+      <a class="col-tab" href="#classics">Fruit Classics</a>
+      <a class="col-tab" href="#morning">Morning Blends</a>
+      <a class="col-tab col-tab-soft" href="#sizes">Sizes</a>
+    </div>
+  </nav>
+
+  <!-- ---------- DRINKS + PANELS: filled from content/menu.js ---------- -->
+  <section class="menu" aria-label="Drinks and prices">
+    <div class="wrap" id="menuBoard"></div>
+  </section>
+</main>
+
+<script src="../content/menu.js"></script>
+<script src="../content/data.js"></script>
+<script src="chrome.js"></script>
+<script src="menu.js"></script>
+</body>
+</html>

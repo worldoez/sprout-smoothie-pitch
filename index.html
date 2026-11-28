@@ -154,7 +154,7 @@ html, body { min-height: 100%; overflow-x: hidden; }
   Array.prototype.forEach.call(document.querySelectorAll(".card"), function (c, n) { c.style.setProperty("--n", n); });
   // Cuethie, standing still (boil.js does the only motion).
   var mo = document.getElementById("mo");
-  if (window.CueArt) mo.innerHTML = CueArt.mascot();
+  if (window.CueArt) mo.innerHTML = CueArt.mascot({ wave: true, boil: false });
 
   // QR for the order card.
   // No "scan with your phone" QR when you're already on a phone or tablet; the card just opens the app.

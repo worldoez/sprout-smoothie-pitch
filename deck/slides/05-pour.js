@@ -28,7 +28,7 @@
       <div class="handoff" style="position:absolute;left:130px;top:430px;font-family:var(--font-display);font-weight:800;font-size:76px;line-height:1.1;color:#F2D9C2;max-width:11ch;opacity:0">Your smoothie is on its way</div>`;
     },
     steps: [
-      (el) => {
+      (el, ctx) => {
         const cup = el.querySelector(".cupimg");
         gsap.set(el.querySelectorAll(".reveal, .reveal .oc"), { opacity: 0 });
         return gsap.timeline()
@@ -39,7 +39,9 @@
           .to(el.querySelector(".stream"), { height: 380, duration: 0.35, ease: "power1.in" }, 1.0)
           .to(cup, { clipPath: "inset(0% 0 0 0)", duration: 1.5, ease: "power1.inOut" }, 1.2)
           .to(el.querySelector(".stream"), { top: 710, height: 0, duration: 0.3 }, 2.6)
-          .to(el.querySelector(".jar"), { rotate: 0, x: -700, duration: 0.6, ease: "power2.in" }, 2.7);
+          .to(el.querySelector(".jar"), { rotate: 0, x: -700, duration: 0.6, ease: "power2.in" }, 2.7)
+          // tiny hook: the cup is poured → the phone's order is ready (no id on the example order)
+          .add(() => { if (window.CueOrders && ctx.order && ctx.order.id && !ctx.order.example) CueOrders.notify("ready", ctx.order.id); });
       },
       (el) => gsap.timeline()
         .add(() => Deck.ctx.sfx("tada"))

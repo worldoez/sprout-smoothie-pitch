@@ -57,3 +57,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
 .dark { background: var(--charcoal); color: var(--text-on-dark); }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
+
+/* Mascot wave (opt in with CueArt.mascot({ wave: true, boil: false })): three friendly swings, a pause, repeat.
+   Scoped to .mo-wave so the deck's own GSAP mascot animation is untouched. */
+@media (prefers-reduced-motion: no-preference) {
+  .mo-wave .mo-arm-r { animation: mo-wave 3.6s ease-in-out infinite; }
+  .mo-wave .mo-body { animation: mo-sway 3.6s ease-in-out infinite; }
+}
+@keyframes mo-wave {
+  0%, 62%, 100% { transform: rotate(0deg); }
+  10% { transform: rotate(-16deg); } 20% { transform: rotate(10deg); } 30% { transform: rotate(-16deg); }
+  40% { transform: rotate(10deg); } 50% { transform: rotate(-12deg); } 58% { transform: rotate(0deg); }
+}
+@keyframes mo-sway { 0%, 62%, 100% { transform: rotate(0deg); } 30% { transform: rotate(-1.2deg); } }

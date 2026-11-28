@@ -1,6 +1,7 @@
-/* CUE site. Reads CONTENT.brand / CONTENT.menu / CONTENT.data and CueArt.
-   Works from file:// : classic script, no fetch, no modules. No GSAP — the only
-   entrance is a 400 ms CSS fade on the hero, disabled under reduced motion. */
+// CUE home page. Reads CONTENT.brand / CONTENT.menu / CONTENT.data and CueArt.
+// Works from file:// : classic script, no fetch, no modules. No GSAP — the only
+// entrance is a 400 ms CSS fade on the hero, disabled under reduced motion.
+// Nav and footer come from chrome.js; this file is home-page-only.
 (function () {
   "use strict";
 
@@ -26,14 +27,10 @@
 
   /* ---------- page copy ---------- */
   document.title = B.name + " — " + B.slogan;
-  // Brand marks: the sticker image carries the logo; .bm-text is the fallback
-  // (shown only when the image fails to load) and the accessible name.
-  $all(".bm-text").forEach(function (el) { el.textContent = B.name; });
   $("#heroSlogan").textContent = B.slogan;
   $("#heroTagline").textContent = B.tagline;
-  $("#surveyTitle").textContent = "See the survey we ran";
 
-  /* ---------- survey numbers (markup already carries the finals; JS counts them up) ---------- */
+  /* ---------- facts: markup carries the finals; JS counts them up ---------- */
   var badges = { nIntent: intentPct, nMango: pct(mango.pct), nPrice: pct(price25.share), nApp: pct(appAgree) };
   Object.keys(badges).forEach(function (id) {
     var el = document.getElementById(id);
@@ -42,72 +39,26 @@
   $("#factsSrc").textContent = ((D.results.n && D.results.n.usable) || 55) + " usable responses, harvested " + D.results.generated +
     ". Purchase intent Q31, fruit Q25, price Q29, pre-order app Q19.";
 
-  /* ---------- hero: Cuethie, no cup in hand, just standing with the cups ---------- */
-  var heroMo = $("#heroMo");
-  if (heroMo && window.CueArt) heroMo.innerHTML = CueArt.mascot();
+  /* ---------- mascot: Cuethie waves, no jellying filter, no cup in hand ---------- */
+  function putMonkey(sel) {
+    $all(sel).forEach(function (el) {
+      if (window.CueArt) el.innerHTML = CueArt.mascot({ wave: true, boil: false });
+    });
+  }
+  putMonkey(".hero-mo");
+  putMonkey(".order-band-mo");
 
-  /* ---------- menu board, rendered from content/menu.js ----------
-     Each named drink shows its render beside the row. drinkImage returns a path
-     relative to the PRESENTATION root, so pages in /site/ prefix "../". */
-  function renderSrc(d) {
-    var p = window.CONTENT.drinkImage(d);
-    return p.indexOf("assets/") === 0 ? "../" + p : p;
+  /* ---------- menu teaser: the signature drink, straight from menu.js ---------- */
+  var sig = M.drinks.filter(function (d) { return d.signature; })[0] || M.drinks[0];
+  var strawberry = D["04_fruit"].filter(function (f) { return f.key === "strawberry"; })[0];
+  if (sig && $("#teaserSig")) {
+    $("#teaserSig").innerHTML =
+      '<p class="row-main"><span class="row-name">' + sig.name +
+      (sig.signature ? ' <span class="sig-pill">Signature</span>' : "") + "</span></p>" +
+      '<p class="teaser-desc">' + sig.desc + "</p>" +
+      '<p class="teaser-note">Mango (<strong>' + pct(mango.pct) + "%</strong>) and strawberry (<strong>" +
+      pct(strawberry ? strawberry.pct : 0) + "%</strong>) were the two fruits most picked in the survey.</p>";
   }
-  function renderAlt(d) {
-    return (d.fruits && d.fruits.length) ? "CUE cup of the " + d.name + " smoothie" : "CUE logo sticker cup";
-  }
-  function sectionPrice(sec) {
-    // Morning Blends have no confirmed price: "TBC", never a number.
-    return sec.price != null ? "HK$" + sec.price : "TBC";
-  }
-  function sectionMeta(sec) {
-    return sec.price != null ? "HK$" + sec.price : "price " + sec.priceText;
-  }
-  function drinkRow(d, sec) {
-    var img = window.CONTENT.drinkImage(d);
-    var imgCls = "row-img" + (img.indexOf("cue-logo") > -1 ? " row-logo" : "");
-    return '<li class="menu-row">' +
-      '<img class="' + imgCls + '" src="' + renderSrc(d) + '" alt="' + renderAlt(d) + '" loading="lazy">' +
-      '<div class="row-body">' +
-      '<div class="row-main">' +
-      '<span class="row-name">' + d.name + (d.signature ? ' <span class="sig-pill">Signature</span>' : "") + "</span>" +
-      '<span class="row-dots" aria-hidden="true"></span>' +
-      '<span class="row-price">' + sectionPrice(sec) + "</span>" +
-      "</div>" +
-      '<p class="row-desc">' + d.desc + "</p>" +
-      "</div>" +
-      "</li>";
-  }
-  function mixPanel() {
-    var fruits = M.fruits.map(function (f) { return f.name.toLowerCase(); }).join(", ");
-    var bases = M.bases.map(function (b) { return b.name.toLowerCase(); }).join(", ");
-    var boosts = M.addons.map(function (a) { return a.name.toLowerCase(); }).join(", ");
-    return '<section class="mix-panel">' +
-      '<h3 class="menu-sec-title">Mix your own</h3>' +
-      '<ul class="mix-rules">' +
-      "<li>Pick 1–" + M.maxFruits + " fruits <em>" + fruits + "</em></li>" +
-      "<li>Pick 1 base <em>" + bases + "</em></li>" +
-      "<li>Up to " + M.maxAddons + " boosts <em>" + boosts + "</em></li>" +
-      "<li>Each boost <em>+HK$5</em></li>" +
-      "</ul>" +
-      '<ul class="mix-sizes">' + M.sizes.map(function (s) {
-        return "<li><span>" + s.name + '</span><span class="row-price">HK$' + s.price + "</span></li>";
-      }).join("") + "</ul>" +
-      '<a class="btn mix-btn" href="../order/index.html">Mix it in the order app</a>' +
-      "</section>";
-  }
-  $("#menuBoard").innerHTML = M.sections.map(function (sec) {
-    var rows = M.drinks.filter(function (d) { return d.section === sec.title; });
-    return '<section class="menu-sec">' +
-      '<div class="menu-sec-head">' +
-      '<h3 class="menu-sec-title">' + sec.title + (sec.ml ? '<span class="menu-sec-ml">' + sec.ml + " ml</span>" : "") + "</h3>" +
-      '<span class="menu-sec-meta">' + sectionMeta(sec) + "</span>" +
-      "</div>" +
-      '<ul class="menu-list">' + rows.map(function (d) { return drinkRow(d, sec); }).join("") + "</ul>" +
-      "</section>";
-  }).join("") + mixPanel();
-  $("#menuFoot").textContent = M.pickupLine;
-  $("#footPickup").textContent = M.pickupLine;
 
   /* ---------- count-up on scroll; finals already in the markup ---------- */
   var ioOK = typeof IntersectionObserver === "function";

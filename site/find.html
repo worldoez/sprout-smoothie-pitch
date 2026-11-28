@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CUE — Find us</title>
+<meta name="description" content="Find the CUE smoothie cart at the YIA Building, CUHK — ground floor, next to the stairwell. Real campus map, place ranking from the survey, and how to order ahead.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="site.css">
+</head>
+<body class="page-find">
+
+<main id="top">
+  <section class="find" aria-label="Find us">
+    <div class="wrap">
+      <h1 class="display find-title">Find us</h1>
+      <p class="lede">One cart to start. Here is where it stands, and why.</p>
+
+      <div class="find-grid">
+        <div class="find-map">
+          <div class="map-box" id="mapBox">
+            <div id="map" class="map" role="application" aria-label="Map of the CUHK campus with the CUE cart at the YIA Building"></div>
+          </div>
+          <div class="map-fallback" id="mapFallback" hidden>
+            <p class="find-place display">The cart, in one line</p>
+            <p class="pick-line" id="pickLineFallback"></p>
+            <p class="find-line">The map could not load this time. The places it was going to show:</p>
+            <ul class="rank-list" id="fallbackList"></ul>
+          </div>
+        </div>
+
+        <div class="find-copy">
+          <div class="find-card">
+            <p class="find-place display">YIA Building</p>
+            <p class="pick-line" id="pickLine">YIA Building, ground floor, next to the stairwell</p>
+            <p class="find-line">Buy in person, or collect a phone order at the same counter.</p>
+            <a class="btn find-btn" href="../order/index.html">Order for pickup at YIA</a>
+          </div>
+
+          <div class="why-yia" id="whyYia">
+            <h2>Why YIA?</h2>
+            <p id="whyYiaText"></p>
+            <p>The first cart stands at YIA, beside the stairwell on the ground floor &mdash; a clear landmark you can point at. Buy in person or collect an order at the same counter. We let traffic and sales decide whether a second cart on Central Campus is worth testing.</p>
+          </div>
+
+          <div class="rank" id="rank">
+            <h2>Where students would buy</h2>
+            <p class="rank-lede">Share of the 55 usable respondents who picked each spot (up to 2 choices).</p>
+            <ul class="rank-list" id="rankList"></ul>
+            <p class="rank-src" id="rankSrc"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script src="../content/menu.js"></script>
+<script src="../content/places.js"></script>
+<script src="../content/data.js"></script>
+<script src="chrome.js"></script>
+<script src="find.js"></script>
+</body>
+</html>

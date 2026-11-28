@@ -62,10 +62,10 @@
     return `
       <div class="who">Order #1, ${o.name || "Guest"}</div>
       <h4>${o.drinkName || CONTENT.drinkName(o.fruits, o.base)}</h4>
-      ${f.map(x => `<div class="line"><span>${x.emoji} ${x.name}<small>fruit</small></span><span class="ev">${pct(x.pct)} picked it</span></div>`).join("")}
+      ${f.map(x => `<div class="line"><span>${x.emoji} ${x.name}<small>fruit</small></span><span class="ev">${x.pct == null ? "" : pct(x.pct) + " picked it"}</span></div>`).join("")}
       ${b ? `<div class="line"><span>${b.name}<small>base</small></span><span class="ev">${pct(b.pct)}</span></div>` : ""}
-      ${adds.map(a => `<div class="line"><span>${a.fancy}<small>${a.name}</small></span><span class="ev">${pct(a.pct)}</span></div>`).join("")}
-      ${sz ? `<div class="line"><span>${sz.name.includes("ml") ? sz.name : sz.name + ", " + sz.ml + " ml"}<small>size</small></span><span class="ev">HK$${o.price || sz.price}</span></div>` : ""}
+      ${adds.map(a => `<div class="line"><span>${a.fancy}<small>${a.name}</small></span><span class="ev">${a.pct == null ? "" : pct(a.pct)}</span></div>`).join("")}
+      ${sz ? `<div class="line"><span>${sz.name + ", " + sz.oz + " oz"}<small>size</small></span><span class="ev">HK$${o.price || sz.price}</span></div>` : ""}
       <div class="src">${src}</div>`;
   }
 

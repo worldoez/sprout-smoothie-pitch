@@ -1,12 +1,13 @@
-/* CUE — smoothie cart brand site, "printed label" look.
+/* CUE — brand site, "printed label" look.
    Tokens come from shared/base.css (see ../DESIGN.md): charcoal ink, peach paper,
-   one straw-red accent, hairline rules, Fraunces + Hanken Grotesk, speckle grain. */
+   one straw-red accent, hairline rules, Fraunces + Hanken Grotesk, speckle grain.
+   Nav and footer markup is injected by chrome.js; styles below cover all pages. */
 
 html, body { overflow-x: clip; }
 body { min-height: 100%; }
 main { display: block; }
 .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; min-width: 0; }
-section[id] { scroll-margin-top: 84px; }
+section[id], .col-tab-anchor { scroll-margin-top: 84px; }
 .num { font-variant-numeric: tabular-nums; }
 /* focus comes from shared/base.css: straw-red 2px outline, peach on dark */
 
@@ -14,54 +15,57 @@ section[id] { scroll-margin-top: 84px; }
   html { scroll-behavior: smooth; }
 }
 
-/* ============ 1. NAV: charcoal bar, logo small, hairline under ============ */
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ============ 1. NAV (chrome.js): charcoal bar, sticker + slab wordmark ============ */
 .nav {
   position: sticky; top: 0; z-index: 50;
   background: var(--charcoal); border-bottom: 1px solid var(--rule);
 }
 .nav-inner {
   max-width: 1120px; margin: 0 auto; padding: 10px 20px;
-  display: flex; align-items: center; gap: 18px; min-width: 0; flex-wrap: wrap;
+  display: flex; align-items: center; gap: 18px; min-width: 0;
 }
 .nav-logo {
   display: inline-flex; align-items: center; gap: 10px; margin-right: auto;
-  text-decoration: none; min-height: 44px;
+  text-decoration: none; min-height: 44px; min-width: 0;
 }
 .brandmark { display: inline-flex; align-items: center; }
 .brandmark img { height: 44px; width: auto; display: block; border-radius: 10px; }
 .brandmark .bm-text { display: none; }
 .brandmark.txt img { display: none; }
 .brandmark.txt .bm-text { display: inline; color: var(--peach); letter-spacing: -0.01em; }
-.nav .brandmark.txt .bm-text { font-size: 26px; }
+.nav .brandmark.txt .bm-text { font-size: 22px; }
+.nav-word {
+  font: 400 26px/1 var(--font-slab); color: var(--peach); letter-spacing: 0;
+  white-space: nowrap; margin-left: 2px;
+}
 .nav-links { display: flex; gap: 4px; flex-wrap: wrap; min-width: 0; }
-.nav-links a {
+.nav-link {
   color: var(--peach); text-decoration: none; font-weight: 600; font-size: 16px;
   padding: 10px 12px; border-radius: 8px; min-height: 44px; line-height: 24px;
-  transition: color .18s;
+  transition: color .18s, background-color .18s;
 }
-.nav-links a:hover { color: var(--paper); }
+.nav-link:hover { color: var(--paper); }
+.nav-link.cur { color: var(--paper); background: rgba(242, 217, 194, .14); }
 .nav-order { padding: .55em 1.2em; min-height: 44px; }
 
 @media (max-width: 560px) {
-  .nav-inner { gap: 8px; }
-  .nav-logo { flex-basis: 100%; }
-  .nav-links { order: 3; }
-  .nav-links a { padding: 8px 10px; font-size: 15px; }
+  .nav-inner { gap: 8px; flex-wrap: wrap; }
+  .nav-logo { flex-basis: auto; margin-right: auto; }
+  .nav-order { order: 2; }
+  .nav-word { font-size: 20px; }
+  .nav-links { order: 3; flex-basis: 100%; }
+  .nav-link { padding: 8px 10px; font-size: 15px; }
 }
 
-/* ============ 2. HERO: charcoal + grain; sticker copy left, drink renders right ============ */
+/* ============ 2. HERO: charcoal + grain; lockup left, drinks and Cuethie right ============ */
 .hero { background: var(--charcoal); color: var(--text-on-dark); overflow: clip; position: relative; }
 .hero-inner {
   max-width: 1120px; margin: 0 auto; padding: 64px 20px 72px;
   display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 32px;
   align-items: center; min-width: 0;
 }
-.hero-title { margin: 0; }
-.brandmark-lg img {
-  height: clamp(170px, 21vw, 250px); width: auto; display: block; border-radius: 26px;
-}
-.brandmark-lg .bm-text { font-size: clamp(64px, 9vw, 120px); line-height: .92; letter-spacing: -0.03em; color: var(--peach); }
-.brandmark.txt .bm-text { display: inline; }
 .hero-slogan {
   margin: 18px 0 0; font: italic 500 clamp(22px, 3vw, 32px) var(--font-display);
   color: var(--peach); max-width: 15em;
@@ -70,27 +74,30 @@ section[id] { scroll-margin-top: 84px; }
 .hero-btns { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
 .hero-btn { min-height: 50px; font-size: 17px; }
 
-/* one quiet entrance, 400 ms, gone under reduced motion (see media query) */
+/* one quiet entrance, 400 ms, gone under reduced motion (see media query below) */
 .hero-copy, .hero-art { opacity: 1; }
 
-/* Right: the three drink renders, centre biggest, on a soft paper ellipse */
+/* Right: the three drink renders and Cuethie are flex items — nobody overlaps.
+   All of them stand on the same soft paper-2 ellipse baseline. */
 .hero-art {
-  position: relative; min-width: 0; height: clamp(340px, 40vw, 520px);
+  position: relative; min-width: 0; height: clamp(300px, 30vw, 380px);
   display: flex; align-items: flex-end; justify-content: center;
-  padding-bottom: 26px;
+  gap: clamp(10px, 1.2vw, 18px); padding-bottom: 26px;
 }
 .hero-shadow {
-  position: absolute; left: 8%; right: 8%; bottom: 0; top: 24%;
-  border-radius: 50%; background: var(--charcoal-3); opacity: 1;
+  position: absolute; left: 2%; right: 2%; bottom: 0; top: 34%;
+  border-radius: 50%; background: var(--charcoal-3);
 }
-.hero-drink { position: relative; height: clamp(150px, 17vw, 230px); width: auto; flex: 0 0 auto; }
-.hero-drink-main { height: clamp(210px, 25vw, 340px); z-index: 2; margin: 0 6px; }
+.hero-drink { position: relative; height: clamp(100px, 9vw, 120px); width: auto; flex: 0 0 auto; }
+.hero-drink-main { height: clamp(160px, 16vw, 200px); z-index: 2; }
 .hero-drink-side { z-index: 1; opacity: .96; }
-
-/* Cuethie stands bottom-right, on the same ellipse as the cups. No wave, no bob. */
-.hero-art { padding-right: clamp(60px, 8vw, 110px); }
-.hero-mo { position: absolute; left: auto; right: 0; bottom: -8px; width: clamp(120px, 11vw, 150px); z-index: 3; }
+.hero-mo { position: relative; flex: 0 0 auto; width: clamp(84px, 8vw, 112px); z-index: 3; align-self: flex-end; }
 .hero-mo svg { width: 100%; height: auto; display: block; overflow: visible; }
+
+/* hero lockup: logo + heavy slab "Smoothie" wordmark */
+.hero-lockup { display: flex; align-items: center; gap: clamp(14px, 2.4vw, 28px); }
+.hero-lockup img { height: clamp(110px, 14vw, 170px); width: auto; display: block; flex: 0 0 auto; }
+.hero-word { font: 400 clamp(44px, 7vw, 96px)/.95 var(--font-slab); color: var(--peach); margin: 0; }
 
 @media (prefers-reduced-motion: no-preference) {
   .hero-copy, .hero-art { animation: heroIn .4s ease-out both; }
@@ -100,71 +107,28 @@ section[id] { scroll-margin-top: 84px; }
 
 @media (max-width: 820px) {
   .hero-inner { grid-template-columns: 1fr; padding: 44px 20px 56px; }
-  .hero-art { height: clamp(280px, 66vw, 420px); order: 2; justify-self: center; width: min(100%, 480px); }
-  .hero-mo { width: clamp(90px, 20vw, 120px); left: auto; right: 0; bottom: 0; }
+  .hero-art { height: clamp(240px, 60vw, 360px); order: 2; justify-self: center; width: min(100%, 480px); }
+  .hero-shadow { top: 40%; }
 }
-
-/* ============ 3. MENU: peach ground, board with drink renders ============ */
-.menu { background: var(--peach); color: var(--text-on-light); padding: 72px 0 64px; }
-.lede { margin: 14px 0 0; font-size: clamp(16px, 1.9vw, 20px); color: var(--text-on-light-soft); max-width: 36em; }
-
-.menu-title { font-size: clamp(44px, 6vw, 80px); color: var(--text-on-light); }
-.menu-sub { margin: 12px 0 0; font-size: clamp(16px, 1.9vw, 20px); font-weight: 500; color: var(--text-on-light); max-width: 34em; }
-
-.menu-board { padding-top: 34px; display: grid; gap: 40px; }
-.menu-sec { min-width: 0; }
-.menu-sec-head {
-  display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
-  border-bottom: 1px solid var(--rule-ink); padding-bottom: 10px;
-}
-.menu-sec-title {
-  display: flex; align-items: baseline; gap: 14px; min-width: 0;
-  font-size: clamp(26px, 3.2vw, 40px); color: var(--text-on-light);
-}
-.menu-sec-ml { font: 500 14px var(--font-body); color: var(--text-on-light-soft); }
-.menu-sec-meta { font: 600 18px var(--font-display); color: var(--straw); white-space: nowrap; }
-
-.menu-list { list-style: none; margin: 6px 0 0; padding: 0; }
-.menu-row { display: flex; gap: 18px; align-items: flex-start; padding: 14px 0 2px; min-width: 0; }
-.row-body { flex: 1 1 auto; min-width: 0; }
-.row-img { flex: 0 0 auto; width: 58px; height: 72px; object-fit: contain; display: block; }
-.row-img.row-logo { height: 56px; margin-top: 8px; }
-.row-main { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
-.row-name { font: 600 clamp(20px, 2.2vw, 25px) var(--font-display); color: var(--text-on-light); }
-.sig-pill {
-  display: inline-block; vertical-align: 3px; margin-left: 8px; padding: 3px 12px;
-  border: 1px solid var(--text-on-light-soft); border-radius: 999px; background: transparent; color: var(--text-on-light-soft);
-  font: 600 12px/1.5 var(--font-body);
-}
-.row-dots { flex: 1 1 24px; border-bottom: 1px dotted rgba(37, 41, 43, .35); transform: translateY(-5px); min-width: 20px; }
-.row-price { font: 600 19px var(--font-display); color: var(--straw); white-space: nowrap; }
-.row-desc { margin: 3px 0 0; font-size: 15px; color: var(--text-on-light-soft); max-width: 54em; line-height: 1.5; }
-
-/* Mix your own — hairline panel, no thick border, no fill block */
-.mix-panel {
-  border: 1px solid var(--rule-ink); border-radius: var(--radius-lg);
-  background: var(--paper); padding: 26px 28px; min-width: 0;
-}
-.mix-rules { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 10px; }
-.mix-rules li { font-weight: 600; font-size: 17px; color: var(--text-on-light); }
-.mix-rules em { display: block; font-style: normal; font-weight: 400; font-size: 15px; color: var(--text-on-light-soft); margin-top: 2px; }
-.mix-sizes { list-style: none; margin: 18px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 28px; }
-.mix-sizes li { display: flex; align-items: baseline; gap: 10px; font-weight: 600; font-size: 16px; color: var(--text-on-light); }
-.mix-sizes .row-price { font-size: 18px; }
-.mix-btn { margin-top: 22px; min-height: 48px; }
-
-.menu-foot, .facts-src { margin: 26px 0 0; color: var(--text-on-light-soft); font-size: 15px; max-width: 44em; }
-
 @media (max-width: 560px) {
-  .menu-sec-head { flex-wrap: wrap; row-gap: 4px; }
-  .menu-row { gap: 12px; }
-  .row-img { width: 46px; height: 62px; }
-  .row-img.row-logo { height: 50px; }
-  .row-dots { display: none; }
-  .row-main { flex-wrap: wrap; row-gap: 2px; }
-  .row-price { margin-left: auto; }
-  .mix-panel { padding: 20px 16px; }
+  .hero-lockup img { height: 96px; }
+  .hero-word { font-size: 44px; }
+  .hero-art { gap: 10px; padding-bottom: 16px; }
+  .hero-drink { height: 74px; }
+  .hero-drink-main { height: 130px; }
+  .hero-mo { width: 62px; }
+  .hero-shadow { top: 46%; }
 }
+
+/* ============ 3. HOME MENU TEASER: peach, signature drink ============ */
+.lede { margin: 14px 0 0; font-size: clamp(16px, 1.9vw, 20px); color: var(--text-on-light-soft); max-width: 36em; }
+.teaser { background: var(--peach); color: var(--text-on-light); padding: 72px 0 64px; }
+.teaser-title { font-size: clamp(44px, 6vw, 80px); color: var(--text-on-light); }
+.teaser-sig { margin-top: 30px; border-top: 1px solid var(--rule-ink); padding-top: 22px; max-width: 44em; }
+.teaser-sig .row-main { display: flex; align-items: baseline; gap: 10px; margin: 0; }
+.teaser-desc { margin: 6px 0 0; font-size: 17px; color: var(--text-on-light-soft); max-width: 40em; }
+.teaser-note { margin: 10px 0 0; font-size: 15px; color: var(--text-on-light-soft); max-width: 40em; }
+.teaser-btn { margin-top: 24px; min-height: 48px; }
 
 /* ============ 4. MADE FROM 55 ANSWERS: charcoal, four hairline columns ============ */
 .facts { position: relative; background: var(--charcoal); color: var(--text-on-dark); padding: 72px 0 64px; overflow: clip; }
@@ -179,7 +143,7 @@ section[id] { scroll-margin-top: 84px; }
 .fact-num { font-size: clamp(52px, 5.5vw, 72px); line-height: 1; margin: 0; color: var(--peach); }
 .fact-unit { font-size: .5em; vertical-align: .5em; }
 .fact-body { margin: 12px 0 0; font-weight: 500; font-size: 16px; line-height: 1.4; color: var(--text-on-dark-soft); max-width: 18em; }
-.facts-src { color: var(--text-on-dark-soft); }
+.facts-src { margin: 26px 0 0; color: var(--text-on-dark-soft); font-size: 15px; max-width: 44em; }
 
 @media (max-width: 720px) {
   .fact-row { grid-template-columns: 1fr; }
@@ -187,99 +151,265 @@ section[id] { scroll-margin-top: 84px; }
   .fact:first-child { border-top: none; padding-top: 0; }
 }
 
-/* ============ 5. OUR STORY: paper, single-colour line icons ============ */
-.story { background: var(--paper); color: var(--text-on-light); padding: 72px 0 76px; }
-.story h2 { font-size: clamp(40px, 5.5vw, 72px); color: var(--text-on-light); }
-.story .lede { color: var(--text-on-light-soft); }
-.steps {
-  list-style: none; margin: 44px 0 0; padding: 0;
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; min-width: 0;
+/* ============ 5. TEASER TILES: three doors, hairline panel + one dark ============ */
+.tiles { background: var(--paper); color: var(--text-on-light); padding: 64px 0; }
+.tile-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; min-width: 0; }
+.tile {
+  display: flex; flex-direction: column; gap: 10px; min-width: 0;
+  border: 1px solid var(--rule-ink); border-radius: var(--radius-lg); background: var(--peach);
+  padding: 26px 24px; text-decoration: none; color: var(--text-on-light);
+  transition: transform .18s ease-out, background-color .18s;
 }
-.step { min-width: 0; }
-.step-icon { display: flex; align-items: center; width: 72px; height: 72px; color: var(--charcoal); }
-.step-icon svg { width: 56px; height: 56px; display: block; overflow: visible; }
-.step-name { font-size: 26px; margin: 14px 0 0; color: var(--text-on-light); }
-.step-say { margin: 8px 0 0; font-size: 16px; line-height: 1.45; color: var(--text-on-light-soft); max-width: 22em; }
+.tile:hover { transform: translateY(-2px); background: var(--paper-2); }
+.tile-icon { width: 40px; height: 40px; color: var(--charcoal); }
+.tile-icon svg { width: 40px; height: 40px; display: block; overflow: visible; }
+.tile-name { font: 600 26px var(--font-display); }
+.tile-say { font-size: 15px; color: var(--text-on-light-soft); max-width: 22em; }
+/* the middle door is dark ground, so the row is not three identical cards */
+.tile-alt { background: var(--charcoal); border-color: var(--charcoal); color: var(--peach); }
+.tile-alt .tile-icon { color: var(--peach); }
+.tile-alt .tile-say { color: var(--text-on-dark-soft); }
+.tile-alt:hover { background: var(--charcoal-2); transform: translateY(-2px); }
+
 @media (max-width: 820px) {
-  .steps { grid-template-columns: 1fr; gap: 0; border-top: 1px solid var(--rule-ink); }
-  .step { padding: 22px 0 24px; border-bottom: 1px solid var(--rule-ink); display: grid; grid-template-columns: 72px 1fr; gap: 16px; align-items: start; }
-  .step-name { margin: 0 0 8px; grid-column: 2; }
-  .step-say { grid-column: 2; margin: 0; }
-  .step-icon { grid-row: 1 / 3; }
+  .tile-row { grid-template-columns: 1fr; }
 }
 
-/* ============ 6. FIND US: peach, hairline map ============ */
-.find { background: var(--peach); color: var(--text-on-light); padding: 72px 0; }
-.find-grid {
-  display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 40px; align-items: center; min-width: 0;
+/* ============ 6. ORDER-APP BAND: charcoal-2, Cuethie waves ============ */
+.order-band { background: var(--charcoal-2); color: var(--text-on-dark); }
+.order-band-inner {
+  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 32px;
+  padding-top: 64px; padding-bottom: 64px; min-width: 0;
 }
-.find h2 { font-size: clamp(40px, 5.5vw, 72px); color: var(--text-on-light); }
-.find .lede { color: var(--text-on-light-soft); }
+.order-band-title { font-size: clamp(36px, 4.6vw, 60px); color: var(--peach); }
+.order-band-lede { margin: 12px 0 0; color: var(--text-on-dark-soft); font-size: clamp(16px, 1.9vw, 19px); max-width: 30em; }
+.order-band-btn { margin-top: 24px; min-height: 50px; font-size: 17px; }
+.order-band-mo { width: clamp(110px, 10vw, 150px); min-width: 0; }
+.order-band-mo svg { width: 100%; height: auto; display: block; overflow: visible; }
+
+@media (max-width: 560px) {
+  .order-band-inner { grid-template-columns: 1fr; gap: 18px; }
+  .order-band-mo { width: 96px; }
+}
+
+/* ============ 7. MENU PAGE ============ */
+.menu-head { background: var(--peach); color: var(--text-on-light); padding: 64px 0 40px; }
+.menu-title { font-size: clamp(44px, 6vw, 80px); color: var(--text-on-light); }
+
+.col-tabs {
+  position: sticky; top: 65px; z-index: 30;
+  background: var(--peach); border-bottom: 1px solid var(--rule-ink);
+}
+.col-tabs-inner { display: flex; gap: 10px; flex-wrap: wrap; padding-top: 12px; padding-bottom: 12px; }
+.col-tab {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 8px 16px;
+  border: 1px solid var(--rule-ink); border-radius: 999px; background: transparent;
+  color: var(--text-on-light); font-weight: 600; font-size: 15px; text-decoration: none;
+  transition: border-color .18s, color .18s;
+}
+.col-tab:hover { border-color: var(--charcoal); color: var(--charcoal); }
+.col-tab-soft { color: var(--text-on-light-soft); }
+.col-tabs .col-tab-anchor { display: block; }
+
+.menu { background: var(--peach); color: var(--text-on-light); padding: 40px 0 72px; }
+.menu-sec { min-width: 0; margin-top: 44px; scroll-margin-top: 150px; }
+.menu-sec:first-child { margin-top: 0; }
+.menu-sec-head {
+  display: flex; align-items: baseline; gap: 16px;
+  border-bottom: 1px solid var(--rule-ink); padding-bottom: 10px;
+}
+.menu-sec-title {
+  font-size: clamp(26px, 3.2vw, 40px); color: var(--text-on-light); margin: 0;
+}
+.panel-lede { margin: 12px 0 0; font-size: 16px; color: var(--text-on-light-soft); max-width: 40em; }
+
+.menu-list { list-style: none; margin: 6px 0 0; padding: 0; }
+.menu-row { display: flex; gap: 18px; align-items: flex-start; padding: 14px 0 2px; min-width: 0; }
+.row-body { flex: 1 1 auto; min-width: 0; }
+.row-img { flex: 0 0 auto; width: 58px; height: 72px; object-fit: contain; display: block; }
+.row-main { display: flex; align-items: baseline; gap: 10px; min-width: 0; margin: 0; }
+.row-name { font: 600 clamp(20px, 2.2vw, 25px) var(--font-display); color: var(--text-on-light); }
+.sig-pill {
+  display: inline-block; vertical-align: 3px; margin-left: 8px; padding: 3px 12px;
+  border: 1px solid var(--text-on-light-soft); border-radius: 999px; background: transparent; color: var(--text-on-light-soft);
+  font: 600 12px/1.5 var(--font-body);
+}
+.row-dots { flex: 1 1 24px; border-bottom: 1px dotted rgba(37, 41, 43, .35); transform: translateY(-5px); min-width: 20px; }
+.row-desc { margin: 6px 0 0; font-size: 16px; color: var(--text-on-light-soft); max-width: 54em; line-height: 1.5; }
+/* a drink without a designed render has no thumbnail and the text takes the full width */
+.row-noimg { gap: 0; }
+@media (min-width: 1180px) { .menu-list { max-width: 960px; } }
+
+/* size table */
+.table-scroll { overflow-x: auto; margin-top: 18px; }
+.size-table { border-collapse: collapse; min-width: 520px; width: 100%; max-width: 640px; }
+.size-table th, .size-table td { text-align: left; padding: 14px 18px; border-bottom: 1px solid var(--rule-ink); }
+.size-table thead th { font-weight: 600; font-size: 15px; color: var(--text-on-light-soft); }
+.size-table tbody th { font-weight: 600; font-size: 16px; color: var(--text-on-light); }
+.size-table .row-price { font: 600 22px var(--font-display); color: var(--straw); white-space: nowrap; }
+
+/* extras panel */
+.extra-list { list-style: none; margin: 14px 0 0; padding: 0; max-width: 640px; }
+.extra { display: flex; align-items: baseline; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--rule-ink); }
+.extra .row-name { font-size: 20px; }
+.extra .row-dots { transform: translateY(-4px); }
+.extra-what { font-size: 15px; color: var(--text-on-light-soft); white-space: nowrap; }
+
+/* mix your own — hairline panel, no thick border, no fill block */
+.mix-panel {
+  margin-top: 48px; border: 1px solid var(--rule-ink); border-radius: var(--radius-lg);
+  background: var(--paper); padding: 26px 28px; min-width: 0; scroll-margin-top: 150px;
+}
+.mix-rules { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 10px; }
+.mix-rules li { font-weight: 600; font-size: 17px; color: var(--text-on-light); }
+.mix-rules em { display: block; font-style: normal; font-weight: 400; font-size: 15px; color: var(--text-on-light-soft); margin-top: 2px; }
+.mix-btn { margin-top: 22px; min-height: 48px; }
+
+/* background info blocks */
+.info-block { margin: 48px 0 0; padding-top: 28px; border-top: 1px solid var(--rule-ink); max-width: 56em; scroll-margin-top: 150px; }
+.info-block h2 { font-size: clamp(24px, 2.8vw, 34px); margin: 0; color: var(--text-on-light); }
+.info-block p { margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: var(--text-on-light-soft); max-width: 56em; }
+.info-block strong { color: var(--text-on-light); font-weight: 600; }
+
+@media (max-width: 560px) {
+  .menu-head { padding: 48px 0 32px; }
+  .menu-row { gap: 12px; }
+  .row-img { width: 46px; height: 62px; }
+  .row-main { flex-wrap: wrap; row-gap: 2px; }
+  .row-dots { display: none; }
+  .extra .row-dots { display: none; }
+  .extra-what { margin-left: auto; }
+  .mix-panel { padding: 20px 16px; }
+  .size-table th, .size-table td { padding: 10px 12px; }
+  .size-table .row-price { font-size: 18px; }
+  .col-tabs { top: 64px; }
+}
+
+/* ============ 8. STORY PAGE: editorial rules, big Fraunces numerals ============ */
+.story-head { background: var(--paper); color: var(--text-on-light); padding: 64px 0 8px; }
+.story-title { font-size: clamp(44px, 6vw, 80px); color: var(--text-on-light); }
+.story-nav {
+  display: flex; flex-wrap: wrap; gap: 2px 22px; margin: 30px 0 0;
+  padding: 16px 0; border-top: 1px solid var(--rule-ink);
+}
+.story-nav a { color: var(--text-on-light); font-weight: 600; font-size: 15px; text-decoration: none; padding: 6px 0; }
+.story-nav a:hover { color: var(--straw); }
+
+.story-body { background: var(--peach); }
+.story-sec { padding: 52px 0; border-top: 1px solid var(--rule-ink); scroll-margin-top: 84px; }
+.story-sec:first-child { border-top: none; }
+.story-sec-grid { display: grid; grid-template-columns: minmax(180px, 0.42fr) 1fr; gap: 24px 48px; min-width: 0; }
+.story-sec-grid h2 { font-size: clamp(28px, 3.4vw, 44px); }
+.story-sec-grid > div > p { margin: 0 0 14px; max-width: 62ch; font-size: 16.5px; line-height: 1.6; }
+.story-sec-grid strong { color: inherit; }
+.story-aside { border-left: 1px solid var(--rule-ink); padding-left: 20px; color: var(--text-on-light-soft); }
+.story-list { list-style: none; margin: 0; padding: 0; }
+.story-list li { position: relative; padding-left: 22px; margin: 0 0 12px; max-width: 60ch; font-size: 16.5px; line-height: 1.55; }
+.story-list li::before { content: ""; position: absolute; left: 2px; top: .62em; width: 8px; height: 8px; background: var(--charcoal);
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
+
+.story-dark { background: var(--charcoal); color: var(--text-on-dark); border-top: none; }
+.story-dark .story-sec-grid > div > p { color: var(--text-on-dark-soft); }
+.story-dark .story-aside { border-left-color: var(--rule); }
+.story-dark .story-list li::before { background: var(--peach); }
+
+.stat-row { display: flex; flex-wrap: wrap; gap: 22px 44px; margin: 0 0 24px; }
+.story-num { font-size: clamp(44px, 5vw, 72px); line-height: 1; margin: 0; color: var(--text-on-light); }
+.story-dark .story-num { color: var(--peach); }
+.story-cap { margin: 8px 0 0; font-size: 14px; font-weight: 500; color: var(--text-on-light-soft); max-width: 16em; }
+.story-dark .story-cap { color: var(--text-on-dark-soft); }
+
+@media (max-width: 720px) {
+  .story-sec-grid { grid-template-columns: 1fr; }
+  .story-head { padding: 44px 0 0; }
+  .story-sec { padding: 40px 0; }
+}
+
+/* ============ 9. FIND PAGE: real map, hairline card, ranking ============ */
+.find { background: var(--peach); color: var(--text-on-light); padding: 64px 0 76px; }
+.find-title { font-size: clamp(40px, 5.5vw, 72px); color: var(--text-on-light); }
+.find-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 40px; align-items: start; margin-top: 34px; min-width: 0; }
+
+.map-box { border: 1px solid var(--rule-ink); border-radius: var(--radius-lg); overflow: hidden; height: 520px; background: var(--paper); }
+.map { height: 100%; width: 100%; background: var(--paper); filter: saturate(.85); }
+.leaflet-container { font: 500 13px var(--font-body); }
+.leaflet-control-attribution { font-size: 11px; }
+
+/* YIA teardrop pin + permanent label */
+.cue-yia-icon, .cue-dot-icon { background: none; border: none; }
+.yia-wrap { position: relative; display: block; width: 210px; height: 46px; }
+.yia-pin { position: absolute; left: 0; top: 2px; width: 32px; height: 44px; overflow: visible; }
+.yia-pin path { fill: var(--straw); stroke: var(--charcoal); stroke-width: 1.2; }
+.yia-pin circle { fill: var(--paper); }
+.yia-label {
+  position: absolute; left: 42px; top: 5px; max-width: 164px;
+  background: var(--charcoal); color: var(--peach); border-radius: 999px;
+  font: 600 14px/1.3 var(--font-body); padding: 7px 12px; white-space: nowrap;
+}
+/* other spots: small hairline dots with side labels */
+.cue-dot-icon { position: relative; display: block; width: 0; height: 0; }
+.cue-dot-icon .dot {
+  position: absolute; left: 0; top: 0; transform: translate(-50%, -50%);
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--paper); border: 2px solid var(--charcoal);
+}
+.dot-label {
+  position: absolute; left: 10px; top: 0; transform: translateY(-50%);
+  font: 600 13px/1.3 var(--font-body); color: var(--charcoal);
+  background: rgba(248, 235, 218, .92); border: 1px solid var(--rule-ink);
+  border-radius: 6px; padding: 3px 8px; white-space: nowrap;
+}
+.dot-label.dot-left { left: auto; right: 10px; }
+
+.map-fallback {
+  border: 1px solid var(--rule-ink); border-radius: var(--radius-lg);
+  background: var(--paper); padding: 24px 26px;
+}
 .find-card {
-  margin-top: 22px; border: 1px solid var(--rule-ink); border-radius: var(--radius-lg);
-  background: var(--paper); padding: 20px 22px; min-width: 0;
+  border: 1px solid var(--rule-ink); border-radius: var(--radius-lg);
+  background: var(--paper); padding: 22px 24px; min-width: 0;
 }
 .find-place { font-size: 28px; margin: 0; color: var(--text-on-light); }
-.find-line { margin: 8px 0 0; font-size: 16px; font-weight: 500; color: var(--text-on-light-soft); }
-.find-line em { font-style: normal; }
+.pick-line { margin: 8px 0 0; font-size: 16px; font-weight: 600; color: var(--text-on-light); }
+.find-line { margin: 8px 0 0; font-size: 16px; color: var(--text-on-light-soft); }
 .find-btn { margin-top: 20px; min-height: 48px; }
-.map-box { min-width: 0; }
-.campus-map { display: block; width: 100%; height: auto; overflow: visible; }
-.mp-ground { fill: var(--paper); stroke: var(--rule-ink); stroke-width: 1; }
-.mp-path { fill: none; stroke: var(--rule-ink); stroke-width: 1.5; stroke-linecap: round; stroke-dasharray: 2 8; }
-.mp-rail { fill: none; stroke: var(--charcoal); stroke-width: 1.5; stroke-opacity: .55; }
-.mp-rail-label { font: 500 13px var(--font-body); fill: var(--text-on-light-soft); }
-.mp-label { font: 600 13px var(--font-body); fill: var(--text-on-light-soft); }
-.mp-blk rect { fill: var(--paper-2); stroke: var(--rule-ink); stroke-width: 1; }
-.mp-station circle { fill: var(--peach); stroke: var(--text-on-light-soft); stroke-width: 1; }
-.mp-ring { fill: none; stroke: var(--text-on-light-soft); stroke-opacity: .4; }
-.mp-yia rect { fill: var(--paper-2); stroke: var(--straw); stroke-width: 1.5; }
-.mp-yia-label { font: 800 26px var(--font-display); fill: var(--charcoal); }
-.mp-yia-call { font: 600 14px var(--font-body); fill: var(--charcoal); }
-.mp-pin-body { fill: var(--straw); stroke: none; }
-.mp-pin circle { fill: var(--paper); stroke: none; }
+
+.why-yia { margin-top: 26px; }
+.why-yia h2, .rank h2 { font-size: clamp(22px, 2.4vw, 28px); margin: 0; }
+.why-yia p { margin: 10px 0 0; font-size: 16px; line-height: 1.6; color: var(--text-on-light-soft); max-width: 44em; }
+.why-yia strong { color: var(--text-on-light); }
+
+.rank { margin-top: 28px; border-top: 1px solid var(--rule-ink); padding-top: 22px; }
+.rank-lede { margin: 8px 0 0; font-size: 15px; color: var(--text-on-light-soft); }
+.rank-list { list-style: none; margin: 14px 0 0; padding: 0; }
+.rank-row { display: flex; align-items: baseline; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--rule-ink); }
+.rank-name { font-weight: 600; font-size: 16px; color: var(--text-on-light); min-width: 0; }
+.rank-count { font-size: 14px; color: var(--text-on-light-soft); }
+.rank-pct { margin-left: auto; font: 600 20px var(--font-display); color: var(--straw); white-space: nowrap; }
+.rank-src { margin: 14px 0 0; font-size: 13px; color: var(--text-on-light-soft); max-width: 44em; }
 
 @media (max-width: 820px) {
   .find-grid { grid-template-columns: 1fr; }
-  .map-box { order: 2; }
+  .map-box { height: 400px; order: -1; }
+}
+@media (max-width: 560px) {
+  .map-box { height: 330px; }
+  .yia-label { max-width: 118px; white-space: normal; font-size: 13px; }
 }
 
-/* ============ 7. SURVEY CTA: charcoal-2 band ============ */
-.survey { position: relative; background: var(--charcoal-2); color: var(--text-on-dark); padding: 76px 0; }
-.survey-inner { max-width: 760px; }
-.survey-title { color: var(--peach); font-size: clamp(40px, 5.5vw, 72px); }
-.survey-lede { color: var(--text-on-dark-soft); }
-.survey-btn { margin-top: 26px; min-height: 50px; font-size: 17px; }
-
-/* ============ 8. FOOTER: charcoal ============ */
+/* ============ 10. FOOTER (chrome.js): charcoal ============ */
 .foot { background: var(--charcoal); color: var(--text-on-dark); padding: 44px 0 52px; border-top: 1px solid var(--rule); }
 .foot-grid { display: grid; gap: 18px; }
 .foot-logo { margin: 0; }
 .foot-logo .brandmark img { height: 56px; border-radius: 12px; }
 .foot-logo .brandmark.txt .bm-text { font-size: 34px; color: var(--peach); }
 .foot-pickup { margin: 0; font-size: 15px; color: var(--text-on-dark-soft); font-weight: 500; }
-.foot-links { display: flex; gap: 20px; flex-wrap: wrap; }
-.foot-links a { color: var(--peach); text-decoration: underline; text-underline-offset: 4px; font-weight: 600; min-height: 44px; display: inline-flex; align-items: center; }
-.foot-links a:hover { color: var(--paper); }
+.foot-links { display: flex; gap: 6px 20px; flex-wrap: wrap; }
+.foot-link { color: var(--peach); text-decoration: underline; text-underline-offset: 4px; font-weight: 600; min-height: 44px; display: inline-flex; align-items: center; }
+.foot-link:hover { color: var(--paper); }
+.foot-link.cur { color: var(--paper); text-decoration-color: var(--straw); }
 .foot-team { margin: 0; color: var(--text-on-dark-soft); font-size: 15px; }
 
 @media (max-width: 560px) {
   .foot-links { flex-direction: column; gap: 6px; }
-}
-
-/* menu board: give rows room to breathe on wide screens */
-@media (min-width: 1180px) { .menu-list { max-width: 960px; } }
-
-/* hero lockup: logo + heavy slab "Smoothie" wordmark; mobile nav keeps logo and order button on one row */
-.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.hero-lockup { display: flex; align-items: center; gap: clamp(14px, 2.4vw, 28px); }
-.hero-lockup img { height: clamp(110px, 14vw, 170px); width: auto; display: block; flex: 0 0 auto; }
-.hero-word { font: 400 clamp(44px, 7vw, 96px)/.95 var(--font-slab); color: var(--peach); margin: 0; }
-@media (max-width: 560px) {
-  .nav-inner { flex-wrap: wrap; }
-  .nav-logo { flex-basis: auto; margin-right: auto; }
-  .nav-order { order: 2; }
-  .nav-links { order: 3; flex-basis: 100%; }
-  .hero-lockup img { height: 96px; }
-  .hero-word { font-size: 44px; }
 }

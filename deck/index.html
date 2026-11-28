@@ -31,6 +31,7 @@
 <nav id="toolbar" aria-label="Slideshow controls">
   <div id="progress"><div id="progress-segs"></div></div>
   <div class="tb-left">
+    <a id="btn-home" class="tb" href="../index.html" title="Back to the CUE home page" aria-label="Back to the CUE home page"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7M6 10v9h12v-9"/></svg></a>
     <button id="btn-menu" class="tb" title="Menu" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     <span id="stage-name" title="Current section"></span>
     <span id="steps" title="Clicks left on this slide"></span>
@@ -55,10 +56,9 @@
     <button id="btn-full" class="tb" title="Fullscreen (F)" aria-label="Fullscreen"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
   </div>
   <div id="menu" class="menu" role="menu">
-    <span class="mh">Share the deck</span>
+    <button data-act="home"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7M6 10v9h12v-9"/></svg><span>Back to CUE home page</span></button>
+    <span class="mh">Save</span>
     <button data-act="pdf"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6zM14 3v5h5"/><path class="ic-down" d="M12 11v6M9.5 14.5 12 17l2.5-2.5"/></svg><span>Export as PDF</span></button>
-    <button data-act="pptx"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9.5l5 2.5-5 2.5z"/></svg><span>Export as PPTX or video</span></button>
-    <button data-act="html"><svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5"/><circle cx="17" cy="6" r="2.5"/><circle cx="17" cy="18" r="2.5"/><path d="M8.2 11l6.6-4M8.2 13l6.6 4"/></svg><span>Share as HTML</span></button>
     <span class="mh">Presenting</span>
     <button data-act="remote"><svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg><span>Phone remote (notes + clicker)</span> <kbd>P</kbd></button>
     <button data-act="lock"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Lock phone control (disable clicker)</span> <kbd>L</kbd></button>
@@ -69,9 +69,8 @@
     <button data-act="mascot"><svg viewBox="0 0 24 24"><path d="M12 2.5c.9 4.7 3.8 7.6 8.5 8.5-4.7.9-7.6 3.8-8.5 8.5-.9-4.7-3.8-7.6-8.5-8.5 4.7-.9 7.6-3.8 8.5-8.5z"/></svg><span>Mascot pop-ups on or off</span> <kbd>K</kbd></button>
     <span class="mh">The deck</span>
     <button data-act="keys"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M6 10h.01M9 10h.01M12 10h.01M15 10h.01M18 10h.01M6 13.5h.01M9 13.5h6M18 13.5h.01"/></svg><span>Keyboard shortcuts</span> <kbd>?</kbd></button>
-    <button data-act="restart"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7M6 3v4h4"/></svg><span>Restart from slide 1</span></button>
-    <button data-act="fresh"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V5h6v2M7 7l1 13h8l1-13"/></svg><span>Clear Order #1 (fresh start after rehearsal)</span></button>
-    <button data-act="home"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7M6 10v9h12v-9"/></svg><span>Back to home page</span></button>
+    <button data-act="restart"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7M6 3v4h4"/></svg><span>Restart the talk</span></button>
+    <button data-act="fresh"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V5h6v2M7 7l1 13h8l1-13"/></svg><span>Clear Order #1 (fresh start)</span></button>
   </div>
 </nav>
 

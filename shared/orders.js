@@ -43,11 +43,46 @@
       const r = this._relay = CueRelay.open(this.room(), (type, data) => {
         if (type !== "order" || !data || !data.id) return;
         r.send("ack", { id: data.id });
+        window.CueOrders.notify("making", data.id);       // tiny deck hook: the phone's tracker starts
         const prev = readJSON(LIVE_KEY, null);
         if (prev && prev.id === data.id) return;          // retained copy of an order we already have
         set(LIVE_KEY, JSON.stringify(data));
         cb && cb(data);
       });
+    },
+
+    /** Deck side: tell the phone where its order is ("making" | "ready").
+     *  Retained on the "status" channel, so a phone that joins late still reads the latest. */
+    notify(status, orderId) {
+      if (!orderId || orderId === "example" || !window.CueRelay) return;
+      const data = { id: orderId, status: status === "ready" ? "ready" : "making" };
+      const send = (r) => r && r.send("status", data, { retain: true, channel: "status" });
+      if (this._relay) { send(this._relay); return; }
+      const room = this.room();
+      if (!room) return;
+      const r = CueRelay.open(room, () => {});
+      // wait briefly for a broker so the retained copy actually lands
+      (async () => { for (let i = 0; i < 15 && !r.online; i++) await wait(200); send(r); setTimeout(() => r.close(), 1500); })();
+    },
+
+    /** Phone side: follow one order's status. cb("making" | "ready") on every change (de-duplicated).
+     *  Returns a handle (close() to stop) or null when this app is not linked to a deck room. */
+    watch(orderId, cb) {
+      if (this._watch) { try { this._watch.close(); } catch {} this._watch = null; }
+      if (!orderId) return null;
+      const room = joinRoom();
+      if (!room || !window.CueRelay) return null;
+      let last = null;
+      // CueRelay subscribes on open, so the retained status (if any) arrives here too.
+      const r = CueRelay.open(room, (type, data) => {
+        if (type !== "status" || !data || data.id !== orderId) return;
+        const s = data.status === "ready" ? "ready" : data.status === "making" ? "making" : null;
+        if (!s || s === last) return;
+        last = s;
+        try { cb && cb(s); } catch (e) { console.warn("[orders]", e); }
+      });
+      this._watch = r;
+      return r;
     },
 
     /** Phone side: send an order. Returns {ok, where: "stage"|"sent"|"local", order}. */

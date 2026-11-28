@@ -47,7 +47,7 @@
     const faceFill = face.map(([x, y, rx, ry]) => `<ellipse cx="${x}" cy="${y}" rx="${rx - 1}" ry="${ry - 1}" fill="${TAN}"/>`).join("");
     const freckles = (cx, s = 1) => [[-6, 0], [2, -3], [5, 4], [-1, 6], [-9, 6]].map(([x, y]) => `<circle cx="${cx + x * s}" cy="${123 + y}" r="1.4" fill="#8A6A50"/>`).join("");
     return `
-<svg class="mo-root boil" viewBox="0 0 220 280" xmlns="http://www.w3.org/2000/svg" overflow="visible" aria-label="Cuethie the monkey mascot">
+<svg class="mo-root${opts.boil === false ? "" : " boil"}${opts.wave ? " mo-wave" : ""}" viewBox="0 0 220 280" xmlns="http://www.w3.org/2000/svg" overflow="visible" aria-label="Cuethie the monkey mascot">
   <ellipse class="mo-shadow" cx="110" cy="270" rx="64" ry="8" fill="${LN}" opacity=".16"/>
   <g class="mo-legs">
     <g class="mo-leg-l" style="transform-origin:96px 222px">${hose("M98 226 Q92 238 88 250", 12)}${foot(84, 1)}</g>
