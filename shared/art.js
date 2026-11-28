@@ -9,66 +9,78 @@
   const INK = "#25292B";
 
   function mascot(opts = {}) {
-    // Vintage "rubber hose" monkey: chocolate fur, tan face, cream gloves, bowler hat and neckerchief.
+    // Vintage "rubber hose" monkey: chocolate fur, tan heart face, cream gloves, small bowler hat and neckerchief.
     const id = "mo" + (++uid);
-    const FUR = "#6E4529", FUR_L = "#94603A", TAN = "#EBCDA4", TAN_D = "#DDB584", GLOVE = "#F7ECD6", LN = "#2B1D14";
+    const FUR = "#6E4529", FUR_L = "#9A653D", FUR_D = "#563420", TAN = "#EBCDA4", TAN_D = "#D9AE7E", GLOVE = "#F7ECD6", LN = "#2B1D14";
     const cup = opts.cup ? `<g class="mo-hand-cup" transform="translate(204 108) rotate(10)">${cupInner({ id: id + "c", scale: 0.42, colorA: opts.colorA, colorB: opts.colorB })}</g>` : "";
-    const hose = (d, w) => `<path d="${d}" stroke="${LN}" stroke-width="${w + 7}" stroke-linecap="round" fill="none"/><path d="${d}" stroke="${FUR}" stroke-width="${w}" stroke-linecap="round" fill="none"/>`;
-    const glove = (cx, cy, rot) => `<g transform="rotate(${rot} ${cx} ${cy})">
-        <rect x="${cx - 9}" y="${cy + 6}" width="18" height="9" rx="4" fill="${GLOVE}" stroke="${LN}" stroke-width="3.5"/>
-        <path d="M${cx - 13} ${cy} C${cx - 13} ${cy - 11} ${cx - 5} ${cy - 15} ${cx + 1} ${cy - 15} C${cx + 9} ${cy - 15} ${cx + 14} ${cy - 8} ${cx + 13} ${cy} C${cx + 12} ${cy + 9} ${cx + 5} ${cy + 12} ${cx} ${cy + 12} C${cx - 7} ${cy + 12} ${cx - 13} ${cy + 8} ${cx - 13} ${cy} Z" fill="${GLOVE}" stroke="${LN}" stroke-width="3.5" stroke-linejoin="round"/>
-        <path d="M${cx - 5} ${cy - 13} Q${cx - 6} ${cy - 5} ${cx - 3} ${cy} M${cx + 4} ${cy - 14} Q${cx + 5} ${cy - 5} ${cx + 3} ${cy}" stroke="${LN}" stroke-width="2.4" stroke-linecap="round" fill="none"/></g>`;
-    const foot = (cx, flip) => `<path d="M${cx - 18 * flip} 262 C${cx - 24 * flip} 250 ${cx - 8 * flip} 244 ${cx + 6 * flip} 247 C${cx + 22 * flip} 250 ${cx + 24 * flip} 262 ${cx + 14 * flip} 263 Z" fill="${TAN}" stroke="${LN}" stroke-width="3.8" stroke-linejoin="round"/><path d="M${cx + 8 * flip} 262 L${cx + 8 * flip} 255 M${cx + 15 * flip} 261 L${cx + 14 * flip} 254" stroke="${LN}" stroke-width="2.6" stroke-linecap="round"/>`;
-    const ear = (cx, s) => `<circle cx="${cx}" cy="98" r="23" fill="${FUR}" stroke="${LN}" stroke-width="4"/><circle cx="${cx - 2 * s}" cy="99" r="15" fill="${TAN}" stroke="${LN}" stroke-width="2.6"/><path d="M${cx - 6 * s} 94 Q${cx + 4 * s} 90 ${cx + 3 * s} 101 Q${cx} 108 ${cx - 5 * s} 104" stroke="${TAN_D}" stroke-width="3" stroke-linecap="round" fill="none"/>`;
-    const face = [[88, 92, 25, 22], [132, 92, 25, 22], [110, 116, 47, 34]];
-    const faceStroke = face.map(([x, y, rx, ry]) => `<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="${TAN}" stroke="${LN}" stroke-width="3.6"/>`).join("");
+    const hose = (d, w) => `<path d="${d}" stroke="${LN}" stroke-width="${w + 6}" stroke-linecap="round" fill="none"/><path d="${d}" stroke="${FUR}" stroke-width="${w}" stroke-linecap="round" fill="none"/>`;
+    // Open glove: palm + four capsule fingers + thumb, drawn at (cx,cy) pointing up, then rotated.
+    const hand = (cx, cy, rot) => {
+      const f = [[-8, -3, -13, -17], [-2.7, -6, -4, -21], [2.7, -6, 5, -21], [8, -3, 13, -17], [-10, 3, -20, -5]];
+      const line = (w, c) => f.map(([x1, y1, x2, y2]) => `<path d="M${cx + x1} ${cy + y1} L${cx + x2} ${cy + y2}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`).join("");
+      return `<g transform="rotate(${rot} ${cx} ${cy})">
+        <rect x="${cx - 8}" y="${cy + 8}" width="16" height="9" rx="3.5" fill="${GLOVE}" stroke="${LN}" stroke-width="3.2"/>
+        ${line(10, LN)}<circle cx="${cx}" cy="${cy + 1}" r="11" fill="${GLOVE}" stroke="${LN}" stroke-width="3.2"/>${line(4.6, GLOVE)}
+        <path d="M${cx - 6} ${cy + 3} Q${cx} ${cy + 7} ${cx + 6} ${cy + 3}" stroke="${TAN_D}" stroke-width="2" stroke-linecap="round" fill="none"/></g>`;
+    };
+    // Fist gripping the cup: rounded glove with finger creases.
+    const fist = (cx, cy, rot) => `<g transform="rotate(${rot} ${cx} ${cy})">
+        <rect x="${cx - 8}" y="${cy + 8}" width="16" height="9" rx="3.5" fill="${GLOVE}" stroke="${LN}" stroke-width="3.2"/>
+        <rect x="${cx - 13}" y="${cy - 12}" width="26" height="24" rx="11" fill="${GLOVE}" stroke="${LN}" stroke-width="3.4"/>
+        <path d="M${cx - 13} ${cy - 5} L${cx - 3} ${cy - 5} M${cx - 13} ${cy + 1} L${cx - 3} ${cy + 1} M${cx - 13} ${cy + 7} L${cx - 3} ${cy + 7}" stroke="${LN}" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M${cx + 13} ${cy - 2} Q${cx + 4} ${cy - 10} ${cx - 2} ${cy - 8}" stroke="${LN}" stroke-width="2.2" stroke-linecap="round" fill="none"/></g>`;
+    const foot = (cx, flip) => `<path d="M${cx - 20 * flip} 264 C${cx - 26 * flip} 250 ${cx - 10 * flip} 243 ${cx + 6 * flip} 246 C${cx + 24 * flip} 250 ${cx + 27 * flip} 264 ${cx + 16 * flip} 265 Z" fill="${TAN}" stroke="${LN}" stroke-width="3.6" stroke-linejoin="round"/><path d="M${cx + 7 * flip} 264 L${cx + 8 * flip} 256 M${cx + 15 * flip} 263 L${cx + 16 * flip} 255" stroke="${LN}" stroke-width="2.4" stroke-linecap="round"/>`;
+    const ear = (cx, s) => `<circle cx="${cx}" cy="98" r="24" fill="${FUR}" stroke="${LN}" stroke-width="3.8"/><circle cx="${cx - 2 * s}" cy="99" r="16" fill="${TAN}" stroke="${LN}" stroke-width="2.4"/><path d="M${cx - 7 * s} 95 Q${cx + 3 * s} 90 ${cx + 3 * s} 101 Q${cx} 108 ${cx - 5 * s} 104" stroke="${TAN_D}" stroke-width="3" stroke-linecap="round" fill="none"/>`;
+    const face = [[90, 96, 23, 20], [130, 96, 23, 20], [110, 120, 42, 30]];
+    const faceStroke = face.map(([x, y, rx, ry]) => `<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="${TAN}" stroke="${LN}" stroke-width="3.4"/>`).join("");
     const faceFill = face.map(([x, y, rx, ry]) => `<ellipse cx="${x}" cy="${y}" rx="${rx - 1}" ry="${ry - 1}" fill="${TAN}"/>`).join("");
-    const freckles = cx => [[-6, 0], [2, -3], [5, 4], [-1, 6], [-9, 6]].map(([x, y]) => `<circle cx="${cx + x}" cy="${123 + y}" r="1.4" fill="#A8683F"/>`).join("");
+    const freckles = cx => [[-6, 0], [2, -3], [5, 4], [-1, 6], [-9, 6]].map(([x, y]) => `<circle cx="${cx + x}" cy="${125 + y}" r="1.3" fill="#A8683F"/>`).join("");
     return `
 <svg class="mo-root" viewBox="0 0 220 280" xmlns="http://www.w3.org/2000/svg" overflow="visible" aria-label="Cue the monkey mascot">
   <ellipse class="mo-shadow" cx="110" cy="270" rx="64" ry="8" fill="${LN}" opacity=".16"/>
   <g class="mo-legs">
-    <g class="mo-leg-l" style="transform-origin:96px 222px">${hose("M98 226 Q92 238 88 250", 12)}${foot(84, 1)}</g>
-    <g class="mo-leg-r" style="transform-origin:124px 222px">${hose("M122 226 Q128 238 132 250", 12)}${foot(136, -1)}</g>
+    <g class="mo-leg-l" style="transform-origin:98px 222px">${hose("M100 226 Q94 238 90 250", 9)}${foot(86, 1)}</g>
+    <g class="mo-leg-r" style="transform-origin:122px 222px">${hose("M120 226 Q126 238 130 250", 9)}${foot(134, -1)}</g>
   </g>
-  <g class="mo-arm-l" style="transform-origin:78px 168px">${hose("M80 170 Q50 178 46 208", 11)}${glove(46, 214, 8)}</g>
+  <g class="mo-arm-l" style="transform-origin:82px 170px">${hose("M84 172 Q52 176 46 204", 8)}${hand(46, 214, 172)}</g>
   <g class="mo-body" style="transform-origin:110px 150px">
-    ${hose("M138 226 C188 252 218 222 206 194 C199 180 180 188 188 200", 9)}
-    <ellipse cx="110" cy="190" rx="37" ry="44" fill="${FUR}" stroke="${LN}" stroke-width="4"/>
-    <ellipse cx="110" cy="198" rx="23" ry="31" fill="${TAN}"/>
-    ${ear(48, 1)}${ear(172, -1)}
-    <ellipse cx="110" cy="98" rx="62" ry="58" fill="${FUR}" stroke="${LN}" stroke-width="4"/>
-    <path d="M64 62 Q82 46 104 46" stroke="${FUR_L}" stroke-width="7" stroke-linecap="round" fill="none" opacity=".9"/>
+    ${hose("M134 224 C186 252 218 222 206 192 C199 177 180 186 188 199", 7)}
+    <path d="M84 140 C74 168 74 214 86 228 C98 236 122 236 134 228 C146 214 146 168 136 140 Z" fill="${FUR}" stroke="${LN}" stroke-width="3.8" stroke-linejoin="round"/>
+    <ellipse cx="110" cy="198" rx="21" ry="29" fill="${TAN}"/>
+    ${ear(44, 1)}${ear(176, -1)}
+    <ellipse cx="110" cy="96" rx="66" ry="60" fill="${FUR}" stroke="${LN}" stroke-width="3.8"/>
+    <path d="M152 52 C180 74 186 118 158 148 C170 118 168 80 152 52 Z" fill="${FUR_D}" opacity=".45"/>
+    <path d="M60 64 Q76 46 100 42" stroke="${FUR_L}" stroke-width="7" stroke-linecap="round" fill="none"/>
     ${faceStroke}${faceFill}
-    <path d="M86 150 L110 158 L134 150 L122 176 L110 164 L98 176 Z" fill="${GLOVE}" stroke="${LN}" stroke-width="3.6" stroke-linejoin="round"/>
-    <path d="M100 152 Q110 160 120 152" stroke="${LN}" stroke-width="3" fill="none"/>
-    <circle cx="110" cy="158" r="6.5" fill="${GLOVE}" stroke="${LN}" stroke-width="3.2"/>
-    <ellipse cx="78" cy="120" rx="13" ry="9" fill="#D98A6A" opacity=".55"/><ellipse cx="142" cy="120" rx="13" ry="9" fill="#D98A6A" opacity=".55"/>
-    ${freckles(78)}${freckles(142)}
+    <path d="M94 152 L110 159 L126 152 L119 172 L110 165 L101 172 Z" fill="${GLOVE}" stroke="${LN}" stroke-width="3.2" stroke-linejoin="round"/>
+    <circle cx="110" cy="158" r="5" fill="${GLOVE}" stroke="${LN}" stroke-width="2.8"/>
+    <ellipse cx="80" cy="122" rx="12" ry="8" fill="#D98A6A" opacity=".5"/><ellipse cx="140" cy="122" rx="12" ry="8" fill="#D98A6A" opacity=".5"/>
+    ${freckles(80)}${freckles(140)}
     <g class="mo-eyes" style="transform-origin:110px 100px">
-      <ellipse cx="92" cy="96" rx="13" ry="17" fill="#FFF" stroke="${LN}" stroke-width="3.4"/>
-      <ellipse cx="128" cy="96" rx="13" ry="17" fill="#FFF" stroke="${LN}" stroke-width="3.4"/>
+      <path d="M81 98 C81 84 96 80 101 90 C105 100 99 114 91 114 C84 114 81 107 81 98 Z" fill="#FFF" stroke="${LN}" stroke-width="3"/>
+      <path d="M139 98 C139 84 124 80 119 90 C115 100 121 114 129 114 C136 114 139 107 139 98 Z" fill="#FFF" stroke="${LN}" stroke-width="3"/>
       <g class="mo-pupils">
-        <ellipse cx="96" cy="99" rx="8" ry="11.5" fill="${LN}"/><ellipse cx="132" cy="99" rx="8" ry="11.5" fill="${LN}"/>
-        <circle cx="99" cy="93" r="3.4" fill="#FFF"/><circle cx="135" cy="93" r="3.4" fill="#FFF"/>
+        <ellipse cx="94" cy="100" rx="7" ry="10.5" fill="${LN}"/><ellipse cx="126" cy="100" rx="7" ry="10.5" fill="${LN}"/>
+        <circle cx="96.5" cy="95" r="2.8" fill="#FFF"/><circle cx="128.5" cy="95" r="2.8" fill="#FFF"/>
       </g>
     </g>
-    <path d="M80 72 Q88 66 98 70 M122 70 Q132 66 140 72" stroke="${LN}" stroke-width="3" stroke-linecap="round" fill="none"/>
-    <path d="M103 112 Q110 108 117 112 Q117 119 110 121 Q103 119 103 112 Z" fill="#C98E6A" stroke="${LN}" stroke-width="2.6" stroke-linejoin="round"/>
+    <path d="M80 80 Q88 72 98 76 M122 76 Q132 72 140 80" stroke="${LN}" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M103 117 Q110 112 117 117 Q116 124 110 126 Q104 124 103 117 Z" fill="#C98E6A" stroke="${LN}" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M110 126 L110 132" stroke="${LN}" stroke-width="2.2" stroke-linecap="round"/>
     <g class="mo-mouth">
-      <path d="M90 126 Q110 150 130 126 Q110 134 90 126 Z" fill="#6B1F2E" stroke="${LN}" stroke-width="3.8" stroke-linejoin="round"/>
-      <path d="M100 135 Q110 130 120 135 Q116 143 110 143 Q104 143 100 135 Z" fill="#F08A8F"/>
+      <path d="M90 131 Q110 154 130 131 Q110 139 90 131 Z" fill="#6B1F2E" stroke="${LN}" stroke-width="3.6" stroke-linejoin="round"/>
+      <path d="M100 140 Q110 135 120 140 Q116 148 110 148 Q104 148 100 140 Z" fill="#F08A8F"/>
     </g>
-    <path class="mo-mouth-sad" d="M96 138 Q110 126 124 138" stroke="${LN}" stroke-width="4" stroke-linecap="round" fill="none" opacity="0"/>
-    <g class="mo-leaf" style="transform-origin:110px 62px">
-      <path d="M62 52 Q110 66 158 52 Q160 62 150 62 Q110 74 70 62 Q60 62 62 52 Z" fill="${LN}" stroke="${LN}" stroke-width="3" stroke-linejoin="round"/>
-      <path d="M72 54 C70 22 90 12 110 12 C130 12 150 22 148 54 Q110 66 72 54 Z" fill="#33363A" stroke="${LN}" stroke-width="3.6" stroke-linejoin="round"/>
-      <path d="M72 48 Q110 60 148 48 L148 40 Q110 52 72 40 Z" fill="${GLOVE}" stroke="${LN}" stroke-width="3" stroke-linejoin="round"/>
-      <path d="M84 26 Q92 17 104 16" stroke="#6A6E72" stroke-width="4" stroke-linecap="round" fill="none"/>
-    </g>
+    <path class="mo-mouth-sad" d="M96 142 Q110 130 124 142" stroke="${LN}" stroke-width="4" stroke-linecap="round" fill="none" opacity="0"/>
+    <g class="mo-leaf" style="transform-origin:112px 58px"><g transform="translate(0 7) rotate(-9 112 48)">
+      <ellipse cx="112" cy="50" rx="36" ry="7.5" fill="#33363A" stroke="${LN}" stroke-width="3.4"/>
+      <path d="M90 48 C88 24 100 16 112 16 C124 16 136 24 134 48 Q112 56 90 48 Z" fill="#33363A" stroke="${LN}" stroke-width="3.4" stroke-linejoin="round"/>
+      <path d="M90 44 Q112 52 134 44 L134 36 Q112 44 90 36 Z" fill="${GLOVE}" stroke="${LN}" stroke-width="2.8" stroke-linejoin="round"/>
+      <path d="M98 28 Q104 21 113 20" stroke="#6A6E72" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+    </g></g>
   </g>
   ${cup}
-  <g class="mo-arm-r" style="transform-origin:142px 168px">${hose("M140 170 Q192 178 190 158", 11)}${glove(190, 146, -4)}</g>
+  <g class="mo-arm-r" style="transform-origin:142px 168px">${hose("M138 172 Q190 180 190 160", 8)}${fist(190, 148, -4)}</g>
 </svg>`;
   }
 

@@ -73,8 +73,8 @@
   }
 
   // Give every mascot part its pivot point (SVG transform origins).
-  const PIVOTS = { ".mo-leg-l": "96 222", ".mo-leg-r": "124 222", ".mo-arm-l": "78 168", ".mo-arm-r": "142 168",
-    ".mo-body": "110 150", ".mo-leaf": "110 62", ".mo-eyes": "110 100", ".mo-hand-cup": "150 118" };
+  const PIVOTS = { ".mo-leg-l": "98 222", ".mo-leg-r": "122 222", ".mo-arm-l": "82 170", ".mo-arm-r": "142 168",
+    ".mo-body": "110 150", ".mo-leaf": "112 58", ".mo-eyes": "110 100", ".mo-hand-cup": "150 118" };
   function rig(root) {
     root.querySelectorAll(".mo-root").forEach(mo => {
       for (const [sel, o] of Object.entries(PIVOTS)) mo.querySelectorAll(sel).forEach(p => gsap.set(p, { svgOrigin: o }));
