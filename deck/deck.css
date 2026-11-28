@@ -50,11 +50,16 @@ body { color: var(--ink); }
 /* ---------- stage change: one 2px hairline sweeps the screen (350 ms), no splashes ---------- */
 #wipe { position: fixed; left: 0; right: 0; top: 0; height: 2px; display: none; z-index: 40; background: var(--peach); pointer-events: none; }
 
-/* toolbar: see the single "Toolbar" block at the end of this file */
-.menu { position: absolute; left: 12px; bottom: 64px; min-width: 260px; background: var(--paper); color: var(--ink); border: 1px solid var(--rule-ink); border-radius: 8px; padding: 8px; box-shadow: none; display: none; }
+/* ---------- toolbar menu: grouped, with one icon per action ---------- */
+.menu { position: absolute; left: 12px; bottom: 64px; min-width: 300px; max-height: min(74vh, 620px); overflow: auto; background: var(--paper); color: var(--ink); border: 1px solid var(--rule-ink); border-radius: 8px; padding: 8px; box-shadow: none; display: none; }
 .menu.open { display: block; }
-.menu button { display: flex; justify-content: space-between; width: 100%; text-align: left; padding: 10px 12px; border: 0; background: none; border-radius: 8px; font-size: 15px; }
+.menu .mh { display: block; padding: 10px 12px 4px; font-size: 11.5px; font-weight: 800; letter-spacing: .05em; color: var(--ink-soft); }
+.menu .mh:first-child { padding-top: 4px; }
+.menu button { display: flex; justify-content: space-between; align-items: center; gap: 10px; width: 100%; text-align: left; padding: 9px 12px; border: 0; background: none; border-radius: 8px; font-size: 15px; }
+.menu button svg { width: 17px; height: 17px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; opacity: .75; }
 .menu button:hover { background: var(--paper-2); }
+.menu button:hover svg { opacity: 1; }
+.menu button span { flex: 1; }
 .menu hr { border: 0; border-top: 1px solid var(--rule-ink); margin: 6px 4px; }
 kbd { font-family: var(--font-body); font-size: 12px; padding: 1px 6px; border-radius: 4px; background: rgba(37, 41, 43,.06); border: 1px solid var(--rule-ink); }
 
@@ -166,12 +171,21 @@ body.fs.idle { cursor: none; }
 #btn-remote.locked { color: #D08078; opacity: 1 !important; }
 #btn-remote.locked .lockdot { display: grid; }
 
-/* segmented section progress along the top edge */
-#progress { position: absolute; left: 0; right: 0; top: -3px; height: 3px; }
-#progress-segs { display: flex; gap: 3px; height: 100%; padding: 0 3px; }
-#progress-segs i { position: relative; display: block; border-radius: 2px; background: rgba(242, 217, 194,.14); overflow: hidden; transition: transform .2s; }
+/* segmented section progress along the top edge — clickable: click anywhere on the bar to jump to that slide */
+#progress { position: absolute; left: 0; right: 0; top: -3px; height: 14px; display: flex; align-items: flex-start; cursor: pointer; z-index: 2; }
+#progress-segs { display: flex; gap: 3px; height: 3px; padding: 0 3px; transition: height .15s; }
+#progress:hover #progress-segs, #progress:focus-visible #progress-segs { height: 7px; }
+#progress-segs i { position: relative; display: block; flex: 1; border-radius: 2px; background: rgba(242, 217, 194,.14); overflow: hidden; transition: transform .2s; }
 #progress-segs i b { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--c); transition: width .35s ease; }
 #progress-segs i.cur { transform: scaleY(1.6); transform-origin: bottom; }
+
+/* scrub tip: the slide you land on when you click here */
+#progress-tip { position: fixed; z-index: 58; transform: translate(-50%, -100%); background: var(--paper); color: var(--ink); border: 1px solid var(--rule-ink); border-radius: 8px; padding: 6px 12px; font-size: 13px; font-weight: 600; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity .15s; }
+#progress-tip.show { opacity: 1; }
+#progress-tip b { color: var(--c, var(--straw)); font-weight: 800; margin-right: 6px; }
+#progress-tip i { font-style: normal; color: var(--ink-soft); margin-left: 8px; font-weight: 500; }
+#progress-tip::after { content: ""; position: absolute; left: 50%; bottom: -4px; width: 8px; height: 8px; transform: translateX(-50%) rotate(45deg); background: inherit; border-right: 1px solid var(--rule-ink); border-bottom: 1px solid var(--rule-ink); }
+body.print #progress-tip { display: none; }
 
 /* section pill: name + "2 of 3" */
 #stage-name { display: inline-flex; align-items: center; gap: 8px; padding: 5px 10px; border-radius: 8px; background: rgba(242, 217, 194,.07); border: 1px solid var(--rule); color: var(--peach); font-weight: 700; font-size: 12.5px; white-space: nowrap; }

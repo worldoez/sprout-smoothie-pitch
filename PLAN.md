@@ -8,7 +8,7 @@ We are building one static GitHub Pages site. It holds an animated farm-to-cup p
 
 ## 1. Goals and constraints
 
-- **Time:** 20:00 hard limit. The deck runs 17:50 of talk (including the 0:45 audience game and the 0:40 background slide), leaving about 2:10 of buffer. Each animation beat lasts 3 s or less and plays *while the speaker talks*. One click skips any beat.
+- **Time:** 20:00 hard limit. The deck runs 17:05 of talk (including the 0:40 background slide), leaving about 2:55 of buffer. Each animation beat lasts 3 s or less and plays *while the speaker talks*. One click skips any beat.
 - **Hosting:** GitHub Pages, static files only. There is no build step: edit a file, push, done.
 - **Submission:** the live HTML link is the primary file. We also produce a PDF (the final frame of every slide) and a PPTX with each animated slide embedded as an MP4.
 - **Evidence:** every product choice in the deck cites a survey number from `../output/tables/*.csv` or a figure from `../output/figures/`.
@@ -35,7 +35,7 @@ We are building one static GitHub Pages site. It holds an animated farm-to-cup p
 
 ## 4. Deck storyline, slide by slide
 
-There are 22 slides in 7 stages, running 17:50 of talk (including the 0:45 audience game and the 0:40 background slide). That leaves 2:10 of buffer under 20:00. On each click a short animation plays (3 s or less), then the text points appear while the speaker keeps talking.
+There are 22 slides in 7 stages, running 17:05 of talk (including the 0:40 background slide). That leaves 2:55 of buffer under 20:00. On each click a short animation plays (3 s or less), then the text points appear while the speaker keeps talking.
 
 | # | Stage (role) | Slide | Time | Clicks: animation, then text | Audio | Evidence |
 | --- | --- | --- | --- | --- | --- | --- |

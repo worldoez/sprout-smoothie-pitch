@@ -336,6 +336,33 @@
     }).join("");
     g.onclick = (e) => { const b = e.target.closest(".thumb"); if (b) { toggle("#grid", false); go(+b.dataset.i); } };
   }
+  // ---------- play-bar scrubbing: hover shows the slide you land on, a click jumps there ----------
+  function wireScrub() {
+    const bar = $("#progress"); if (!bar) return;
+    const at = (e) => {
+      const r = bar.getBoundingClientRect();
+      return Math.max(0, Math.min(slides.length - 1, Math.floor((e.clientX - r.left) / r.width * slides.length)));
+    };
+    let tip = null;
+    bar.addEventListener("pointermove", (e) => {
+      if (e.pointerType === "touch") return;
+      const i = at(e), s = slides[i], st = STAGES[s.stage] || STAGES.plant;
+      if (!tip) { tip = document.createElement("div"); tip.id = "progress-tip"; document.body.appendChild(tip); }
+      tip.style.setProperty("--c", st.accent);
+      tip.innerHTML = `<b>${s.n}</b>${s.title}<i>${st.name}</i>`;
+      const r = bar.getBoundingClientRect();
+      tip.style.left = `${Math.max(r.left + 70, Math.min(r.right - 70, e.clientX))}px`;
+      tip.style.top = `${r.top - 6}px`;
+      tip.classList.add("show");
+    });
+    bar.addEventListener("pointerleave", () => { if (tip) tip.classList.remove("show"); });
+    bar.addEventListener("pointerdown", (e) => {
+      e.stopPropagation(); e.preventDefault();
+      if (tip) tip.classList.remove("show");
+      go(at(e));
+    });
+  }
+
   function toggle(sel, force) { const el = $(sel); const on = force ?? !el.classList.contains("open"); el.classList.toggle("open", on); return on; }
   function fullscreen() { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() => {}); }
 
@@ -396,6 +423,7 @@
     setRemoteLock(remoteLocked, true);
     $("#btn-prev").onclick = prev; $("#btn-next").onclick = next;
     $("#btn-grid").onclick = () => toggle("#grid");
+    wireScrub();
     $("#btn-full").onclick = fullscreen;
     $("#btn-order").onclick = () => refreshOrder(true);
     // Live orders: the phone sends Order #1 over the relay; it shows up here without pressing anything.

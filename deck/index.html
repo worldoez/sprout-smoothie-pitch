@@ -55,20 +55,23 @@
     <button id="btn-full" class="tb" title="Fullscreen (F)" aria-label="Fullscreen"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
   </div>
   <div id="menu" class="menu" role="menu">
-    <button data-act="pdf">Export as PDF</button>
-    <button data-act="pptx">Export as PPTX or video</button>
-    <button data-act="html">Share as HTML</button>
-    <hr>
-    <button data-act="remote">Phone remote (notes + clicker) <kbd>P</kbd></button>
-    <button data-act="lock"><span>Lock phone control (disable clicker)</span> <kbd>L</kbd></button>
-    <button data-act="audiotest">Test sound with a jingle <kbd>S</kbd></button>
-    <button data-act="mascot">Mascot pop-ups on or off <kbd>K</kbd></button>
-    <button data-act="notes">Speaker notes <kbd>N</kbd></button>
-    <button data-act="order">Enter order by hand <kbd>O</kbd></button>
-    <button data-act="keys">Keyboard shortcuts <kbd>?</kbd></button>
-    <button data-act="restart">Restart from slide 1</button>
-    <button data-act="fresh">Clear Order #1 (fresh start after rehearsal)</button>
-    <button data-act="home">Back to home page</button>
+    <span class="mh">Share the deck</span>
+    <button data-act="pdf"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6zM14 3v5h5"/><path class="ic-down" d="M12 11v6M9.5 14.5 12 17l2.5-2.5"/></svg><span>Export as PDF</span></button>
+    <button data-act="pptx"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9.5l5 2.5-5 2.5z"/></svg><span>Export as PPTX or video</span></button>
+    <button data-act="html"><svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5"/><circle cx="17" cy="6" r="2.5"/><circle cx="17" cy="18" r="2.5"/><path d="M8.2 11l6.6-4M8.2 13l6.6 4"/></svg><span>Share as HTML</span></button>
+    <span class="mh">Presenting</span>
+    <button data-act="remote"><svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg><span>Phone remote (notes + clicker)</span> <kbd>P</kbd></button>
+    <button data-act="lock"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Lock phone control (disable clicker)</span> <kbd>L</kbd></button>
+    <button data-act="notes"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6zM9 8h6M9 12h6M9 16h4"/></svg><span>Speaker notes</span> <kbd>N</kbd></button>
+    <button data-act="order"><svg viewBox="0 0 24 24"><path d="M6 5h12l-1.5 15h-9zM9.5 5l2-3M10.5 9.5c1.5-1 3-1 4.5 0M9.5 13c1.5-1 3-1 4.5 0"/></svg><span>Enter order by hand</span> <kbd>O</kbd></button>
+    <span class="mh">Sound &amp; extras</span>
+    <button data-act="audiotest"><svg viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6l-5 4H4z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></svg><span>Test sound with a jingle</span> <kbd>S</kbd></button>
+    <button data-act="mascot"><svg viewBox="0 0 24 24"><path d="M12 2.5c.9 4.7 3.8 7.6 8.5 8.5-4.7.9-7.6 3.8-8.5 8.5-.9-4.7-3.8-7.6-8.5-8.5 4.7-.9 7.6-3.8 8.5-8.5z"/></svg><span>Mascot pop-ups on or off</span> <kbd>K</kbd></button>
+    <span class="mh">The deck</span>
+    <button data-act="keys"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M6 10h.01M9 10h.01M12 10h.01M15 10h.01M18 10h.01M6 13.5h.01M9 13.5h6M18 13.5h.01"/></svg><span>Keyboard shortcuts</span> <kbd>?</kbd></button>
+    <button data-act="restart"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7M6 3v4h4"/></svg><span>Restart from slide 1</span></button>
+    <button data-act="fresh"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V5h6v2M7 7l1 13h8l1-13"/></svg><span>Clear Order #1 (fresh start after rehearsal)</span></button>
+    <button data-act="home"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7M6 10v9h12v-9"/></svg><span>Back to home page</span></button>
   </div>
 </nav>
 
@@ -78,7 +81,7 @@
 <aside id="remote-panel" class="panel"><button class="close">Close</button><h3>Phone remote</h3><div id="remote-body"></div></aside>
 <aside id="keys" class="panel"><button class="close">Close</button><h3>Keyboard</h3>
   <p><kbd>→</kbd> <kbd>space</kbd> next · <kbd>←</kbd> back · <kbd>F</kbd> fullscreen · <kbd>R</kbd> reload order · <kbd>M</kbd> sound · <kbd>G</kbd> all slides · <kbd>N</kbd> notes · <kbd>O</kbd> enter order · <kbd>P</kbd> phone remote · <kbd>L</kbd> lock phone control · <kbd>S</kbd> sound test · <kbd>K</kbd> mascot pop-ups · <kbd>T</kbd> hide time cues · <kbd>X</kbd> surprise · <kbd>Home</kbd>/<kbd>End</kbd></p>
-  <p>Clicking the slide also goes to the next step. A presentation clicker works too (it sends Page Down).</p>
+  <p>Click the play bar (top edge) to jump to a slide. Clicking the slide goes to the next step. A presentation clicker works too (it sends Page Down).</p>
   <p>On a phone or tablet: swipe left/right, or tap the right side for next and the left edge for back.</p></aside>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -106,7 +109,6 @@
 <script src="slides/01-plant.js"></script>
 <script src="slides/02-water.js"></script>
 <script src="slides/03-harvest.js"></script>
-<script src="slides/03b-game.js"></script>
 <script src="slides/04-place.js"></script>
 <script src="slides/04-blend.js"></script>
 <script src="slides/05-pour.js"></script>
