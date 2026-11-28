@@ -1,5 +1,5 @@
 # CUE Smoothie: One-Page Summary
-*MKTG3010 group project · Your smoothie, on cue.*
+*MKTG3010 group project · Blended fresh on your cue.*
 
 **The idea.** CUE is a fresh-fruit smoothie cart for CUHK students. It starts as one cart on the ground floor of the YIA Building, next to the stairwell. It is built from what students told us in two interviews and a survey, and its look is a vintage "Fruit Ticket" theme.
 

@@ -57,7 +57,7 @@
   const ORBIT = ["🥭", "🍓", "🍌", "🫐", "🍑", "🥝", "🍍", "🍊"];
   Deck.add({
     n: 1, stage: "plant", title: "Brand intro", budget: 20, music: "brand", musicVol: 0.3,
-    notes: "Role 1. Let the logo loop while you greet the room.\n\"Hi, we're team ___. This is CUE: smoothies made from what CUHK students told us. Your smoothie, on cue.\"",
+    notes: "Role 1. Let the logo loop while you greet the room.\n\"Hi, we're team ___. This is CUE: smoothies made from what CUHK students told us. Blended fresh on your cue.\"",
     html: () => `
       <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 45%, #FFB347 0%, #E08A45 38%, #D9481F 75%, #9A3E4B 100%)"></div>
       <div class="orbit" style="position:absolute;left:960px;top:520px;width:0;height:0">

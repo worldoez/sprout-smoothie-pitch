@@ -26,7 +26,7 @@ We are building one static GitHub Pages site. It holds an animated farm-to-cup p
 
 ## 3. Placeholder brand and look (PLACEHOLDER)
 
-- **Name:** **CUE** (CUHK smoothie cart). **Slogan:** "Your smoothie, on cue." Logo sticker: `assets/img/cue-logo.png` (dark charcoal oval, cream cup, striped straw, sparkles).
+- **Name:** **CUE** (CUHK smoothie cart). **Slogan:** "Blended fresh on your cue." Logo sticker: `assets/img/cue-logo.png` (dark charcoal oval, cream cup, striped straw, sparkles).
 - **Mascot:** "Cue", a monkey in a CUE tee (holding the CUE cup) with big eyes and stubby arms, drawn in SVG with separate limbs so it can be animated. It can later be replaced by an AI or hand-drawn SVG, a Lottie file or a PNG sequence.
 - **Colour:** mango `#FF8A1F`, leaf `#2FA84F`, cream `#FFF4E2`, berry `#B0244A` (a nod to the red Canva template), ink `#2A1A10`.
 - **Type:** Fraunces (soft serif display, echoes the Canva headlines) and DM Sans (body, data).

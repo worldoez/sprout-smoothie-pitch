@@ -15,10 +15,10 @@ Speaker notes reference the analysis outputs; where a figure was not available i
 ## 1. Brand intro
 - Stage: Plant · Role: R1 · Time: 0:20
 - Kicker: none
-- Title: CUE — Your smoothie, on cue.
+- Title: CUE — Blended fresh on your cue.
 - Points:
   1. (no bullets on screen — pill "Fresh smoothies for CUHK", the CUE logo sticker, the slogan and eight orbiting fruit only)
-- Speaker notes: Role 1. Let the logo loop while you greet the room. "Hi, we're team ___. This is CUE: smoothies made from what CUHK students told us. Your smoothie, on cue."
+- Speaker notes: Role 1. Let the logo loop while you greet the room. "Hi, we're team ___. This is CUE: smoothies made from what CUHK students told us. Blended fresh on your cue."
 - Sources: none
 - Animation: On entry the CUE logo sticker bounces in, the pill pops in, the slogan types itself and the fruit pops into the orbit. Ambient: the fruit orbit spins and the logo bobs. No clicks.
 
@@ -244,7 +244,7 @@ Speaker notes reference the analysis outputs; where a figure was not available i
 - Title: Made for hanging out
 - Points:
   1. (no bullets on screen — the poster and the promo carry the words)
-  2. (poster and promo end card: the CUE logo sticker, "Your smoothie, on cue.", "Order ahead at YIA"; the promo loops with a "promo · looping" dot)
+  2. (poster and promo end card: the CUE logo sticker, "Blended fresh on your cue.", "Order ahead at YIA"; the promo loops with a "promo · looping" dot)
   3. (occasion chips: 🎉 Hanging out with friends <b>51%</b>, 🍨 Dessert or treat <b>51%</b>, ☀️ To cool down in hot weather <b>49%</b>)
 - Speaker notes: Role 5. Click 1: the poster flies in and pins to the wall (it swings, then settles). Click 2: the promo frame lights up and the occasion chips pop. The brand song plays quietly. PLACEHOLDER: drop assets/video/promo.mp4 in and swap the animated .ad for a <video> tag (see comment in 06-serve.js).
 - Sources: 04_occasion.csv (n = 55); brand placeholder from content/brand.js
@@ -267,7 +267,7 @@ Speaker notes reference the analysis outputs; where a figure was not available i
 - Kicker: none
 - Title: Thank you!
 - Points:
-  1. (no bullets on screen — "Thank you!" while Cue dances, then the end card "CUE logo / Your smoothie, on cue. / Questions?")
+  1. (no bullets on screen — "Thank you!" while Cue dances, then the end card "CUE logo / Blended fresh on your cue. / Questions?")
 - Speaker notes: Role 6. Click 1: Cue dances. Click 2: Cue throws the cup at the screen. Throw the real confetti now!
 - Sources: none
 - Animation: On entry "Thank you!" pops in and Cue dances (jumps, spins, waving arms) with confetti. Click 1: Cue throws the cup at the screen — it splats and drips — and the CUE end card fades in under a confetti cannon.

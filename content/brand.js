@@ -2,7 +2,7 @@
 window.CONTENT = window.CONTENT || {};
 window.CONTENT.brand = {
   name: "CUE",
-  slogan: "Your smoothie, on cue.",
+  slogan: "Blended fresh on your cue.",
   tagline: "Fresh smoothies for CUHK, built from 55 student answers.",
   mascot: { name: "Cue", kind: "monkey" },
   // Logo sticker (dark charcoal oval, cream cup with striped straw). Paths are
