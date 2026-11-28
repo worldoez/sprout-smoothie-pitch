@@ -4,7 +4,7 @@ window.CONTENT.brand = {
   name: "CUE",
   slogan: "Blended fresh on your cue.",
   tagline: "Fresh smoothies for CUHK, built from 55 student answers.",
-  mascot: { name: "Cue", kind: "monkey" },
+  mascot: { name: "Cuethie", kind: "monkey" },
   // Logo sticker (dark charcoal oval, cream cup with striped straw). Paths are
   // relative to the PRESENTATION root; pages in subfolders prefix with "../".
   logo: "assets/img/cue-logo.png",

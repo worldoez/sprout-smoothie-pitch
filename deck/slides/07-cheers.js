@@ -58,7 +58,7 @@
 
   Deck.add({
     n: 20, stage: "cheers", title: "The evidence", budget: 90,
-    notes: "Role 6.\nClick 1: the pop-up store builds itself and Cue steps up with the cup.\nClick 2: every evidence line gets stamped — green where it holds, amber for the caveats (thunk).\nClick 3: risks and the next step.\nStore art is a placeholder; swap in assets/img/store.png later (see comment in 07-cheers.js).",
+    notes: "Role 6.\nClick 1: the pop-up store builds itself and Cuethie steps up with the cup.\nClick 2: every evidence line gets stamped — green where it holds, amber for the caveats (thunk).\nClick 3: risks and the next step.\nStore art is a placeholder; swap in assets/img/store.png later (see comment in 07-cheers.js).",
     html: (ctx) => {
       const st = stability();
       const it = intent();
@@ -119,7 +119,7 @@
     ]
   });
 
-  // ---------------- 21. Finale: Cue throws the cup at the screen, then the end card ----------------
+  // ---------------- 21. Finale: Cuethie throws the cup at the screen, then the end card ----------------
   const INK21 = "#25292B";
   const fin = document.createElement("style");
   fin.textContent = `
@@ -218,7 +218,7 @@
 
   Deck.add({
     n: 21, stage: "cheers", title: "Finale", budget: 30,
-    notes: "Role 6. Click 1: Cue says thank you and dances. Click 2: Cue throws the cup at the audience; it splats on the glass. Click 3: the smoothie slides away and the end card with three QR codes appears. Throw the real confetti now!",
+    notes: "Role 6. Click 1: Cuethie says thank you and dances. Click 2: Cuethie throws the cup at the audience; it splats on the glass. Click 3: the smoothie slides away and the end card with three QR codes appears. Throw the real confetti now!",
     html: (ctx) => `<div class="fin-wrap" style="position:absolute;inset:0">${Kit.sceneBG}
       <div style="position:absolute;inset:0;background:rgba(255,111,163,.35)"></div>
       <div class="fin-endbg" style="position:absolute;inset:0;background:#E8A597;opacity:0"></div>
@@ -300,7 +300,7 @@
           // wet glass: sheen and beads appear on the "screen"
           .to(el.querySelectorAll(".fs-glass path"), { opacity: 1, duration: 0.5 }, hit + 0.2)
           .to(el.querySelectorAll(".fs-bead"), { opacity: 1, duration: 0.4, stagger: 0.012 }, hit + 0.25)
-          // Cue steps out of frame, empty-handed, behind the splash
+          // Cuethie steps out of frame, empty-handed, behind the splash
           .set(mo, { opacity: 0 }, hit + 0.1);
         return tl;
       },
@@ -331,7 +331,7 @@
           .to(el.querySelector(".fin-q"), { opacity: 1, y: 0, duration: 0.4 }, 1.7)
           .to(el.querySelector(".fin-logo"), { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.6)" }, 1.7)
           .add(() => Deck.ctx.sfx("pop"), 1.7)
-          // Cue peeks up from the bottom edge and waves
+          // Cuethie peeks up from the bottom edge and waves
           .to(mo, { y: 0, duration: 0.6, ease: "back.out(1.7)" }, 1.7)
           .to(arm, { rotate: 20, duration: 0.22, yoyo: true, repeat: 5, ease: "sine.inOut" }, 2.2)
           .to(mo.querySelector(".mo-leaf"), { rotate: 8, duration: 0.5, yoyo: true, repeat: 3, ease: "sine.inOut" }, 2.2)

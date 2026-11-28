@@ -22,15 +22,15 @@ Speaker notes reference the analysis outputs; where a figure was not available i
 - Sources: none
 - Animation: On entry the CUE logo sticker bounces in, the pill pops in, the slogan types itself and the fruit pops into the orbit. Ambient: the fruit orbit spins and the logo bobs. No clicks.
 
-## 2. Cue walks out
+## 2. Cuethie walks out
 - Stage: Plant · Role: R1 · Time: 0:20
 - Kicker: none
-- Title: Meet Cue.
+- Title: Meet Cuethie.
 - Points:
-  1. (no bullets on screen — "Meet Cue." and the bubble "Fresh smoothie, coming through!")
-- Speaker notes: "Meet Cue, our mascot. Cue has been carrying our first smoothie all week..."
+  1. (no bullets on screen — "Meet Cuethie." and the bubble "Fresh smoothie, coming through!")
+- Speaker notes: "Meet Cuethie, our mascot. Cuethie has been carrying our first smoothie all week..."
 - Sources: none
-- Animation: On entry Cue walks in from the left with footstep sounds, "Meet Cue." drops in, and "Fresh smoothie, coming through!" pops up. Click 1: Cue flips, raises the cup, sparkles burst and Cue hops (tada).
+- Animation: On entry Cuethie walks in from the left with footstep sounds, "Meet Cuethie." drops in, and "Fresh smoothie, coming through!" pops up. Click 1: Cuethie flips, raises the cup, sparkles burst and Cuethie hops (tada).
 
 ## 3. The spill
 - Stage: Plant · Role: R1 · Time: 0:20
@@ -38,9 +38,9 @@ Speaker notes reference the analysis outputs; where a figure was not available i
 - Title: none on screen — the bubbles "Oh no!!" then "That's okay… we'll show you how to make a new one."
 - Points:
   1. (no bullets on screen — the splat and the two speech bubbles carry it)
-- Speaker notes: Click once: Cue trips and the smoothie splats. Act surprised: "Oh no, Cue!" Click again: "That's okay. We'll show you how to make a new one, from the seed up."
+- Speaker notes: Click once: Cuethie trips and the smoothie splats. Act surprised: "Oh no, Cuethie!" Click again: "That's okay. We'll show you how to make a new one, from the seed up."
 - Sources: none
-- Animation: On entry the scene sets (Cue standing, splat hidden). Click 1: Cue trips, the cup flies and spins, the splat floods the screen and drips down, and "Oh no!!" pops. Click 2: the bubble swaps to "That's okay… we'll show you how to make a new one." and Cue recovers.
+- Animation: On entry the scene sets (Cuethie standing, splat hidden). Click 1: Cuethie trips, the cup flies and spins, the splat floods the screen and drips down, and "Oh no!!" pops. Click 2: the bubble swaps to "That's okay… we'll show you how to make a new one." and Cuethie recovers.
 
 ## 4. Let's grow something new
 - Stage: Plant · Role: R1 · Time: 0:40
@@ -248,7 +248,7 @@ Speaker notes reference the analysis outputs; where a figure was not available i
   3. (occasion chips: 🎉 Hanging out with friends <b>51%</b>, 🍨 Dessert or treat <b>51%</b>, ☀️ To cool down in hot weather <b>49%</b>)
 - Speaker notes: Role 5. Click 1: the poster flies in and pins to the wall (it swings, then settles). Click 2: the promo frame lights up and the occasion chips pop. The brand song plays quietly. PLACEHOLDER: drop assets/video/promo.mp4 in and swap the animated .ad for a <video> tag (see comment in 06-serve.js).
 - Sources: 04_occasion.csv (n = 55); brand placeholder from content/brand.js
-- Animation: On entry the title slides in and the poster flies in, pins to the wall, swings and settles. Click 1: the promo frame pops and the three occasion chips appear. Ambient: the looping mini-ad (fruit bursts, Cue waves, slogan wave, CTA pulse) runs under the slide with the brand song quiet.
+- Animation: On entry the title slides in and the poster flies in, pins to the wall, swings and settles. Click 1: the promo frame pops and the three occasion chips appear. Ambient: the looping mini-ad (fruit bursts, Cuethie waves, slogan wave, CTA pulse) runs under the slide with the brand song quiet.
 
 ## 20. The evidence
 - Stage: Cheers · Role: R6 · Time: 1:30
@@ -258,19 +258,19 @@ Speaker notes reference the analysis outputs; where a figure was not available i
   1. (checklist rows, stamped green ✓ or amber !: "<b>69%</b> would buy (calibrated <b>~30%</b>)", "<b>HK$25</b> keeps <b>75%</b>", "<b>Mango 73%</b> and <b>yogurt 53%</b> lead", "<b>5 of 31</b> tests change with cleaning", "<b>55 answers</b> is a small sample")
   2. Risks: real buying is lower than stated; cost per cup not yet measured.
   3. Next step: a <b>one-week pop-up at YIA</b> to test demand and price.
-- Speaker notes: Role 6. Click 1: the pop-up store builds itself and Cue steps up with the cup. Click 2: every evidence line gets stamped — green where it holds, amber for the caveats (thunk). Click 3: risks and the next step. Store art is a placeholder; swap in assets/img/store.png later (see comment in 07-cheers.js).
+- Speaker notes: Role 6. Click 1: the pop-up store builds itself and Cuethie steps up with the cup. Click 2: every evidence line gets stamped — green where it holds, amber for the caveats (thunk). Click 3: risks and the next step. Store art is a placeholder; swap in assets/img/store.png later (see comment in 07-cheers.js).
 - Sources: 08_tier_stability.csv, 09_sample_size_targets.csv, Role 6 checklist
-- Animation: On entry the pop-up store builds itself (the "CUE" sign drops with a thunk, the awning tabs unfurl) and Cue steps up with the cup; the evidence card slides in. Click 1: each checklist row slides in and gets stamped — green ✓ or amber ! with a thunk. Click 2: the risks and next-step points slide in.
+- Animation: On entry the pop-up store builds itself (the "CUE" sign drops with a thunk, the awning tabs unfurl) and Cuethie steps up with the cup; the evidence card slides in. Click 1: each checklist row slides in and gets stamped — green ✓ or amber ! with a thunk. Click 2: the risks and next-step points slide in.
 
 ## 21. Finale
 - Stage: Cheers · Role: R6 · Time: 0:30
 - Kicker: none
 - Title: Thank you!
 - Points:
-  1. (no bullets on screen — "Thank you!" while Cue dances, then the end card "CUE logo / Blended fresh on your cue. / Questions?")
-- Speaker notes: Role 6. Click 1: Cue dances. Click 2: Cue throws the cup at the screen. Throw the real confetti now!
+  1. (no bullets on screen — "Thank you!" while Cuethie dances, then the end card "CUE logo / Blended fresh on your cue. / Questions?")
+- Speaker notes: Role 6. Click 1: Cuethie dances. Click 2: Cuethie throws the cup at the screen. Throw the real confetti now!
 - Sources: none
-- Animation: On entry "Thank you!" pops in and Cue dances (jumps, spins, waving arms) with confetti. Click 1: Cue throws the cup at the screen — it splats and drips — and the CUE end card fades in under a confetti cannon.
+- Animation: On entry "Thank you!" pops in and Cuethie dances (jumps, spins, waving arms) with confetti. Click 1: Cuethie throws the cup at the screen — it splats and drips — and the CUE end card fades in under a confetti cannon.
 
 ---
 

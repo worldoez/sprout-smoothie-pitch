@@ -4,7 +4,7 @@
 Bold dark outlines (#2A1A10, 4–6 px at 1920 scale), flat fills, ONE highlight + ONE shadow shape per object (no multi-stop gradients on characters), chunky rounded shapes, big friendly type. Soft-3D (Pixar-style) only for AI-rendered still images that the team drops into `assets/img/`.
 
 ## Logo theme (2026-11-28)
-Palette follows the CUE logo: charcoal #25292B + peach cream #F2D9C2, muted vintage accents (rust/apricot, sage, dusty teal, mustard). Soft Fraunces (SOFT 100) for Cooper-like type, speckle grain overlay on the deck stage, thin inset rule on slides. Mascot Cue is a monkey (brown fur, peach face, CUE tee, curled tail, head tuft = `.mo-leaf`).
+Palette follows the CUE logo: charcoal #25292B + peach cream #F2D9C2, muted vintage accents (rust/apricot, sage, dusty teal, mustard). Soft Fraunces (SOFT 100) for Cooper-like type, speckle grain overlay on the deck stage, thin inset rule on slides. Mascot Cuethie is a monkey (brown fur, peach face, CUE tee, curled tail, head tuft = `.mo-leaf`).
 
 ## Tokens (shared/base.css)
 mango #E08A45 · leaf #6A9467 · cream #F2D9C2 · berry #9A3E4B · ink #25292B · gold #E8C26A · sky #9EC4C0

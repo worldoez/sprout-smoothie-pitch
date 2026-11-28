@@ -87,15 +87,15 @@
     ]
   });
 
-  // ---------------- 2. Cue walks out with the drink ----------------
+  // ---------------- 2. Cuethie walks out with the drink ----------------
   Deck.add({
-    n: 2, stage: "plant", title: "Cue walks out", budget: 20, music: "brand", musicVol: 0.2,
-    notes: "\"Meet Cue, our mascot. Cue has been carrying our first smoothie all week...\"",
+    n: 2, stage: "plant", title: "Cuethie walks out", budget: 20, music: "brand", musicVol: 0.2,
+    notes: "\"Meet Cuethie, our mascot. Cuethie has been carrying our first smoothie all week...\"",
     html: (ctx) => `${sceneBG}
       <div class="mo" style="position:absolute;left:760px;top:330px;width:420px;height:540px">${ctx.art.mascot({ cup: true })}</div>
       <div class="bubble b1" style="left:1150px;top:220px">Fresh smoothie, coming through!</div>
       <div class="sparkles" style="position:absolute;left:1060px;top:300px;font-size:60px">✨</div>
-      <h2 class="s-title t" style="position:absolute;left:130px;top:110px;color:#25292B;font-size:110px">Meet Cue.</h2>`,
+      <h2 class="s-title t" style="position:absolute;left:130px;top:110px;color:#25292B;font-size:110px">Meet Cuethie.</h2>`,
     steps: [
       (el) => {
         const mo = el.querySelector(".mo");
@@ -126,7 +126,7 @@
   // ---------------- 3. The spill ----------------
   Deck.add({
     n: 3, stage: "plant", title: "The spill", budget: 20, music: "brand", musicVol: 0.15,
-    notes: "Click once: Cue trips and the smoothie splats. Act surprised: \"Oh no, Cue!\"\nClick again: \"That's okay. We'll show you how to make a new one, from the seed up.\"",
+    notes: "Click once: Cuethie trips and the smoothie splats. Act surprised: \"Oh no, Cuethie!\"\nClick again: \"That's okay. We'll show you how to make a new one, from the seed up.\"",
     html: (ctx) => `${sceneBG}
       <div class="mo" style="position:absolute;left:760px;top:330px;width:420px;height:540px">${ctx.art.mascot({ cup: true })}</div>
       <div class="splat-wrap">${splatSVG()}</div>

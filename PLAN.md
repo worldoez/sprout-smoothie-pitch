@@ -27,7 +27,7 @@ We are building one static GitHub Pages site. It holds an animated farm-to-cup p
 ## 3. Placeholder brand and look (PLACEHOLDER)
 
 - **Name:** **CUE** (CUHK smoothie cart). **Slogan:** "Blended fresh on your cue." Logo sticker: `assets/img/cue-logo.png` (dark charcoal oval, cream cup, striped straw, sparkles).
-- **Mascot:** "Cue", a monkey in a CUE tee (holding the CUE cup) with big eyes and stubby arms, drawn in SVG with separate limbs so it can be animated. It can later be replaced by an AI or hand-drawn SVG, a Lottie file or a PNG sequence.
+- **Mascot:** "Cuethie", a monkey in a CUE tee (holding the CUE cup) with big eyes and stubby arms, drawn in SVG with separate limbs so it can be animated. It can later be replaced by an AI or hand-drawn SVG, a Lottie file or a PNG sequence.
 - **Colour:** mango `#FF8A1F`, leaf `#2FA84F`, cream `#FFF4E2`, berry `#B0244A` (a nod to the red Canva template), ink `#2A1A10`.
 - **Type:** Fraunces (soft serif display, echoes the Canva headlines) and DM Sans (body, data).
 - **What we keep from Canva:** big serif titles, fruit cut-outs and leaves at the edges, a large product image beside short text.
@@ -40,8 +40,8 @@ There are 22 slides in 7 stages, running 17:50 of talk (including the 0:45 audie
 | # | Stage (role) | Slide | Time | Clicks: animation, then text | Audio | Evidence |
 | --- | --- | --- | --- | --- | --- | --- |
 | 1 | Plant (R1) | Brand intro | 0:20 | Fruit orbits the logo in a loop; the slogan types itself | Brand theme, quiet | none |
-| 2 | Plant (R1) | Cue walks out | 0:20 | Cue walks in holding a cup, spins and shows it off | Footsteps, ta-da | none |
-| 3 | Plant (R1) | The spill | 0:20 | Cue trips, the cup flies, the smoothie splats across the screen; "Oh no!" | Whoosh, splat | none |
+| 2 | Plant (R1) | Cuethie walks out | 0:20 | Cuethie walks in holding a cup, spins and shows it off | Footsteps, ta-da | none |
+| 3 | Plant (R1) | The spill | 0:20 | Cuethie trips, the cup flies, the smoothie splats across the screen; "Oh no!" | Whoosh, splat | none |
 | 4 | Plant (R1) | Let's grow something new | 0:40 | Splat wipes into the title; QR code for the professor's Order #1 | Riser, pop | none |
 | 5 | Plant (R1) | The seed: the idea and Booster Juice | 0:45 | A seed drops, a sprout pops; Booster Juice inspiration card | Seed drop, Plant loop | external facts |
 | 5.5 | Plant (R1) | Why CUHK, why now | 0:40 | Big "~25,000 people on campus every day" stat with three background points | none | external facts: CUHK Facts & Figures; Finance Office outlet list; CRI; Euromonitor; C&SD Sha Tin |
@@ -59,8 +59,8 @@ There are 22 slides in 7 stages, running 17:50 of talk (including the 0:45 audie
 | 17 | Serve (R5) | Price and menu board | 1:00 | The demand curve draws itself; menu prices flip in | Blend loop | 03_demand_curve: HK$25, 75% would pay |
 | 18 | Serve (R5) | Order-ahead app | 0:35 | Phone mockup replays the professor's order | UI clicks | app 65%, loyalty 44% |
 | 19 | Serve (R5) | Promotion | 1:10 | Poster slides in; 20 s promo video | **Brand song, quiet** | 04_occasion |
-| 20 | Cheers (R6) | Evidence, risks, next steps | 1:30 | Store image; checklist ticks; Cue holds the cup | Pour loop | 08_tier_stability, 09_sample_size_targets |
-| 21 | Cheers (R6) | Finale | 0:30 | Cue dances, throws the cup at the screen, smoothie covers it all, confetti | Celebration | none |
+| 20 | Cheers (R6) | Evidence, risks, next steps | 1:30 | Store image; checklist ticks; Cuethie holds the cup | Pour loop | 08_tier_stability, 09_sample_size_targets |
+| 21 | Cheers (R6) | Finale | 0:30 | Cuethie dances, throws the cup at the screen, smoothie covers it all, confetti | Celebration | none |
 
 **The seven stages and why each fits the farm-to-cup story:**
 
@@ -148,7 +148,7 @@ The Export entry in the deck menu opens print mode for PDF; PPTX and MP4 are mad
 | Phase | Deliverable | Builder |
 | --- | --- | --- |
 | 0 | Plan (this file), folder skeleton, brand + content files | Claude (lead) |
-| 1, proof of concept | Deck engine + toolbar, slides 1–4 (intro, Cue walks, spill, let's grow) and slide 16 (pour + cup exit), order app, order storage, hub | Lead writes the engine and the hero scenes; Sonnet subagents build the order app and hub |
+| 1, proof of concept | Deck engine + toolbar, slides 1–4 (intro, Cuethie walks, spill, let's grow) and slide 16 (pour + cup exit), order app, order storage, hub | Lead writes the engine and the hero scenes; Sonnet subagents build the order app and hub |
 | 2 | All 22 slides with real data and figures | Sonnet / worker agents, one stage each, following the engine's slide API |
 | 3 | Website, survey copy, audio, promo video, exports | Workers; lead reviews |
 | 4 | Rehearsal: timing pass, Wi-Fi-off test, phone test | Team |

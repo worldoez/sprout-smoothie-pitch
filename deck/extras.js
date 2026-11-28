@@ -1,6 +1,6 @@
 /* Deck extras: random mascot pop-ups.
  *
- * While a teammate is presenting, the mascot (Cue) occasionally peeks in from the left, right or top edge,
+ * While a teammate is presenting, the mascot (Cuethie) occasionally peeks in from the left, right or top edge,
  * waves, says something short and leaves. It only appears on slides where the mascot is NOT already on screen,
  * never during transitions, interactive slides, open panels, the grid, print/PDF or reduced-motion.
  * K (or the menu) turns it on/off; the choice is remembered. It sits inside #slide, so any re-render removes it,

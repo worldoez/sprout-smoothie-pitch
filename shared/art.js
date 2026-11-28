@@ -1,6 +1,6 @@
-// Shared SVG art: mascot "Cue" (a vintage rubber-hose monkey with bowler hat (.mo-leaf = the hat) and neckerchief; the CUE cup is held in .mo-hand-cup) + smoothie cup.
+// Shared SVG art: mascot "Cuethie" (a vintage rubber-hose monkey with bowler hat (.mo-leaf = the hat) and neckerchief; the CUE cup is held in .mo-hand-cup) + smoothie cup.
 // Every animatable part has a class so GSAP can target it:
-//   Cue: .mo-root .mo-shadow .mo-legs .mo-leg-l .mo-leg-r .mo-body .mo-tail .mo-leaf(hat) .mo-eyes .mo-pupils .mo-mouth .mo-mouth-sad .mo-arm-l .mo-arm-r .mo-hand-cup
+//   Cuethie: .mo-root .mo-shadow .mo-legs .mo-leg-l .mo-leg-r .mo-body .mo-tail .mo-leaf(hat) .mo-eyes .mo-pupils .mo-mouth .mo-mouth-sad .mo-arm-l .mo-arm-r .mo-hand-cup
 //   Cup: .cup-root .cup-fill .cup-layer-a .cup-layer-b .cup-straw .cup-lid .cup-label
 // Style: flat cartoon, bold ink outlines, flat fills, one highlight + one shadow shape per object (DESIGN.md).
 // Keep these class names and the 220x280 viewBox if the art is ever swapped for an AI render.
@@ -25,7 +25,7 @@
     const faceFill = face.map(([x, y, rx, ry]) => `<ellipse cx="${x}" cy="${y}" rx="${rx - 1}" ry="${ry - 1}" fill="${TAN}"/>`).join("");
     const freckles = (cx, s = 1) => [[-6, 0], [2, -3], [5, 4], [-1, 6], [-9, 6]].map(([x, y]) => `<circle cx="${cx + x * s}" cy="${123 + y}" r="1.4" fill="#A8683F"/>`).join("");
     return `
-<svg class="mo-root" viewBox="0 0 220 280" xmlns="http://www.w3.org/2000/svg" overflow="visible" aria-label="Cue the monkey mascot">
+<svg class="mo-root" viewBox="0 0 220 280" xmlns="http://www.w3.org/2000/svg" overflow="visible" aria-label="Cuethie the monkey mascot">
   <ellipse class="mo-shadow" cx="110" cy="270" rx="64" ry="8" fill="${LN}" opacity=".16"/>
   <g class="mo-legs">
     <g class="mo-leg-l" style="transform-origin:96px 222px">${hose("M98 226 Q92 238 88 250", 12)}${foot(84, 1)}</g>
