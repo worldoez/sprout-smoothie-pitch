@@ -67,7 +67,6 @@ html, body { min-height: 100%; overflow-x: hidden; }
       </div>
       <div class="mo boil" id="mo" aria-hidden="true"></div>
     </div>
-    <p class="tagline" id="tagline"></p>
   </header>
 
   <nav class="cards" aria-label="CUE pages">
@@ -103,7 +102,6 @@ html, body { min-height: 100%; overflow-x: hidden; }
   var B = window.CONTENT.brand;
   document.title = B.name + " - " + B.slogan;
   document.getElementById("slogan").textContent = B.slogan;
-  document.getElementById("tagline").textContent = B.tagline;
   // Cuethie, standing still (boil.js does the only motion).
   var mo = document.getElementById("mo");
   if (window.CueArt) mo.innerHTML = CueArt.mascot();
