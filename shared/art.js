@@ -14,10 +14,14 @@
     const FUR = "#6E4529", FUR_L = "#94603A", TAN = "#EBCDA4", TAN_D = "#DDB584", GLOVE = "#F7ECD6", LN = "#2B1D14";
     const cup = opts.cup ? `<g class="mo-hand-cup" transform="translate(204 108) rotate(10)">${cupInner({ id: id + "c", scale: 0.42, colorA: opts.colorA, colorB: opts.colorB })}</g>` : "";
     const hose = (d, w) => `<path d="${d}" stroke="${LN}" stroke-width="${w + 7}" stroke-linecap="round" fill="none"/><path d="${d}" stroke="${FUR}" stroke-width="${w}" stroke-linecap="round" fill="none"/>`;
-    const glove = (cx, cy, rot) => `<g transform="rotate(${rot} ${cx} ${cy})">
-        <rect x="${cx - 9}" y="${cy + 6}" width="18" height="9" rx="4" fill="${GLOVE}" stroke="${LN}" stroke-width="3.5"/>
-        <path d="M${cx - 13} ${cy} C${cx - 13} ${cy - 11} ${cx - 5} ${cy - 15} ${cx + 1} ${cy - 15} C${cx + 9} ${cy - 15} ${cx + 14} ${cy - 8} ${cx + 13} ${cy} C${cx + 12} ${cy + 9} ${cx + 5} ${cy + 12} ${cx} ${cy + 12} C${cx - 7} ${cy + 12} ${cx - 13} ${cy + 8} ${cx - 13} ${cy} Z" fill="${GLOVE}" stroke="${LN}" stroke-width="3.5" stroke-linejoin="round"/>
-        <path d="M${cx - 5} ${cy - 13} Q${cx - 6} ${cy - 5} ${cx - 3} ${cy} M${cx + 4} ${cy - 14} Q${cx + 5} ${cy - 5} ${cx + 3} ${cy}" stroke="${LN}" stroke-width="2.4" stroke-linecap="round" fill="none"/></g>`;
+    // Cartoon glove (fingers up, wrist at the bottom): cuff, round palm, three sausage fingers and a thumb. Rotate to aim it.
+    const glove = (cx, cy, rot) => {
+      const f = [[-6, -3, -7, -14], [0, -4, 0, -17], [6, -3, 7, -14], [-9, 3, -17, -4]];
+      const line = (w, c) => f.map(([x1, y1, x2, y2]) => `<path d="M${cx + x1} ${cy + y1} L${cx + x2} ${cy + y2}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`).join("");
+      return `<g transform="rotate(${rot} ${cx} ${cy})">
+        <rect x="${cx - 10}" y="${cy + 8}" width="20" height="9" rx="4" fill="${GLOVE}" stroke="${LN}" stroke-width="3.2"/>
+        ${line(12, LN)}<ellipse cx="${cx}" cy="${cy + 1}" rx="11.5" ry="10" fill="${GLOVE}" stroke="${LN}" stroke-width="3.2"/>${line(5.6, GLOVE)}</g>`;
+    };
     const foot = (cx, flip) => `<path d="M${cx - 18 * flip} 262 C${cx - 24 * flip} 250 ${cx - 8 * flip} 244 ${cx + 6 * flip} 247 C${cx + 22 * flip} 250 ${cx + 24 * flip} 262 ${cx + 14 * flip} 263 Z" fill="${TAN}" stroke="${LN}" stroke-width="3.8" stroke-linejoin="round"/><path d="M${cx + 8 * flip} 262 L${cx + 8 * flip} 255 M${cx + 15 * flip} 261 L${cx + 14 * flip} 254" stroke="${LN}" stroke-width="2.6" stroke-linecap="round"/>`;
     const ear = (cx, s) => `<circle cx="${cx}" cy="98" r="23" fill="${FUR}" stroke="${LN}" stroke-width="4"/><circle cx="${cx - 2 * s}" cy="99" r="15" fill="${TAN}" stroke="${LN}" stroke-width="2.6"/><path d="M${cx - 6 * s} 94 Q${cx + 4 * s} 90 ${cx + 3 * s} 101 Q${cx} 108 ${cx - 5 * s} 104" stroke="${TAN_D}" stroke-width="3" stroke-linecap="round" fill="none"/>`;
     const face = [[88, 92, 25, 22], [132, 92, 25, 22], [110, 116, 47, 34]];
@@ -31,7 +35,7 @@
     <g class="mo-leg-l" style="transform-origin:96px 222px">${hose("M98 226 Q92 238 88 250", 12)}${foot(84, 1)}</g>
     <g class="mo-leg-r" style="transform-origin:124px 222px">${hose("M122 226 Q128 238 132 250", 12)}${foot(136, -1)}</g>
   </g>
-  <g class="mo-arm-l" style="transform-origin:78px 168px">${hose("M80 170 Q50 178 46 208", 11)}${glove(46, 220, 188)}</g>
+  <g class="mo-arm-l" style="transform-origin:78px 168px">${hose("M80 170 Q50 178 46 208", 11)}${glove(46, 222, 186)}</g>
   <g class="mo-body" style="transform-origin:110px 150px">
     ${hose("M138 226 C188 252 218 222 206 194 C199 180 180 188 188 200", 9)}
     <ellipse cx="110" cy="190" rx="37" ry="44" fill="${FUR}" stroke="${LN}" stroke-width="4"/>
