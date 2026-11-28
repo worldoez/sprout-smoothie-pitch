@@ -1,6 +1,6 @@
-/* Sprout — bubble-tea brand site. Tokens come from shared/base.css:
-   mango, leaf, cream, berry, ink, gold, sky. Flat cartoon, bold outlines,
-   solid colour fields, no grey card shadows. */
+/* CUE — smoothie cart brand site. Tokens come from shared/base.css plus the
+   CUE palette: sun #E8C26A, rust #B5502A, charcoal #25292B, cream #F2D9C2.
+   Flat cartoon, bold outlines, solid colour fields, no grey card shadows. */
 
 html, body { overflow-x: clip; }
 body { min-height: 100%; }
@@ -28,10 +28,21 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   display: flex; align-items: center; gap: 18px; min-width: 0; flex-wrap: wrap;
 }
 .nav-logo {
-  font-size: 30px; font-weight: 900; color: var(--ink); text-decoration: none;
-  letter-spacing: -0.02em; margin-right: auto;
+  display: inline-flex; align-items: center; gap: 10px; margin-right: auto;
+  text-decoration: none; min-height: 44px;
 }
-.nav-logo::first-letter { color: var(--mango); }
+.brandmark { display: inline-flex; align-items: center; }
+.brandmark img { height: 46px; width: auto; display: block; border-radius: 10px; }
+.brandmark .bm-text { display: none; }
+.brandmark.txt img { display: none; }
+.brandmark.txt .bm-text { display: inline; font-size: 30px; font-weight: 900; color: var(--ink); letter-spacing: -0.02em; }
+.brandmark.txt .bm-text i { color: var(--mango); font-style: italic; }
+
+/* orange-slice accents beside the monochrome sticker */
+.slice { display: block; overflow: visible; }
+.slice-nav { width: 30px; height: 30px; transform: rotate(-14deg); }
+.slice-hero { position: absolute; width: clamp(54px, 7vw, 88px); height: auto;
+  right: 2%; top: 0; transform: rotate(12deg); z-index: 1; }
 .nav-links { display: flex; gap: 4px; flex-wrap: wrap; min-width: 0; }
 .nav-links a {
   color: var(--ink); text-decoration: none; font-weight: 700; font-size: 16px;
@@ -48,21 +59,23 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 }
 
 /* ============ 2. HERO ============ */
-.hero { background: var(--mango); color: var(--ink); overflow: clip; }
+.hero { background: var(--sun, #E8C26A); color: var(--ink); overflow: clip; position: relative; }
 .hero-inner {
   max-width: 1120px; margin: 0 auto; padding: 64px 20px 72px;
   display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 24px;
   align-items: center; min-width: 0;
 }
-.hero-title {
-  font-size: clamp(64px, 9vw, 128px); font-weight: 900; line-height: .92;
-  color: var(--ink); letter-spacing: -0.03em;
+.hero-copy { position: relative; }
+.hero-title { position: relative; margin-bottom: 6px; }
+.brandmark-lg img {
+  height: clamp(170px, 21vw, 260px); width: auto; display: block; border-radius: 26px;
+  filter: drop-shadow(0 12px 18px rgba(37, 41, 43, .25));
 }
-.hero-title i, .foot-logo i { color: var(--leaf); font-style: italic; }
+.brandmark-lg .bm-text { font-size: clamp(64px, 9vw, 128px); line-height: .92; letter-spacing: -0.03em; color: var(--ink); }
+.brandmark.txt .bm-text { display: inline; }
 .hero-slogan {
   margin: 18px 0 0; font: italic 600 clamp(22px, 3vw, 34px) var(--font-display);
-  color: var(--cream); text-shadow: 0 2px 0 rgba(42, 26, 16, .35);
-  max-width: 15em;
+  color: var(--rust, #B5502A); max-width: 15em;
 }
 .hero-tagline { margin: 12px 0 0; font-size: clamp(16px, 1.8vw, 20px); font-weight: 500; max-width: 30em; }
 .hero-btns { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
@@ -110,78 +123,86 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   .hero-fruits span { transform: scale(.92); }
 }
 
-/* ============ 3. MENU ============ */
-.menu { background: var(--cream); padding: 72px 0 64px; }
-.menu-head h2 { font-size: clamp(44px, 6vw, 84px); }
+/* ============ 3. MENU (cart menu board) ============ */
+.menu { background: var(--cream); padding: 0 0 64px; }
 .lede { margin: 14px 0 0; font-size: clamp(16px, 1.9vw, 20px); color: var(--ink-soft); max-width: 36em; }
 
-.tabs { display: flex; gap: 10px; margin: 30px 0 26px; flex-wrap: wrap; }
-.tab {
-  font: inherit; font-weight: 700; font-size: 17px; min-height: 46px;
-  padding: 10px 22px; border-radius: 999px; color: var(--ink);
-  background: var(--white); border: 3px solid var(--ink); cursor: pointer;
-  transition: background .12s, color .12s, transform .12s;
+.menu-band {
+  background: #E8C26A; border-top: 3px solid var(--ink); border-bottom: 4px solid var(--ink);
+  padding: 44px 0 38px; margin-bottom: 6px;
 }
-.tab:hover { background: var(--mango-soft); }
-.tab[aria-selected="true"] { background: var(--ink); color: var(--cream); }
+.menu-band-inner { position: relative; }
+.menu-title {
+  font-size: clamp(44px, 6vw, 84px); font-weight: 900; font-style: italic;
+  color: #B5502A; letter-spacing: -0.02em;
+}
+.slice-band {
+  position: absolute; right: 24px; top: -10px;
+  width: clamp(56px, 8vw, 92px); height: auto; transform: rotate(-12deg);
+}
+.menu-sub {
+  margin: 12px 0 0; font-size: clamp(16px, 1.9vw, 20px); font-weight: 500;
+  color: var(--ink); max-width: 34em;
+}
 
-.drink-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 18px; min-width: 0;
+.menu-board { padding-top: 30px; display: grid; gap: 36px; }
+.menu-sec { min-width: 0; }
+.menu-sec-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+  border-bottom: 3px solid var(--ink); padding-bottom: 8px;
 }
-.drink { border-radius: 22px; border: 4px solid var(--ink); padding: 22px 20px 18px; min-width: 0; }
-.drink-cup { width: 120px; }
-.drink-cup svg { display: block; width: 100%; height: auto; overflow: visible; }
-.drink-name { font-size: 30px; font-weight: 900; margin-top: 10px; }
-.drink-line { margin: 8px 0 0; font-weight: 700; font-size: 16px; }
-.drink-base { margin: 4px 0 0; font-size: 15px; opacity: .85; }
-.drink-foot { display: flex; align-items: baseline; gap: 10px; margin-top: 12px; }
-.drink-price { font-size: 26px; font-weight: 900; }
-.drink-boost { font-size: 14px; font-weight: 700; }
+.menu-sec-title {
+  display: flex; align-items: baseline; gap: 14px; min-width: 0;
+  font: italic 700 clamp(28px, 3.6vw, 44px) var(--font-display); color: #B5502A;
+}
+.menu-sec-ml { font: 700 14px var(--font-body); font-style: normal; color: var(--ink-soft); }
+.menu-sec-meta {
+  font: 700 18px ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color: var(--ink); white-space: nowrap;
+}
 
-.byo {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 28px; min-width: 0;
+.menu-list { list-style: none; margin: 8px 0 0; padding: 0; }
+.menu-row { padding: 12px 0 2px; min-width: 0; }
+.row-main { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
+.row-name { font: 700 clamp(20px, 2.2vw, 26px) var(--font-display); color: var(--ink); }
+.sig-pill {
+  display: inline-block; vertical-align: 3px; margin-left: 8px; padding: 2px 12px;
+  border: 2px solid var(--ink); border-radius: 999px; background: #E8C26A; color: var(--ink);
+  font: 700 12px/1.6 var(--font-body); letter-spacing: .02em;
 }
-.byo-col { min-width: 0; }
-.byo-head { font-size: 24px; margin: 0 0 14px; }
-.chip-list, .base-list, .size-list, .booster-list { list-style: none; margin: 0; padding: 0; }
-.chip-list li {
-  display: flex; align-items: center; gap: 10px; min-height: 48px;
-  font-weight: 700; font-size: 17px; border-bottom: 2px solid rgba(42, 26, 16, .12);
+.row-dots { flex: 1 1 24px; border-bottom: 3px dotted rgba(37, 41, 43, .35); transform: translateY(-5px); min-width: 20px; }
+.row-price {
+  font: 700 18px ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color: var(--ink); white-space: nowrap;
 }
-.fruit-dot {
-  width: 18px; height: 18px; border-radius: 50%; flex: 0 0 auto;
-  border: 3px solid var(--ink); position: relative;
-  background: var(--dot, var(--mango));
-}
-.chip-list em { margin-left: auto; font-style: normal; font-size: 14px; color: var(--ink-soft); font-weight: 500; }
-.base-list li, .size-list li {
-  display: flex; align-items: baseline; gap: 10px; min-height: 48px;
-  border-bottom: 2px solid rgba(42, 26, 16, .12); font-weight: 700; font-size: 17px;
-}
-.base-list li span:last-child, .size-list li span:last-child { margin-left: auto; font-weight: 500; font-size: 15px; color: var(--ink-soft); }
-.byo-note, .facts-src { margin: 22px 0 0; color: var(--ink-soft); font-size: 15px; max-width: 44em; }
+.row-desc { margin: 2px 0 0; font-size: 15px; color: var(--soil); max-width: 54em; line-height: 1.5; }
 
-.booster-list { max-width: 640px; }
-.booster-list li {
-  display: flex; align-items: baseline; gap: 12px; padding: 16px 0; min-width: 0;
-  border-bottom: 3px solid var(--ink);
+/* Mix your own — pale yellow panel */
+.mix-panel {
+  background: #FBEFC0; border: 4px solid var(--ink); border-radius: 26px;
+  padding: 28px 30px; min-width: 0;
 }
-.b-name { font: 900 26px var(--font-display); letter-spacing: -0.01em; }
-.b-plain { color: var(--ink-soft); font-size: 15px; min-width: 0; }
-.b-price { margin-left: auto; font: 900 22px var(--font-display); white-space: nowrap; }
-.b-dots { flex: 1 1 20px; border-bottom: 3px dotted rgba(42, 26, 16, .4); min-width: 16px; transform: translateY(-4px); }
+.mix-rules { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 12px; }
+.mix-rules li { font-weight: 700; font-size: 18px; color: var(--ink); }
+.mix-rules em { display: block; font-style: normal; font-weight: 500; font-size: 15px; color: var(--soil); margin-top: 2px; }
+.mix-sizes { list-style: none; margin: 20px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 28px; }
+.mix-sizes li { display: flex; align-items: baseline; gap: 10px; font-weight: 700; font-size: 16px; color: var(--ink); }
+.mix-btn { margin-top: 22px; min-height: 50px; }
+
+.menu-foot, .facts-src { margin: 26px 0 0; color: var(--ink-soft); font-size: 15px; max-width: 44em; }
 
 @media (max-width: 560px) {
-  .b-dots { display: none; }
-  .booster-list li { flex-wrap: wrap; row-gap: 2px; }
-  .b-price { margin-left: 0; flex-basis: 100%; }
+  .slice-band { right: 0; top: -18px; }
+  .menu-sec-head { flex-wrap: wrap; row-gap: 4px; }
+  .row-dots { display: none; }
+  .row-main { flex-wrap: wrap; row-gap: 2px; }
+  .row-price { margin-left: auto; }
+  .mix-panel { padding: 22px 18px; }
 }
 
 /* ============ 4. MADE FROM 53 ANSWERS ============ */
 .facts { background: var(--gold); padding: 72px 0 64px; overflow: clip; }
-.facts h2, .facts-title { font-size: clamp(40px, 5.5vw, 76px); }
+.facts h2, .facts-title { font-size: clamp(40px, 5.5vw, 76px); color: #B5502A; }
 .facts .lede { color: var(--soil); }
 .stamp-row {
   list-style: none; margin: 40px 0 0; padding: 0;
@@ -202,7 +223,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 
 /* ============ 5. OUR STORY ============ */
 .story { background: var(--white); padding: 76px 0 80px; overflow: clip; }
-.story h2 { font-size: clamp(40px, 5.5vw, 76px); }
+.story h2 { font-size: clamp(40px, 5.5vw, 76px); color: #B5502A; }
 .steps {
   list-style: none; margin: 48px 0 0; padding: 0;
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px;
@@ -231,7 +252,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .find-grid {
   display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 36px; align-items: center; min-width: 0;
 }
-.find h2 { font-size: clamp(40px, 5.5vw, 76px); }
+.find h2 { font-size: clamp(40px, 5.5vw, 76px); color: #B5502A; }
 .find-card {
   margin-top: 22px; background: var(--white); border: 4px solid var(--ink);
   border-radius: 20px; padding: 20px 22px; min-width: 0;
@@ -272,9 +293,12 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .survey-btn { margin-top: 28px; min-height: 52px; font-size: 18px; }
 
 /* ============ 8. FOOTER ============ */
-.foot { background: var(--ink); color: var(--cream); padding: 48px 0 56px; }
+.foot { background: var(--charcoal, #25292B); color: var(--cream); padding: 48px 0 56px; }
 .foot-grid { display: grid; gap: 18px; }
-.foot-logo { font-size: 40px; font-weight: 900; color: var(--cream); margin: 0; }
+.foot-logo { margin: 0; }
+.foot-logo .brandmark img { height: 64px; border-radius: 14px; }
+.foot-logo .brandmark.txt .bm-text { font-size: 40px; color: var(--cream); }
+.foot-pickup { margin: 0; font-size: 15px; color: var(--cream); font-weight: 500; }
 .foot-links { display: flex; gap: 22px; flex-wrap: wrap; }
 .foot-links a { color: var(--cream); text-decoration: underline; text-underline-offset: 4px; font-weight: 700; min-height: 44px; display: inline-flex; align-items: center; }
 .foot-links a:hover { color: var(--mango-soft); }
@@ -288,5 +312,5 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 
-/* five signature drinks: one row on wide screens, no orphan card */
-@media (min-width: 1180px) { .drink-grid, #panel-signature > .grid, .menu-grid { grid-template-columns: repeat(5, 1fr) !important; } }
+/* menu board: give rows room to breathe on wide screens */
+@media (min-width: 1180px) { .menu-list { max-width: 960px; } }

@@ -1,13 +1,17 @@
-// BRAND (PLACEHOLDER) — edit freely; every page reads from here.
+// BRAND — CUE (CUHK smoothie cart). Edit freely; every page reads from here.
 window.CONTENT = window.CONTENT || {};
 window.CONTENT.brand = {
-  name: "Sprout",
-  slogan: "Grown from what you told us.",
-  tagline: "Fresh smoothies for CUHK, built from 53 student answers.",
-  mascot: { name: "Mo", kind: "mango" },
+  name: "CUE",
+  slogan: "Your smoothie, on cue.",
+  tagline: "Fresh smoothies for CUHK, built from 55 student answers.",
+  mascot: { name: "Cue", kind: "monkey" },
+  // Logo sticker (dark charcoal oval, cream cup with striped straw). Paths are
+  // relative to the PRESENTATION root; pages in subfolders prefix with "../".
+  logo: "assets/img/cue-logo.png",
   colors: {
-    mango: "#FF8A1F", leaf: "#2FA84F", cream: "#FFF4E2",
-    berry: "#B0244A", ink: "#2A1A10", soil: "#5B3A22", sky: "#8FD3F4", gold: "#F6C445"
+    mango: "#E08A45", leaf: "#6A9467", cream: "#F2D9C2",
+    berry: "#9A3E4B", ink: "#25292B", soil: "#4B4239", sky: "#9EC4C0", gold: "#E8C26A",
+    charcoal: "#25292B", sun: "#E8C26A", rust: "#C4501E"
   },
   // GitHub repo that stores orders (data/orders.json). Fill in after creating the repo.
   // Unused since orders moved to the live relay (shared/orders.js); kept for reference.

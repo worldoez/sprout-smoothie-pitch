@@ -287,6 +287,14 @@
       tone({ f: 1100, f2: 150, t: 0.2, type: "sawtooth", vol: 0.07, attack: 0.004 });
       noise({ t: 0.12, vol: 0.16, from: 900, to: 4800, type: "bandpass", q: 2, delay: 0.17, attack: 0.004 });
     },
+    // Sound check at the start: a tiny rising "ding-ding-ding-DING" with a sparkle on top (C major arpeggio).
+    jingle: () => {
+      [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => {
+        tone({ f, t: i === 3 ? 0.7 : 0.18, type: "triangle", vol: 0.2, delay: i * 0.12, attack: 0.006, detune: 4 });
+        tone({ f: f * 2, t: 0.25, type: "sine", vol: 0.05, delay: i * 0.12 + 0.01, detune: 4 });
+      });
+      tone({ f: 2093, t: 0.5, type: "sine", vol: 0.04, delay: 0.5, detune: 4 });
+    },
     chime: () => {
       tone({ f: 880, t: 0.9, type: "sine", vol: 0.16, attack: 0.01 });
       tone({ f: 1318.5, t: 0.7, type: "sine", vol: 0.09, delay: 0.02, attack: 0.01 });

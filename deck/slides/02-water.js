@@ -1,30 +1,30 @@
 /* Stage 2: WATER & GROW (Role 2) — slides 7–9 */
 (function () {
   const D = () => CONTENT.data;
-  const ground = `<div style="position:absolute;left:0;right:0;bottom:0;height:200px;background:#5B3A22"></div>
-    <div style="position:absolute;left:0;right:0;bottom:180px;height:40px;background:radial-gradient(circle at 20px 40px,#5B3A22 24px,transparent 25px) 0 0/60px 40px repeat-x"></div>`;
+  const ground = `<div style="position:absolute;left:0;right:0;bottom:0;height:200px;background:#4B4239"></div>
+    <div style="position:absolute;left:0;right:0;bottom:180px;height:40px;background:radial-gradient(circle at 20px 40px,#4B4239 24px,transparent 25px) 0 0/60px 40px repeat-x"></div>`;
 
   // ---------------- 7. Two interviews: watering the sprout ----------------
   Deck.add({
     n: 7, stage: "water", title: "Two interviews first", budget: 60,
-    notes: "Role 2. Before the survey we ran 2 exploratory interviews (a Year 2 undergraduate; an informal chat with a friend) to find what matters and which ideas were worth testing. They are not part of the 53. Team: confirm which transcript is Caleb's.",
+    notes: "Role 2. Before the survey we ran 2 exploratory interviews (a Year 2 undergraduate; an informal chat with a friend) to find what matters and which ideas were worth testing. They are not part of the 55 answers kept. Team: confirm which transcript is Caleb's.",
     html: () => `${ground}
       <svg class="can" viewBox="0 0 320 220" style="position:absolute;left:1180px;top:140px;width:340px;overflow:visible">
-        <path d="M70 70 h150 v120 h-150z" fill="#FFF4E2" stroke="#10324A" stroke-width="9" stroke-linejoin="round"/>
-        <path d="M220 100 L310 44" stroke="#10324A" stroke-width="16" stroke-linecap="round"/>
-        <ellipse cx="312" cy="42" rx="16" ry="10" fill="#10324A"/>
-        <path d="M70 90 Q10 120 70 170" stroke="#10324A" stroke-width="12" fill="none"/>
-        <rect x="70" y="110" width="150" height="26" fill="#2FA84F"/></svg>
+        <path d="M70 70 h150 v120 h-150z" fill="#F2D9C2" stroke="#1F3335" stroke-width="9" stroke-linejoin="round"/>
+        <path d="M220 100 L310 44" stroke="#1F3335" stroke-width="16" stroke-linecap="round"/>
+        <ellipse cx="312" cy="42" rx="16" ry="10" fill="#1F3335"/>
+        <path d="M70 90 Q10 120 70 170" stroke="#1F3335" stroke-width="12" fill="none"/>
+        <rect x="70" y="110" width="150" height="26" fill="#6A9467"/></svg>
       <div class="drops" style="position:absolute;left:1490px;top:200px">${Array.from({ length: 14 }, (_, i) => `<i class="dr" style="position:absolute;left:${(i % 5) * 14}px;top:0;width:14px;height:22px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:#2E86C1"></i>`).join("")}</div>
       <svg class="plant" viewBox="0 0 600 700" style="position:absolute;left:1180px;bottom:180px;width:600px;height:700px;overflow:visible">
-        <path class="stem" d="M300 700 C300 600 280 520 300 440 C320 360 290 300 300 220" stroke="#2FA84F" stroke-width="20" stroke-linecap="round" fill="none"/>
-        <path class="lf l1" d="M296 520 C220 470 150 490 130 540 C190 570 250 560 296 520Z" fill="#2FA84F" stroke="#1E7A38" stroke-width="5"/>
-        <path class="lf l2" d="M304 380 C380 320 450 330 475 380 C410 420 350 420 304 380Z" fill="#41C163" stroke="#1E7A38" stroke-width="5"/>
-        <path class="lf l3" d="M300 240 C260 180 270 140 300 110 C330 140 340 180 300 240Z" fill="#2FA84F" stroke="#1E7A38" stroke-width="5"/></svg>
-      <div class="tag t1" style="position:absolute;left:1000px;top:560px;width:300px;background:#FFFDF8;color:#10324A;border-radius:22px;padding:20px 24px;font-size:26px;box-shadow:0 12px 30px rgba(16,50,74,.2)"><b style="font-family:var(--font-display);font-size:34px">Interview 1</b><br>Year 2 CUHK undergraduate, semi-structured</div>
-      <div class="tag t2" style="position:absolute;left:1560px;top:300px;width:300px;background:#FFFDF8;color:#10324A;border-radius:22px;padding:20px 24px;font-size:26px;box-shadow:0 12px 30px rgba(16,50,74,.2)"><b style="font-family:var(--font-display);font-size:34px">Interview 2</b><br>Informal chat with a friend</div>
+        <path class="stem" d="M300 700 C300 600 280 520 300 440 C320 360 290 300 300 220" stroke="#6A9467" stroke-width="20" stroke-linecap="round" fill="none"/>
+        <path class="lf l1" d="M296 520 C220 470 150 490 130 540 C190 570 250 560 296 520Z" fill="#6A9467" stroke="#48714A" stroke-width="5"/>
+        <path class="lf l2" d="M304 380 C380 320 450 330 475 380 C410 420 350 420 304 380Z" fill="#7FA77C" stroke="#48714A" stroke-width="5"/>
+        <path class="lf l3" d="M300 240 C260 180 270 140 300 110 C330 140 340 180 300 240Z" fill="#6A9467" stroke="#48714A" stroke-width="5"/></svg>
+      <div class="tag t1" style="position:absolute;left:1000px;top:560px;width:300px;background:#F8EBDA;color:#1F3335;border-radius:22px;padding:20px 24px;font-size:26px;box-shadow:0 12px 30px rgba(16,50,74,.2)"><b style="font-family:var(--font-display);font-size:34px">Interview 1</b><br>Year 2 CUHK undergraduate, semi-structured</div>
+      <div class="tag t2" style="position:absolute;left:1560px;top:300px;width:300px;background:#F8EBDA;color:#1F3335;border-radius:22px;padding:20px 24px;font-size:26px;box-shadow:0 12px 30px rgba(16,50,74,.2)"><b style="font-family:var(--font-display);font-size:34px">Interview 2</b><br>Informal chat with a friend</div>
       <div class="pad" style="right:900px">
-        <div class="s-kicker" style="color:#1E7A38">Water: we started small</div>
+        <div class="s-kicker" style="color:#48714A">Water: we started small</div>
         <h2 class="s-title tt" style="font-size:104px;margin:14px 0 44px">Two interviews came first.</h2>
         <ul class="points pp">
           <li><span><b>2 exploratory interviews</b> before any survey.</span></li>
@@ -32,7 +32,7 @@
           <li><span>Their words became the <b>survey's answer options</b>.</span></li>
         </ul>
       </div>
-      <div class="source" style="color:#FFF4E2;opacity:.85">Interview notes (n = 2, exploratory, not part of the survey sample)</div>`,
+      <div class="source" style="color:#F2D9C2;opacity:.85">Interview notes (n = 2, exploratory, not part of the survey sample)</div>`,
     steps: [
       (el) => {
         gsap.set(el.querySelectorAll(".pp li"), { opacity: 0, x: -30 });
@@ -70,21 +70,21 @@
       const n = (D()["10_question_coverage"] || []).length;
       return `${ground}
       <svg class="vine" viewBox="0 0 400 900" style="position:absolute;left:1100px;top:60px;width:400px;height:900px;overflow:visible">
-        <path class="vp" d="M200 900 C120 800 280 720 200 620 C120 520 280 440 200 340 C120 240 280 160 200 40" stroke="#2FA84F" stroke-width="16" fill="none" stroke-linecap="round"/></svg>
+        <path class="vp" d="M200 900 C120 800 280 720 200 620 C120 520 280 440 200 340 C120 240 280 160 200 40" stroke="#6A9467" stroke-width="16" fill="none" stroke-linecap="round"/></svg>
       ${BLOCKS.map((b, i) => {
         const y = 880 - i * 92, left = i % 2 === 0;
-        return `<div class="qb" style="position:absolute;top:${y - 30}px;${left ? "right:" + (1920 - 1290) + "px" : "left:1310px"};background:#FFFDF8;color:#10324A;border-radius:18px;padding:12px 22px;font-size:26px;font-weight:700;white-space:nowrap;box-shadow:0 8px 20px rgba(16,50,74,.18);border-${left ? "right" : "left"}:10px solid #2FA84F">${i + 1}. ${b}</div>`;
+        return `<div class="qb" style="position:absolute;top:${y - 30}px;${left ? "right:" + (1920 - 1290) + "px" : "left:1310px"};background:#F8EBDA;color:#1F3335;border-radius:18px;padding:12px 22px;font-size:26px;font-weight:700;white-space:nowrap;box-shadow:0 8px 20px rgba(16,50,74,.18);border-${left ? "right" : "left"}:10px solid #6A9467">${i + 1}. ${b}</div>`;
       }).join("")}
       <div class="pad" style="right:1100px">
-        <div class="s-kicker" style="color:#1E7A38">Water: the survey</div>
+        <div class="s-kicker" style="color:#48714A">Water: the survey</div>
         <h2 class="s-title tt" style="font-size:100px;margin:14px 0 30px">${n} questions, grown in order.</h2>
-        <div class="qrbox" style="display:flex;gap:28px;align-items:center;margin-bottom:34px"><a href="../survey/index.html" target="_blank" rel="noopener" data-interactive>${Kit.qrSVG(Kit.siteURL("survey/index.html"), 230, "#10324A")}</a><div style="font-size:30px;font-weight:700;max-width:9ch">Scan or click to see the survey</div></div>
+        <div class="qrbox" style="display:flex;gap:28px;align-items:center;margin-bottom:34px"><a href="../survey/index.html" target="_blank" rel="noopener" data-interactive>${Kit.qrSVG(Kit.siteURL("survey/index.html"), 230, "#1F3335")}</a><div style="font-size:30px;font-weight:700;max-width:9ch">Scan or click to see the survey</div></div>
         <ul class="points pp" style="font-size:34px">
           <li><span>Price asked twice: <b>any drink</b> and <b>a smoothie</b>.</span></li>
           <li><span>A hidden <b>attention check</b> caught rushed answers.</span></li>
         </ul>
       </div>
-      <div class="source" style="color:#FFF4E2;opacity:.85">10_question_coverage.csv; report section "Survey design"</div>`;
+      <div class="source" style="color:#F2D9C2;opacity:.85">10_question_coverage.csv; report section "Survey design"</div>`;
     },
     steps: [
       (el) => {
@@ -102,31 +102,32 @@
     ]
   });
 
-  // ---------------- 9. Washing the fruit: 69 → 53 ----------------
+  // ---------------- 9. Washing the fruit: raw → kept ----------------
   Deck.add({
-    n: 9, stage: "water", title: "69 answers, 53 kept", budget: 75,
-    notes: "Role 2. Cleaning is washing the fruit. 4 were rarely on campus, 1 was a duplicate, 11 failed the attention check. 53 remain. 94% are undergraduates.\nEvery result was re-checked under 3 cleaning levels (A, B, C).",
+    n: 9, stage: "water", title: Kit.nRaw() + " answers, " + Kit.nUsable() + " kept", budget: 75,
+    notes: "Role 2. Cleaning is washing the fruit. 5 were rarely on campus, 1 was a duplicate, 11 failed the attention check. 55 remain. 93% are undergraduates.\nEvery result was re-checked under 3 cleaning levels (A, B, C).",
     html: () => {
       const f = D()["01_funnel"] || [];
       const prof = D()["02_sample_profile"] || [];
       const p = (v, l) => (prof.find(r => r.variable === v && r.level === l) || {}).pct;
       const COLS = 12, S = 46;
-      const dots = Array.from({ length: f.length ? f[0].n : 69 }, (_, i) => `<i class="dot" data-i="${i}" style="position:absolute;left:${(i % COLS) * S}px;top:${Math.floor(i / COLS) * S}px;width:36px;height:36px;border-radius:50%;background:${["#FFB020", "#E8364F", "#FF9E7A", "#4F5BD5", "#F5D547"][i % 5]};box-shadow:inset -5px -5px 0 rgba(0,0,0,.12)"></i>`).join("");
+      const nDots = f.length ? f[0].n : Kit.nRaw();
+      const dots = Array.from({ length: nDots }, (_, i) => `<i class="dot" data-i="${i}" style="position:absolute;left:${(i % COLS) * S}px;top:${Math.floor(i / COLS) * S}px;width:36px;height:36px;border-radius:50%;background:${["#FFB020", "#E8364F", "#FF9E7A", "#4F5BD5", "#E8C26A"][i % 5]};box-shadow:inset -5px -5px 0 rgba(0,0,0,.12)"></i>`).join("");
       const steps = f.slice(1).map((r, i) => ({ label: r.step, n: r.n, removed: f[i].n - r.n }));
       return `
       <div class="pad" style="right:1000px">
-        <div class="s-kicker" style="color:#1E7A38">Water: washing the fruit</div>
-        <h2 class="s-title tt" style="font-size:100px;margin:14px 0 26px"><span class="count">${f.length ? f[0].n : 69}</span> answers</h2>
+        <div class="s-kicker" style="color:#48714A">Water: washing the fruit</div>
+        <h2 class="s-title tt" style="font-size:100px;margin:14px 0 26px"><span class="count">${nDots}</span> answers</h2>
         <div class="rinse" style="display:grid;gap:12px;font-size:28px">${steps.map((s, i) => `<div class="rs" data-k="${i}" style="display:flex;justify-content:space-between;gap:20px;padding:12px 20px;border-radius:14px;background:rgba(255,253,248,.55)"><span>${s.label}</span><b>${s.removed ? "−" + s.removed : "0"}</b></div>`).join("")}</div>
         <div class="chips" style="display:flex;flex-wrap:wrap;gap:14px;margin-top:30px">
-          <span class="chip">${Math.round(p("affil_group", "Undergraduate") || 94)}% undergraduates</span>
-          <span class="chip">${Math.round(p("origin_group", "Hong Kong") || 57)}% from Hong Kong</span>
-          <span class="chip">${Math.round(p("gender", "Female") || 40)}% female, ${Math.round(p("gender", "Male") || 60)}% male</span>
+          <span class="chip">${Math.round(p("affil_group", "Undergraduate") || 93)}% undergraduates</span>
+          <span class="chip">${Math.round(p("origin_group", "Hong Kong") || 56)}% from Hong Kong</span>
+          <span class="chip">${Math.round(p("gender", "Female") || 38)}% female, ${Math.round(p("gender", "Male") || 62)}% male</span>
         </div>
       </div>
-      <div class="basin" style="position:absolute;left:1060px;top:170px;width:${COLS * S}px;height:${Math.ceil(69 / COLS) * S}px">${dots}</div>
-      <svg style="position:absolute;left:1010px;top:500px;width:650px;height:300px" viewBox="0 0 650 300"><path d="M10 10 H640 L560 260 Q325 300 90 260 Z" fill="#FFFDF8" fill-opacity=".5" stroke="#10324A" stroke-width="8"/>${Array.from({ length: 24 }, (_, i) => `<circle cx="${80 + (i % 12) * 44}" cy="${110 + Math.floor(i / 12) * 60}" r="7" fill="#10324A" opacity=".5"/>`).join("")}</svg>
-      <style>.stage-water .chip{background:#10324A;color:#FFF4E2;padding:10px 20px;border-radius:99px;font-size:26px;font-weight:700}</style>
+      <div class="basin" style="position:absolute;left:1060px;top:170px;width:${COLS * S}px;height:${Math.ceil(nDots / COLS) * S}px">${dots}</div>
+      <svg style="position:absolute;left:1010px;top:500px;width:650px;height:300px" viewBox="0 0 650 300"><path d="M10 10 H640 L560 260 Q325 300 90 260 Z" fill="#F8EBDA" fill-opacity=".5" stroke="#1F3335" stroke-width="8"/>${Array.from({ length: 24 }, (_, i) => `<circle cx="${80 + (i % 12) * 44}" cy="${110 + Math.floor(i / 12) * 60}" r="7" fill="#1F3335" opacity=".5"/>`).join("")}</svg>
+      <style>.stage-water .chip{background:#1F3335;color:#F2D9C2;padding:10px 20px;border-radius:99px;font-size:26px;font-weight:700}</style>
       <div class="source">01_funnel.csv, 02_sample_profile.csv</div>`;
     },
     steps: [
@@ -142,12 +143,12 @@
         // Rinse: removed dots fly off at each cleaning step, the counter ticks down.
         const f = D()["01_funnel"] || [];
         const dots = [...el.querySelectorAll(".dot")].reverse();
-        const counter = { v: f[0] ? f[0].n : 69 }, out = el.querySelector(".count");
+        const counter = { v: f[0] ? f[0].n : Kit.nRaw() }, out = el.querySelector(".count");
         const tl = gsap.timeline().add(() => Deck.ctx.sfx("water"));
         let used = 0, t = 0;
         f.slice(1).forEach((r, i) => {
           const rm = f[i].n - r.n, batch = dots.slice(used, used + rm); used += rm;
-          tl.to(el.querySelector(`.rs[data-k="${i}"]`), { opacity: 1, background: "#FFFDF8", duration: 0.2 }, t);
+          tl.to(el.querySelector(`.rs[data-k="${i}"]`), { opacity: 1, background: "#F8EBDA", duration: 0.2 }, t);
           if (batch.length) tl.to(batch, { x: 520, y: () => gsap.utils.random(-120, 200), rotate: 200, opacity: 0, duration: 0.6, ease: "power2.in", stagger: 0.03 }, t + 0.1)
             .to(counter, { v: r.n, duration: 0.5, ease: "none", onUpdate: () => out.textContent = Math.round(counter.v) }, t + 0.1);
           t += batch.length ? 0.7 : 0.3;

@@ -8,20 +8,20 @@
       const o = ctx.order || CONTENT.menu.exampleOrder;
       const f = (o.fruits || []).map(k => ctx.fruit(k)).filter(Boolean);
       return `
-      <div style="position:absolute;inset:0;background:radial-gradient(circle at 40% 55%, #D93A63 0%, #B0244A 55%, #7A1430 100%)"></div>
+      <div style="position:absolute;inset:0;background:radial-gradient(circle at 40% 55%, #D93A63 0%, #9A3E4B 55%, #5E2431 100%)"></div>
       <div class="rays" style="position:absolute;left:720px;top:620px;width:2400px;height:2400px;margin:-1200px;background:repeating-conic-gradient(from 0deg, rgba(255,244,226,.09) 0 10deg, transparent 10deg 20deg);border-radius:50%;opacity:0"></div>
       <svg class="jar" viewBox="0 0 400 640" style="position:absolute;left:330px;top:-40px;width:330px;overflow:visible;transform-origin:80% 20%">
-        <path d="M70 40 H330 L300 440 H100 Z" fill="#FFF" fill-opacity=".35" stroke="#2A1A10" stroke-width="10" stroke-linejoin="round"/>
+        <path d="M70 40 H330 L300 440 H100 Z" fill="#FFF" fill-opacity=".35" stroke="#25292B" stroke-width="10" stroke-linejoin="round"/>
         <path d="M100 160 H320 L300 440 H100 Z" fill="${f[0] ? f[0].color : "#FFB020"}"/>
-        <rect x="40" y="10" width="320" height="40" rx="14" fill="#2A1A10"/></svg>
+        <rect x="40" y="10" width="320" height="40" rx="14" fill="#25292B"/></svg>
       <div class="stream" style="position:absolute;left:670px;top:330px;width:46px;height:0;border-radius:23px;background:linear-gradient(${f[0] ? f[0].color : "#FFB020"}, ${f[1] ? f[1].color : "#E8364F"})"></div>
       <div class="cupbox" style="position:absolute;left:470px;top:440px;width:500px;height:820px">${ctx.art.cup({ colorA: f[0] ? f[0].color : "#FFB020", colorB: f[1] ? f[1].color : (f[0] ? f[0].color : "#E8364F"), label: "Order #1" })}</div>
-      <div class="reveal" style="position:absolute;left:1080px;top:110px;width:720px;color:#FFF4E2">
-        <div class="s-kicker" style="color:#F6C445">Poured fresh for</div>
+      <div class="reveal" style="position:absolute;left:1080px;top:110px;width:720px;color:#F2D9C2">
+        <div class="s-kicker" style="color:#E8C26A">Poured fresh for</div>
         <h2 class="s-title who-name" style="font-size:110px;margin:6px 0 24px">${o.name || "you"}</h2>
         <div class="order-card oc" style="position:relative;width:720px">${Kit.orderCardHTML(o, ctx)}</div>
       </div>
-      <div class="handoff" style="position:absolute;left:130px;top:430px;font-family:var(--font-display);font-weight:900;font-size:76px;color:#FFF4E2;max-width:11ch;opacity:0">Your smoothie is on its way</div>`;
+      <div class="handoff" style="position:absolute;left:130px;top:430px;font-family:var(--font-display);font-weight:900;font-size:76px;color:#F2D9C2;max-width:11ch;opacity:0">Your smoothie is on its way</div>`;
     },
     steps: [
       (el) => {

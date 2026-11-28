@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The survey behind Sprout</title>
-<meta name="description" content="The Sprout CUHK smoothie survey in two views: the form we ran (42 questions in 8 sections) and the results (charts, R figures and takeaways from 53 cleaned responses).">
+<title>The survey behind CUE</title>
+<meta name="description" content="The CUE CUHK smoothie survey in two views: the form we ran (42 questions in 8 sections) and the results (charts, R figures and takeaways from 55 cleaned responses).">
 <link rel="stylesheet" href="../shared/base.css">
 <style>
   body { margin: 0; padding: 0 0 64px; overflow-wrap: break-word; }
@@ -41,7 +41,7 @@
   .flow-step p { margin: 0; font-size: 14px; line-height: 1.45; color: var(--ink); }
   .flow-step ol { margin: 6px 0 0; padding-left: 20px; font-size: 14px; line-height: 1.5; columns: 2; column-gap: 24px; }
   .flow-step ul { margin: 6px 0 0; padding-left: 20px; font-size: 14px; line-height: 1.5; }
-  .flow-branch { border: 2px dashed var(--berry); background: #FBE9EE; border-radius: 12px; padding: 10px 14px; margin: 10px 0 0 20px; }
+  .flow-branch { border: 2px dashed var(--berry); background: #F5E3D6; border-radius: 12px; padding: 10px 14px; margin: 10px 0 0 20px; }
   .flow-branch p { margin: 0; font-size: 14px; color: var(--berry); font-weight: 700; line-height: 1.4; }
   .flow-arrow { display: flex; justify-content: center; padding: 4px 0; }
   .flow-end { border-color: var(--leaf); border-width: 4px; }
@@ -64,7 +64,7 @@
   .opts li { background: var(--white); border: 1px solid var(--mango-soft); border-radius: 9px; padding: 7px 10px; font-size: 14px; line-height: 1.35; }
   .callout { margin: 6px 0 8px; padding: 8px 12px; border-radius: 10px; font-size: 14px; font-weight: 700; line-height: 1.4; }
   .callout.screen { background: #FFF3CD; border: 1px solid #D9A500; color: #6B4A00; }
-  .callout.attn { background: #FBE9EE; border: 1px solid var(--berry); color: var(--berry); }
+  .callout.attn { background: #F5E3D6; border: 1px solid var(--berry); color: var(--berry); }
   .note { font-size: 13px; color: var(--ink-soft); margin: 6px 0 0; line-height: 1.4; }
   .stats { display: flex; flex-wrap: wrap; gap: 12px; margin: 4px 0 22px; }
   .stat { flex: 1 1 190px; background: var(--white); border: 3px solid var(--ink); border-radius: var(--radius); padding: 14px 16px; }
@@ -121,7 +121,7 @@
   button.fig-thumb img { display: block; width: clamp(112px, 26vw, 160px); height: auto; border-radius: 6px; }
   button.fig-thumb .fig-cap { display: block; font-size: 12px; color: var(--ink-soft); max-width: 160px; margin-top: 4px; line-height: 1.3; }
 
-  .lightbox { position: fixed; inset: 0; z-index: 50; background: rgba(42, 26, 16, .88); display: flex; align-items: center; justify-content: center; padding: 16px; }
+  .lightbox { position: fixed; inset: 0; z-index: 50; background: rgba(37, 41, 43, .88); display: flex; align-items: center; justify-content: center; padding: 16px; }
   .lightbox[hidden] { display: none; }
   .lb-inner { background: var(--cream); border: 3px solid var(--ink); border-radius: 18px; padding: 14px; max-width: 96vw; max-height: 92vh; overflow: auto; }
   .lb-inner img { display: block; max-width: min(1100px, 90vw); width: 100%; height: auto; border-radius: 8px; }
@@ -135,7 +135,7 @@
   .takeaways ul { margin: 0; padding-left: 20px; }
   .takeaways li { font-size: 15px; line-height: 1.5; margin: 0 0 10px; }
   .takeaways .who { color: var(--ink-soft); font-size: 13px; }
-  .limits { background: #FBE9EE; border: 3px solid var(--berry); border-radius: var(--radius); padding: 14px 16px; margin: 22px 0 0; }
+  .limits { background: #F5E3D6; border: 3px solid var(--berry); border-radius: var(--radius); padding: 14px 16px; margin: 22px 0 0; }
   .limits h3 { font-size: 22px; color: var(--berry); margin: 0 0 6px; }
   .limits p { font-size: 15px; line-height: 1.5; margin: 0; }
 
@@ -157,11 +157,11 @@
 
 <header class="hero">
   <div class="wrap">
-    <p class="kicker">Sprout · CUHK smoothie study</p>
-    <h1>The survey behind Sprout</h1>
-    <p class="lede">69 responses, 53 kept after cleaning, 42 questions in 8 sections, run on Google Forms. Two views: the form we ran, and what the answers say. Read-only; answers are not collected here.</p>
+    <p class="kicker">CUE · CUHK smoothie study</p>
+    <h1>The survey behind CUE</h1>
+    <p class="lede">72 responses, 55 kept after cleaning, 42 questions in 8 sections, run on Google Forms. Two views: the form we ran, and what the answers say. Read-only; answers are not collected here.</p>
     <div class="links">
-      <a href="../index.html">Back to Sprout</a>
+      <a href="../index.html">Back to CUE</a>
       <a href="../site/index.html">Pitch site</a>
       <a href="../deck/index.html">Open the deck</a>
     </div>
@@ -180,18 +180,18 @@
 
 <section class="panel" id="panel-form" role="tabpanel" aria-labelledby="tab-form" tabindex="0">
   <h2>The form</h2>
-  <p class="intro">What we asked and how the form worked. 69 responses came in, 53 were kept after cleaning. 42 questions in 8 sections, run on Google Forms. Every question below keeps its real wording, type and answer options.</p>
+  <p class="intro">What we asked and how the form worked. 72 responses came in, 55 were kept after cleaning. 42 questions in 8 sections, run on Google Forms. Every question below keeps its real wording, type and answer options.</p>
 
   <h3 class="sub">How the form works</h3>
   <p class="note-soft">From the first screen to the cleaned data set.</p>
 
   <div class="flow">
     <div class="flow-step">
-      <h3>69 responses opened the form</h3>
+      <h3>72 responses opened the form</h3>
       <p>Google Forms collected the answers. Nobody was paid; this was a convenience sample.</p>
     </div>
     <div class="flow-arrow" aria-hidden="true">
-      <svg width="26" height="30" viewBox="0 0 26 30"><path d="M13 2 v20 M5 16 l8 10 8-10" fill="none" stroke="#2A1A10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg width="26" height="30" viewBox="0 0 26 30"><path d="M13 2 v20 M5 16 l8 10 8-10" fill="none" stroke="#25292B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
     <div class="flow-step">
       <h3>Q1 screening: how often are you on campus?</h3>
@@ -201,7 +201,7 @@
       </div>
     </div>
     <div class="flow-arrow" aria-hidden="true">
-      <svg width="26" height="30" viewBox="0 0 26 30"><path d="M13 2 v20 M5 16 l8 10 8-10" fill="none" stroke="#2A1A10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg width="26" height="30" viewBox="0 0 26 30"><path d="M13 2 v20 M5 16 l8 10 8-10" fill="none" stroke="#25292B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
     <div class="flow-step">
       <h3>Eight sections run in order</h3>
@@ -217,45 +217,45 @@
       </ol>
     </div>
     <div class="flow-arrow" aria-hidden="true">
-      <svg width="26" height="30" viewBox="0 0 26 30"><path d="M13 2 v20 M5 16 l8 10 8-10" fill="none" stroke="#2A1A10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg width="26" height="30" viewBox="0 0 26 30"><path d="M13 2 v20 M5 16 l8 10 8-10" fill="none" stroke="#25292B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
     <div class="flow-step">
       <h3>Hidden attention check</h3>
       <p>Buried inside the agreement statements: one statement tells people to pick Disagree. It sits between ordinary statements and looks like one of them.</p>
     </div>
     <div class="flow-arrow" aria-hidden="true">
-      <svg width="26" height="30" viewBox="0 0 26 30"><path d="M13 2 v20 M5 16 l8 10 8-10" fill="none" stroke="#2A1A10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg width="26" height="30" viewBox="0 0 26 30"><path d="M13 2 v20 M5 16 l8 10 8-10" fill="none" stroke="#25292B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
     <div class="flow-step">
       <h3>Price and intent</h3>
       <p>What people would pay for a drink, what they would pay for their own smoothie build, and how likely they would be to buy it.</p>
     </div>
     <div class="flow-arrow" aria-hidden="true">
-      <svg width="26" height="30" viewBox="0 0 26 30"><path d="M13 2 v20 M5 16 l8 10 8-10" fill="none" stroke="#2A1A10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg width="26" height="30" viewBox="0 0 26 30"><path d="M13 2 v20 M5 16 l8 10 8-10" fill="none" stroke="#25292B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
     <div class="flow-step">
       <h3>Free text</h3>
       <p>Two open questions: why that price and intent, and anything else. Optional writing, coded later into themes.</p>
     </div>
     <div class="flow-arrow" aria-hidden="true">
-      <svg width="26" height="30" viewBox="0 0 26 30"><path d="M13 2 v20 M5 16 l8 10 8-10" fill="none" stroke="#2A1A10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg width="26" height="30" viewBox="0 0 26 30"><path d="M13 2 v20 M5 16 l8 10 8-10" fill="none" stroke="#25292B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
     <div class="flow-step">
       <h3>Demographics</h3>
       <p>Gender, home region, and whether they live on campus. Last, so it cannot colour the earlier answers.</p>
     </div>
     <div class="flow-arrow" aria-hidden="true">
-      <svg width="26" height="30" viewBox="0 0 26 30"><path d="M13 2 v20 M5 16 l8 10 8-10" fill="none" stroke="#2A1A10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg width="26" height="30" viewBox="0 0 26 30"><path d="M13 2 v20 M5 16 l8 10 8-10" fill="none" stroke="#25292B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
     <div class="flow-step flow-end">
       <h3>Cleaning steps</h3>
       <ul id="funnel-steps">
-        <li>Eligible (on campus at least sometimes): <b>65</b></li>
-        <li>Completed core questions: <b>65</b></li>
-        <li>Not duplicates: <b>64</b></li>
-        <li>Passed attention check: <b>53</b></li>
+        <li>Eligible (on campus at least sometimes): <b>67</b></li>
+        <li>Completed core questions: <b>67</b></li>
+        <li>Not duplicates: <b>66</b></li>
+        <li>Passed attention check: <b>55</b></li>
       </ul>
-      <p style="margin-top:8px">Kept for analysis: <b id="funnel-kept">53</b> people.</p>
+      <p style="margin-top:8px">Kept for analysis: <b id="funnel-kept">55</b> people.</p>
     </div>
   </div>
 
@@ -268,7 +268,7 @@
     <article class="q">
       <div class="qhead"><span class="qnum">Q1</span><span class="chip">single choice</span><span class="chip badge">Screening</span></div>
       <p class="qtext">How often are you on the CUHK campus in a typical week?</p>
-      <p class="qmeta">single choice · 69 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">single choice · 72 answered (all), 55 (cleaned)</p>
       <div class="callout screen">Screening question: answering Rarely or never ends the form; those respondents are not eligible.</div>
       <ul class="opts">
         <li>Rarely or never</li>
@@ -281,7 +281,7 @@
     <article class="q">
       <div class="qhead"><span class="qnum">Q2</span><span class="chip">single choice</span></div>
       <p class="qtext">What is your affiliation with CUHK? If you are an exchange student, please select the option that best matches your current level of study.</p>
-      <p class="qmeta">single choice · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">single choice · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts">
         <li>Staff (Professor / Administration / etc.)</li>
         <li>Year 4 Undergraduate Student</li>
@@ -301,14 +301,14 @@
     <article class="q">
       <div class="qhead"><span class="qnum">Q3</span><span class="chip">number in HK$</span></div>
       <p class="qtext">What is the most you would pay for a drink on campus? HK$ ____ (0 is allowed)</p>
-      <p class="qmeta">number in HK$ · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">number in HK$ · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts"><li>a number in HK$ (0 allowed)</li></ul>
     </article>
 
     <article class="q">
       <div class="qhead"><span class="qnum">Q4</span><span class="chip">single choice</span></div>
       <p class="qtext">In a typical week, how many times do you purchase a drink on campus? Examples include boba, coffee, smoothies, canteen drinks, and bottled or canned beverages. Count drinks purchased separately or as part of a meal (e.g., a drink bought with lunch or dinner).</p>
-      <p class="qmeta">single choice · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">single choice · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts">
         <li>Never</li>
         <li>1-4 times</li>
@@ -361,7 +361,7 @@
     <article class="q">
       <div class="qhead"><span class="qnum">Q15</span><span class="chip">single choice</span></div>
       <p class="qtext">In the past 3 months, have you bought a smoothie anywhere (on or off campus)?</p>
-      <p class="qmeta">single choice · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">single choice · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts">
         <li>Yes</li>
         <li>No</li>
@@ -370,19 +370,19 @@
   </details>
   <details class="sec" id="sec-importance">
     <summary>3 · Importance of six factors</summary>
-    <p class="sec-note">Respondents allocated 100 points across six factors: Taste, Healthiness, Price, Convenience of location, Waiting time / queue length, Freshness of ingredients. 100-point allocation · 65 answered (all), 53 (cleaned).</p>
+    <p class="sec-note">Respondents allocated 100 points across six factors: Taste, Healthiness, Price, Convenience of location, Waiting time / queue length, Freshness of ingredients. 100-point allocation · 67 answered (all), 55 (cleaned).</p>
 
     <article class="q">
       <div class="qhead"><span class="qnum">Q9</span><span class="chip">100 points</span></div>
       <p class="qtext">Allocate exactly 100 points across the six factors below to reflect their relative importance to you. You may assign 0 to 100 points to each factor. The total across all six factors must equal 100. Higher points indicate greater importance. Factor: Taste.</p>
-      <p class="qmeta">100-point allocation · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">100-point allocation · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts"><li>0 to 100 points per factor; the six factors must total 100</li></ul>
     </article>
-    <article class="q"><div class="qhead"><span class="qnum">Q10</span><span class="chip">100 points</span></div><p class="qtext">Factor: Healthiness.</p><p class="qmeta">100-point allocation · 65 answered (all), 53 (cleaned)</p><ul class="opts"><li>0 to 100 points per factor; the six factors must total 100</li></ul></article>
-    <article class="q"><div class="qhead"><span class="qnum">Q11</span><span class="chip">100 points</span></div><p class="qtext">Factor: Price.</p><p class="qmeta">100-point allocation · 65 answered (all), 53 (cleaned)</p><ul class="opts"><li>0 to 100 points per factor; the six factors must total 100</li></ul></article>
-    <article class="q"><div class="qhead"><span class="qnum">Q12</span><span class="chip">100 points</span></div><p class="qtext">Factor: Convenience of location.</p><p class="qmeta">100-point allocation · 65 answered (all), 53 (cleaned)</p><ul class="opts"><li>0 to 100 points per factor; the six factors must total 100</li></ul></article>
-    <article class="q"><div class="qhead"><span class="qnum">Q13</span><span class="chip">100 points</span></div><p class="qtext">Factor: Waiting time / queue length.</p><p class="qmeta">100-point allocation · 65 answered (all), 53 (cleaned)</p><ul class="opts"><li>0 to 100 points per factor; the six factors must total 100</li></ul></article>
-    <article class="q"><div class="qhead"><span class="qnum">Q14</span><span class="chip">100 points</span></div><p class="qtext">Factor: Freshness of ingredients.</p><p class="qmeta">100-point allocation · 65 answered (all), 53 (cleaned)</p><ul class="opts"><li>0 to 100 points per factor; the six factors must total 100</li></ul></article>
+    <article class="q"><div class="qhead"><span class="qnum">Q10</span><span class="chip">100 points</span></div><p class="qtext">Factor: Healthiness.</p><p class="qmeta">100-point allocation · 67 answered (all), 55 (cleaned)</p><ul class="opts"><li>0 to 100 points per factor; the six factors must total 100</li></ul></article>
+    <article class="q"><div class="qhead"><span class="qnum">Q11</span><span class="chip">100 points</span></div><p class="qtext">Factor: Price.</p><p class="qmeta">100-point allocation · 67 answered (all), 55 (cleaned)</p><ul class="opts"><li>0 to 100 points per factor; the six factors must total 100</li></ul></article>
+    <article class="q"><div class="qhead"><span class="qnum">Q12</span><span class="chip">100 points</span></div><p class="qtext">Factor: Convenience of location.</p><p class="qmeta">100-point allocation · 67 answered (all), 55 (cleaned)</p><ul class="opts"><li>0 to 100 points per factor; the six factors must total 100</li></ul></article>
+    <article class="q"><div class="qhead"><span class="qnum">Q13</span><span class="chip">100 points</span></div><p class="qtext">Factor: Waiting time / queue length.</p><p class="qmeta">100-point allocation · 67 answered (all), 55 (cleaned)</p><ul class="opts"><li>0 to 100 points per factor; the six factors must total 100</li></ul></article>
+    <article class="q"><div class="qhead"><span class="qnum">Q14</span><span class="chip">100 points</span></div><p class="qtext">Factor: Freshness of ingredients.</p><p class="qmeta">100-point allocation · 67 answered (all), 55 (cleaned)</p><ul class="opts"><li>0 to 100 points per factor; the six factors must total 100</li></ul></article>
   </details>
 
   <details class="sec" id="sec-agreement">
@@ -392,80 +392,80 @@
     <article class="q">
       <div class="qhead"><span class="qnum">Q16</span><span class="chip">rating</span></div>
       <p class="qtext">I would pay more for a smoothie made with fresh ingredients than for one made with frozen or pre-mixed ingredients.</p>
-      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">1-5 rating (agreement) · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
     </article>
     <article class="q">
       <div class="qhead"><span class="qnum">Q17</span><span class="chip">rating</span></div>
       <p class="qtext">I would like the choice of different cup sizes.</p>
-      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">1-5 rating (agreement) · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
     </article>
     <article class="q">
       <div class="qhead"><span class="qnum">Q18</span><span class="chip">rating</span></div>
       <p class="qtext">I would be interested in seasonal menu items.</p>
-      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">1-5 rating (agreement) · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
     </article>
     <article class="q">
       <div class="qhead"><span class="qnum">Q19</span><span class="chip">rating</span></div>
       <p class="qtext">I prefer a shop with a wide variety of smoothie options over a small, focused menu.</p>
-      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">1-5 rating (agreement) · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
     </article>
     <article class="q">
       <div class="qhead"><span class="qnum">Q20</span><span class="chip">rating</span></div>
       <p class="qtext">Smoothies would be a healthier choice than most other drinks sold on campus.</p>
-      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">1-5 rating (agreement) · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
     </article>
     <article class="q">
       <div class="qhead"><span class="qnum">Q21</span><span class="chip">rating</span></div>
       <p class="qtext">I am concerned that smoothies contain too much sugar.</p>
-      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">1-5 rating (agreement) · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
     </article>
     <article class="q">
       <div class="qhead"><span class="qnum">Q22</span><span class="chip">rating</span><span class="chip badge attn">Attention check</span></div>
       <p class="qtext">As an attention check, please select Disagree for this statement.</p>
-      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">1-5 rating (agreement) · 67 answered (all), 55 (cleaned)</p>
       <div class="callout attn">Attention check: the statement tells respondents to select Disagree; strict rule = only Disagree passes.</div>
       <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
     </article>
     <article class="q">
       <div class="qhead"><span class="qnum">Q23</span><span class="chip">rating</span></div>
       <p class="qtext">A comfortable place to sit and enjoy my drink is important to me.</p>
-      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">1-5 rating (agreement) · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
     </article>
     <article class="q">
       <div class="qhead"><span class="qnum">Q24</span><span class="chip">rating</span></div>
       <p class="qtext">I would use a mobile app to pre-order a smoothie.</p>
-      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">1-5 rating (agreement) · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
     </article>
     <article class="q">
       <div class="qhead"><span class="qnum">Q25</span><span class="chip">rating</span></div>
       <p class="qtext">I would join a loyalty points program if one were offered.</p>
-      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">1-5 rating (agreement) · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
     </article>
     <article class="q">
       <div class="qhead"><span class="qnum">Q30</span><span class="chip">rating</span></div>
       <p class="qtext">I want to be able to add more than one add-ons like those from the previous question to my drink.</p>
-      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">1-5 rating (agreement) · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
     </article>
     <article class="q">
       <div class="qhead"><span class="qnum">Q31</span><span class="chip">rating</span></div>
       <p class="qtext">I would be willing to pay extra for add-ons.</p>
-      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">1-5 rating (agreement) · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
     </article>
     <article class="q">
       <div class="qhead"><span class="qnum">Q32</span><span class="chip">rating</span></div>
       <p class="qtext">I would prefer to build my own smoothie rather than choose a ready-made recipe.</p>
-      <p class="qmeta">1-5 rating (agreement) · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">1-5 rating (agreement) · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts"><li>Strongly disagree</li><li>Disagree</li><li>Neutral</li><li>Agree</li><li>Strongly agree</li></ul>
     </article>
   </details>
@@ -476,7 +476,7 @@
     <article class="q">
       <div class="qhead"><span class="qnum">Q26</span><span class="chip">multiple choice</span></div>
       <p class="qtext">For which occasions would you most likely purchase a smoothie? Select up to 3.</p>
-      <p class="qmeta">multiple choice, pick up to 3 · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">multiple choice, pick up to 3 · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts">
         <li>With breakfast</li><li>With lunch</li><li>With dinner</li><li>As a meal replacement</li><li>Afternoon snack</li><li>Dessert or treat</li><li>After exercise</li><li>While studying or working</li><li>Hanging out with friends</li><li>To cool down in hot weather</li><li>Other (write-in)</li>
       </ul>
@@ -485,7 +485,7 @@
     <article class="q">
       <div class="qhead"><span class="qnum">Q27</span><span class="chip">multiple choice</span></div>
       <p class="qtext">Which fruits would you most want in a smoothie? Select up to 5.</p>
-      <p class="qmeta">multiple choice, pick up to 5 · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">multiple choice, pick up to 5 · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts">
         <li>Mango</li><li>Strawberry</li><li>Banana</li><li>Pineapple</li><li>Apple</li><li>Orange</li><li>Blueberry</li><li>Watermelon</li><li>Kiwi</li><li>Dragon fruit</li><li>Passion fruit</li><li>Lychee</li><li>Peach</li><li>Honeydew melon</li><li>Other (write-in)</li>
       </ul>
@@ -494,7 +494,7 @@
     <article class="q">
       <div class="qhead"><span class="qnum">Q28</span><span class="chip">multiple choice</span></div>
       <p class="qtext">Which greens or vegetables would you be open to adding? Select up to 3.</p>
-      <p class="qmeta">multiple choice, pick up to 3 · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">multiple choice, pick up to 3 · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts">
         <li>Avocado</li><li>Spinach</li><li>Kale</li><li>Cucumber</li><li>Carrot</li><li>Celery</li><li>Beetroot</li><li>Mint</li><li>Other (write-in)</li>
       </ul>
@@ -503,7 +503,7 @@
     <article class="q">
       <div class="qhead"><span class="qnum">Q29</span><span class="chip">multiple choice</span></div>
       <p class="qtext">Which add-ons would you be interested in? Select all that apply. If none, please select the Other option and input none.</p>
-      <p class="qmeta">multiple choice, select all that apply · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">multiple choice, select all that apply · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts">
         <li>Protein powder</li><li>Chia seeds</li><li>Flaxseed</li><li>Oats</li><li>Peanut or almond butter</li><li>Collagen</li><li>Greens powder (wheatgrass or spirulina)</li><li>Probiotics</li><li>Vitamin boost</li><li>Energy boost (matcha or coffee)</li><li>Other (write-in)</li>
       </ul>
@@ -512,7 +512,7 @@
     <article class="q">
       <div class="qhead"><span class="qnum">Q34</span><span class="chip">multiple choice</span></div>
       <p class="qtext">Which base would you prefer in your smoothie? Select up to 3.</p>
-      <p class="qmeta">multiple choice, pick up to 3 · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">multiple choice, pick up to 3 · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts">
         <li>Fresh milk</li><li>Soy milk</li><li>Oat milk</li><li>Almond milk</li><li>Coconut milk</li><li>Yogurt</li><li>Fruit juice</li><li>Tea</li><li>Water only</li><li>No preference</li><li>Other (write-in)</li>
       </ul>
@@ -521,7 +521,7 @@
     <article class="q">
       <div class="qhead"><span class="qnum">Q37</span><span class="chip">multiple choice</span></div>
       <p class="qtext">Where on campus would you most prefer to buy or pick up a smoothie? Select up to 2.</p>
-      <p class="qmeta">multiple choice, pick up to 2 · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">multiple choice, pick up to 2 · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts">
         <li>University Station</li><li>YIA Building</li><li>Central Campus (CC) teaching buildings</li><li>LSK Building</li><li>College areas (residential colleges)</li><li>Near sports facilities</li><li>Other (write-in)</li>
       </ul>
@@ -535,14 +535,14 @@
     <article class="q">
       <div class="qhead"><span class="qnum">Q33</span><span class="chip">number in HK$</span></div>
       <p class="qtext">About how much extra would you be willing to pay for each additional add-on? HK$ ____</p>
-      <p class="qmeta">number in HK$ · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">number in HK$ · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts"><li>a number in HK$ (0 allowed)</li></ul>
     </article>
 
     <article class="q">
       <div class="qhead"><span class="qnum">Q35</span><span class="chip">rating</span></div>
       <p class="qtext">Considering the drink options currently available on campus, how likely would you be to purchase the smoothie you created (including the fruits, base, and add-ons selected above) if it were offered at a price you consider fair?</p>
-      <p class="qmeta">1-5 rating (likelihood) · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">1-5 rating (likelihood) · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts">
         <li>2 - Probably would not</li>
         <li>3 - Might or might not</li>
@@ -554,7 +554,7 @@
     <article class="q">
       <div class="qhead"><span class="qnum">Q38</span><span class="chip">number in HK$</span></div>
       <p class="qtext">What is the most you would be willing to pay for one regular-size smoothie with one optional add-on of your choice included (16 oz, about 470 ml) on campus? HK$ ____</p>
-      <p class="qmeta">number in HK$ · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">number in HK$ · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts"><li>a number in HK$ (0 allowed)</li></ul>
     </article>
   </details>
@@ -585,7 +585,7 @@
     <article class="q">
       <div class="qhead"><span class="qnum">Q39</span><span class="chip">single choice</span></div>
       <p class="qtext">What is your gender?</p>
-      <p class="qmeta">single choice · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">single choice · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts">
         <li>Male</li><li>Female</li><li>Prefer not to say</li>
       </ul>
@@ -594,7 +594,7 @@
     <article class="q">
       <div class="qhead"><span class="qnum">Q40</span><span class="chip">single choice</span></div>
       <p class="qtext">Which country or region are you from?</p>
-      <p class="qmeta">single choice · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">single choice · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts">
         <li>Hong Kong (Local)</li><li>Canada</li><li>Mainland China</li><li>singapore</li><li>Middle east</li><li>Italy</li><li>South Korea</li><li>UK</li><li>Czech Republic</li><li>India</li><li>South Africa</li><li>Scotland</li><li>Macau</li><li>france</li>
       </ul>
@@ -603,7 +603,7 @@
     <article class="q">
       <div class="qhead"><span class="qnum">Q41</span><span class="chip">single choice</span></div>
       <p class="qtext">Do you live on campus (in a hall, residence, or staff quarters)?</p>
-      <p class="qmeta">single choice · 65 answered (all), 53 (cleaned)</p>
+      <p class="qmeta">single choice · 67 answered (all), 55 (cleaned)</p>
       <ul class="opts">
         <li>Yes</li><li>No</li>
       </ul>
@@ -616,14 +616,14 @@
 
   <div class="stats">
     <div class="stat">
-      <div class="num" id="stat-n">53</div>
+      <div class="num" id="stat-n">55</div>
       <div class="lbl">respondents kept</div>
-      <div class="sub">from 69 responses after cleaning</div>
+      <div class="sub">from 72 responses after cleaning</div>
     </div>
     <div class="stat">
-      <div class="num" id="stat-buy">70%</div>
+      <div class="num" id="stat-buy">69%</div>
       <div class="lbl">would buy</div>
-      <div class="sub" id="stat-buy-ci">95% CI 56.5% to 80.5%</div>
+      <div class="sub" id="stat-buy-ci">95% CI 56.0% to 79.7%</div>
     </div>
     <div class="stat">
       <div class="num" id="stat-median">HK$30</div>
@@ -632,7 +632,7 @@
     </div>
     <div class="stat">
       <div class="num" id="stat-best">HK$25</div>
-      <div class="lbl">best price keeps <span id="stat-best-share">77%</span></div>
+      <div class="lbl">best price keeps <span id="stat-best-share">75%</span></div>
       <div class="sub">highest revenue on the demand curve</div>
     </div>
   </div>
@@ -651,7 +651,7 @@
 
   <div class="topic-panel" id="topicpanel-sample" role="tabpanel" aria-labelledby="topic-sample" tabindex="0">
     <h3>Sample</h3>
-    <p class="note-soft">Who the 53 kept respondents are. Small groups cannot carry a claim on their own.</p>
+    <p class="note-soft">Who the 55 kept respondents are. Small groups cannot carry a claim on their own.</p>
 
     <div class="chart-block">
       <h4>Who answered</h4>
@@ -665,9 +665,9 @@
     <div class="takeaways">
       <h4>What the analysis says</h4>
       <ul>
-        <li>Five filters (screening, incompletes, duplicates, attention check, outlier prices) plus two form-bug fixes; the attention check removed 11 of 64 and does not change the median WTP.</li>
+        <li>Five filters (screening, incompletes, duplicates, attention check, outlier prices) plus two form-bug fixes; the attention check removed 11 of 66 and does not change the median WTP.</li>
         <li>94% undergraduates, so do not generalise to staff or postgraduates.</li>
-        <li>Of 16 responses removed, 11 failed the attention check; a few extreme prices are blanked in tier C only.</li>
+        <li>Of 17 responses removed, 11 failed the attention check; a few extreme prices are blanked in tier C only.</li>
       </ul>
     </div>
   </div>
@@ -894,8 +894,8 @@
     <div class="takeaways">
       <h4>What the analysis says</h4>
       <ul>
-        <li>77% would pay HK$25, 53% HK$30, 40% HK$35. The revenue-maximising price on this curve is HK$25.</li>
-        <li>Median HK$30 (bootstrap range HK$28-34); average HK$30.9 once outliers are blanked. In their words: “Uniqueness, price” <span class="who">(respondent row 57, purchase intent 5/5)</span> · “Mostly the price. I watch my spending, so I would only buy one if it costs about the same as a boba or a bottled drink. I would treat it as an occasional treat on hot days.” <span class="who">(respondent row 68, purchase intent 3/5)</span></li>
+        <li>77% would pay HK$25, 55% HK$30, 40% HK$35. The revenue-maximising price on this curve is HK$25.</li>
+        <li>Median HK$30 (bootstrap range HK$27-37); average HK$31.5. In their words: “Uniqueness, price” <span class="who">(respondent row 57, purchase intent 5/5)</span> · “Mostly the price. I watch my spending, so I would only buy one if it costs about the same as a boba or a bottled drink. I would treat it as an occasional treat on hot days.” <span class="who">(respondent row 68, purchase intent 3/5)</span></li>
         <li>HK$25 has the highest revenue index (price x share); give a range, not a point, and remember cost per cup is not included.</li>
         <li>4 of 15 pricing tests are statistically significant. The clearest is the paired test: the same people say they would pay far more for a smoothie than they usually spend. Differences between groups (past buyers, residents, gender, origin) are mostly not significant, which means we cannot tell, not that they are equal.</li>
         <li>92% would pay more than they spend now; a strong result, but hypothetical.</li>
@@ -1020,7 +1020,7 @@
       <ul>
         <li>The median WTP is the same in every tier; only the averages move because of tier A's extreme answers.</li>
         <li>4 of 31 tests change with cleaning (mostly because of tier A's extreme answers); median WTP and the revenue-maximising price are the same in every tier.</li>
-        <li>We have 53; a precise percentage (+/-8 points) needs about 151.</li>
+        <li>We have 55; a precise percentage (+/-8 points) needs about 151.</li>
         <li>5 respondents who never buy drinks had spend answers blanked; the two Q9 scoring rules differ by only 1.7 points in taste share; no one chose a purchase-intent score below 2.</li>
         <li>Comparisons that survive correction in the main sample: On campus daily (vs 1-4 d) vs Campus drinks / week; Price weighted &gt; median vs Weight: freshness; none of them is about smoothie willingness to pay or purchase intent.</li>
       </ul>
@@ -1029,12 +1029,12 @@
 
   <div class="limits">
     <h3>Limits</h3>
-    <p>The sample is small: 53 respondents, mostly undergraduates, from one campus convenience sample. Prices and intent are what people say, not what they do; the open answers are AI-coded and not yet verified; cost per cup is not measured. 4 of 31 tests change with cleaning.</p>
+    <p>The sample is small: 55 respondents, mostly undergraduates, from one campus convenience sample. Prices and intent are what people say, not what they do; the open answers are AI-coded and not yet verified; cost per cup is not measured. 4 of 31 tests change with cleaning.</p>
   </div>
 </section>
 
 <footer class="page">
-  <a href="../index.html">Back to Sprout</a>
+  <a href="../index.html">Back to CUE</a>
   <p>Question wording, types and answer options come from the questionnaire. Charts are drawn from content/data.js; figures and takeaways come from the team's R analysis.</p>
 </footer>
 
@@ -1108,7 +1108,7 @@
         label: (labelMap && labelMap[r.level]) || r.level,
         value: r.pct,
         valueLabel: (Math.round(r.pct * 10) / 10) + "%",
-        detail: r.n + " of 53 kept respondents"
+        detail: r.n + " of 55 kept respondents"
       };
     });
   }
@@ -1125,16 +1125,16 @@
   function buildSampleCharts() {
     renderBars("chart-affil", rowsFromProfile("affil_group", {
       "Undergraduate": "Undergraduate", "Postgraduate": "Postgraduate", "Staff": "Staff"
-    }), "Affiliation. n = 53 kept respondents.");
+    }), "Affiliation. n = 55 kept respondents.");
     renderBars("chart-gender", rowsFromProfile("gender", {
       "Male": "Male", "Female": "Female"
-    }), "Gender. n = 53 kept respondents.");
+    }), "Gender. n = 55 kept respondents.");
     renderBars("chart-origin", rowsFromProfile("origin_group", {
       "Hong Kong": "Hong Kong", "Mainland China": "Mainland China", "International": "International (other)"
-    }), "Home region. n = 53 kept respondents.");
+    }), "Home region. n = 55 kept respondents.");
     renderBars("chart-res", rowsFromProfile("on_campus_res", {
       "TRUE": "Lives on campus", "FALSE": "Lives off campus"
-    }), "Living situation. n = 53 kept respondents.");
+    }), "Living situation. n = 55 kept respondents.");
   }
 
   function buildHabitsCharts() {
@@ -1144,9 +1144,9 @@
         label: r.drinks_per_week,
         value: r.pct,
         valueLabel: (Math.round(r.pct * 10) / 10) + "%",
-        detail: r.n + " of 53 kept respondents"
+        detail: r.n + " of 55 kept respondents"
       };
-    }), "Drinks bought on campus in a typical week. n = 53.");
+    }), "Drinks bought on campus in a typical week. n = 55.");
 
     var shopNames = {
       canteens: "Canteens", vending: "Vending machine", uc_boba: "UC Boba", tuck_shop: "College tuck shop",
@@ -1170,7 +1170,7 @@
         valueLabel: pctLabel(r.mean),
         detail: "mean of 100-point allocations · n = " + r.n + " · 95% range " + rangeLabel(r.lo, r.hi)
       };
-    }), "Mean share of the 100 points. n = 53.");
+    }), "Mean share of the 100 points. n = 55.");
 
     renderBars("chart-likert", (D["02_likert_summary"] || []).map(function (r) {
       return {
@@ -1179,19 +1179,19 @@
         valueLabel: pctLabel(r.pct_agree),
         detail: "agree or strongly agree · n = " + r.n + " · 95% range " + rangeLabel(r.lo, r.hi)
       };
-    }), "Share who agree or strongly agree. n = 53.");
+    }), "Share who agree or strongly agree. n = 55.");
   }
 
   function buildMenuCharts() {
-    renderBars("chart-fruit", rowsFromOptions(D["04_fruit"], 53), "Fruits wanted, pick up to 5. n = 53.");
-    renderBars("chart-veg", rowsFromOptions((R.veg || []), 53), "Greens and vegetables, pick up to 3. n = 53.");
-    renderBars("chart-addons", rowsFromOptions(D["04_addons"], 53), "Add-ons of interest, select all that apply. n = 53.");
-    renderBars("chart-base", rowsFromOptions(D["04_base"], 53), "Preferred bases, pick up to 3. n = 53.");
+    renderBars("chart-fruit", rowsFromOptions(D["04_fruit"], 55), "Fruits wanted, pick up to 5. n = 55.");
+    renderBars("chart-veg", rowsFromOptions((R.veg || []), 55), "Greens and vegetables, pick up to 3. n = 55.");
+    renderBars("chart-addons", rowsFromOptions(D["04_addons"], 55), "Add-ons of interest, select all that apply. n = 55.");
+    renderBars("chart-base", rowsFromOptions(D["04_base"], 55), "Preferred bases, pick up to 3. n = 55.");
   }
 
   function buildPlaceCharts() {
-    renderBars("chart-where", rowsFromOptions(D["04_where"], 53), "Where to buy or pick up, pick up to 2. n = 53.");
-    renderBars("chart-occasion", rowsFromOptions(D["04_occasion"], 53), "Occasions for a smoothie, pick up to 3. n = 53.");
+    renderBars("chart-where", rowsFromOptions(D["04_where"], 55), "Where to buy or pick up, pick up to 2. n = 55.");
+    renderBars("chart-occasion", rowsFromOptions(D["04_occasion"], 55), "Occasions for a smoothie, pick up to 3. n = 55.");
   }
 
   /* ---------- price topic ---------- */
@@ -1297,17 +1297,17 @@
       ' aria-valuenow="' + dcPrice + '" aria-valuetext="' + dcReadout(dcPrice) + '">';
     yTicks.forEach(function (t) {
       svgHtml += '<line x1="' + L + '" y1="' + dcY(t) + '" x2="' + RT + '" y2="' + dcY(t) + '" stroke="#E0CFAF" stroke-width="1"/>';
-      svgHtml += '<text x="' + (L - 8) + '" y="' + (dcY(t) + 4) + '" text-anchor="end" font-size="13" fill="#6B5646">' + Math.round(t * 100) + '%</text>';
+      svgHtml += '<text x="' + (L - 8) + '" y="' + (dcY(t) + 4) + '" text-anchor="end" font-size="13" fill="#6E6258">' + Math.round(t * 100) + '%</text>';
     });
     xTicks.forEach(function (t) {
-      svgHtml += '<text x="' + dcX(t) + '" y="' + (BT + 22) + '" text-anchor="middle" font-size="13" fill="#6B5646">HK$' + t + '</text>';
+      svgHtml += '<text x="' + dcX(t) + '" y="' + (BT + 22) + '" text-anchor="middle" font-size="13" fill="#6E6258">HK$' + t + '</text>';
     });
-    svgHtml += '<line x1="' + L + '" y1="' + TP + '" x2="' + L + '" y2="' + BT + '" stroke="#2A1A10" stroke-width="2"/>';
-    svgHtml += '<line x1="' + L + '" y1="' + BT + '" x2="' + RT + '" y2="' + BT + '" stroke="#2A1A10" stroke-width="2"/>';
-    svgHtml += '<polyline points="' + pts + '" fill="none" stroke="#FF8A1F" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>';
-    svgHtml += '<line id="dc-marker" x1="' + dcX(dcPrice) + '" y1="' + TP + '" x2="' + dcX(dcPrice) + '" y2="' + BT + '" stroke="#B0244A" stroke-width="2" stroke-dasharray="6 5"/>';
-    svgHtml += '<circle id="dc-dot" cx="' + dcX(dcPrice) + '" cy="' + dcY(dcShareAt(dcPrice)) + '" r="8" fill="#B0244A" stroke="#FFF4E2" stroke-width="3"/>';
-    svgHtml += '<text x="' + RT + '" y="' + (H - 8) + '" text-anchor="end" font-size="12" fill="#6B5646">price per cup</text>';
+    svgHtml += '<line x1="' + L + '" y1="' + TP + '" x2="' + L + '" y2="' + BT + '" stroke="#25292B" stroke-width="2"/>';
+    svgHtml += '<line x1="' + L + '" y1="' + BT + '" x2="' + RT + '" y2="' + BT + '" stroke="#25292B" stroke-width="2"/>';
+    svgHtml += '<polyline points="' + pts + '" fill="none" stroke="#E08A45" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>';
+    svgHtml += '<line id="dc-marker" x1="' + dcX(dcPrice) + '" y1="' + TP + '" x2="' + dcX(dcPrice) + '" y2="' + BT + '" stroke="#9A3E4B" stroke-width="2" stroke-dasharray="6 5"/>';
+    svgHtml += '<circle id="dc-dot" cx="' + dcX(dcPrice) + '" cy="' + dcY(dcShareAt(dcPrice)) + '" r="8" fill="#9A3E4B" stroke="#F2D9C2" stroke-width="3"/>';
+    svgHtml += '<text x="' + RT + '" y="' + (H - 8) + '" text-anchor="end" font-size="12" fill="#6E6258">price per cup</text>';
     svgHtml += "</svg>";
     host.innerHTML = svgHtml;
 
@@ -1343,9 +1343,9 @@
         label: r.intent_raw,
         value: r.pct,
         valueLabel: (Math.round(r.pct * 10) / 10) + "%",
-        detail: r.n + " of 53 kept respondents"
+        detail: r.n + " of 55 kept respondents"
       };
-    }), "Stated purchase intent. n = 53.");
+    }), "Stated purchase intent. n = 55.");
 
     var themeNames = {
       taste_enjoyment: "Taste enjoyment", low_need_habit: "Low need or habit", price_value: "Price value",
@@ -1401,7 +1401,7 @@
     var target = (D["09_sample_size_targets"] || []).filter(function (r) {
       return r.item === "proportion" && r.target.indexOf("8 pp") !== -1 && r.target.indexOf("worst") !== -1;
     })[0] || { n_needed: 151, recruit: 197 };
-    var have = (R.n && R.n.usable) || 53;
+    var have = (R.n && R.n.usable) || 55;
     var maxV = Math.max(have, target.n_needed);
     renderBars("chart-samplesize", [
       {
@@ -1421,7 +1421,7 @@
 
   /* ---------- headline numbers and funnel ---------- */
   function fillHeadline() {
-    var n = (R.n && R.n.usable) || 53;
+    var n = (R.n && R.n.usable) || 55;
     setText("stat-n", String(n));
     var it = R.intent || {};
     if (it.top2 != null) setText("stat-buy", Math.round(it.top2 * 100) + "%");

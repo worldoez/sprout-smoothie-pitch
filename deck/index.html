@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#1A100A">
-<title>Sprout Pitch Deck</title>
+<meta name="theme-color" content="#1B1E20">
+<title>CUE Pitch Deck</title>
 <link rel="stylesheet" href="../shared/base.css">
 <link rel="stylesheet" href="deck.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
@@ -12,35 +12,45 @@
 <body>
 <div id="stage"><div id="slide" class="slide"></div>
   <div id="cuptimer" aria-hidden="true"><svg viewBox="0 0 80 110"><defs><clipPath id="ctclip"><path d="M14 30 L66 30 L60 102 Q40 107 20 102 Z"/></clipPath></defs>
-    <path class="ct-straw" d="M46 32 L54 4 L62 4" stroke="#2FA84F" stroke-width="6" fill="none" stroke-linecap="round"/>
-    <g clip-path="url(#ctclip)"><rect class="ct-fill" x="0" y="30" width="80" height="80" fill="#FF8A1F"/></g>
-    <path d="M14 30 L66 30 L60 102 Q40 107 20 102 Z" fill="none" stroke="#2A1A10" stroke-width="5" stroke-linejoin="round"/>
-    <rect x="9" y="25" width="62" height="8" rx="4" fill="#FFF4E2" stroke="#2A1A10" stroke-width="4"/>
-    <circle class="ct-drip" cx="40" cy="104" r="4" fill="#FF8A1F" opacity="0"/></svg><span class="ct-label"></span></div>
+    <path class="ct-straw" d="M46 32 L54 4 L62 4" stroke="#6A9467" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <g clip-path="url(#ctclip)"><rect class="ct-fill" x="0" y="30" width="80" height="80" fill="#E08A45"/></g>
+    <path d="M14 30 L66 30 L60 102 Q40 107 20 102 Z" fill="none" stroke="#25292B" stroke-width="5" stroke-linejoin="round"/>
+    <rect x="9" y="25" width="62" height="8" rx="4" fill="#F2D9C2" stroke="#25292B" stroke-width="4"/>
+    <circle class="ct-drip" cx="40" cy="104" r="4" fill="#E08A45" opacity="0"/></svg><span class="ct-label"></span></div>
 </div>
 <div id="wipe"><svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0 60 Q180 0 360 60 T720 60 T1080 60 T1440 60 V120 H0Z"/></svg><div id="wipe-label"></div></div>
+<div id="talkbanner" role="status" data-lv=""><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2.5h6"/></svg><span class="tbt"></span></div>
 <div id="print-pages"></div>
 <div id="toast" role="status"></div>
+<div id="preflight" role="group" aria-label="Before you start">
+  <span class="pf-h">Before you start</span>
+  <button id="pf-test" class="pf-btn" title="Play a short jingle (S)"><svg viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6L8 10H4z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></svg><span>Test sound</span></button>
+  <button id="pf-lock" class="pf-btn" title="Disable the phone clicker (L)"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Phone control: on</span></button>
+  <button id="pf-x" class="pf-x" aria-label="Hide this">×</button>
+</div>
 
 <nav id="toolbar" aria-label="Slideshow controls">
   <div id="progress"><div id="progress-segs"></div></div>
   <div class="tb-left">
     <button id="btn-menu" class="tb" title="Menu" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-    <span id="stage-name"></span>
-    <span id="steps"></span>
+    <span id="stage-name" title="Current section"></span>
+    <span id="steps" title="Clicks left on this slide"></span>
   </div>
   <div class="tb-mid">
     <div class="navpill">
       <button id="btn-prev" class="tb" title="Back (←)" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <span id="counter">1 / 1</span>
+      <span id="counter" title="Slide number"><b>1</b><span> of 1</span></span>
       <button id="btn-next" class="tb" title="Next (→ or space)" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
     </div>
   </div>
   <div class="tb-right">
-    <span id="timer" title="Talk time of 20:00, and time left in this stage"><b>0:00</b><span class="stg"></span></span>
+    <div id="timer" aria-label="Clocks">
+      <span id="talk" class="chip" data-lv=""><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2.5h6"/></svg><em>Talk</em><b>0:00</b><span class="of">of 20:00</span></span>
+      <span id="stagechip" class="chip" data-lv=""><span class="sn">Plant</span><span class="sl">0:00</span></span>
+    </div>
     <button id="btn-order" class="tb wide" title="Reload Order #1 (R)"><i class="od"></i><span class="olabel">#1</span></button>
     <i class="tb-div" aria-hidden="true"></i>
-    <button id="btn-remote" class="tb" title="Phone remote: notes + clicker on your phone" aria-label="Phone remote" onclick="DeckRemote.open()"><svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></button>
+    <button id="btn-remote" class="tb" title="Phone remote: notes + clicker on your phone" aria-label="Phone remote" onclick="DeckRemote.open()"><svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg><i class="lockdot" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></i></button>
     <button id="btn-mute" class="tb" title="Sound (M)" aria-label="Toggle sound"><svg viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6L8 10H4z"/><path class="wave1" d="M16 9a4 4 0 0 1 0 6"/></svg></button>
     <button id="btn-grid" class="tb" title="All slides (G)" aria-label="Slide grid"><svg viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg></button>
     <button id="btn-full" class="tb" title="Fullscreen (F)" aria-label="Fullscreen"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
@@ -51,6 +61,9 @@
     <button data-act="html">Share as HTML</button>
     <hr>
     <button data-act="remote">Phone remote (notes + clicker) <kbd>P</kbd></button>
+    <button data-act="lock"><span>Lock phone control (disable clicker)</span> <kbd>L</kbd></button>
+    <button data-act="audiotest">Test sound with a jingle <kbd>S</kbd></button>
+    <button data-act="mascot">Mascot pop-ups on or off <kbd>K</kbd></button>
     <button data-act="notes">Speaker notes <kbd>N</kbd></button>
     <button data-act="order">Enter order by hand <kbd>O</kbd></button>
     <button data-act="keys">Keyboard shortcuts <kbd>?</kbd></button>
@@ -65,7 +78,7 @@
 <aside id="order-panel" class="panel"><button class="close">Close</button><h3>Enter Order #1 by hand</h3><div id="order-panel-body"></div></aside>
 <aside id="remote-panel" class="panel"><button class="close">Close</button><h3>Phone remote</h3><div id="remote-body"></div></aside>
 <aside id="keys" class="panel"><button class="close">Close</button><h3>Keyboard</h3>
-  <p><kbd>→</kbd> <kbd>space</kbd> next · <kbd>←</kbd> back · <kbd>F</kbd> fullscreen · <kbd>R</kbd> reload order · <kbd>M</kbd> sound · <kbd>G</kbd> all slides · <kbd>N</kbd> notes · <kbd>O</kbd> enter order · <kbd>P</kbd> phone remote · <kbd>X</kbd> surprise · <kbd>Home</kbd>/<kbd>End</kbd></p>
+  <p><kbd>→</kbd> <kbd>space</kbd> next · <kbd>←</kbd> back · <kbd>F</kbd> fullscreen · <kbd>R</kbd> reload order · <kbd>M</kbd> sound · <kbd>G</kbd> all slides · <kbd>N</kbd> notes · <kbd>O</kbd> enter order · <kbd>P</kbd> phone remote · <kbd>L</kbd> lock phone control · <kbd>S</kbd> sound test · <kbd>K</kbd> mascot pop-ups · <kbd>T</kbd> hide time cues · <kbd>X</kbd> surprise · <kbd>Home</kbd>/<kbd>End</kbd></p>
   <p>Clicking the slide also goes to the next step. A presentation clicker works too (it sends Page Down).</p>
   <p>On a phone or tablet: swipe left/right, or tap the right side for next and the left edge for back.</p></aside>
 
@@ -87,6 +100,7 @@
 <script src="engine.js"></script>
 <script src="transitions.js"></script>
 <script src="remote-host.js"></script>
+<script src="extras.js"></script>
 <script src="slides/kit.js"></script>
 <!-- One file per story stage. Add slides by copying a Deck.add({...}) block. -->
 <script src="slides/01-plant.js"></script>

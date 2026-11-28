@@ -40,6 +40,7 @@
       <div class="remote-qr">${Kit.qrSVG(remoteURL(), 220)}</div>
       <p class="remote-code">Code <b>${getCode()}</b></p>
       <p id="remote-status" data-s="off">…</p>
+      <p class="meta">Safety: press <kbd>L</kbd> (or use the menu) to lock phone control. A locked phone still shows notes and the timer but cannot change slides. Currently: <b>${Deck.remoteLocked ? "locked" : "unlocked"}</b>.</p>
       <p class="meta">Or open <a href="${remoteURL()}" target="_blank" rel="noopener">the remote in a new window</a> on this laptop as a presenter view.</p>`;
     setStatus();
   }

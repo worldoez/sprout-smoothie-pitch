@@ -4,7 +4,7 @@
  *   visual: one of
  *     { figure: "04_fruit.png" }                          image from assets/figures
  *     { bars: [{label, value(0-1), hl?}], max? }           animated bar chart
- *     { stat: "70%", label: "would probably or definitely buy" }
+ *     { stat: "69%", label: "would probably or definitely buy" }
  *     { html: "<div>…</div>", animate(el, tl) }             anything custom
  *   Click 1: title + visual animate in. Click 2: the text points appear.
  */
@@ -29,16 +29,29 @@
     return tl;
   }
 
-  function qrSVG(url, px = 360, dark = "#2A1A10") {
-    if (!window.qrcode) return `<div style="width:${px}px;height:${px}px;display:grid;place-items:center;background:#fff;color:#2A1A10;font-size:22px;border-radius:20px">QR needs internet</div>`;
+  function qrSVG(url, px = 360, dark = "#25292B") {
+    if (!window.qrcode) return `<div style="width:${px}px;height:${px}px;display:grid;place-items:center;background:#fff;color:#25292B;font-size:22px;border-radius:20px">QR needs internet</div>`;
     const q = qrcode(0, "M"); q.addData(url); q.make();
     const n = q.getModuleCount(), c = px / (n + 4);
     let d = "";
     for (let r = 0; r < n; r++) for (let k = 0; k < n; k++) if (q.isDark(r, k)) d += `M${(k + 2) * c} ${(r + 2) * c}h${c}v${c}h-${c}z`;
-    return `<svg class="qr" width="${px}" height="${px}" viewBox="0 0 ${px} ${px}"><rect width="${px}" height="${px}" rx="${px * 0.06}" fill="#FFFDF8"/><path d="${d}" fill="${dark}"/></svg>`;
+    return `<svg class="qr" width="${px}" height="${px}" viewBox="0 0 ${px} ${px}"><rect width="${px}" height="${px}" rx="${px * 0.06}" fill="#F8EBDA"/><path d="${d}" fill="${dark}"/></svg>`;
   }
   // Absolute URL to a page in this site (works on GitHub Pages and localhost).
   const siteURL = (path) => new URL("../" + path, location.href).href;
+
+  // Survey sample numbers, all read from content/data.js (the single source of truth).
+  // kit.js loads after content/data.js, so call sites (titles computed at module load too) see real data.
+  const survey = () => (window.CONTENT || {}).data || {};
+  const funnelN = (name) => {
+    const rows = ((survey().results || {}).n || {}).funnel || survey()["01_funnel"] || [];
+    const hit = rows.find(r => (r.step || "").indexOf(name) >= 0);
+    return hit ? hit.n : 0;
+  };
+  const nRaw = () => { const n = (survey().results || {}).n || {}; return n.raw || funnelN("Raw responses"); };
+  const nUsable = () => { const n = (survey().results || {}).n || {}; return n.usable || funnelN("Passed attention"); };
+  // Top-2-box purchase intent (results.intent.top2, about 69%). 0.691 is only a last-resort fallback.
+  const intentTop2 = () => (((survey().results || {}).intent || {}).top2) || 0.691;
 
   function orderCardHTML(o, ctx) {
     if (!o) return `<div class="who">Waiting for Order #1…</div>`;
@@ -48,11 +61,11 @@
     const src = { github: "live from the order app", local: "saved in this browser", manual: "entered by hand", example: "example order (no live order yet)" }[o.source] || "";
     return `
       <div class="who">Order #1, ${o.name || "Guest"}</div>
-      <h4>${o.drinkName || CONTENT.drinkName(o.fruits)}</h4>
+      <h4>${o.drinkName || CONTENT.drinkName(o.fruits, o.base)}</h4>
       ${f.map(x => `<div class="line"><span>${x.emoji} ${x.name}<small>fruit</small></span><span class="ev">${pct(x.pct)} picked it</span></div>`).join("")}
       ${b ? `<div class="line"><span>${b.name}<small>base</small></span><span class="ev">${pct(b.pct)}</span></div>` : ""}
       ${adds.map(a => `<div class="line"><span>${a.fancy}<small>${a.name}</small></span><span class="ev">${pct(a.pct)}</span></div>`).join("")}
-      ${sz ? `<div class="line"><span>${sz.name}, ${sz.ml} ml<small>size</small></span><span class="ev">HK$${o.price || sz.price}</span></div>` : ""}
+      ${sz ? `<div class="line"><span>${sz.name.includes("ml") ? sz.name : sz.name + ", " + sz.ml + " ml"}<small>size</small></span><span class="ev">HK$${o.price || sz.price}</span></div>` : ""}
       <div class="src">${src}</div>`;
   }
 
@@ -99,5 +112,6 @@
     });
   }
 
-  window.Kit = { content, barsHTML, animateBars, splitLetters, qrSVG, siteURL, orderCardHTML, pct };
+  window.Kit = { content, barsHTML, animateBars, splitLetters, qrSVG, siteURL, orderCardHTML, pct,
+    nRaw, nUsable, funnelN, intentTop2 };
 })();

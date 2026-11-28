@@ -1,4 +1,4 @@
-/* Sprout deck transitions: bespoke stage-change motion graphics, slide push, surprise moments.
+/* CUE deck transitions: bespoke stage-change motion graphics, slide push, surprise moments.
  *
  *   Transitions.stage(stageKey, mid) -> Promise   full-screen transition; mid() runs once while the screen is covered
  *   Transitions.push(mid, dir)       -> Promise   quick directional push for slides inside one stage (<= 0.35 s)
@@ -18,7 +18,7 @@
   const gsap = () => window.gsap;
   const sfx = (n) => { try { window.Deck && Deck.ctx.sfx(n); } catch (e) {} };
   const reduced = () => window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const FRUIT = ["#E8344E", "#FF8A1F", "#F6C445", "#7BC043", "#FF6FA3", "#8E4BC0", "#2FA84F"];
+  const FRUIT = ["#E8344E", "#E08A45", "#E8C26A", "#7BC043", "#E8A597", "#8E4BC0", "#6A9467"];
 
   let fx, box, shake, svg, label, flash, current = null, finishGuard = null;
   let activeCount = 0;
@@ -114,13 +114,13 @@
     if (kind === 0) {            // round fruit with highlight and tiny leaf
       s("circle", { r, fill: col }, g);
       s("circle", { cx: -r * .3, cy: -r * .3, r: r * .28, fill: "#fff", opacity: .35 }, g);
-      s("path", { d: `M0 ${-r} q ${r * .1} ${-r * .35} ${r * .42} ${-r * .38} q ${-r * .1} ${r * .3} ${-r * .42} ${r * .38}z`, fill: "#2FA84F" }, g);
+      s("path", { d: `M0 ${-r} q ${r * .1} ${-r * .35} ${r * .42} ${-r * .38} q ${-r * .1} ${r * .3} ${-r * .42} ${r * .38}z`, fill: "#6A9467" }, g);
     } else if (kind === 1) {     // leaf
       s("path", { d: `M0 ${-r} C${r * .9} ${-r * .6} ${r * .9} ${r * .6} 0 ${r} C${-r * .9} ${r * .6} ${-r * .9} ${-r * .6} 0 ${-r}Z`, fill: "#3FAE4F" }, g);
       s("path", { d: `M0 ${-r * .9} L0 ${r * .9}`, stroke: "#1E7A34", "stroke-width": r * .08, fill: "none", "stroke-linecap": "round" }, g);
     } else {                     // half slice
       s("path", { d: `M${-r} 0 A${r} ${r} 0 0 0 ${r} 0Z`, fill: col }, g);
-      s("path", { d: `M${-r * .8} 0 A${r * .8} ${r * .8} 0 0 0 ${r * .8} 0Z`, fill: "#FFF4E2", opacity: .9 }, g);
+      s("path", { d: `M${-r * .8} 0 A${r * .8} ${r * .8} 0 0 0 ${r * .8} 0Z`, fill: "#F2D9C2", opacity: .9 }, g);
       s("path", { d: `M${-r * .6} 0 A${r * .6} ${r * .6} 0 0 0 ${r * .6} 0Z`, fill: col, opacity: .75 }, g);
     }
     return g;
@@ -188,7 +188,7 @@
     const sl = document.getElementById("slide"), g = gsap();
     const vx = s("g", {}, svg);
     s("circle", { cx: CX, cy: CY, r: 1700, fill: st.bg }, vx);
-    const cols = [st.bg, "#F6C445", "#B0244A", "#FFF4E2", "#2FA84F", "#FF6FA3", "#8FD3F4", "#F4691F"];
+    const cols = [st.bg, "#E8C26A", "#9A3E4B", "#F2D9C2", "#6A9467", "#E8A597", "#9EC4C0", "#D9743A"];
     const N = 8, twist = 2.6;
     for (let k = 0; k < N; k++) {
       const t0 = (k / N) * Math.PI * 2, t1 = ((k + 0.5) / N) * Math.PI * 2;
@@ -200,7 +200,7 @@
       }
       s("path", { d: d + back.reverse().join("") + "Z", fill: cols[k % cols.length], opacity: k % 2 ? 1 : 0.95 }, vx);
     }
-    s("circle", { cx: CX, cy: CY, r: 90, fill: "#FFF4E2", opacity: 0.9 }, vx);
+    s("circle", { cx: CX, cy: CY, r: 90, fill: "#F2D9C2", opacity: 0.9 }, vx);
     const O = `${CX} ${CY}`;
     g.set(vx, { scale: 0, rotation: 0, svgOrigin: O });
     g.set(sl, { transformOrigin: "50% 50%" });
@@ -252,11 +252,11 @@
     g.set(lines, { opacity: 0 });
     const ring = s("circle", { cx: CX, cy: CY, r: 10, fill: "none", stroke: "#fff", "stroke-width": 40, opacity: 0 }, svg);
     const cup = s("g", {}, svg), cupIn = s("g", { transform: `translate(${CX} ${CY})` }, cup);
-    s("path", { d: "M-150 -190 L150 -190 L112 200 Q110 220 90 220 L-90 220 Q-110 220 -112 200Z", fill: "#FFFDF8", stroke: "#2A1A10", "stroke-width": 12, "stroke-linejoin": "round" }, cupIn);
+    s("path", { d: "M-150 -190 L150 -190 L112 200 Q110 220 90 220 L-90 220 Q-110 220 -112 200Z", fill: "#F8EBDA", stroke: "#25292B", "stroke-width": 12, "stroke-linejoin": "round" }, cupIn);
     s("path", { d: "M-136 -60 L136 -60 L124 70 L-124 70Z", fill: st.accent }, cupIn);
-    s("rect", { x: -165, y: -235, width: 330, height: 52, rx: 20, fill: "#FFFDF8", stroke: "#2A1A10", "stroke-width": 12 }, cupIn);
-    s("path", { d: "M30 -235 L80 -430", stroke: "#B0244A", "stroke-width": 26, "stroke-linecap": "round" }, cupIn);
-    s("circle", { cx: 0, cy: 10, r: 30, fill: "#2A1A10", opacity: 0.85 }, cupIn);
+    s("rect", { x: -165, y: -235, width: 330, height: 52, rx: 20, fill: "#F8EBDA", stroke: "#25292B", "stroke-width": 12 }, cupIn);
+    s("path", { d: "M30 -235 L80 -430", stroke: "#9A3E4B", "stroke-width": 26, "stroke-linecap": "round" }, cupIn);
+    s("circle", { cx: 0, cy: 10, r: 30, fill: "#25292B", opacity: 0.85 }, cupIn);
     const OC = `${CX} ${CY}`;
     g.set(cup, { y: -1100, scale: 1.5, rotation: 8, svgOrigin: OC });
     const shake = (amp) => {
@@ -292,7 +292,7 @@
     const star = s("polygon", { points: starPts(18, 1900, 1150), fill: st.bg }, grp);
     g.set([star, star2], { svgOrigin: `${CX} ${CY}`, scale: 0 });
     g.set(cut, { svgOrigin: `${CX} ${CY}`, scale: 0 });
-    const cols = [...FRUIT, "#FFF4E2", "#fff"];
+    const cols = [...FRUIT, "#F2D9C2", "#fff"];
     const bits = [];
     for (let i = 0; i < 150; i++) {
       const left = i % 2 === 0, w = rnd(24, 48), h = rnd(14, 30);
@@ -328,17 +328,17 @@
     const g = gsap(), soil = s("g", {}, svg);
     const top = wavePath(-60, W + 60, 0, 34, 85, 0, 30);
     s("path", { d: top + `L${W + 60} 1700 L-60 1700Z`, fill: st.bg }, soil);
-    s("path", { d: top, fill: "none", stroke: "#6A4328", "stroke-width": 14 }, soil);
-    for (let i = 0; i < 46; i++) s("circle", { cx: rnd(0, W), cy: rnd(80, 1500), r: rnd(5, 22), fill: pick(["#5A3A22", "#2A190D", "#7A5233"]), opacity: 0.8 }, soil);
+    s("path", { d: top, fill: "none", stroke: "#5E4A3A", "stroke-width": 14 }, soil);
+    for (let i = 0; i < 46; i++) s("circle", { cx: rnd(0, W), cy: rnd(80, 1500), r: rnd(5, 22), fill: pick(["#5A3A22", "#2A190D", "#6E5A46"]), opacity: 0.8 }, soil);
     for (let i = 0; i < 9; i++) s("ellipse", { cx: rnd(60, W - 60), cy: rnd(120, 900), rx: rnd(24, 50), ry: rnd(10, 18), fill: "#2A190D", opacity: 0.4 }, soil);
     g.set(soil, { y: 1250 });
     const sp = s("g", {}, svg);
-    s("ellipse", { cx: 0, cy: 6, rx: 120, ry: 26, fill: "#6A4328" }, sp);
-    s("ellipse", { cx: 0, cy: 2, rx: 84, ry: 16, fill: "#7A5233" }, sp);
-    s("path", { d: "M0 0 C0 -50 -6 -100 6 -150", stroke: "#2A1A10", "stroke-width": 26, fill: "none", "stroke-linecap": "round" }, sp);
+    s("ellipse", { cx: 0, cy: 6, rx: 120, ry: 26, fill: "#5E4A3A" }, sp);
+    s("ellipse", { cx: 0, cy: 2, rx: 84, ry: 16, fill: "#6E5A46" }, sp);
+    s("path", { d: "M0 0 C0 -50 -6 -100 6 -150", stroke: "#25292B", "stroke-width": 26, fill: "none", "stroke-linecap": "round" }, sp);
     s("path", { d: "M0 0 C0 -50 -6 -100 6 -150", stroke: "#4CC46A", "stroke-width": 14, fill: "none", "stroke-linecap": "round" }, sp);
-    s("path", { d: "M6 -150 C-20 -230 -120 -230 -150 -170 C-110 -120 -30 -120 6 -150Z", fill: "#2FA84F", stroke: "#2A1A10", "stroke-width": 8, "stroke-linejoin": "round" }, sp);
-    s("path", { d: "M6 -150 C30 -240 130 -250 165 -190 C130 -125 40 -115 6 -150Z", fill: "#6FD98A", stroke: "#2A1A10", "stroke-width": 8, "stroke-linejoin": "round" }, sp);
+    s("path", { d: "M6 -150 C-20 -230 -120 -230 -150 -170 C-110 -120 -30 -120 6 -150Z", fill: "#6A9467", stroke: "#25292B", "stroke-width": 8, "stroke-linejoin": "round" }, sp);
+    s("path", { d: "M6 -150 C30 -240 130 -250 165 -190 C130 -125 40 -115 6 -150Z", fill: "#6FD98A", stroke: "#25292B", "stroke-width": 8, "stroke-linejoin": "round" }, sp);
     g.set(sp, { x: CX, y: 395, scale: 0, svgOrigin: `${CX} 395` });
     tl.call(() => sfx("whoosh"), null, 0);
     tl.to(soil, { y: -280, duration: 0.6, ease: "power3.out" }, 0);
@@ -440,7 +440,7 @@
       const eyes = wrap.querySelector(".mo-eyes");
       if (eyes) {
         s("ellipse", { cx: 86, cy: 131, rx: 21, ry: 25, fill: "#FFA21F", class: "wink-cover", opacity: 0 }, eyes);
-        s("path", { d: "M68 133 Q86 147 104 133", stroke: "#2A1A10", "stroke-width": 6, "stroke-linecap": "round", fill: "none", class: "wink-cover", opacity: 0 }, eyes);
+        s("path", { d: "M68 133 Q86 147 104 133", stroke: "#25292B", "stroke-width": 6, "stroke-linecap": "round", fill: "none", class: "wink-cover", opacity: 0 }, eyes);
       }
       const wink = wrap.querySelectorAll(".wink-cover");
       const pos = {
@@ -467,7 +467,7 @@
       const sz = 380, col = pick(FRUIT), kind = 0;
       const sv = s("svg", { viewBox: "-200 -200 400 400", width: sz, height: sz }); css(sv, { position: "absolute", overflow: "visible" });
             const inner = s("g", {}, sv);
-      const fg = fruitShape(inner, 0, col, 170); fg.firstChild.setAttribute("stroke", "#2A1A10"); fg.firstChild.setAttribute("stroke-width", 12);
+      const fg = fruitShape(inner, 0, col, 170); fg.firstChild.setAttribute("stroke", "#25292B"); fg.firstChild.setAttribute("stroke-width", 12);
       s("circle", { cx: 60, cy: 20, r: 12, fill: "#000", opacity: 0 }, inner);
       box.appendChild(sv);
       fx.style.display = "block"; syncBox(); activeCount++;

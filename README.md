@@ -1,4 +1,4 @@
-# Sprout: smoothie pitch site
+# CUE: smoothie pitch site
 
 Static site for our CUHK smoothie marketing project, hosted on GitHub Pages.
 

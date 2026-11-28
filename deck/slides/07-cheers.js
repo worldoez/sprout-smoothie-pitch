@@ -3,14 +3,14 @@
   // ---- slide 20 scene styles ----
   const css20 = document.createElement("style");
   css20.textContent = `
-  .ck-card{width:980px;background:#FFFDF8;border-radius:30px;padding:26px 40px;color:#2A1A10;box-shadow:0 24px 60px rgba(0,0,0,.22)}
-  .ck-row{display:flex;align-items:center;gap:26px;min-height:70px;padding:8px 0;border-bottom:3px dashed rgba(42,26,16,.12);font-size:34px;font-weight:600;line-height:1.15}
+  .ck-card{width:980px;background:#F8EBDA;border-radius:30px;padding:26px 40px;color:#25292B;box-shadow:0 24px 60px rgba(0,0,0,.22)}
+  .ck-row{display:flex;align-items:center;gap:26px;min-height:70px;padding:8px 0;border-bottom:3px dashed rgba(37, 41, 43,.12);font-size:34px;font-weight:600;line-height:1.15}
   .ck-row:last-child{border-bottom:0}
-  .ck-row b{color:#B0244A}
-  .stamp{margin-left:auto;flex:0 0 auto;width:66px;height:66px;border-radius:50%;display:grid;place-items:center;font-family:var(--font-display);font-weight:900;font-size:38px;color:#FFFDF8;box-shadow:0 8px 0 rgba(0,0,0,.15);transform:rotate(-8deg)}
-  .stamp.ok{background:#2FA84F}
-  .stamp.warn{background:#F6C445;color:#2A1A10}
-  .ck-pp b{color:#7A1430}
+  .ck-row b{color:#9A3E4B}
+  .stamp{margin-left:auto;flex:0 0 auto;width:66px;height:66px;border-radius:50%;display:grid;place-items:center;font-family:var(--font-display);font-weight:900;font-size:38px;color:#F8EBDA;box-shadow:0 8px 0 rgba(0,0,0,.15);transform:rotate(-8deg)}
+  .stamp.ok{background:#6A9467}
+  .stamp.warn{background:#E8C26A;color:#25292B}
+  .ck-pp b{color:#5E2431}
   `;
   document.head.appendChild(css20);
 
@@ -25,40 +25,40 @@
     const rows = D20()["08_tier_stability"] || [];
     return { changes: rows.filter(r => r.conclusion_changes === "TRUE").length, total: rows.length };
   };
-  const nUsable = () => (D20().results && D20().results.n && D20().results.n.usable) || 53;
+  const nUsable = () => (D20().results && D20().results.n && D20().results.n.usable) || Kit.nUsable();
 
   function storeSVG() {
     const tabs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(i =>
-      `<path class="k-tab" d="M${110 + i * 50} 182 h50 v54 a25 22 0 0 1 -50 0 z" fill="${i % 2 ? "#B0244A" : "#FFF4E2"}" stroke="#2A1A10" stroke-width="5"/>`).join("");
+      `<path class="k-tab" d="M${110 + i * 50} 182 h50 v54 a25 22 0 0 1 -50 0 z" fill="${i % 2 ? "#9A3E4B" : "#F2D9C2"}" stroke="#25292B" stroke-width="5"/>`).join("");
     return `<svg class="kiosk" viewBox="0 0 820 640" style="width:720px;height:561px;overflow:visible">
-      <ellipse cx="400" cy="608" rx="330" ry="24" fill="#2A1A10" opacity=".12"/>
-      <rect x="130" y="170" width="20" height="432" fill="#8B5A2B" stroke="#2A1A10" stroke-width="5"/>
-      <rect x="670" y="170" width="20" height="432" fill="#8B5A2B" stroke="#2A1A10" stroke-width="5"/>
+      <ellipse cx="400" cy="608" rx="330" ry="24" fill="#25292B" opacity=".12"/>
+      <rect x="130" y="170" width="20" height="432" fill="#8A6A4A" stroke="#25292B" stroke-width="5"/>
+      <rect x="670" y="170" width="20" height="432" fill="#8A6A4A" stroke="#25292B" stroke-width="5"/>
       <g class="k-sign">
-        <rect x="150" y="34" width="520" height="128" rx="26" fill="#FF8A1F" stroke="#2A1A10" stroke-width="8"/>
-        <text x="410" y="126" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="900" font-size="92" fill="#FFF4E2">Sprout</text>
+        <rect x="150" y="34" width="520" height="128" rx="26" fill="#E08A45" stroke="#25292B" stroke-width="8"/>
+        <text x="410" y="126" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="900" font-size="92" fill="#F2D9C2">CUE</text>
       </g>
       <g class="k-awn">${tabs}</g>
-      <rect x="150" y="300" width="520" height="300" rx="18" fill="#FFF4E2" stroke="#2A1A10" stroke-width="8"/>
-      <rect x="190" y="332" width="300" height="158" rx="12" fill="#8FD3F4" stroke="#2A1A10" stroke-width="6"/>
+      <rect x="150" y="300" width="520" height="300" rx="18" fill="#F2D9C2" stroke="#25292B" stroke-width="8"/>
+      <rect x="190" y="332" width="300" height="158" rx="12" fill="#9EC4C0" stroke="#25292B" stroke-width="6"/>
       <g class="k-blender">
-        <path d="M262 372 H338 L328 462 H272 Z" fill="#FFF" fill-opacity=".55" stroke="#2A1A10" stroke-width="5"/>
+        <path d="M262 372 H338 L328 462 H272 Z" fill="#FFF" fill-opacity=".55" stroke="#25292B" stroke-width="5"/>
         <path d="M270 410 H330 L328 462 H272 Z" fill="#FFB020"/>
-        <rect x="252" y="358" width="96" height="18" rx="8" fill="#2A1A10"/>
+        <rect x="252" y="358" width="96" height="18" rx="8" fill="#25292B"/>
       </g>
-      <circle cx="382" cy="440" r="22" fill="#FFB020" stroke="#2A1A10" stroke-width="4"/>
-      <circle cx="428" cy="450" r="16" fill="#E8364F" stroke="#2A1A10" stroke-width="4"/>
-      <rect x="520" y="332" width="120" height="112" rx="10" fill="#1E2A1F" stroke="#8B5A2B" stroke-width="6"/>
-      <line x1="540" y1="362" x2="620" y2="362" stroke="#FFF4E2" stroke-width="6" stroke-linecap="round" opacity=".8"/>
-      <line x1="540" y1="390" x2="604" y2="390" stroke="#FFF4E2" stroke-width="6" stroke-linecap="round" opacity=".6"/>
-      <line x1="540" y1="418" x2="614" y2="418" stroke="#FFF4E2" stroke-width="6" stroke-linecap="round" opacity=".45"/>
-      <rect x="170" y="500" width="480" height="26" rx="12" fill="#8B5A2B" stroke="#2A1A10" stroke-width="5"/>
+      <circle cx="382" cy="440" r="22" fill="#FFB020" stroke="#25292B" stroke-width="4"/>
+      <circle cx="428" cy="450" r="16" fill="#E8364F" stroke="#25292B" stroke-width="4"/>
+      <rect x="520" y="332" width="120" height="112" rx="10" fill="#1E2A1F" stroke="#8A6A4A" stroke-width="6"/>
+      <line x1="540" y1="362" x2="620" y2="362" stroke="#F2D9C2" stroke-width="6" stroke-linecap="round" opacity=".8"/>
+      <line x1="540" y1="390" x2="604" y2="390" stroke="#F2D9C2" stroke-width="6" stroke-linecap="round" opacity=".6"/>
+      <line x1="540" y1="418" x2="614" y2="418" stroke="#F2D9C2" stroke-width="6" stroke-linecap="round" opacity=".45"/>
+      <rect x="170" y="500" width="480" height="26" rx="12" fill="#8A6A4A" stroke="#25292B" stroke-width="5"/>
     </svg>`;
   }
 
   Deck.add({
     n: 20, stage: "cheers", title: "The evidence", budget: 90,
-    notes: "Role 6.\nClick 1: the pop-up store builds itself and Mo steps up with the cup.\nClick 2: every evidence line gets stamped — green where it holds, amber for the caveats (thunk).\nClick 3: risks and the next step.\nStore art is a placeholder; swap in assets/img/store.png later (see comment in 07-cheers.js).",
+    notes: "Role 6.\nClick 1: the pop-up store builds itself and Cue steps up with the cup.\nClick 2: every evidence line gets stamped — green where it holds, amber for the caveats (thunk).\nClick 3: risks and the next step.\nStore art is a placeholder; swap in assets/img/store.png later (see comment in 07-cheers.js).",
     html: (ctx) => {
       const st = stability();
       const it = intent();
@@ -119,11 +119,11 @@
     ]
   });
 
-  // ---------------- 21. Finale: Mo throws the cup at the screen, then the end card ----------------
-  const INK21 = "#2A1A10";
+  // ---------------- 21. Finale: Cue throws the cup at the screen, then the end card ----------------
+  const INK21 = "#25292B";
   const fin = document.createElement("style");
   fin.textContent = `
-  .fin-tile{position:absolute;top:330px;width:500px;height:410px;background:#FFFDF8;border:6px solid ${INK21};border-radius:34px;box-shadow:0 12px 0 ${INK21};display:flex;flex-direction:column;align-items:center;padding-top:30px;color:${INK21};text-decoration:none}
+  .fin-tile{position:absolute;top:330px;width:500px;height:410px;background:#F8EBDA;border:6px solid ${INK21};border-radius:34px;box-shadow:0 12px 0 ${INK21};display:flex;flex-direction:column;align-items:center;padding-top:30px;color:${INK21};text-decoration:none}
   .fin-tile .qr{border-radius:16px;border:4px solid ${INK21}}
   .fin-tile h3{font-family:var(--font-display);font-weight:900;font-size:46px;line-height:1.05;margin:24px 0 6px;text-align:center}
   .fin-tile p{font-size:28px;font-weight:600;margin:0;opacity:.75}
@@ -136,24 +136,24 @@
     const body = "M44 104 L196 104 L172 322 Q170 340 150 340 L90 340 Q70 340 68 322 Z";
     const chunk = (x, y, r, rot) => `<rect x="${x - r}" y="${y - r}" width="${r * 2}" height="${r * 2}" rx="${r * 0.35}" fill="#FFC83A" stroke="${INK21}" stroke-width="3.5" transform="rotate(${rot} ${x} ${y})"/>`;
     return `<svg class="fcup" viewBox="0 -40 240 400" width="240" height="400" overflow="visible" xmlns="http://www.w3.org/2000/svg" style="display:block">
-      <path d="${body}" fill="#FFFDF8" fill-opacity=".55"/>
+      <path d="${body}" fill="#F8EBDA" fill-opacity=".55"/>
       <path d="M${L(128)} 128 L${R(128)} 128 L${R(340)} 340 L${L(340)} 340 Z" fill="none"/>
       <path d="M${L(126)} 126 Q80 112 120 126 T${R(126)} 126 L${R(246)} 246 Q150 262 120 248 T${L(246)} 246 Z" fill="#FFB020"/>
       <path d="M${L(246)} 246 Q90 262 120 250 T${R(246)} 246 L172 322 Q170 340 150 340 L90 340 Q70 340 68 322 Z" fill="#E8364F"/>
       ${chunk(84, 160, 12, -16)}${chunk(158, 150, 11, 22)}<circle cx="120" cy="176" r="11" fill="#E8364F" stroke="${INK21}" stroke-width="3.5"/>
-      <circle cx="90" cy="300" r="10" fill="#B0244A" stroke="${INK21}" stroke-width="3.5"/>${chunk(150, 296, 10, 18)}
+      <circle cx="90" cy="300" r="10" fill="#9A3E4B" stroke="${INK21}" stroke-width="3.5"/>${chunk(150, 296, 10, 18)}
       <path d="${body}" fill="none" stroke="${INK21}" stroke-width="7" stroke-linejoin="round"/>
       <path d="M62 140 L74 300" stroke="#FFF" stroke-width="11" stroke-linecap="round" opacity=".6"/>
       <ellipse cx="172" cy="150" rx="4" ry="6" fill="#FFF" opacity=".75"/><ellipse cx="164" cy="190" rx="3.4" ry="5" fill="#FFF" opacity=".7"/><ellipse cx="176" cy="226" rx="3.6" ry="5.4" fill="#FFF" opacity=".7"/>
-      <g class="fc-label"><rect x="62" y="208" width="116" height="74" rx="14" fill="#FFF4E2" stroke="${INK21}" stroke-width="5"/>
-        <path d="M120 218 Q116 228 124 233 Q130 224 120 218 Z" fill="#2FA84F" stroke="${INK21}" stroke-width="2"/>
-        <text x="120" y="266" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="900" font-size="29" fill="${INK21}">Sprout</text></g>
+      <g class="fc-label"><rect x="62" y="208" width="116" height="74" rx="14" fill="#F2D9C2" stroke="${INK21}" stroke-width="5"/>
+        <path d="M120 218 Q116 228 124 233 Q130 224 120 218 Z" fill="#6A9467" stroke="${INK21}" stroke-width="2"/>
+        <text x="120" y="266" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="900" font-size="29" fill="${INK21}">CUE</text></g>
       <path d="M130 44 L150 -12 L186 -12" stroke="${INK21}" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      <path d="M130 44 L150 -12 L186 -12" stroke="#2FA84F" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M130 44 L150 -12 L186 -12" stroke="#6A9467" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
       <path d="M136 28 L142 10" stroke="#FFF" stroke-width="4" stroke-linecap="round" opacity=".7"/>
-      <path d="M44 90 C44 44 80 24 120 24 C160 24 196 44 196 90 Z" fill="#FFFDF8" fill-opacity=".8" stroke="${INK21}" stroke-width="7" stroke-linejoin="round"/>
+      <path d="M44 90 C44 44 80 24 120 24 C160 24 196 44 196 90 Z" fill="#F8EBDA" fill-opacity=".8" stroke="${INK21}" stroke-width="7" stroke-linejoin="round"/>
       <path d="M62 74 C64 54 82 42 100 40" stroke="#FFF" stroke-width="8" stroke-linecap="round" fill="none"/>
-      <rect x="34" y="84" width="172" height="24" rx="12" fill="#FFF4E2" stroke="${INK21}" stroke-width="7"/>
+      <rect x="34" y="84" width="172" height="24" rx="12" fill="#F2D9C2" stroke="${INK21}" stroke-width="7"/>
     </svg>`;
   }
 
@@ -164,20 +164,20 @@
     let drips = "";
     const dx = [250, 380, 520, 660, 790, 930, 1060, 1190, 1330, 1470, 1610, 1720];
     dx.forEach((x, i) => {
-      const w = 40 + r() * 40, y0 = 430 + r() * 200, len = 180 + r() * 300, c = i % 4 === 1 ? "#E8364F" : "#FF8A1F";
+      const w = 40 + r() * 40, y0 = 430 + r() * 200, len = 180 + r() * 300, c = i % 4 === 1 ? "#E8364F" : "#E08A45";
       drips += `<g class="fs-drip" data-ox="${x}" data-oy="${y0}"><path d="M${x - w * 0.95} ${y0} Q${x - w / 2} ${y0 + 20} ${x - w / 2} ${y0 + 110} L${x - w / 2} ${y0 + len} a${w / 2} ${w / 2} 0 0 0 ${w} 0 L${x + w / 2} ${y0 + 110} Q${x + w / 2} ${y0 + 20} ${x + w * 0.95} ${y0} Z" fill="${c}"/>
         <circle cx="${x}" cy="${y0 + len}" r="${w * 0.62}" fill="${c}"/><ellipse cx="${x - w * 0.18}" cy="${y0 + len * 0.55}" rx="${w * 0.1}" ry="${len * 0.2}" fill="#FFF" opacity=".4"/></g>`;
     });
     let star = "";
     { let d = ""; const N = 22;
       for (let i = 0; i < N * 2; i++) { const a = (i / (N * 2)) * Math.PI * 2, rad = i % 2 ? 820 + r() * 100 : 1000 + r() * 420; d += (i ? "L" : "M") + (960 + Math.cos(a) * rad * 1.3).toFixed(1) + " " + (540 + Math.sin(a) * rad * 0.78).toFixed(1); }
-      star = `<path d="${d}Z" fill="#FF9E1F" stroke="#FF9E1F" stroke-width="40" stroke-linejoin="round"/>`; }
+      star = `<path d="${d}Z" fill="#E69A55" stroke="#E69A55" stroke-width="40" stroke-linejoin="round"/>`; }
     let drops = "";
     for (let i = 0; i < 44; i++) {
       const a = r() * Math.PI * 2, d = 520 + r() * 520, rad = 8 + r() * 34;
       const cx = 960 + Math.cos(a) * d * 1.25, cy = 540 + Math.sin(a) * d * 0.8;
       if (cx < -20 || cx > 1940 || cy < -20 || cy > 1100) continue;
-      drops += `<g class="fs-drop" data-cx="${cx}" data-cy="${cy}"><circle cx="${cx}" cy="${cy}" r="${rad}" fill="${i % 3 ? "#FFB020" : i % 3 === 0 && i % 2 ? "#E8364F" : "#FF9E1F"}"/><circle cx="${cx - rad * 0.3}" cy="${cy - rad * 0.3}" r="${rad * 0.28}" fill="#FFF" opacity=".6"/></g>`;
+      drops += `<g class="fs-drop" data-cx="${cx}" data-cy="${cy}"><circle cx="${cx}" cy="${cy}" r="${rad}" fill="${i % 3 ? "#FFB020" : i % 3 === 0 && i % 2 ? "#E8364F" : "#E69A55"}"/><circle cx="${cx - rad * 0.3}" cy="${cy - rad * 0.3}" r="${rad * 0.28}" fill="#FFF" opacity=".6"/></g>`;
     }
     let beads = "";
     for (let i = 0; i < 46; i++) {
@@ -188,11 +188,11 @@
       <g class="fs-slide">
         <g class="fs-main" style="transform-origin:960px 540px">
           ${star}
-          <path d="${bp(960, 520, 930, 30, 3, 0.45)}" fill="#FF9E1F" transform="translate(960 540) scale(1.04 .78) translate(-960 -540)"/>
+          <path d="${bp(960, 520, 930, 30, 3, 0.45)}" fill="#E69A55" transform="translate(960 540) scale(1.04 .78) translate(-960 -540)"/>
           <path d="${bp(930, 500, 700, 24, 11, 0.5)}" fill="#FFB020" transform="translate(930 520) scale(1.1 .8) translate(-930 -520)"/>
           <path d="${bp(1250, 420, 300, 18, 5, 0.55)}" fill="#E8364F"/>
           <path d="${bp(620, 660, 220, 16, 8, 0.55)}" fill="#E8364F"/>
-          <path d="${bp(1280, 400, 110, 12, 21, 0.5)}" fill="#B0244A"/>
+          <path d="${bp(1280, 400, 110, 12, 21, 0.5)}" fill="#9A3E4B"/>
           ${drips}
           <ellipse cx="560" cy="300" rx="190" ry="46" fill="#FFF" opacity=".45" transform="rotate(-22 560 300)"/>
           <ellipse cx="330" cy="420" rx="60" ry="22" fill="#FFF" opacity=".4" transform="rotate(-35 330 420)"/>
@@ -218,14 +218,15 @@
 
   Deck.add({
     n: 21, stage: "cheers", title: "Finale", budget: 30,
-    notes: "Role 6. Click 1: Mo says thank you and dances. Click 2: Mo throws the cup at the audience; it splats on the glass. Click 3: the smoothie slides away and the end card with three QR codes appears. Throw the real confetti now!",
+    notes: "Role 6. Click 1: Cue says thank you and dances. Click 2: Cue throws the cup at the audience; it splats on the glass. Click 3: the smoothie slides away and the end card with three QR codes appears. Throw the real confetti now!",
     html: (ctx) => `<div class="fin-wrap" style="position:absolute;inset:0">${Kit.sceneBG}
       <div style="position:absolute;inset:0;background:rgba(255,111,163,.35)"></div>
-      <div class="fin-endbg" style="position:absolute;inset:0;background:#FF6FA3;opacity:0"></div>
+      <div class="fin-endbg" style="position:absolute;inset:0;background:#E8A597;opacity:0"></div>
       <div class="fin-end" style="position:absolute;inset:0;opacity:0">
         <h2 class="s-title fin-ty" style="position:absolute;left:0;right:0;top:70px;text-align:center;font-size:170px;line-height:1;margin:0;color:${INK21}">Thank you</h2>
         ${TILES.map(t => `<div class="fin-tile" style="left:${t.x}px">${Kit.qrSVG(Kit.siteURL(t.path), 200)}<h3>${t.title}</h3><p>${t.sub}</p></div>`).join("")}
         <div class="fin-q" style="position:absolute;left:160px;top:850px;font-family:var(--font-display);font-weight:900;font-size:60px;color:${INK21}">Questions?</div>
+        <img class="fin-logo" src="../assets/img/cue-logo.png" alt="CUE" style="position:absolute;right:160px;top:790px;width:150px;height:auto">
       </div>
       <div class="mo" style="position:absolute;left:${MO_DANCE.left}px;top:${MO_DANCE.top}px;width:${MO_DANCE.width}px;height:${MO_DANCE.height}px">${ctx.art.mascot({ cup: true })}</div>
       <h2 class="s-title thanks" style="position:absolute;left:0;right:0;top:120px;text-align:center;font-size:150px;color:${INK21}">Thank you!</h2>
@@ -299,7 +300,7 @@
           // wet glass: sheen and beads appear on the "screen"
           .to(el.querySelectorAll(".fs-glass path"), { opacity: 1, duration: 0.5 }, hit + 0.2)
           .to(el.querySelectorAll(".fs-bead"), { opacity: 1, duration: 0.4, stagger: 0.012 }, hit + 0.25)
-          // Mo steps out of frame, empty-handed, behind the splash
+          // Cue steps out of frame, empty-handed, behind the splash
           .set(mo, { opacity: 0 }, hit + 0.1);
         return tl;
       },
@@ -318,7 +319,7 @@
           .set(arm, { rotate: -20 }, 0)
           .set(mo.querySelector(".mo-hand-cup"), { opacity: 0 }, 0)
           .set(el.querySelector(".fin-wrap"), { x: 0, y: 0 }, 0)
-          .set(el.querySelectorAll(".fin-tile, .fin-q, .fin-ty"), { opacity: 0, y: 40 }, 0)
+          .set(el.querySelectorAll(".fin-tile, .fin-q, .fin-ty, .fin-logo"), { opacity: 0, y: 40 }, 0)
           .add(() => Deck.ctx.sfx("drop"), 0.1)
           // the smoothie slowly slides down the glass
           .to(el.querySelectorAll(".fs-glass path, .fs-bead"), { opacity: 0, duration: 1.2, ease: "power1.in" }, 0.2)
@@ -328,8 +329,9 @@
           .to(el.querySelector(".fin-ty"), { opacity: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" }, 1.0)
           .to(el.querySelectorAll(".fin-tile"), { opacity: 1, y: 0, duration: 0.5, stagger: 0.14, ease: "back.out(1.4)" }, 1.3)
           .to(el.querySelector(".fin-q"), { opacity: 1, y: 0, duration: 0.4 }, 1.7)
+          .to(el.querySelector(".fin-logo"), { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.6)" }, 1.7)
           .add(() => Deck.ctx.sfx("pop"), 1.7)
-          // Mo peeks up from the bottom edge and waves
+          // Cue peeks up from the bottom edge and waves
           .to(mo, { y: 0, duration: 0.6, ease: "back.out(1.7)" }, 1.7)
           .to(arm, { rotate: 20, duration: 0.22, yoyo: true, repeat: 5, ease: "sine.inOut" }, 2.2)
           .to(mo.querySelector(".mo-leaf"), { rotate: 8, duration: 0.5, yoyo: true, repeat: 3, ease: "sine.inOut" }, 2.2)

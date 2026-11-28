@@ -5,9 +5,9 @@ How to use — read this first
 4. Check your work: `for f in deck/slides/*.js; do node --check "$f"; done`
 5. Then open `deck/index.html` (serve with `python3 -m http.server`) and check every slide, plus `deck/index.html?print` for the PDF view.
 
-# Sprout — SCRIPT.md (source of truth for every word on screen)
+# CUE — SCRIPT.md (source of truth for every word on screen)
 
-Deck: 21 slides, 7 stages, 16:25 of talk (PLAN.md, section 4). Stage order: Plant → Water → Harvest → Blend → Pour → Serve → Cheers.
+Deck: 22 slides, 7 stages, 17:50 of talk (PLAN.md, section 4). Stage order: Plant → Water → Harvest → Blend → Pour → Serve → Cheers.
 Block format per slide: stage/role/time line, kicker, on-screen title, points (max 3, each 14 words or fewer, numbers bolded), speaker notes (2–4 sentences), sources, animation per click.
 Slides marked "on-screen: none" have no bullet list; the points line lists the beats instead. Slides for the sections being re-voiced live in `deck/slides/02-water.js`, `03-harvest.js`, `06-serve.js` and slide 20 of `07-cheers.js` — reconcile those files carefully.
 Speaker notes reference the analysis outputs; where a figure was not available it is marked "placeholder".
@@ -15,22 +15,22 @@ Speaker notes reference the analysis outputs; where a figure was not available i
 ## 1. Brand intro
 - Stage: Plant · Role: R1 · Time: 0:20
 - Kicker: none
-- Title: Sprout — Grown from what you told us.
+- Title: CUE — Your smoothie, on cue.
 - Points:
-  1. (no bullets on screen — pill "Fresh smoothies for CUHK", the logo, the slogan and eight orbiting fruit only)
-- Speaker notes: Role 1. Let the logo loop while you greet the room. "Hi, we're team ___. This is Sprout: smoothies grown from what CUHK students told us."
+  1. (no bullets on screen — pill "Fresh smoothies for CUHK", the CUE logo sticker, the slogan and eight orbiting fruit only)
+- Speaker notes: Role 1. Let the logo loop while you greet the room. "Hi, we're team ___. This is CUE: smoothies made from what CUHK students told us. Your smoothie, on cue."
 - Sources: none
-- Animation: On entry the logo letters bounce in one by one, the pill pops in, the slogan types itself and the fruit pops into the orbit. Ambient: the fruit orbit spins and the logo letters bob. No clicks.
+- Animation: On entry the CUE logo sticker bounces in, the pill pops in, the slogan types itself and the fruit pops into the orbit. Ambient: the fruit orbit spins and the logo bobs. No clicks.
 
-## 2. Mo walks out
+## 2. Cue walks out
 - Stage: Plant · Role: R1 · Time: 0:20
 - Kicker: none
-- Title: Meet Mo.
+- Title: Meet Cue.
 - Points:
-  1. (no bullets on screen — "Meet Mo." and the bubble "Fresh mango, coming through!")
-- Speaker notes: "Meet Mo, our mascot. Mo has been carrying our first smoothie all week..."
+  1. (no bullets on screen — "Meet Cue." and the bubble "Fresh smoothie, coming through!")
+- Speaker notes: "Meet Cue, our mascot. Cue has been carrying our first smoothie all week..."
 - Sources: none
-- Animation: On entry Mo walks in from the left with footstep sounds, "Meet Mo." drops in, and "Fresh mango, coming through!" pops up. Click 1: Mo flips, raises the cup, sparkles burst and Mo hops (tada).
+- Animation: On entry Cue walks in from the left with footstep sounds, "Meet Cue." drops in, and "Fresh smoothie, coming through!" pops up. Click 1: Cue flips, raises the cup, sparkles burst and Cue hops (tada).
 
 ## 3. The spill
 - Stage: Plant · Role: R1 · Time: 0:20
@@ -38,9 +38,9 @@ Speaker notes reference the analysis outputs; where a figure was not available i
 - Title: none on screen — the bubbles "Oh no!!" then "That's okay… we'll show you how to make a new one."
 - Points:
   1. (no bullets on screen — the splat and the two speech bubbles carry it)
-- Speaker notes: Click once: Mo trips and the smoothie splats. Act surprised: "Oh no, Mo!" Click again: "That's okay. We'll show you how to make a new one, from the seed up."
+- Speaker notes: Click once: Cue trips and the smoothie splats. Act surprised: "Oh no, Cue!" Click again: "That's okay. We'll show you how to make a new one, from the seed up."
 - Sources: none
-- Animation: On entry the scene sets (Mo standing, splat hidden). Click 1: Mo trips, the cup flies and spins, the splat floods the screen and drips down, and "Oh no!!" pops. Click 2: the bubble swaps to "That's okay… we'll show you how to make a new one." and Mo recovers.
+- Animation: On entry the scene sets (Cue standing, splat hidden). Click 1: Cue trips, the cup flies and spins, the splat floods the screen and drips down, and "Oh no!!" pops. Click 2: the bubble swaps to "That's okay… we'll show you how to make a new one." and Cue recovers.
 
 ## 4. Let's grow something new
 - Stage: Plant · Role: R1 · Time: 0:40
@@ -59,23 +59,36 @@ Speaker notes reference the analysis outputs; where a figure was not available i
 - Title: It started with one idea.
 - Points:
   1. Campus drinks are <b>canteen tea and vending cans</b>. Fresh fruit is hard to find.
-  2. Inspired by <b>Booster Juice</b> in Canada: fresh smoothies plus "boosters". <i>(facts to add)</i>
+  2. Inspired by <b>Booster Juice</b>, Canada's fresh-smoothie-and-boosters chain.
   3. Our question: would CUHK students buy one, and <b>which one</b>?
-- Speaker notes: Role 1: who we are and the idea. Booster Juice: PLACEHOLDER — add 1–2 sourced facts (founded in Canada, smoothies with 'boosters').
-- Sources: none on screen (Booster Juice facts marked <i>(facts to add)</i> — placeholder)
+- Speaker notes: Role 1: who we are and the idea. The inspiration: Booster Juice, a Canadian chain built on fresh smoothies with optional "boosters" — the add-a-shot idea CUE keeps.
+- Sources: none on screen
 - Animation: On entry the title slides in, the seed drops with a bounce and squashes, then the stem draws up and the two leaves pop. Click 1: the three points slide in.
+
+## 5.5. Why CUHK, why now
+- Stage: Plant · Role: R1 · Time: 0:40
+- Kicker: Background
+- Title: Why CUHK, why now
+- Points:
+  1. (stat visual: <b>~25,000</b> — "people on campus every day")
+  2. The old YIA café sold smoothies at <b>HK$25</b> — it closed.
+  3. CC Kunkle is tea-led: <b>0</b> smoothie stalls on campus now.
+  4. Health drinks grow <b>4.9%</b> a year across Hong Kong and the GBA.
+- Speaker notes: Role 1. CUHK counts 18,438 undergraduates, 4,650 postgraduates and 8,990 staff — roughly 25,000–32,000 people on campus daily. No outlet sells smoothies or fresh fruit today: the old YIA café charged about HK$25 and closed, and the only branded hand-shake chain, CC Kunkle (A Nice Gift), is tea-led. The cold-pressed juice / health-drink market in the Greater Bay Area + Hong Kong grows about 4.9% a year to 2028, and Hong Kong shoppers pay a premium for perceived health benefits. Sha Tin is HK's most populous district (687,300 people) but only 7.7% are aged 15–24 — the youth market is the campus itself.
+- Sources: CUHK Facts & Figures (factsfigures.cuhk.edu.hk); CUHK Finance Office outlet list (fno.cuhk.edu.hk) + our interviews; CRI report (GBA + HK health-drink market, 4.9%/yr to 2028); Euromonitor (health premium); C&SD 2025 (Sha Tin age profile)
+- Animation: On entry the title slides in, the big ~25,000 stat pops in and the three points slide in on click 1.
 
 ## 6. Where students drink now
 - Stage: Plant · Role: R1 · Time: 1:00
 - Kicker: Competition
 - Title: Where students drink now
 - Points:
-  1. <b>78%</b> use canteens and <b>60%</b> vending machines.
+  1. <b>78%</b> use canteens and <b>61%</b> vending machines.
   2. Usual spend today is only <b>HK$10</b>: cheap, not fresh.
-  3. No fresh-smoothie stall on campus: a gap to fill.
-- Speaker notes: Role 1. Shares are the share of respondents who used each shop.
-- Sources: 02_shops_used.csv, 03_price_summary.csv (n = 53)
-- Animation: On entry the kicker and title slide in and the six shop bars draw (Canteens 78%, Vending machines 60%, UC bubble tea 32%, Tuck shops 22%, Café Tolo 20%, Kunkle (CC) 14%). Click 1: the three points slide in.
+  3. No smoothie stand since the old <b>YIA café</b> closed.
+- Speaker notes: Role 1. Shares are the share of respondents who used each shop. No outlet on campus sells smoothies or fresh fruit today: the old YIA café sold them at about HK$25 and closed (our interviews + CUHK Finance Office outlet list). CC Kunkle (A Nice Gift), the only branded hand-shake drink chain on campus, is tea-led — no smoothies.
+- Sources: 02_shops_used.csv, 03_price_summary.csv (n = 55)
+- Animation: On entry the kicker and title slide in and the six shop bars draw (Canteens 78%, Vending machines 61%, UC bubble tea 31%, Tuck shops 22%, Café Tolo 20%, Kunkle (CC) 14%). Click 1: the three points slide in.
 
 ## 7. Two interviews first
 - Stage: Water · Role: R2 · Time: 1:00
@@ -85,7 +98,7 @@ Speaker notes reference the analysis outputs; where a figure was not available i
   1. <b>2 exploratory interviews</b> before any survey.
   2. They showed <b>what matters</b> and which ideas were worth testing.
   3. Their words became the <b>survey's answer options</b>.
-- Speaker notes: Role 2. Before the survey we ran 2 exploratory interviews (a Year 2 undergraduate; an informal chat with a friend) to find what matters and which ideas were worth testing. They are not part of the 53. Team: confirm which transcript is Caleb's.
+- Speaker notes: Role 2. Before the survey we ran 2 exploratory interviews (a Year 2 undergraduate; an informal chat with a friend) to find what matters and which ideas were worth testing. They are not part of the 55 answers kept. Team: confirm which transcript is Caleb's.
 - Sources: Interview notes (n = 2, exploratory, not part of the survey sample)
 - Animation: On entry the title slides in, the watering can flies in and pours (drops fall), the stem draws up and three leaves pop with the two interview tags — "Interview 1 / Year 2 CUHK undergraduate, semi-structured" and "Interview 2 / Informal chat with a friend" — and the can exits. Click 1: the three points slide in.
 
@@ -101,26 +114,26 @@ Speaker notes reference the analysis outputs; where a figure was not available i
 - Sources: 10_question_coverage.csv; report section "Survey design"
 - Animation: On entry the vine draws upward and the nine question blocks pop in on alternating sides, with the "Scan to see the survey" QR at the end. Click 1: the two points slide in.
 
-## 9. 69 answers, 53 kept
+## 9. 72 answers, 55 kept
 - Stage: Water · Role: R2 · Time: 1:15
 - Kicker: Water: washing the fruit
-- Title: 69 answers (the counter rinses down to 53 answers)
+- Title: 72 answers (the counter rinses down to 55 answers)
 - Points:
   1. (no bullets on screen — the rinse list and the chips carry the numbers)
-  2. (rinse: "Eligible (on campus at least sometimes) −4", "Completed core questions 0", "Not duplicates −1", "Passed attention check −11")
-  3. (chips: <b>94%</b> undergraduates, <b>57%</b> from Hong Kong, <b>40%</b> female, <b>60%</b> male)
-- Speaker notes: Role 2. Cleaning is washing the fruit. 4 were rarely on campus, 1 was a duplicate, 11 failed the attention check. 53 remain. 94% are undergraduates. Every result was re-checked under 3 cleaning levels (A, B, C).
+  2. (rinse: "Eligible (on campus at least sometimes) −5", "Completed core questions 0", "Not duplicates −1", "Passed attention check −11")
+  3. (chips: <b>93%</b> undergraduates, <b>56%</b> from Hong Kong, <b>38%</b> female, <b>62%</b> male)
+- Speaker notes: Role 2. Cleaning is washing the fruit. 5 were rarely on campus, 1 was a duplicate, 11 failed the attention check. 55 remain. 93% are undergraduates. Every result was re-checked under 3 cleaning levels (A, B, C).
 - Sources: 01_funnel.csv, 02_sample_profile.csv
-- Animation: On entry "69 answers" appears and 69 fruit dots drop into the basin. Click 1: the rinse — removed dots fly off step by step (−4, 0, −1, −11) while the counter ticks 69 down to 53. Click 2: the three chips pop in.
+- Animation: On entry "72 answers" appears and 72 fruit dots drop into the basin. Click 1: the rinse — removed dots fly off step by step (−5, 0, −1, −11) while the counter ticks 72 down to 55. Click 2: the three chips pop in.
 
 ## 10. What matters
 - Stage: Harvest · Role: R3 · Time: 0:40
 - Kicker: Harvest: what matters
 - Title: Taste comes first.
 - Points:
-  1. (no bullets on screen — six baskets: 😋 Taste <b>28%</b>, 💰 Price <b>22%</b>, 💚 Healthiness <b>14%</b>, 🚶 Convenience <b>14%</b>, ⏱️ Wait time <b>11%</b>, 🌿 Freshness <b>11%</b>)
-- Speaker notes: Role 3. Each student split 100 points across six factors. Taste got the most (28%), then price (22%). Health, convenience, wait time and freshness each got 11–14%.
-- Sources: 02_importance.csv: mean share of 100 points, n = 53
+  1. (no bullets on screen — six baskets: 😋 Taste <b>28%</b>, 💰 Price <b>22%</b>, 💚 Healthiness <b>14%</b>, 🚶 Convenience <b>13%</b>, ⏱️ Wait time <b>11%</b>, 🌿 Freshness <b>11%</b>)
+- Speaker notes: Role 3. Each student split 100 points across six factors. Taste got the most (28%), then price (22%). Health, convenience, wait time and freshness each got 11–13%.
+- Sources: 02_importance.csv: mean share of 100 points, n = 55
 - Animation: On entry (the only beat) the title slides in, the six baskets bounce up and fruit drops into each pile with a bounce; the Taste basket pulses at the end. No clicks.
 
 ## 10.5. Audience game: guess the number
@@ -128,42 +141,42 @@ Speaker notes reference the analysis outputs; where a figure was not available i
 - Kicker: Harvest: your turn
 - Title: Guess the number.
 - Points:
-  1. (QR code + short link + room code; question "What % of the 53 students said they would buy a Sprout smoothie?"; live counter "<b>N</b> guesses"; a 0–100 number line where each phone guess lands as a fruit dot)
-  2. After click: the real answer <b>70%</b> drops onto the line, "Room average: X%. Real answer: 70%." and a podium of the three closest nicknames.
-- Speaker notes: About 45 seconds. Say: "Before I show you the result, guess it. Scan the code, slide to what percent of the 53 students said they would buy, tap Lock in." Let guesses land for about 20 seconds and point at the cluster. Click: guessing closes, the arrow drops on the real answer (70%), read the room average and call the three closest names. If nobody joins, click straight to the answer. Then go on to slide 11 ("7 in 10 said yes").
-- Sources: results.json (top-2-box, n = 53); guesses come from phones via play/index.html (public relay, nicknames only)
-- Animation: On entry the title and QR card pop in; each incoming guess drops onto the number line as a dot with a pop sound and the counter bumps. Click 1: guessing closes, the QR leaves, a berry arrow drops onto 70% with a thunk, the average marker, result line and podium appear. Phones show how close each guess was; podium players get confetti. With no players the podium is replaced by a big 70% card.
+  1. (QR code + short link + room code; question "What % of the 55 students said they would buy a CUE smoothie?"; live counter "<b>N</b> guesses"; a 0–100 number line where each phone guess lands as a fruit dot)
+  2. After click: the real answer <b>69%</b> drops onto the line, "Room average: X%. Real answer: 69%." and a podium of the three closest nicknames.
+- Speaker notes: About 45 seconds. Say: "Before I show you the result, guess it. Scan the code, slide to what percent of the 55 students said they would buy, tap Lock in." Let guesses land for about 20 seconds and point at the cluster. Click: guessing closes, the arrow drops on the real answer (69%), read the room average and call the three closest names. If nobody joins, click straight to the answer. Then go on to slide 11 ("7 in 10 said yes").
+- Sources: results.json (top-2-box, n = 55); guesses come from phones via play/index.html (public relay, nicknames only)
+- Animation: On entry the title and QR card pop in; each incoming guess drops onto the number line as a dot with a pop sound and the counter bumps. Click 1: guessing closes, the QR leaves, a berry arrow drops onto 69% with a thunk, the average marker, result line and podium appear. Phones show how close each guess was; podium players get confetti. With no players the podium is replaced by a big 69% card.
 
 ## 11. Would they buy?
 - Stage: Harvest · Role: R3 · Time: 0:40
 - Kicker: Harvest: would they buy?
 - Title: 7 in 10 said yes.
 - Points:
-  1. (no bullets on screen — the glass counts to <b>70%</b>, with "Realistic: <b>31%</b>" marked on it)
-  2. (segment rows under "Share in each segment who would buy": taste + health 12 people <b>75%</b>, taste + fresh 19 people <b>79%</b>, taste + price 22 people <b>59%</b>)
-- Speaker notes: Role 3. 70% said they probably or definitely would buy (95% range 57–81%). People overstate, so a calibrated estimate is about 31%. Three small segments; taste + fresh is keenest (79%). The smallest segment has 12 people, so describe, don't over-sell.
-- Sources: 05_intent_distribution.csv, 05_segments.csv, results.json (top-2-box, 95% CI 57–81%)
-- Animation: On entry "7 in 10 said yes." slides in and the glass fills to 70% as the number counts up. Click 1: the dashed "Realistic: 31%" line draws in and the three segment rows slide in.
+  1. (no bullets on screen — the glass counts to <b>69%</b>, with "Realistic: <b>30%</b>" marked on it)
+  2. (segment rows under "Share in each segment who would buy": taste + price 13 people <b>69%</b>, taste + price 23 people <b>61%</b>, taste + fresh 19 people <b>79%</b>)
+- Speaker notes: Role 3. 69% said they probably or definitely would buy (95% range 56–80%). People overstate, so a calibrated estimate is about 30%. Three small segments; taste + fresh is keenest (79%). The smallest segment has 13 people, so describe, don't over-sell.
+- Sources: 05_intent_distribution.csv, 05_segments.csv, results.json (top-2-box, 95% CI 56–80%)
+- Animation: On entry "7 in 10 said yes." slides in and the glass fills to 69% as the number counts up. Click 1: the dashed "Realistic: 30%" line draws in and the three segment rows slide in.
 
 ## 12. Target and position
 - Stage: Harvest · Role: R3 · Time: 0:40
 - Kicker: none
 - Title: none on screen — the segment circles and the typed positioning line
 - Points:
-  1. (no bullets on screen — circles "taste + health 12 people · 75% would buy", "taste + fresh 19 people · 79% would buy", "taste + price 22 people · 59% would buy")
+  1. (no bullets on screen — circles "taste + price 13 people · 69% would buy", "taste + price 23 people · 61% would buy", "taste + fresh 19 people · 79% would buy")
   2. Taste + fresh takes the "Our target" badge.
-  3. Positioning line (typed): "For CUHK students who want fresh fruit that tastes great between classes, Sprout is the smoothie made the way they asked for it."
-- Speaker notes: Role 3. We target the taste + fresh segment: 19 people, the highest share who would buy (79%) and the most who have bought a smoothie before (37%). Positioning line is a PLACEHOLDER for the team to confirm.
+  3. Positioning line (typed): "For CUHK students who want fresh fruit that tastes great between classes, CUE is the smoothie made the way they asked for it."
+- Speaker notes: Role 3. We target the taste + fresh segment: 19 people, the highest share who would buy (79%) and the most who have bought a smoothie before (37%). We pick them where the youth market is dense: Sha Tin is HK's most populous district (687,300) but only 7.7% are aged 15–24 — the campus micro-market is the youth market. Positioning line is a PLACEHOLDER for the team to confirm.
 - Sources: 05_segments.csv; positioning line is a placeholder
 - Animation: On entry the three segment circles pop in and the spotlight sweeps across them; taste + fresh is singled out (scales up, "Our target" badge, tada). Click 1: the positioning line types itself out.
 
 ## 13. Place: a dart from space
 - Stage: blend · Role: R4 · Time: 0:50
 - Kicker: Blend: place
-- Title: Where should Sprout live?
-- Points: (none on screen; verdict card) YIA Building (our pick) 47% · Central Campus 47% · College areas 36%
-- Speaker notes: A dart flies from space into CUHK and sticks at YIA. The hotspots show where students want the shop: YIA and Central Campus tie at 47%, colleges 36%. We pick YIA because students pass it between University Station and classes; a second cart at Central Campus is phase 2.
-- Sources: 04_where.csv (n = 53); Earth: NASA Blue Marble; satellite: Esri World Imagery; coordinates in content/places.js (approximate, to check)
+- Title: Where should CUE live?
+- Points: (none on screen; verdict card) YIA Building (our pick) 47% · Central Campus 45% · College areas 36%
+- Speaker notes: A dart flies from space into CUHK and sticks at YIA. The hotspots show where students want the shop: YIA 47% and Central Campus 45% lead, colleges 36%. We pick YIA because students pass it between University Station and classes; a second cart at Central Campus is phase 2.
+- Sources: 04_where.csv (n = 55); Earth: NASA Blue Marble; satellite: Esri World Imagery; coordinates in content/places.js (approximate, to check)
 - Animation: (1) real 3D Earth in space; (2) dart flies in, camera dives to Hong Kong, satellite zoom to CUHK, thunk; (3) photo turns cartoon, hotspots pop with survey shares; (4) verdict card.
 
 ## 14. Fruit race
@@ -171,23 +184,23 @@ Speaker notes reference the analysis outputs; where a figure was not available i
 - Kicker: Blend: the fruit
 - Title: The fruit race
 - Points:
-  1. (no bullets on screen — the race lanes: 🥭 Mango <b>72%</b>, 🍓 Strawberry <b>60%</b>, 🍌 Banana <b>47%</b>, 🫐 Blueberry <b>38%</b>, 🍑 Peach <b>36%</b>)
-  2. Share of 53 students picking each fruit; the professor's picks wear a 👑 "Professor's pick" crown.
-- Speaker notes: Role 4. Mango wins with 72%. The professor's fruit picks get a crown.
-- Sources: 04_fruit.csv: share of 53 students who picked each fruit
+  1. (no bullets on screen — the race lanes: 🥭 Mango <b>73%</b>, 🍓 Strawberry <b>60%</b>, 🍌 Banana <b>47%</b>, 🫐 Blueberry <b>36%</b>, 🍑 Peach <b>36%</b>)
+  2. Share of 55 students picking each fruit; the professor's picks wear a 👑 "Professor's pick" crown.
+- Speaker notes: Role 4. Mango wins with 73%. The professor's fruit picks get a crown.
+- Sources: 04_fruit.csv: share of 55 students who picked each fruit
 - Animation: On entry (the only beat) the five fruit runners race out to their shares and the percentages fade in; crowns pop on the professor's fruit picks. No clicks.
 
 ## 15. Base and add-ons
 - Stage: Blend · Role: R4 · Time: 0:40
-- Kicker: Blend: base and boosters
+- Kicker: Blend: base and boosts
 - Title: Into the blender
 - Points:
   1. (no bullets on screen — two bar lists beside the blender)
-  2. Base: Yogurt <b>53%</b>, Fruit juice <b>53%</b>, Fresh milk <b>43%</b>, Coconut milk <b>30%</b>.
-  3. Boosters: Muscle Sprout <b>51%</b>, Sunshine Shot <b>49%</b>, Exam Fuel <b>42%</b>, Morning Field <b>38%</b>.
-- Speaker notes: Role 4. Yogurt and juice tie at 53%. Protein (51%) and vitamin (49%) lead the add-ons. Fancy names are placeholders.
-- Sources: 04_base.csv, 04_addons.csv (n = 53)
-- Animation: On entry (the only beat) the base and booster bars fill, the ingredients (🥛 🍓 🥭 🌾 💪) drop into the jar, the liquid rises and turns mango and the blender shakes; the professor's picks highlight. No clicks.
+  2. Base: Yogurt <b>53%</b>, Fruit juice <b>53%</b>, Fresh milk <b>45%</b>, Coconut milk <b>29%</b>.
+  3. Boosts: Protein powder <b>51%</b>, Vitamins <b>49%</b>, Matcha <b>40%</b>, Coffee <b>40%</b>, Oats <b>36%</b> (matcha + coffee are one combined energy boost).
+- Speaker notes: Role 4. Yogurt and juice tie at 53%. Protein powder (51%) and vitamins (49%) lead the boosts. Matcha and coffee were asked as one combined energy boost (40%).
+- Sources: 04_base.csv, 04_addons.csv (n = 55)
+- Animation: On entry (the only beat) the base and boost bars fill, the ingredients (🥛 🍓 🥭 🌾 💪) drop into the jar, the liquid rises and turns mango and the blender shakes; the professor's picks highlight. No clicks.
 
 ## 16. Product reveal: Order #1
 - Stage: Pour · Role: R4 · Time: 0:35
@@ -195,23 +208,23 @@ Speaker notes reference the analysis outputs; where a figure was not available i
 - Title: the name on Order #1 (the example order shows "Professor")
 - Points:
   1. (no bullets on screen — the Order #1 card lists every pick with its survey share)
-  2. (example card: "Order #1 · Professor", "Mango Sunrise", "🥭 Mango 72% picked it", "🍓 Strawberry 60% picked it", "Yogurt 53%", "Muscle Sprout 51%", "Bloom · 500 ml HK$30")
+  2. (example card: "Order #1 · Professor", "Mango Sunrise", "🥭 Mango 73% picked it", "🍓 Strawberry 60% picked it", "Yogurt 53%", "500 ml · HK$25")
   3. Hand-off line: "Your smoothie is on its way, Professor →"
 - Speaker notes: Role 4. Click 1: the blender pours into the cup. Click 2: the cup is revealed with the professor's name and every choice next to its survey number. Click 3: the cup slides off to the right. Pull the cardboard cup from behind the screen and hand it to the professor.
 - Sources: order app — the Order #1 card (its src line reads "live from the order app" or "example order (no live order yet)"); shares from 04_fruit.csv, 04_base.csv, 04_addons.csv
 - Animation: On entry the cup rises, the jar slides in and tips, and the smoothie pours until the cup is full. Click 1: rays burst, the name bounces in and the Order #1 card flips in with confetti. Click 2: the cup slides off right and "Your smoothie is on its way, Professor →" appears.
 
-## 17. HK$25 keeps 77% in
+## 17. HK$25 keeps 75% in
 - Stage: Serve · Role: R5 · Time: 1:00
 - Kicker: Serve: price
-- Title: HK$25 keeps 77% in
+- Title: HK$25 keeps 75% in
 - Points:
-  1. At <b>HK$25</b>, <b>77%</b> would still buy.
-  2. HK$28 keeps only <b>60%</b>; HK$30, <b>53%</b>.
+  1. At <b>HK$25</b>, <b>75%</b> would still buy.
+  2. HK$28 keeps only <b>58%</b>; HK$30, <b>51%</b>.
   3. Usual spend <b>HK$10</b>; median top price <b>HK$30</b>.
-- Speaker notes: Role 5. Click 1: the chalk menu board drops in and the prices flip in like a split-flap display. Click 2: the demand curve draws itself, markers land at HK$28 and HK$30, the gold dot slides to HK$25 = 77%. Click 3: the three points.
-- Sources: 03_demand_curve.csv, 03_candidate_prices.csv, 03_price_summary.csv (n = 53)
-- Animation: On entry the title slides in and the menu board drops with a bounce — "Menu", "Sprout smoothies", "Sprout 350 ml HK$22", "Bloom 500 ml HK$25", "Harvest 700 ml HK$30", "Boosters one scoop each +HK$5" — the prices flipping in like a split-flap display. Click 1: the "What they would pay" demand curve card slides in and the curve draws, markers land at "HK$28 = 60%" and "HK$30 = 53%", and the gold dot slides along to the "HK$25 = 77%" flag. Click 2: the three points slide in.
+- Speaker notes: Role 5. Click 1: the chalk menu board drops in and the prices flip in like a split-flap display. Click 2: the demand curve draws itself, markers land at HK$28 and HK$30, the gold dot slides to HK$25 = 75%. Click 3: the three points.
+- Sources: 03_demand_curve.csv, 03_candidate_prices.csv, 03_price_summary.csv (n = 55)
+- Animation: On entry the title slides in and the menu board drops with a bounce — "Menu", "CUE smoothies", "CUE Layers 500 ml HK$25", "Fruit Classics 500 ml HK$25", "Morning Blends price to be confirmed", "350 ml HK$22", "500 ml HK$25", "700 ml HK$30", "Boosts one scoop each +HK$5" — the prices flipping in like a split-flap display. Click 1: the "What they would pay" demand curve card slides in and the curve draws, markers land at "HK$28 = 58%" and "HK$30 = 51%", and the gold dot slides along to the "HK$25 = 75%" flag. Click 2: the three points slide in.
 
 ## 18. Skip the queue
 - Stage: Serve · Role: R5 · Time: 0:35
@@ -219,11 +232,11 @@ Speaker notes reference the analysis outputs; where a figure was not available i
 - Title: Skip the queue
 - Points:
   1. The app the professor used: order ahead, pick up at YIA.
-  2. <b>64%</b> would use a pre-order app.
-  3. <b>43%</b> would join a loyalty programme.
+  2. <b>65%</b> would use a pre-order app.
+  3. <b>44%</b> would join a loyalty programme.
 - Speaker notes: Role 5. Click 1: the phone slides up and taps the professor's fruit. Click 2: base, boosters and size get tapped in turn. Click 3: the Order placed ticket. Click 4: the points. If a new live order arrives (toolbar Reload Order or R), the flow rebuilds and replays.
-- Sources: 02_likert_summary.csv (agree or strongly agree, n = 53)
-- Animation: On entry the phone slides up (status bar "9:41 / Sprout · YIA pickup") and a finger taps the fruit chips ("🥭 Mango" … "🍑 Peach") under "1 / 4 Choose fruit". Click 1: "2 / 4 Pick a base" (Yogurt … Coconut milk), "3 / 4 Add boosters" ("Muscle Sprout" … "Morning Field") and "4 / 4 Cup size" ("Sprout · 350 ml HK$22", "Bloom · 500 ml HK$25", "Harvest · 700 ml HK$30") get tapped in turn. Click 2: the ticket — "✓ Order placed", "Order #1 · Professor", the drink name, the picks, "HK$30", "Ready at YIA — skip the queue". Click 3: the three points. A new live order rebuilds and replays the flow.
+- Sources: 02_likert_summary.csv (agree or strongly agree, n = 55)
+- Animation: On entry the phone slides up (status bar "9:41 / CUE · YIA pickup") and a finger taps the fruit chips ("🥭 Mango" … "🍑 Peach") under "1 / 4 Choose fruit". Click 1: "2 / 4 Pick a base" (Yogurt … Coconut milk), "3 / 4 Add boosts" ("Protein powder" … "Oats") and "4 / 4 Cup size" ("350 ml HK$22", "500 ml HK$25", "700 ml HK$30") get tapped in turn. Click 2: the ticket — "✓ Order placed", "Order #1 · Professor", the drink name, the picks, "HK$25", "Ready at YIA — skip the queue". Click 3: the three points. A new live order rebuilds and replays the flow.
 
 ## 19. Made for hanging out
 - Stage: Serve · Role: R5 · Time: 1:10
@@ -231,33 +244,33 @@ Speaker notes reference the analysis outputs; where a figure was not available i
 - Title: Made for hanging out
 - Points:
   1. (no bullets on screen — the poster and the promo carry the words)
-  2. (poster and promo end card: "Sprout", "Grown from what you told us.", "Order ahead at YIA"; the promo loops with a "promo · looping" dot)
-  3. (occasion chips: 🎉 Hanging out with friends <b>53%</b>, 🍨 Dessert or treat <b>51%</b>, ☀️ To cool down in hot weather <b>47%</b>)
+  2. (poster and promo end card: the CUE logo sticker, "Your smoothie, on cue.", "Order ahead at YIA"; the promo loops with a "promo · looping" dot)
+  3. (occasion chips: 🎉 Hanging out with friends <b>51%</b>, 🍨 Dessert or treat <b>51%</b>, ☀️ To cool down in hot weather <b>49%</b>)
 - Speaker notes: Role 5. Click 1: the poster flies in and pins to the wall (it swings, then settles). Click 2: the promo frame lights up and the occasion chips pop. The brand song plays quietly. PLACEHOLDER: drop assets/video/promo.mp4 in and swap the animated .ad for a <video> tag (see comment in 06-serve.js).
-- Sources: 04_occasion.csv (n = 53); brand placeholder from content/brand.js
-- Animation: On entry the title slides in and the poster flies in, pins to the wall, swings and settles. Click 1: the promo frame pops and the three occasion chips appear. Ambient: the looping mini-ad (fruit bursts, Mo waves, slogan wave, CTA pulse) runs under the slide with the brand song quiet.
+- Sources: 04_occasion.csv (n = 55); brand placeholder from content/brand.js
+- Animation: On entry the title slides in and the poster flies in, pins to the wall, swings and settles. Click 1: the promo frame pops and the three occasion chips appear. Ambient: the looping mini-ad (fruit bursts, Cue waves, slogan wave, CTA pulse) runs under the slide with the brand song quiet.
 
 ## 20. The evidence
 - Stage: Cheers · Role: R6 · Time: 1:30
 - Kicker: Cheers: why it works
 - Title: The evidence
 - Points:
-  1. (checklist rows, stamped green ✓ or amber !: "<b>70%</b> would buy (calibrated <b>~31%</b>)", "<b>HK$25</b> keeps <b>77%</b>", "<b>Mango 72%</b> and <b>yogurt 53%</b> lead", "<b>4 of 31</b> tests change with cleaning", "<b>53 answers</b> is a small sample")
+  1. (checklist rows, stamped green ✓ or amber !: "<b>69%</b> would buy (calibrated <b>~30%</b>)", "<b>HK$25</b> keeps <b>75%</b>", "<b>Mango 73%</b> and <b>yogurt 53%</b> lead", "<b>5 of 31</b> tests change with cleaning", "<b>55 answers</b> is a small sample")
   2. Risks: real buying is lower than stated; cost per cup not yet measured.
   3. Next step: a <b>one-week pop-up at YIA</b> to test demand and price.
-- Speaker notes: Role 6. Click 1: the pop-up store builds itself and Mo steps up with the cup. Click 2: every evidence line gets stamped — green where it holds, amber for the caveats (thunk). Click 3: risks and the next step. Store art is a placeholder; swap in assets/img/store.png later (see comment in 07-cheers.js).
+- Speaker notes: Role 6. Click 1: the pop-up store builds itself and Cue steps up with the cup. Click 2: every evidence line gets stamped — green where it holds, amber for the caveats (thunk). Click 3: risks and the next step. Store art is a placeholder; swap in assets/img/store.png later (see comment in 07-cheers.js).
 - Sources: 08_tier_stability.csv, 09_sample_size_targets.csv, Role 6 checklist
-- Animation: On entry the pop-up store builds itself (the "Sprout" sign drops with a thunk, the awning tabs unfurl) and Mo steps up with the cup; the evidence card slides in. Click 1: each checklist row slides in and gets stamped — green ✓ or amber ! with a thunk. Click 2: the risks and next-step points slide in.
+- Animation: On entry the pop-up store builds itself (the "CUE" sign drops with a thunk, the awning tabs unfurl) and Cue steps up with the cup; the evidence card slides in. Click 1: each checklist row slides in and gets stamped — green ✓ or amber ! with a thunk. Click 2: the risks and next-step points slide in.
 
 ## 21. Finale
 - Stage: Cheers · Role: R6 · Time: 0:30
 - Kicker: none
 - Title: Thank you!
 - Points:
-  1. (no bullets on screen — "Thank you!" while Mo dances, then the end card "Sprout / Grown from what you told us. / Questions?")
-- Speaker notes: Role 6. Click 1: Mo dances. Click 2: Mo throws the cup at the screen. Throw the real confetti now!
+  1. (no bullets on screen — "Thank you!" while Cue dances, then the end card "CUE logo / Your smoothie, on cue. / Questions?")
+- Speaker notes: Role 6. Click 1: Cue dances. Click 2: Cue throws the cup at the screen. Throw the real confetti now!
 - Sources: none
-- Animation: On entry "Thank you!" pops in and Mo dances (jumps, spins, waving arms) with confetti. Click 1: Mo throws the cup at the screen — it splats and drips — and the Sprout end card fades in under a confetti cannon.
+- Animation: On entry "Thank you!" pops in and Cue dances (jumps, spins, waving arms) with confetti. Click 1: Cue throws the cup at the screen — it splats and drips — and the CUE end card fades in under a confetti cannon.
 
 ---
 
@@ -265,13 +278,13 @@ Speaker notes reference the analysis outputs; where a figure was not available i
 
 | Stage | Slides | Budget total |
 | --- | --- | --- |
-| Plant | 1–6 | 3:25 |
+| Plant | 1–6 (incl. 5.5) | 4:05 |
 | Water | 7–9 | 3:30 |
 | Harvest | 10–12 (incl. game 10.5) | 2:45 |
 | Blend | 13–15 | 2:10 |
 | Pour | 16 | 0:35 |
 | Serve | 17–19 | 2:45 |
 | Cheers | 20–21 | 2:00 |
-| **Total** | **1–21 (+10.5)** | **17:10** |
+| **Total** | **1–22 (incl. 10.5 game, 5.5 background)** | **17:50** |
 
-Sum of the per-slide budgets above is **17:10** (16:25 plus the 0:45 audience game; PLAN.md still says 16:25) and under the 18:30 ceiling (20:00 hard limit leaves 2:50 of buffer). Drop the game if time is tight.
+Sum of the per-slide budgets above is **17:50** (16:25 plus the 0:45 audience game and the 0:40 background slide) and under the 18:30 ceiling (20:00 hard limit leaves 2:10 of buffer). Drop the game if time is tight.

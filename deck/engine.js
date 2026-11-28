@@ -19,13 +19,13 @@
  */
 (function () {
   const STAGES = {
-    plant:   { name: "Plant the seed", bg: "#3B2414", fg: "#FFF4E2", accent: "#FF8A1F" },
-    water:   { name: "Water & grow",   bg: "#8FD3F4", fg: "#10324A", accent: "#2FA84F" },
-    harvest: { name: "Harvest",        bg: "#F6C445", fg: "#2A1A10", accent: "#B0244A" },
-    blend:   { name: "Blend",          bg: "#FF8A1F", fg: "#2A1A10", accent: "#FFF4E2", sfx: "blender" },
-    pour:    { name: "Pour",           bg: "#B0244A", fg: "#FFF4E2", accent: "#F6C445" },
-    serve:   { name: "Serve",          bg: "#2FA84F", fg: "#FFFDF8", accent: "#F6C445" },
-    cheers:  { name: "Cheers",         bg: "#FF6FA3", fg: "#2A1A10", accent: "#FFF4E2" }
+    plant:   { name: "Plant the seed", bg: "#25292B", fg: "#F2D9C2", accent: "#E08A45" },
+    water:   { name: "Water & grow",   bg: "#9EC4C0", fg: "#1F3335", accent: "#6A9467" },
+    harvest: { name: "Harvest",        bg: "#E8C26A", fg: "#25292B", accent: "#9A3E4B" },
+    blend:   { name: "Blend",          bg: "#E08A45", fg: "#25292B", accent: "#F2D9C2", sfx: "blender" },
+    pour:    { name: "Pour",           bg: "#9A3E4B", fg: "#F2D9C2", accent: "#E8C26A" },
+    serve:   { name: "Serve",          bg: "#6A9467", fg: "#F8EBDA", accent: "#E8C26A" },
+    cheers:  { name: "Cheers",         bg: "#E8A597", fg: "#25292B", accent: "#F2D9C2" }
   };
   const W = 1920, H = 1080;
   const slides = [];
@@ -73,8 +73,8 @@
   }
 
   // Give every mascot part its pivot point (SVG transform origins).
-  const PIVOTS = { ".mo-leg-l": "88 218", ".mo-leg-r": "132 218", ".mo-arm-l": "52 150", ".mo-arm-r": "180 150",
-    ".mo-body": "110 150", ".mo-leaf": "112 60", ".mo-eyes": "110 132", ".mo-hand-cup": "150 118" };
+  const PIVOTS = { ".mo-leg-l": "88 218", ".mo-leg-r": "132 218", ".mo-arm-l": "62 190", ".mo-arm-r": "158 190",
+    ".mo-body": "110 150", ".mo-leaf": "110 62", ".mo-eyes": "110 132", ".mo-hand-cup": "150 118" };
   function rig(root) {
     root.querySelectorAll(".mo-root").forEach(mo => {
       for (const [sel, o] of Object.entries(PIVOTS)) mo.querySelectorAll(sel).forEach(p => gsap.set(p, { svgOrigin: o }));
@@ -214,23 +214,51 @@
     started = Date.now(); stageStart = { [slides[idx].stage]: started };
     timerHandle = setInterval(updateTimer, 500);
   }
-  let warned = {};
+  // Two separate clocks, two separate warnings:
+  //  - SECTION (stage) budget: chip "Water 3:21 left" in the toolbar + the drip-cup on the slide ("section 12s").
+  //  - WHOLE TALK: chip "Talk 4:10 of 20:00" + an on-slide banner at 18:30 / 19:30 / 20:00 (visible in fullscreen).
+  const TALK_LIMIT = 20 * 60000, TALK_WARN = 18.5 * 60000, TALK_FINAL = 19.5 * 60000;
+  const plannedTotal = () => slides.reduce((a, x) => a + (x.budget || 0), 0) * 1000;
+  const shortStage = (k) => k.charAt(0).toUpperCase() + k.slice(1);
+  let warned = {}, banner = null;
+  function talkLevel(total) { return total >= TALK_LIMIT ? "over" : total >= TALK_FINAL ? "final" : total >= TALK_WARN ? "warn" : ""; }
   function updateTimer() {
     const el = $("#timer"); if (!el) return;
     const s = slides[idx]; if (!s) return;
-    const budget = stageBudget(s.stage);
-    if (!started) { el.querySelector("b").textContent = "0:00"; el.querySelector(".stg").textContent = fmt(budget); return; }
+    const budget = stageBudget(s.stage), tk = $("#talk"), sc = $("#stagechip");
+    const tkb = tk.querySelector("b"), tkof = tk.querySelector(".of"), scn = sc.querySelector(".sn"), scl = sc.querySelector(".sl");
+    tkof.textContent = `of ${fmt(TALK_LIMIT)}`;
+    scn.textContent = shortStage(s.stage);
+    if (!started) {
+      tkb.textContent = "0:00"; scl.textContent = `${fmt(budget)} planned`;
+      tk.title = `Talk clock: starts at your first Next. Planned ${fmt(plannedTotal())} of ${fmt(TALK_LIMIT)}`;
+      sc.title = `${STAGES[s.stage].name}: ${fmt(budget)} planned for this section`;
+      tk.dataset.lv = ""; sc.dataset.lv = ""; showBanner("");
+      return;
+    }
     const used = Date.now() - (stageStart[s.stage] || Date.now()), total = Date.now() - started, left = budget - used;
-    el.querySelector("b").textContent = fmt(total);
-    el.querySelector(".stg").textContent = left >= 0 ? fmt(left) : "+" + fmt(-left);
-    el.title = `Talk time ${fmt(total)} of 20:00. ${STAGES[s.stage].name}: ${left >= 0 ? fmt(left) + " left" : fmt(-left) + " over"}`;
-    const warn = used > budget * 0.8 && used <= budget, over = used > budget || total > 18.5 * 60000;
-    el.classList.toggle("warn", warn); el.classList.toggle("over", over);
+    tkb.textContent = fmt(total);
+    scl.textContent = left >= 0 ? `${fmt(left)} left` : `${fmt(-left)} over`;
+    const tl = talkLevel(total);
+    tk.dataset.lv = tl; tk.title = `Whole talk: ${fmt(total)} of ${fmt(TALK_LIMIT)} (planned ${fmt(plannedTotal())}). ${tl === "over" ? "Out of time" : fmt(TALK_LIMIT - total) + " left"}`;
+    const sl = used > budget ? "over" : used > budget * 0.8 ? "warn" : "";
+    sc.dataset.lv = sl; sc.title = `${STAGES[s.stage].name}: ${left >= 0 ? fmt(left) + " left in this section" : fmt(-left) + " over this section"}`;
+    showBanner(tl, total);
     cupTimer(s.stage, used, budget);
+  }
+  // Whole-talk wrap-up cue, drawn on the slide stage (not the toolbar) so it is visible in fullscreen.
+  function showBanner(level, total) {
+    if (!banner) banner = $("#talkbanner"); if (!banner) return;
+    if (!level || talkHidden) { banner.classList.remove("show"); return; }
+    const left = TALK_LIMIT - total;
+    const text = level === "over" ? "Time is up. Say thank you." : level === "final" ? `Last ${Math.max(1, Math.ceil(left / 1000))} seconds. Finish now.` : `Wrap up the talk: ${fmt(left)} left`;
+    banner.querySelector(".tbt").textContent = text;
+    banner.dataset.lv = level; banner.classList.add("show");
+    if (!warned["talk" + level]) { warned["talk" + level] = true; gsap.fromTo(banner, { y: -30, scale: 0.9 }, { y: 0, scale: 1, duration: 0.6, ease: "elastic.out(1.1,0.4)" }); }
   }
   // On-theme time warning on the slide itself: a small cup that drains during the last 20% of a stage,
   // wobbles at 90%, and drips when the stage runs over. T hides it.
-  let cupHidden = false;
+  let cupHidden = false, talkHidden = false;
   function cupTimer(stage, used, budget) {
     const c = $("#cuptimer"); if (!c) return;
     const frac = used / budget, show = !cupHidden && frac >= 0.8;
@@ -238,9 +266,9 @@
     if (!show) return;
     const remain = Math.max(0, Math.min(1, (1 - frac) / 0.2));
     gsap.to(c.querySelector(".ct-fill"), { attr: { y: 30 + (1 - remain) * 76 }, duration: 0.5, overwrite: true });
-    c.querySelector(".ct-fill").setAttribute("fill", STAGES[stage].accent === "#FFF4E2" ? "#B0244A" : (STAGES[stage].bg === "#FF8A1F" ? "#B0244A" : "#FF8A1F"));
+    c.querySelector(".ct-fill").setAttribute("fill", STAGES[stage].accent === "#F2D9C2" ? "#9A3E4B" : (STAGES[stage].bg === "#E08A45" ? "#9A3E4B" : "#E08A45"));
     const left = budget - used;
-    c.querySelector(".ct-label").textContent = left > 0 ? `${Math.ceil(left / 1000)}s` : "wrap up";
+    c.querySelector(".ct-label").innerHTML = `<i>section</i>${left > 0 ? Math.ceil(left / 1000) + "s" : "wrap up"}`;
     const key = stage + (frac >= 1 ? "over" : frac >= 0.9 ? "90" : "80");
     if (!warned[key]) {
       warned[key] = true;
@@ -250,8 +278,11 @@
   }
   function updateUI() {
     const s = slides[idx]; if (!s) return;
-    $("#counter").textContent = `${idx + 1} / ${slides.length}`;
-    $("#stage-name").textContent = STAGES[s.stage].name;
+    const inStage = slides.filter(x => x.stage === s.stage), posInStage = inStage.indexOf(s) + 1;
+    $("#counter").innerHTML = `<b>${idx + 1}</b><span> of ${slides.length}</span>`;
+    $("#counter").title = `Slide ${idx + 1} of ${slides.length}`;
+    $("#stage-name").innerHTML = `${STAGES[s.stage].name}<small>${posInStage} of ${inStage.length}</small>`;
+    $("#stage-name").title = `${STAGES[s.stage].name}: slide ${posInStage} of ${inStage.length} in this section`;
     $("#stage-name").style.setProperty("--dot", STAGES[s.stage].bg);
     $("#stage-name").style.setProperty("--dotfg", STAGES[s.stage].fg);
     const steps = (s.steps || []).length;
@@ -268,7 +299,7 @@
       seg.querySelector("b").style.width = `${Math.max(0, Math.min(1, pos / n)) * 100}%`;
       seg.classList.toggle("cur", s.stage === seg.dataset.st);
     });
-    updateTimer();
+    updateTimer(); updatePreflight();
     document.dispatchEvent(new CustomEvent("deck:state", { detail: state() }));
   }
   // Everything a phone remote / presenter view needs to show.
@@ -277,7 +308,8 @@
     return {
       now: Date.now(), i: idx, total: slides.length, n: s.n, title: s.title, notes: s.notes || "",
       stage: s.stage, stageName: (STAGES[s.stage] || {}).name, stageColor: (STAGES[s.stage] || {}).bg, stageFg: (STAGES[s.stage] || {}).fg,
-      step: stepIdx, steps: (s.steps || []).length, budget: s.budget || 0,
+      step: stepIdx, steps: (s.steps || []).length, budget: s.budget || 0, interactive: !!s.interactive,
+      remoteLocked, talkLimit: TALK_LIMIT / 1000, plannedTotal: plannedTotal() / 1000,
       next: nx ? { n: nx.n, title: nx.title, stageName: STAGES[nx.stage].name } : null,
       started, stageStart: stageStart[s.stage] || null, stageBudget: stageBudget(s.stage) / 1000,
       muted: window.DeckAudio ? DeckAudio.muted : false,
@@ -288,6 +320,8 @@
   // Commands from a remote: {cmd:"next"|"prev"|"go"|"reload"|"mute"|"start", i}
   function command(c) {
     if (!c || !c.cmd) return;
+    // Safety: when the presenter locks the phone, it can only look (state/notes), never drive the deck.
+    if (remoteLocked && c.cmd !== "ping") { const t = Date.now(); if (t - lastLockToast > 4000) { lastLockToast = t; toast("Phone remote is locked (press L to unlock)"); } return; }
     if (c.cmd === "next") next();
     else if (c.cmd === "prev") prev();
     else if (c.cmd === "go" && Number.isInteger(c.i)) { if (!started) startTimer(); go(c.i); }
@@ -321,13 +355,46 @@
     $("#mo-save").onclick = () => {
       const fruits = sel("#mo-fruit").slice(0, 2), addons = sel("#mo-addons").slice(0, 2), size = $("#mo-size").value;
       const price = (ctx.size(size).price) + addons.reduce((a, k) => a + ctx.addon(k).price, 0);
-      SproutOrders.setManual({ name: $("#mo-name").value, fruits, base: $("#mo-base").value, addons, size, price, drinkName: CONTENT.drinkName(fruits), at: new Date().toISOString() });
+      SproutOrders.setManual({ name: $("#mo-name").value, fruits, base: $("#mo-base").value, addons, size, price, drinkName: CONTENT.drinkName(fruits, $("#mo-base").value), at: new Date().toISOString() });
       toggle("#order-panel", false); refreshOrder(true);
     };
     $("#mo-clear").onclick = () => { SproutOrders.setManual(null); toggle("#order-panel", false); refreshOrder(true); };
   }
 
+  // ---------- safety: lock / unlock the phone remote ----------
+  let remoteLocked = false, lastLockToast = 0;
+  try { remoteLocked = localStorage.getItem("cue_remote_locked") === "1"; } catch {}
+  function setRemoteLock(on, quiet) {
+    remoteLocked = !!on;
+    try { localStorage.setItem("cue_remote_locked", remoteLocked ? "1" : "0"); } catch {}
+    const b = $("#btn-remote"); if (b) { b.classList.toggle("locked", remoteLocked); b.title = remoteLocked ? "Phone remote is LOCKED: it can read notes but cannot change slides (L to unlock)" : "Phone remote: notes + clicker on your phone (L to lock)"; }
+    const lm = document.querySelector('#menu [data-act="lock"] span'); if (lm) lm.textContent = remoteLocked ? "Unlock phone control" : "Lock phone control (disable clicker)";
+    const pl = $("#pf-lock"); if (pl) { pl.classList.toggle("on", remoteLocked); pl.querySelector("span").textContent = remoteLocked ? "Phone control: locked" : "Phone control: on"; }
+    if (!quiet) { toast(remoteLocked ? "Phone control disabled. It still shows notes and the timer." : "Phone control enabled"); window.DeckAudio && DeckAudio.sfx(remoteLocked ? "click" : "pop"); }
+    document.dispatchEvent(new CustomEvent("deck:state", { detail: state() }));
+  }
+
+  // ---------- start-of-talk sound check ----------
+  function testAudio() {
+    if (!window.DeckAudio) { toast("Audio engine not loaded"); return; }
+    DeckAudio.unlock();
+    if (DeckAudio.muted) { toast("Sound is muted. Press M to turn it on, then test again."); const m = $("#btn-mute"); m && gsap.fromTo(m, { scale: 1.4 }, { scale: 1, duration: 0.5, ease: "back.out(3)" }); return; }
+    DeckAudio.sfx("jingle");
+    toast("Playing a short jingle. Can the back row hear it? If not, raise the volume or check the output device.");
+    const b = $("#pf-test"); if (b) { b.classList.add("played"); gsap.fromTo(b, { scale: 1.12 }, { scale: 1, duration: 0.5, ease: "back.out(3)" }); }
+  }
+  // The pre-flight card is only visible until the timer starts (first Next).
+  function updatePreflight() {
+    const c = $("#preflight"); if (!c) return;
+    c.classList.toggle("show", !started && !PRINT && !pfClosed);
+  }
+  let pfClosed = false;
+
   function bindUI() {
+    $("#pf-test").onclick = (e) => { e.stopPropagation(); testAudio(); };
+    $("#pf-lock").onclick = (e) => { e.stopPropagation(); setRemoteLock(!remoteLocked); };
+    $("#pf-x").onclick = (e) => { e.stopPropagation(); pfClosed = true; updatePreflight(); };
+    setRemoteLock(remoteLocked, true);
     $("#btn-prev").onclick = prev; $("#btn-next").onclick = next;
     $("#btn-grid").onclick = () => toggle("#grid");
     $("#btn-full").onclick = fullscreen;
@@ -346,10 +413,13 @@
       if (act === "pptx") toast("PPTX/MP4: run tools/export on a laptop with Node (see PLAN.md §8)");
       if (act === "html") toast("HTML: share the GitHub Pages link, or zip the PRESENTATION folder");
       if (act === "keys") toggle("#keys");
-      if (act === "restart") { started = null; clearInterval(timerHandle); stageStart = {}; go(0); toast("Timer reset"); }
+      if (act === "restart") { started = null; clearInterval(timerHandle); stageStart = {}; warned = {}; go(0); toast("Timer reset"); }
       if (act === "home") location.href = "../index.html";
       if (act === "fresh") { SproutOrders.reset(); location.reload(); }
       if (act === "remote" && window.DeckRemote) DeckRemote.open();
+      if (act === "lock") setRemoteLock(!remoteLocked);
+      if (act === "audiotest") testAudio();
+      if (act === "mascot" && window.DeckExtras) DeckExtras.toggleMascot();
     };
     $$(".panel .close").forEach(b => b.onclick = () => b.closest(".panel").classList.remove("open"));
     let lastPointer = "mouse", tStart = null, swiped = false;
@@ -382,7 +452,10 @@
       else if (k === "o" || k === "O") { manualOrderPanel(); toggle("#order-panel"); }
       else if (k === "x" || k === "X") window.Transitions && Transitions.surprise();
       else if (k === "?") toggle("#keys");
-      else if (k === "t" || k === "T") { cupHidden = !cupHidden; toast(cupHidden ? "Time cup hidden" : "Time cup shown"); updateTimer(); }
+      else if (k === "t" || k === "T") { cupHidden = talkHidden = !cupHidden; toast(cupHidden ? "On-slide time cues hidden" : "On-slide time cues shown"); updateTimer(); }
+      else if (k === "l" || k === "L") setRemoteLock(!remoteLocked);
+      else if (k === "s" || k === "S") testAudio();
+      else if ((k === "k" || k === "K") && window.DeckExtras) DeckExtras.toggleMascot();
       else if ((k === "p" || k === "P") && window.DeckRemote) DeckRemote.open();
       else if (k === "Escape") $$(".panel.open, #grid.open").forEach(p => p.classList.remove("open"));
     });
@@ -424,7 +497,10 @@
       enter(fromHash >= 0 ? fromHash : 0, { transition: false });
       SproutOrders.latest().then(o => { ctx.order = o; });
     },
-    next, prev, go, toast, refreshOrder, state, command,
+    next, prev, go, toast, refreshOrder, state, command, rig, setRemoteLock, testAudio,
+    get remoteLocked() { return remoteLocked; },
+    get busy() { return busy; }, get started() { return !!started; }, get reduceMotion() { return reduceMotion(); },
+    get slideEl() { return $("#slide"); }, get current() { return slides[idx]; },
     get index() { return idx; }
   };
 })();

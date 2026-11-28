@@ -20,20 +20,20 @@
   // A dart seen from behind (flying away from us into the screen) and from the side (stuck in).
   const dartBack = `<svg viewBox="-100 -100 200 200" width="200" height="200" style="overflow:visible">
     <g class="spin">
-      <path d="M0 0 L-70 -70 Q-40 -88 -12 -60 Z" fill="#B0244A" stroke="#2A1A10" stroke-width="5"/>
-      <path d="M0 0 L70 -70 Q88 -40 60 -12 Z" fill="#FF8A1F" stroke="#2A1A10" stroke-width="5"/>
-      <path d="M0 0 L70 70 Q40 88 12 60 Z" fill="#B0244A" stroke="#2A1A10" stroke-width="5"/>
-      <path d="M0 0 L-70 70 Q-88 40 -60 12 Z" fill="#FF8A1F" stroke="#2A1A10" stroke-width="5"/>
-      <circle r="18" fill="#2A1A10"/><circle r="8" fill="#C9CED6"/>
+      <path d="M0 0 L-70 -70 Q-40 -88 -12 -60 Z" fill="#9A3E4B" stroke="#25292B" stroke-width="5"/>
+      <path d="M0 0 L70 -70 Q88 -40 60 -12 Z" fill="#E08A45" stroke="#25292B" stroke-width="5"/>
+      <path d="M0 0 L70 70 Q40 88 12 60 Z" fill="#9A3E4B" stroke="#25292B" stroke-width="5"/>
+      <path d="M0 0 L-70 70 Q-88 40 -60 12 Z" fill="#E08A45" stroke="#25292B" stroke-width="5"/>
+      <circle r="18" fill="#25292B"/><circle r="8" fill="#C9CED6"/>
     </g></svg>`;
   const dartSide = `<svg viewBox="0 0 320 120" width="320" height="120" style="overflow:visible">
     <g class="wob" style="transform-origin:0px 60px">
-      <path d="M0 60 L60 52 L60 68 Z" fill="#C9CED6" stroke="#2A1A10" stroke-width="4"/>
-      <rect x="58" y="48" width="120" height="24" rx="10" fill="#2A1A10"/>
-      <rect x="80" y="50" width="16" height="20" fill="#F6C445"/><rect x="120" y="50" width="16" height="20" fill="#F6C445"/>
-      <rect x="176" y="55" width="50" height="10" fill="#5B3A22"/>
-      <path d="M220 60 L310 6 L300 60 Z" fill="#B0244A" stroke="#2A1A10" stroke-width="4"/>
-      <path d="M220 60 L310 114 L300 60 Z" fill="#FF8A1F" stroke="#2A1A10" stroke-width="4"/>
+      <path d="M0 60 L60 52 L60 68 Z" fill="#C9CED6" stroke="#25292B" stroke-width="4"/>
+      <rect x="58" y="48" width="120" height="24" rx="10" fill="#25292B"/>
+      <rect x="80" y="50" width="16" height="20" fill="#E8C26A"/><rect x="120" y="50" width="16" height="20" fill="#E8C26A"/>
+      <rect x="176" y="55" width="50" height="10" fill="#4B4239"/>
+      <path d="M220 60 L310 6 L300 60 Z" fill="#9A3E4B" stroke="#25292B" stroke-width="4"/>
+      <path d="M220 60 L310 114 L300 60 Z" fill="#E08A45" stroke="#25292B" stroke-width="4"/>
     </g></svg>`;
 
   // ---------- 3D globe ----------
@@ -109,28 +109,28 @@
 
   Deck.add({
     n: 13, stage: "blend", title: "Place: a dart from space", budget: 50,
-    notes: "Role 4. Click 2: the dart flies from space into CUHK and sticks at YIA (pause on the thunk).\nClick 3: close-up of YIA and why it works.\nClick 4: the photo turns animated; the hotspots are where students want the shop: YIA and Central Campus tie at 47%, colleges 36%.\nClick 5: the verdict. Coordinates are approximate placeholders in content/places.js.",
+    notes: "Role 4. Click 2: the dart flies from space into CUHK and sticks at YIA (pause on the thunk).\nClick 3: close-up of YIA and why it works.\nClick 4: the photo turns animated; the hotspots are where students want the shop: YIA 47% and Central Campus 45% lead, colleges 36%.\nClick 5: the verdict. Coordinates are approximate placeholders in content/places.js.",
     html: () => `
       <div class="space" style="position:absolute;inset:0;background:#02040A url(../assets/img/earth/night-sky.png) center/cover"></div>
       <canvas class="globe3d" width="1920" height="1080" style="position:absolute;inset:0;width:1920px;height:1080px"></canvas>
       <div class="sat" style="position:absolute;inset:0;opacity:0;background:#0B1B33"></div>
       <div class="toon" style="position:absolute;inset:0;opacity:0;pointer-events:none;background:rgba(255,244,226,.42);mix-blend-mode:normal"></div>
       <svg class="hot" viewBox="0 0 1920 1080" style="position:absolute;inset:0;width:1920px;height:1080px;pointer-events:none"></svg>
-      <div class="flash" style="position:absolute;inset:0;background:#FFFDF8;opacity:0;pointer-events:none"></div>
+      <div class="flash" style="position:absolute;inset:0;background:#F8EBDA;opacity:0;pointer-events:none"></div>
       <div class="dart-back" style="position:absolute;left:0;top:0;width:200px;height:200px;margin:-100px 0 0 -100px;opacity:0;pointer-events:none">${dartBack}</div>
       <div class="dart-side" style="position:absolute;left:960px;top:540px;width:320px;height:120px;margin:-60px 0 0 0;transform-origin:0 50%;opacity:0;pointer-events:none;filter:drop-shadow(0 18px 10px rgba(0,0,0,.45))">${dartSide}</div>
-      <div class="ring" style="position:absolute;left:960px;top:540px;width:40px;height:40px;margin:-20px;border-radius:50%;border:8px solid #FFFDF8;opacity:0;pointer-events:none"></div>
-      <div class="head" style="position:absolute;left:110px;top:90px;color:#FFF4E2;text-shadow:0 4px 24px rgba(0,0,0,.6)">
-        <div class="s-kicker" style="color:#F6C445">Blend: place</div>
-        <h2 class="s-title" style="font-size:110px;margin-top:10px">Where should<br>Sprout live?</h2>
+      <div class="ring" style="position:absolute;left:960px;top:540px;width:40px;height:40px;margin:-20px;border-radius:50%;border:8px solid #F8EBDA;opacity:0;pointer-events:none"></div>
+      <div class="head" style="position:absolute;left:110px;top:90px;color:#F2D9C2;text-shadow:0 4px 24px rgba(0,0,0,.6)">
+        <div class="s-kicker" style="color:#E8C26A">Blend: place</div>
+        <h2 class="s-title" style="font-size:110px;margin-top:10px">Where should<br>CUE live?</h2>
       </div>
       <div class="why order-card" style="left:90px;top:110px;width:680px;opacity:0"></div>
       <div class="verdict order-card" style="left:90px;bottom:90px;width:660px;opacity:0">
         <div class="who">Our pick</div><h4 class="vt">YIA Building</h4>
         <div class="vlines"></div>
-        <div class="src">04_where.csv (n = 53). Students passing between University Station and classes. Second cart at Central Campus in phase 2.</div>
+        <div class="src">04_where.csv (n = ${Kit.nUsable()}). Students passing between University Station and classes. Second cart at Central Campus in phase 2.</div>
       </div>
-      <div class="source" style="color:#FFF4E2;text-shadow:0 2px 8px rgba(0,0,0,.6)">Earth: NASA Blue Marble. Satellite: Esri World Imagery. Data: 04_where.csv</div>`,
+      <div class="source" style="color:#F2D9C2;text-shadow:0 2px 8px rgba(0,0,0,.6)">Earth: NASA Blue Marble. Satellite: Esri World Imagery. Data: 04_where.csv</div>`,
     steps: [
       // 1. Earth in space
       (el) => {
@@ -183,7 +183,7 @@
           <div class="line"><span>Students who want the shop here</span><span class="ev">${W[t.key] ? Math.round(W[t.key].pct * 100) + "%" : ""}</span></div>
           ${st ? `<div class="line"><span>University Station, next door</span><span class="ev">${Math.round(st.pct * 100)}%</span></div>` : ""}
           ${L ? `<div class="line"><span>Would pre-order and pick up on the way</span><span class="ev">${Math.round(L.pct_agree * 100)}%</span></div>` : ""}
-          <div class="src">04_where.csv, 02_likert_summary.csv (n = 53)</div>`;
+          <div class="src">04_where.csv, 02_likert_summary.csv (n = ${Kit.nUsable()})</div>`;
         return gsap.timeline()
           .fromTo(el.querySelector(".why"), { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.5, ease: "back.out(1.8)" })
           .fromTo(el.querySelector(".ring"), { scale: 0.3, opacity: 0.9 }, { scale: 5, opacity: 0, duration: 1.1, ease: "power2.out", repeat: 1 }, 0)
@@ -202,10 +202,10 @@
           const p = pt(s), r = W[s.key] ? W[s.key].pct : 0, on = s.key === P0.target, lab = `${s.name} ${Math.round(r * 100)}%`;
           const lw = lab.length * 17 + 40, lx = (s.label === "left" || p.x > 1500) ? p.x - lw - 40 : p.x + 40;
           return `<g class="hs" data-k="${s.key}">
-            <circle cx="${p.x}" cy="${p.y}" r="${40 + r * 160}" fill="${on ? "#FF8A1F" : "#F6C445"}" fill-opacity=".38" stroke="${on ? "#B0244A" : "#2A1A10"}" stroke-width="${on ? 8 : 4}" stroke-dasharray="${on ? "0" : "12 10"}"/>
-            <circle cx="${p.x}" cy="${p.y}" r="14" fill="#B0244A" stroke="#FFFDF8" stroke-width="5"/>
-            <g class="lab"><rect x="${lx}" y="${p.y - 64}" rx="22" width="${lw}" height="52" fill="#FFFDF8" stroke="#2A1A10" stroke-width="4"/>
-            <text x="${lx + 20}" y="${p.y - 28}" font-family="DM Sans, sans-serif" font-weight="700" font-size="30" fill="#2A1A10">${lab}</text></g></g>`;
+            <circle cx="${p.x}" cy="${p.y}" r="${40 + r * 160}" fill="${on ? "#E08A45" : "#E8C26A"}" fill-opacity=".38" stroke="${on ? "#9A3E4B" : "#25292B"}" stroke-width="${on ? 8 : 4}" stroke-dasharray="${on ? "0" : "12 10"}"/>
+            <circle cx="${p.x}" cy="${p.y}" r="14" fill="#9A3E4B" stroke="#F8EBDA" stroke-width="5"/>
+            <g class="lab"><rect x="${lx}" y="${p.y - 64}" rx="22" width="${lw}" height="52" fill="#F8EBDA" stroke="#25292B" stroke-width="4"/>
+            <text x="${lx + 20}" y="${p.y - 28}" font-family="DM Sans, sans-serif" font-weight="700" font-size="30" fill="#25292B">${lab}</text></g></g>`;
         }).join("");
         const tl = gsap.timeline()
           .to(el.querySelector(".sat"), { filter: "saturate(0.35) contrast(1.15) brightness(1.1) blur(1px)", duration: 0.8 }, 0)

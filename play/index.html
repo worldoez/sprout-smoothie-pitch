@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#F6C445">
-<title>Guess the number | Sprout</title>
+<meta name="theme-color" content="#E8C26A">
+<title>Guess the number | CUE</title>
 <link rel="stylesheet" href="../shared/base.css">
 <style>
   html, body { min-height: 100%; }
@@ -59,7 +59,7 @@
 </head>
 <body>
 <div class="wrap">
-  <div class="brand"><span>Sprout</span><span class="conn" id="conn"><i></i><span id="connTxt">Connecting</span></span></div>
+  <div class="brand"><span>CUE</span><span class="conn" id="conn"><i></i><span id="connTxt">Connecting</span></span></div>
 
   <!-- no room -->
   <section class="screen" id="s-room">
@@ -79,21 +79,21 @@
 
   <!-- guess -->
   <section class="screen" id="s-guess">
-    <div class="question">What % of CUHK students said they would buy a Sprout smoothie?</div>
+    <div class="question">What % of CUHK students said they would buy a CUE smoothie?</div>
     <div class="card">
       <div class="stage">
         <div class="cup" aria-hidden="true">
           <svg viewBox="0 0 200 300">
             <defs><clipPath id="body"><path d="M44 104 H156 L142 276 Q141 286 131 286 H69 Q59 286 58 276 Z"/></clipPath></defs>
-            <rect x="94" y="6" width="14" height="96" rx="7" fill="#2FA84F" stroke="#2A1A10" stroke-width="5" transform="rotate(10 100 60)"/>
-            <path d="M44 104 H156 L142 276 Q141 286 131 286 H69 Q59 286 58 276 Z" fill="#FFFDF8"/>
+            <rect x="94" y="6" width="14" height="96" rx="7" fill="#6A9467" stroke="#25292B" stroke-width="5" transform="rotate(10 100 60)"/>
+            <path d="M44 104 H156 L142 276 Q141 286 131 286 H69 Q59 286 58 276 Z" fill="#F8EBDA"/>
             <g clip-path="url(#body)">
-              <rect id="liq" x="30" y="286" width="140" height="190" fill="#FF8A1F"/>
+              <rect id="liq" x="30" y="286" width="140" height="190" fill="#E08A45"/>
               <rect id="liqTop" x="30" y="286" width="140" height="10" fill="#FFB35C"/>
               <path d="M62 112 L70 270" stroke="#fff" stroke-opacity=".45" stroke-width="9" stroke-linecap="round"/>
             </g>
-            <path d="M44 104 H156 L142 276 Q141 286 131 286 H69 Q59 286 58 276 Z" fill="none" stroke="#2A1A10" stroke-width="6" stroke-linejoin="round"/>
-            <path d="M36 104 Q36 78 100 76 Q164 78 164 104 Z" fill="#8FD3F4" stroke="#2A1A10" stroke-width="6" stroke-linejoin="round"/>
+            <path d="M44 104 H156 L142 276 Q141 286 131 286 H69 Q59 286 58 276 Z" fill="none" stroke="#25292B" stroke-width="6" stroke-linejoin="round"/>
+            <path d="M36 104 Q36 78 100 76 Q164 78 164 104 Z" fill="#9EC4C0" stroke="#25292B" stroke-width="6" stroke-linejoin="round"/>
           </svg>
         </div>
         <div class="readout">
@@ -121,7 +121,7 @@
     <h1 class="center" id="revHead">Real answer: 70%</h1>
     <div class="card cmp" id="cmp"><div><b id="revYou">64%</b><span>You said</span></div><div><b id="revAns">70%</b><span>Real answer</span></div></div>
     <p class="lead center" id="revTxt"></p>
-    <p class="hint center">Of 53 students, 7 in 10 said they would probably or definitely buy.</p>
+    <p class="hint center">Of 55 students, 7 in 10 said they would probably or definitely buy.</p>
   </section>
 
   <!-- closed -->
@@ -186,7 +186,7 @@
   }
 
   function confetti() {
-    const cols = ["#FF8A1F", "#B0244A", "#2FA84F", "#F6C445", "#8FD3F4", "#FF6FA3"];
+    const cols = ["#E08A45", "#9A3E4B", "#6A9467", "#E8C26A", "#9EC4C0", "#E8A597"];
     for (let i = 0; i < 70; i++) {
       const c = document.createElement("i"); c.className = "conf";
       c.style.left = Math.random() * 100 + "vw"; c.style.background = cols[i % cols.length];

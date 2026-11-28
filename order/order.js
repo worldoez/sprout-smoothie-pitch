@@ -1,7 +1,8 @@
-// Sprout order app — home / detail sheet / bag / checkout / ticket, plus Me tab.
+// CUE order app — home / detail sheet / bag / checkout / ticket, plus Me tab.
 // Submit contract (do not change): SproutOrders.submit({ name, fruits, base, addons, size, price, drinkName, items }).
 (function () {
   "use strict";
+  var B = window.CONTENT.brand;
   var M = window.CONTENT.menu;
   var $ = function (s) { return document.querySelector(s); };
   var pct = function (x) { return Math.round(x * 100); };
@@ -18,23 +19,27 @@
   var iceLabel = function (k) { return (pickK(ICES, k) || ICES[2]).l.toLowerCase(); };
   var sweetLabel = function (k) { return (pickK(SWEETS, k) || SWEETS[2]).l + " sweet"; };
 
-  var PRESETS = [
-    { slug: "mango-sunrise", name: "Mango Sunrise", desc: "Mango and strawberry blended with creamy yogurt.",
-      fruits: ["mango", "strawberry"], base: "yogurt", addons: [] },
-    { slug: "berry-blush", name: "Berry Blush", desc: "Strawberry and blueberry on fresh milk.",
-      fruits: ["strawberry", "blueberry"], base: "fresh_milk", addons: [] },
-    { slug: "banana-boost", name: "Banana Boost", desc: "Banana and mango, fresh milk, a scoop of Muscle Sprout.",
-      fruits: ["banana", "mango"], base: "fresh_milk", addons: ["protein"] },
-    { slug: "peach-breeze", name: "Peach Breeze", desc: "Peach and mango pressed with fruit juice.",
-      fruits: ["peach", "mango"], base: "juice", addons: [] },
-    { slug: "blue-moon", name: "Blue Moon", desc: "Blueberry and banana with thick yogurt.",
-      fruits: ["blueberry", "banana"], base: "yogurt", addons: [] }
-  ];
+  // Named drinks come straight from content/menu.js (single source of truth).
+  var slugify = function (s) {
+    return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  };
+  var PRESETS = M.drinks.map(function (d) {
+    var sec = M.sections.filter(function (s) { return s.title === d.section; })[0] || {};
+    return {
+      slug: slugify(d.name), name: d.name, desc: d.desc, section: d.section,
+      fruits: d.fruits.slice(), base: d.base, addons: (d.addons || []).slice(),
+      signature: !!d.signature,
+      // Named price where the team set one; Morning Blends are still "to be confirmed".
+      price: sec.price == null ? null : sec.price,
+      tbc: !!sec.priceText
+    };
+  });
+  function preset(slug) { return PRESETS.filter(function (x) { return x.slug === slug; })[0]; }
 
-  var STORE = { line: "Sprout · YIA Building", where: "YIA Building, CUHK", hours: "Weekdays 10:00 to 17:00", how: "Pick up at the pop-up counter" };
+  var STORE = { line: "CUE · YIA Building", where: "YIA Building, CUHK", hours: "Weekdays 10:00 to 17:00", how: "Pick up at YIA · Ground floor · smoothie cart" };
 
   var state = {
-    tab: "home", cat: "sig", q: "",
+    tab: "home", cat: "layers", q: "",
     bag: [],
     checkout: { time: "ASAP", name: "" },
     placing: false
@@ -66,7 +71,7 @@
   }
   function cupColors(fruits) {
     var f = (fruits || []).map(fruit).filter(Boolean).map(function (o) { return o.color; });
-    return { colorA: f[0] || "#FFB020", colorB: f[1] || f[0] || "#FF8A1F" };
+    return { colorA: f[0] || "#FFB020", colorB: f[1] || f[0] || "#E08A45" };
   }
   function cupSVG(fruits) { return window.SproutArt.cup(cupColors(fruits)); }
   function recolorCup(box, fruits) {
@@ -85,7 +90,16 @@
   }
   function cardBadge(fruitKey) {
     var f = fruit(fruitKey);
+    if (!f) return "";
     return '<span class="svy-badge">' + pct(f.pct) + "% picked " + f.name.toLowerCase() + "</span>";
+  }
+  // Morning Blends have no confirmed price — show TBC, never a number.
+  function priceTag(p) {
+    return p.tbc ? '<span class="price tbc">TBC</span>' : '<span class="price">HK$' + p.price + "</span>";
+  }
+  function addonBadge(a) {
+    return '<span class="svy-badge"' + (a.pctNote ? ' title="Survey: ' + esc(a.pctNote) + '"' : "") + ">" +
+      pct(a.pct) + "% " + (a.pctNote ? "want an energy boost" : "picked") + "</span>";
   }
 
   // ---------- screen plumbing ----------
@@ -133,23 +147,24 @@
     var c = cupColors(p.fruits);
     return '<button type="button" class="card" data-open="' + p.slug + '">' +
       '<span class="art" style="background:' + c.colorA + '22">' + cupSVG(p.fruits) + "</span>" +
-      '<span class="body"><span class="nm">' + esc(p.name) + '</span><span class="ds">' + esc(p.desc) + "</span>" +
-      '<span class="row"><span class="price">HK$' + (size("M").price + p.addons.reduce(function (t, k) { return t + addon(k).price; }, 0)) + "</span>" +
-      cardBadge(p.fruits[0]) + "</span></span></button>";
+      '<span class="body"><span class="nm">' + esc(p.name) +
+      (p.signature ? '<span class="sig-pill">Signature</span>' : "") + "</span>" +
+      '<span class="ds">' + esc(p.desc) + "</span>" +
+      '<span class="row">' + priceTag(p) + cardBadge(p.fruits[0]) + "</span></span></button>";
   }
   function byoCard() {
     return '<button type="button" class="card wide" data-open="build">' +
       '<span class="art" style="background:var(--cream)">' + cupSVG([]) + "</span>" +
-      '<span class="body"><span class="nm">Build your own</span>' +
-      '<span class="ds">Pick up to 2 fruits, one base and a booster.</span>' +
+      '<span class="body"><span class="nm">Mix your own</span>' +
+      '<span class="ds">Pick 1–' + M.maxFruits + " fruits, one base and up to " + M.maxAddons + " boosts (+HK$5 each).</span>" +
       '<span class="row"><span class="price">from HK$' + size("S").price + "</span>" +
       '<span class="svy-badge">' + pct(M.sizeEvidence.pct) + "% want a size choice</span></span></span></button>";
   }
   function boostRow(a) {
     return '<button type="button" class="boost-row" data-open="boost" data-key="' + a.key + '">' +
-      '<span class="body"><span class="fancy">' + esc(a.fancy) + '</span><span class="plain">' + esc(a.name) + "</span></span>" +
-      '<span class="price">+HK$' + a.price + "</span>" +
-      '<span class="svy-badge">' + pct(a.pct) + "% picked</span></button>";
+      '<span class="body"><span class="fancy">' + esc(a.fancy) + '</span>' +
+      (a.pctNote ? '<span class="plain">' + esc(a.pctNote) + "</span>" : "") + "</span>" +
+      '<span class="price">+HK$' + a.price + "</span>" + addonBadge(a) + "</button>";
   }
   function matches(p, q) {
     var hay = (p.name + " " + p.desc + " " + p.fruits.map(function (k) { return fruit(k).name; }).join(" ")).toLowerCase();
@@ -166,9 +181,9 @@
     if (q) {
       var hits = PRESETS.filter(function (p) { return matches(p, q); });
       var boostHits = M.addons.filter(function (a) { return (a.name + " " + a.fancy).toLowerCase().indexOf(q) > -1; });
-      var wantByo = /(build|own|custom|your|blend)/.test(q);
+      var wantByo = /(build|own|custom|your|mix)/.test(q);
       if (!hits.length && !boostHits.length && !wantByo) {
-        return '<p class="empty">Nothing matches “' + esc(state.q) + "”. Try mango, or build your own.</p>";
+        return '<p class="empty">Nothing matches “' + esc(state.q) + "”. Try mango, or mix your own.</p>";
       }
       var cards = hits.map(drinkCard);
       if (wantByo) cards.push(byoCard());
@@ -177,12 +192,21 @@
     }
     if (state.cat === "build") return '<div class="grid">' + byoCard() + "</div>";
     if (state.cat === "boost") return M.addons.map(boostRow).join("");
-    return '<button type="button" class="promo" data-open="mango-sunrise">' +
-      '<span class="txt"><span class="pill">New</span><span class="display ttl">Mango Sunrise</span>' +
-      '<span class="ds">Mango and strawberry blended with creamy yogurt.</span>' +
-      '<span class="price">HK$' + size("M").price + "</span></span>" +
-      '<span class="cupbox">' + cupSVG(["mango", "strawberry"]) + "</span></button>" +
-      '<div class="grid">' + PRESETS.map(drinkCard).join("") + "</div>";
+    var list = PRESETS.filter(function (p) {
+      var s = M.sections.filter(function (x) { return x.title === p.section; })[0];
+      return s && s.key === state.cat;
+    });
+    var promo = state.cat === "layers" ? promoHTML() : "";
+    return promo + (list.length ? '<div class="grid">' + list.map(drinkCard).join("") + "</div>" : "");
+  }
+
+  function promoHTML() {
+    var p = preset("mango-sunrise");
+    return '<button type="button" class="promo" data-open="' + p.slug + '">' +
+      '<span class="txt"><span class="pill">Signature</span><span class="display ttl">' + esc(p.name) + "</span>" +
+      '<span class="ds">' + esc(p.desc) + "</span>" +
+      '<span class="price">HK$' + p.price + "</span></span>" +
+      '<span class="cupbox">' + cupSVG(p.fruits) + "</span></button>";
   }
 
   function renderHome(dir) {
@@ -192,7 +216,8 @@
       '<div class="search">' + ICON.search +
       '<input id="q" type="search" placeholder="Search drinks" value="' + esc(state.q) + '" aria-label="Search drinks"></div>' +
       '<div class="chips">' +
-      ["sig|Signature", "build|Build your own", "boost|Boosters"].map(function (s) {
+      M.sections.map(function (s) { return s.key + "|" + s.title; })
+        .concat(["build|Mix your own", "boost|Boosters"]).map(function (s) {
         var p = s.split("|");
         return '<button type="button" class="chip' + (state.cat === p[0] && !state.q.trim() ? " on" : "") + '" data-cat="' + p[0] + '">' + p[1] + "</button>";
       }).join("") + "</div>" +
@@ -219,7 +244,7 @@
           if (!card) return;
           if (card.dataset.open === "build") return openDrink({});
           if (card.dataset.open === "boost") return openDrink({ addons: [card.dataset.key] });
-          var p = PRESETS.filter(function (x) { return x.slug === card.dataset.open; })[0];
+          var p = preset(card.dataset.open);
           if (p) openDrink({ preset: p });
         });
       }
@@ -229,10 +254,18 @@
   // ---------- menu ----------
   function renderMenu(dir) {
     show(
-      '<h2 class="h2 display">Menu</h2><p class="empty" style="text-align:left;padding:0 0 12px">Five signatures, or build your own from the same fruit.</p>' +
-      '<div class="grid">' + PRESETS.map(drinkCard).join("") + byoCard() + "</div>" +
+      '<h2 class="h2 display">Menu</h2><p class="empty" style="text-align:left;padding:0 0 12px">Ten named blends, or mix your own from the same fruit.</p>' +
+      M.sections.map(function (s) {
+        var list = PRESETS.filter(function (p) { return p.section === s.title; });
+        return '<h3 class="h2 display sec-head">' + esc(s.title) +
+          '<span class="sec-meta">' + (s.price != null ? "HK$" + s.price + " · " + s.ml + " ml" : "price " + esc(s.priceText)) + "</span></h3>" +
+          '<div class="grid">' + list.map(drinkCard).join("") + "</div>";
+      }).join("") +
+      '<h3 class="h2 display sec-head" style="margin-top:22px">Mix your own</h3>' +
+      '<div class="grid">' + byoCard() + "</div>" +
       '<h2 class="h2 display" style="margin-top:22px">Boosters</h2>' +
-      M.addons.map(boostRow).join(""),
+      M.addons.map(boostRow).join("") +
+      '<p class="me-note">' + esc(M.pickupLine) + "</p>",
       dir,
       function (el) {
         el.addEventListener("click", function (e) {
@@ -240,7 +273,7 @@
           if (!card) return;
           if (card.dataset.open === "build") return openDrink({});
           if (card.dataset.open === "boost") return openDrink({ addons: [card.dataset.key] });
-          var p = PRESETS.filter(function (x) { return x.slug === card.dataset.open; })[0];
+          var p = preset(card.dataset.open);
           if (p) openDrink({ preset: p });
         });
       }
@@ -251,7 +284,7 @@
   function renderBag(dir) {
     var body;
     if (!state.bag.length) {
-      body = '<p class="empty">Your bag is empty.<br>Pick a signature or build your own.</p>' +
+      body = '<p class="empty">Your bag is empty.<br>Pick a named blend or mix your own.</p>' +
         '<button type="button" class="btn leaf" id="toMenu" style="display:flex;margin:8px auto 0">Browse the menu</button>';
     } else {
       body = state.bag.map(function (it) {
@@ -294,7 +327,7 @@
     show(
       '<h2 class="h2 display">Me</h2>' +
       '<a class="me-row" href="../index.html">' + ICON.home +
-      '<span class="body">Back to Sprout home page<span class="sub">The pitch site and the big deck</span></span></a>' +
+      '<span class="body">Back to CUE home page<span class="sub">The pitch site and the big deck</span></span></a>' +
       '<div class="me-row" id="stageRow">' + ICON.link +
       '<span class="body">Stage connection<span class="sub">' + (on ? "Linked: your order goes straight to the big screen" : "Not linked. Scan the QR on the slide to link") + "</span></span>" +
       '<span class="dot' + (on ? " on" : "") + '"></span></div>' +
@@ -321,7 +354,8 @@
   function openStore() {
     openSheet(
       '<button type="button" class="close" data-close aria-label="Close">' + ICON.x + "</button>" +
-      '<div class="scroll store-sheet"><h2 class="display">Sprout</h2>' +
+      '<div class="scroll store-sheet"><h2 class="display store-brand">' +
+      '<img class="store-logo" src="../assets/img/cue-logo.png" alt="CUE — smoothie cup logo" onerror="this.style.display=\'none\'">' + esc(B.name) + "</h2>" +
       '<div class="rows"><div class="ln"><b>Where</b><span>' + STORE.where + "</span></div>" +
       '<div class="ln"><b>Open</b><span>' + STORE.hours + "</span></div>" +
       '<div class="ln"><b>Pickup</b><span>' + STORE.how + "</span></div></div></div>" +
@@ -334,8 +368,8 @@
   function openDrink(opts) {
     var p = opts.preset;
     var cfg = {
-      name: p ? p.name : "Build your own",
-      desc: p ? p.desc : "Pick up to " + M.maxFruits + " fruits and one base. We blend it fresh.",
+      name: p ? p.name : "Mix your own",
+      desc: p ? p.desc : "Pick 1–" + M.maxFruits + " fruits, one base and up to " + M.maxAddons + " boosts. We blend it fresh.",
       slug: p ? p.slug : "build",
       fruits: p ? p.fruits.slice() : [],
       base: p ? p.base : null,
@@ -379,8 +413,9 @@
     function boostOpts() {
       return M.addons.map(function (a) {
         return '<button type="button" class="boost-pick" data-act="addon" data-key="' + a.key + '" aria-pressed="false">' +
-          '<span class="body"><span class="fancy">' + esc(a.fancy) + '</span><span class="plain">' + esc(a.name) + "</span></span>" +
-          '<span class="price">+HK$' + a.price + '</span><span class="svy-badge">' + pct(a.pct) + "%</span>" +
+          '<span class="body"><span class="fancy">' + esc(a.fancy) + '</span>' +
+          (a.pctNote ? '<span class="plain">' + esc(a.pctNote) + "</span>" : "") + "</span>" +
+          '<span class="price">+HK$' + a.price + "</span>" + addonBadge(a) +
           '<span class="tick"></span></button>';
       }).join("");
     }
@@ -425,8 +460,14 @@
           el.querySelector("#fruitHint").textContent = cfg.fruits.length + " of " + M.maxFruits + " picked";
           el.querySelector("#dQty").textContent = cfg.qty;
           var btn = el.querySelector("#addBtn");
-          btn.disabled = !valid();
-          btn.textContent = "Add to bag · HK$" + unitPrice(cfg) * cfg.qty;
+          if (p && p.tbc) {
+            // Named Morning Blends have no confirmed price: never show or charge a number.
+            btn.disabled = true;
+            btn.textContent = "Price to be confirmed";
+          } else {
+            btn.disabled = !valid();
+            btn.textContent = "Add to bag · HK$" + unitPrice(cfg) * cfg.qty;
+          }
           recolorCup(el.querySelector("#dCup"), cfg.fruits);
         }
         el.addEventListener("click", function (e) {
@@ -452,7 +493,7 @@
           } else return;
           if (navigator.vibrate) try { navigator.vibrate(8); } catch (err) {}
           if (a !== "qty") {
-            cfg.name = p ? p.name : window.CONTENT.drinkName(cfg.fruits);
+            cfg.name = p ? p.name : window.CONTENT.drinkName(cfg.fruits, cfg.base);
             el.querySelector(".detail-hero h2").textContent = cfg.name;
           }
           sync();
@@ -600,7 +641,7 @@
           fill.animate([{ transform: "translateY(130px)" }, { transform: "translateY(0)" }],
             { duration: 1600, easing: "cubic-bezier(.3,.8,.3,1)", fill: "both" });
         }
-        var colors = ["#FF8A1F", "#2FA84F", "#B0244A", "#F6C445", "#8FD3F4"];
+        var colors = ["#E08A45", "#6A9467", "#9A3E4B", "#E8C26A", "#9EC4C0"];
         setTimeout(function () {
           if (!window.confetti) return;
           window.confetti({ particleCount: 90, spread: 80, origin: { y: 0.55 }, colors: colors });

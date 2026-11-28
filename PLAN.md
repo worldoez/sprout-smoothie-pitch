@@ -1,4 +1,4 @@
-# Sprout Pitch Site: Build Plan
+# CUE Pitch Site: Build Plan
 
 *As of 2026-11-26. Role 7 owns this file. Everything marked PLACEHOLDER can be swapped without code changes.*
 
@@ -8,7 +8,7 @@ We are building one static GitHub Pages site. It holds an animated farm-to-cup p
 
 ## 1. Goals and constraints
 
-- **Time:** 20:00 hard limit. The plan is 17:00 of talk plus 1:30 for the order activity plus 1:30 of buffer. Each animation beat lasts 3 s or less and plays *while the speaker talks*. One click skips any beat.
+- **Time:** 20:00 hard limit. The deck runs 17:50 of talk (including the 0:45 audience game and the 0:40 background slide), leaving about 2:10 of buffer. Each animation beat lasts 3 s or less and plays *while the speaker talks*. One click skips any beat.
 - **Hosting:** GitHub Pages, static files only. There is no build step: edit a file, push, done.
 - **Submission:** the live HTML link is the primary file. We also produce a PDF (the final frame of every slide) and a PPTX with each animated slide embedded as an MP4.
 - **Evidence:** every product choice in the deck cites a survey number from `../output/tables/*.csv` or a figure from `../output/figures/`.
@@ -26,8 +26,8 @@ We are building one static GitHub Pages site. It holds an animated farm-to-cup p
 
 ## 3. Placeholder brand and look (PLACEHOLDER)
 
-- **Name:** **Sprout**. **Slogan:** "Grown from what you told us." The name ties the farm-to-cup story to the survey.
-- **Mascot:** "Mo", a round mango with a leaf sprout, big eyes and stubby arms. It is drawn in SVG with separate limbs so it can be animated. It can later be replaced by an AI or hand-drawn SVG, a Lottie file or a PNG sequence.
+- **Name:** **CUE** (CUHK smoothie cart). **Slogan:** "Your smoothie, on cue." Logo sticker: `assets/img/cue-logo.png` (dark charcoal oval, cream cup, striped straw, sparkles).
+- **Mascot:** "Cue", a monkey in a CUE tee (holding the CUE cup) with big eyes and stubby arms, drawn in SVG with separate limbs so it can be animated. It can later be replaced by an AI or hand-drawn SVG, a Lottie file or a PNG sequence.
 - **Colour:** mango `#FF8A1F`, leaf `#2FA84F`, cream `#FFF4E2`, berry `#B0244A` (a nod to the red Canva template), ink `#2A1A10`.
 - **Type:** Fraunces (soft serif display, echoes the Canva headlines) and DM Sans (body, data).
 - **What we keep from Canva:** big serif titles, fruit cut-outs and leaves at the edges, a large product image beside short text.
@@ -35,31 +35,32 @@ We are building one static GitHub Pages site. It holds an animated farm-to-cup p
 
 ## 4. Deck storyline, slide by slide
 
-There are 21 slides in 7 stages, running 16:25. That leaves 3:35 of buffer under 20:00. On each click a short animation plays (3 s or less), then the text points appear while the speaker keeps talking.
+There are 22 slides in 7 stages, running 17:50 of talk (including the 0:45 audience game and the 0:40 background slide). That leaves 2:10 of buffer under 20:00. On each click a short animation plays (3 s or less), then the text points appear while the speaker keeps talking.
 
 | # | Stage (role) | Slide | Time | Clicks: animation, then text | Audio | Evidence |
 | --- | --- | --- | --- | --- | --- | --- |
 | 1 | Plant (R1) | Brand intro | 0:20 | Fruit orbits the logo in a loop; the slogan types itself | Brand theme, quiet | none |
-| 2 | Plant (R1) | Mo walks out | 0:20 | Mo walks in holding a cup, spins and shows it off | Footsteps, ta-da | none |
-| 3 | Plant (R1) | The spill | 0:20 | Mo trips, the cup flies, the smoothie splats across the screen; "Oh no!" | Whoosh, splat | none |
+| 2 | Plant (R1) | Cue walks out | 0:20 | Cue walks in holding a cup, spins and shows it off | Footsteps, ta-da | none |
+| 3 | Plant (R1) | The spill | 0:20 | Cue trips, the cup flies, the smoothie splats across the screen; "Oh no!" | Whoosh, splat | none |
 | 4 | Plant (R1) | Let's grow something new | 0:40 | Splat wipes into the title; QR code for the professor's Order #1 | Riser, pop | none |
 | 5 | Plant (R1) | The seed: the idea and Booster Juice | 0:45 | A seed drops, a sprout pops; Booster Juice inspiration card | Seed drop, Plant loop | external facts |
-| 6 | Plant (R1) | Competition on campus | 1:00 | Shop icons pop onto a campus strip with share bars | Plant loop | 02_shops_used: canteens 78%, vending 60%; spend HK$10 |
+| 5.5 | Plant (R1) | Why CUHK, why now | 0:40 | Big "~25,000 people on campus every day" stat with three background points | none | external facts: CUHK Facts & Figures; Finance Office outlet list; CRI; Euromonitor; C&SD Sha Tin |
+| 6 | Plant (R1) | Competition on campus | 1:00 | Shop icons pop onto a campus strip with share bars | Plant loop | 02_shops_used: canteens 78%, vending 61%; spend HK$10 |
 | 7 | Water (R2) | Two interviews | 1:00 | A watering can tips, the sprout grows leaves; interview themes | Water pour, Water loop | 06_theme_bars, interview notes |
 | 8 | Water (R2) | Survey design | 1:15 | Leaves unfold into question categories; QR code to the survey copy | Water loop | 10_question_coverage |
-| 9 | Water (R2) | Who answered and cleaning | 1:15 | Fruit is washed: 69 drops shrink to 53 through the funnel | Splash | 01_funnel 69 → 53; 94% undergraduates |
+| 9 | Water (R2) | Who answered and cleaning | 1:15 | Fruit is washed: 72 drops shrink to 55 through the funnel | Splash | 01_funnel 72 → 55; 93% undergraduates |
 | 10 | Harvest (R3) | What matters | 0:40 | Fruit falls into baskets sized by importance | Harvest loop | 02_importance: taste 28.1% |
-| 11 | Harvest (R3) | Would they buy, and segments | 0:40 | A meter fills to 70%; baskets sort into segments | Harvest loop | intent 70%; 05_segments |
+| 11 | Harvest (R3) | Would they buy, and segments | 0:40 | A meter fills to 69%; baskets sort into segments | Harvest loop | intent 69%; 05_segments |
 | 12 | Harvest (R3) | Target and positioning | 0:40 | A spotlight on the target; the positioning line writes itself | Harvest loop | 05_segments, 12_factor_ranking_tests |
 | 13 | Blend (R4) | Place: earth to CUHK | 0:50 | Globe zooms to HK, then CUHK; a dart sticks on the spot | Whoosh, thunk | 04_where |
-| 14 | Blend (R4) | Fruit race | 0:40 | Fruit race to the finish; the professor's fruit gets a badge | Blend loop | 04_fruit: mango 72% |
+| 14 | Blend (R4) | Fruit race | 0:40 | Fruit race to the finish; the professor's fruit gets a badge | Blend loop | 04_fruit: mango 73% |
 | 15 | Blend (R4) | Base and add-ons | 0:40 | Ingredients drop into a blender jar; the professor's picks glow | Blender | 04_base, 04_addons |
 | 16 | Pour (R4) | Product reveal: the professor's cup | 0:35 | Pour into the cup; the Order #1 card flips; **the cup slides off to the right** (cardboard cut-out hand-off) | Pour, cheer | order + evidence |
-| 17 | Serve (R5) | Price and menu board | 1:00 | The demand curve draws itself; menu prices flip in | Blend loop | 03_demand_curve: HK$25, 77% would pay |
-| 18 | Serve (R5) | Order-ahead app | 0:35 | Phone mockup replays the professor's order | UI clicks | app 64%, loyalty 43% |
+| 17 | Serve (R5) | Price and menu board | 1:00 | The demand curve draws itself; menu prices flip in | Blend loop | 03_demand_curve: HK$25, 75% would pay |
+| 18 | Serve (R5) | Order-ahead app | 0:35 | Phone mockup replays the professor's order | UI clicks | app 65%, loyalty 44% |
 | 19 | Serve (R5) | Promotion | 1:10 | Poster slides in; 20 s promo video | **Brand song, quiet** | 04_occasion |
-| 20 | Cheers (R6) | Evidence, risks, next steps | 1:30 | Store image; checklist ticks; Mo holds the cup | Pour loop | 08_tier_stability, 09_sample_size_targets |
-| 21 | Cheers (R6) | Finale | 0:30 | Mo dances, throws the cup at the screen, smoothie covers it all, confetti | Celebration | none |
+| 20 | Cheers (R6) | Evidence, risks, next steps | 1:30 | Store image; checklist ticks; Cue holds the cup | Pour loop | 08_tier_stability, 09_sample_size_targets |
+| 21 | Cheers (R6) | Finale | 0:30 | Cue dances, throws the cup at the screen, smoothie covers it all, confetti | Celebration | none |
 
 **The seven stages and why each fits the farm-to-cup story:**
 
@@ -118,7 +119,7 @@ PRESENTATION/
 - **Content as `.js` files** (`window.CONTENT = {...}`) so the site also runs opened straight from disk.
 - **Each slide** = a list of steps; each step = a short GSAP timeline. Next plays the next step; if a step is still animating, Next jumps it to its end first.
 - **Libraries** (open source, pinned from cdnjs): GSAP 3.12.5 (motion), Howler 2.2.4 (audio), canvas-confetti 1.9.3, qrcode-generator 1.4.4, Leaflet 1.9.4 (earth-to-CUHK zoom).
-- **Toolbar:** back, next, slide *x* / 21, section timer, grid overview, mute, fullscreen, **Reload Order**, and a ☰ menu with Export (PDF, PPTX, HTML zip) and speaker notes. Keys: ←/→/space, F fullscreen, R reload order, M mute, G grid, N notes, O order panel.
+- **Toolbar:** back, next, slide *x* / 22, section timer, grid overview, mute, fullscreen, **Reload Order**, and a ☰ menu with Export (PDF, PPTX, HTML zip) and speaker notes. Keys: ←/→/space, F fullscreen, R reload order, M mute, G grid, N notes, O order panel.
 
 ## 7. Asset pipeline (music, brand song, images)
 
@@ -147,8 +148,8 @@ The Export entry in the deck menu opens print mode for PDF; PPTX and MP4 are mad
 | Phase | Deliverable | Builder |
 | --- | --- | --- |
 | 0 | Plan (this file), folder skeleton, brand + content files | Claude (lead) |
-| 1, proof of concept | Deck engine + toolbar, slides 1–4 (intro, Mo walks, spill, let's grow) and slide 16 (pour + cup exit), order app, order storage, hub | Lead writes the engine and the hero scenes; Sonnet subagents build the order app and hub |
-| 2 | All 21 slides with real data and figures | Sonnet / worker agents, one stage each, following the engine's slide API |
+| 1, proof of concept | Deck engine + toolbar, slides 1–4 (intro, Cue walks, spill, let's grow) and slide 16 (pour + cup exit), order app, order storage, hub | Lead writes the engine and the hero scenes; Sonnet subagents build the order app and hub |
+| 2 | All 22 slides with real data and figures | Sonnet / worker agents, one stage each, following the engine's slide API |
 | 3 | Website, survey copy, audio, promo video, exports | Workers; lead reviews |
 | 4 | Rehearsal: timing pass, Wi-Fi-off test, phone test | Team |
 
@@ -162,4 +163,4 @@ The Export entry in the deck menu opens print mode for PDF; PPTX and MP4 are mad
 | Relay blocked on campus Wi-Fi | Three brokers at once; laptop on a phone hotspot; O key to type the order in |
 | Browser blocks audio | Audio starts on first click; a mute button is always visible |
 
-**Open decisions for the team:** final brand name, slogan and mascot; the fancy add-on names; whether Competition moves into Plant; whether the reveal happens at slide 16; the CUHK spot for the dart; Booster Juice facts (need sources).
+**Open decisions for the team:** the fancy add-on names; whether Competition moves into Plant; whether the reveal happens at slide 16; the CUHK spot for the dart.

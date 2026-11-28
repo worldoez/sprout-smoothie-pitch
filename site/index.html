@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sprout</title>
-<meta name="description" content="Sprout — fresh smoothies for CUHK, built from 53 student answers.">
+<title>CUE</title>
+<meta name="description" content="CUE — fresh smoothies for CUHK, built from 55 student answers. Your smoothie, on cue.">
 <link rel="stylesheet" href="../shared/base.css">
 <link rel="stylesheet" href="site.css">
 </head>
@@ -13,7 +13,19 @@
 <!-- ---------- 1. STICKY NAV ---------- -->
 <header class="nav" id="nav">
   <div class="nav-inner">
-    <a class="nav-logo display" href="#top">Sprout</a>
+    <a class="nav-logo" href="#top" aria-label="CUE — back to top">
+      <span class="brandmark">
+        <img src="../assets/img/cue-logo.png" alt="CUE logo — a cream smoothie cup sticker"
+             onerror="this.parentNode.classList.add('txt')">
+        <span class="bm-text display">CUE</span>
+      </span>
+      <svg class="slice slice-nav" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+        <circle cx="50" cy="50" r="45" fill="#E08A45" stroke="#25292B" stroke-width="6"/>
+        <circle cx="50" cy="50" r="34" fill="#FFDEA6" stroke="#E08A45" stroke-width="4"/>
+        <path d="M50 16V84M16 50h68M26 26l48 48M74 26 26 74" stroke="#E08A45" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="50" cy="50" r="5" fill="#E08A45"/>
+      </svg>
+    </a>
     <nav class="nav-links" aria-label="Sections">
       <a href="#menu">Menu</a>
       <a href="#story">Our story</a>
@@ -26,10 +38,23 @@
 
 <main>
   <!-- ---------- 2. HERO ---------- -->
-  <section class="hero" id="top" aria-label="Sprout smoothies">
+  <section class="hero" id="top" aria-label="CUE smoothies">
     <div class="hero-inner">
       <div class="hero-copy">
-        <h1 class="hero-title display" id="heroTitle">Sprout</h1>
+        <h1 class="hero-title" id="heroTitle">
+          <span class="brandmark brandmark-lg">
+            <img src="../assets/img/cue-logo.png"
+                 alt="CUE logo — a cream smoothie cup with striped straw and sparkles on a dark charcoal oval sticker"
+                 onerror="this.parentNode.classList.add('txt')">
+            <span class="bm-text display">CUE</span>
+          </span>
+        </h1>
+        <svg class="slice slice-hero" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+          <circle cx="50" cy="50" r="45" fill="#E08A45" stroke="#25292B" stroke-width="6"/>
+          <circle cx="50" cy="50" r="34" fill="#FFDEA6" stroke="#E08A45" stroke-width="4"/>
+          <path d="M50 16V84M16 50h68M26 26l48 48M74 26 26 74" stroke="#E08A45" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="50" cy="50" r="5" fill="#E08A45"/>
+        </svg>
         <p class="hero-slogan" id="heroSlogan"></p>
         <p class="hero-tagline" id="heroTagline"></p>
         <div class="hero-btns" id="heroBtns">
@@ -48,58 +73,33 @@
 
   <!-- ---------- 3. MENU ---------- -->
   <section class="menu" id="menu">
+    <div class="menu-band">
+      <div class="wrap menu-band-inner">
+        <h2 class="menu-title display">Menu</h2>
+        <svg class="slice slice-band" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+          <circle cx="50" cy="50" r="45" fill="#E08A45" stroke="#25292B" stroke-width="6"/>
+          <circle cx="50" cy="50" r="34" fill="#FFDEA6" stroke="#E08A45" stroke-width="4"/>
+          <path d="M50 16V84M16 50h68M26 26l48 48M74 26 26 74" stroke="#E08A45" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="50" cy="50" r="5" fill="#E08A45"/>
+        </svg>
+        <p class="menu-sub">Blended at the cart the hour you order. Named blends are 500 ml; mix your own comes in three sizes.</p>
+      </div>
+    </div>
     <div class="wrap">
-      <div class="menu-head">
-        <h2 class="display">Menu</h2>
-        <p class="lede">Five signatures the survey picked, plus your own mix. Prices start from HK$25.</p>
-      </div>
-
-      <div class="tabs" role="tablist" aria-label="Menu categories">
-        <button class="tab" id="tab-signature" role="tab" aria-selected="true"
-                aria-controls="panel-signature">Signature</button>
-        <button class="tab" id="tab-byo" role="tab" aria-selected="false" tabindex="-1"
-                aria-controls="panel-byo">Build your own</button>
-        <button class="tab" id="tab-boosters" role="tab" aria-selected="false" tabindex="-1"
-                aria-controls="panel-boosters">Boosters</button>
-      </div>
-
-      <div class="panel" id="panel-signature" role="tabpanel" aria-labelledby="tab-signature">
-        <div class="drink-grid" id="drinkGrid"></div>
-      </div>
-
-      <div class="panel" id="panel-byo" role="tabpanel" aria-labelledby="tab-byo" hidden>
-        <div class="byo">
-          <div class="byo-col">
-            <h3 class="byo-head">Fruits, pick up to 2</h3>
-            <ul class="chip-list" id="byoFruits"></ul>
-          </div>
-          <div class="byo-col">
-            <h3 class="byo-head">Bases, pick 1</h3>
-            <ul class="base-list" id="byoBases"></ul>
-          </div>
-          <div class="byo-col">
-            <h3 class="byo-head">Sizes, yours to choose</h3>
-            <ul class="size-list" id="byoSizes"></ul>
-            <p class="byo-note" id="byoNote"></p>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel" id="panel-boosters" role="tabpanel" aria-labelledby="tab-boosters" hidden>
-        <ul class="booster-list" id="boosterList"></ul>
-        <p class="byo-note" id="boosterNote"></p>
-      </div>
+      <!-- filled from content/menu.js — the single source of truth -->
+      <div class="menu-board" id="menuBoard"></div>
+      <p class="menu-foot" id="menuFoot"></p>
     </div>
   </section>
 
-  <!-- ---------- 4. MADE FROM 53 ANSWERS ---------- -->
+  <!-- ---------- 4. MADE FROM 55 ANSWERS ---------- -->
   <section class="facts" id="facts">
     <div class="wrap">
-      <h2 class="display facts-title">Made from 53 answers</h2>
+      <h2 class="display facts-title">Made from 55 answers</h2>
       <p class="lede">We asked the campus what a smoothie shop should be, then built exactly that.</p>
       <ul class="stamp-row" id="stampRow">
         <li class="stamp">
-          <p class="stamp-num display"><span class="num" id="nIntent">70</span><span class="stamp-unit">%</span></p>
+          <p class="stamp-num display"><span class="num" id="nIntent">69</span><span class="stamp-unit">%</span></p>
           <p class="stamp-body">would buy the smoothie they built</p>
         </li>
         <li class="stamp">
@@ -107,11 +107,11 @@
           <p class="stamp-body">picked mango, the heart of the menu</p>
         </li>
         <li class="stamp">
-          <p class="stamp-num display"><span class="num" id="nPrice">77</span><span class="stamp-unit">%</span></p>
+          <p class="stamp-num display"><span class="num" id="nPrice">75</span><span class="stamp-unit">%</span></p>
           <p class="stamp-body">would pay HK$25 for a smoothie</p>
         </li>
         <li class="stamp">
-          <p class="stamp-num display"><span class="num" id="nApp">64</span><span class="stamp-unit">%</span></p>
+          <p class="stamp-num display"><span class="num" id="nApp">65</span><span class="stamp-unit">%</span></p>
           <p class="stamp-body">would use an app to pre-order</p>
         </li>
       </ul>
@@ -128,10 +128,10 @@
         <li class="step">
           <span class="step-badge" aria-hidden="true">
             <svg viewBox="0 0 100 100" class="step-svg">
-              <path d="M18 78 Q50 62 82 78 L82 86 Q50 96 18 86 Z" fill="#5B3A22" stroke="#2A1A10" stroke-width="5" stroke-linejoin="round"/>
-              <path d="M50 72 L50 46" stroke="#2A1A10" stroke-width="6" stroke-linecap="round" fill="none"/>
-              <path d="M50 50 C36 52 28 40 30 30 C42 28 50 36 50 50 Z" fill="#2FA84F" stroke="#1E7A38" stroke-width="4" stroke-linejoin="round"/>
-              <path d="M50 46 C64 48 72 36 70 26 C58 24 50 32 50 46 Z" fill="#2FA84F" stroke="#1E7A38" stroke-width="4" stroke-linejoin="round"/>
+              <path d="M18 78 Q50 62 82 78 L82 86 Q50 96 18 86 Z" fill="#4B4239" stroke="#25292B" stroke-width="5" stroke-linejoin="round"/>
+              <path d="M50 72 L50 46" stroke="#25292B" stroke-width="6" stroke-linecap="round" fill="none"/>
+              <path d="M50 50 C36 52 28 40 30 30 C42 28 50 36 50 50 Z" fill="#6A9467" stroke="#48714A" stroke-width="4" stroke-linejoin="round"/>
+              <path d="M50 46 C64 48 72 36 70 26 C58 24 50 32 50 46 Z" fill="#6A9467" stroke="#48714A" stroke-width="4" stroke-linejoin="round"/>
               <ellipse cx="42" cy="34" rx="4" ry="7" fill="#FFF" opacity=".45" transform="rotate(-28 42 34)"/>
             </svg>
           </span>
@@ -141,10 +141,10 @@
         <li class="step">
           <span class="step-badge" aria-hidden="true">
             <svg viewBox="0 0 100 100" class="step-svg">
-              <path d="M30 44 L74 44 L70 74 Q52 82 34 74 Z" fill="#8FD3F4" stroke="#2A1A10" stroke-width="5" stroke-linejoin="round"/>
-              <path d="M40 44 L40 34 L64 22" stroke="#2A1A10" stroke-width="6" stroke-linecap="round" fill="none"/>
-              <path d="M28 36 Q18 34 16 26" stroke="#2A1A10" stroke-width="6" stroke-linecap="round" fill="none"/>
-              <circle cx="14" cy="22" r="7" fill="#8FD3F4" stroke="#2A1A10" stroke-width="4"/>
+              <path d="M30 44 L74 44 L70 74 Q52 82 34 74 Z" fill="#9EC4C0" stroke="#25292B" stroke-width="5" stroke-linejoin="round"/>
+              <path d="M40 44 L40 34 L64 22" stroke="#25292B" stroke-width="6" stroke-linecap="round" fill="none"/>
+              <path d="M28 36 Q18 34 16 26" stroke="#25292B" stroke-width="6" stroke-linecap="round" fill="none"/>
+              <circle cx="14" cy="22" r="7" fill="#9EC4C0" stroke="#25292B" stroke-width="4"/>
               <ellipse cx="48" cy="52" rx="5" ry="9" fill="#FFF" opacity=".5" transform="rotate(-20 48 52)"/>
             </svg>
           </span>
@@ -154,10 +154,10 @@
         <li class="step">
           <span class="step-badge" aria-hidden="true">
             <svg viewBox="0 0 100 100" class="step-svg">
-              <path d="M22 52 L78 52 L72 82 Q50 90 28 82 Z" fill="#F6C445" stroke="#2A1A10" stroke-width="5" stroke-linejoin="round"/>
-              <path d="M28 52 Q30 36 50 36 Q70 36 72 52" fill="none" stroke="#2A1A10" stroke-width="5" stroke-linecap="round"/>
-              <circle cx="42" cy="46" r="8" fill="#E8364F" stroke="#2A1A10" stroke-width="4"/>
-              <circle cx="58" cy="46" r="8" fill="#FFB020" stroke="#2A1A10" stroke-width="4"/>
+              <path d="M22 52 L78 52 L72 82 Q50 90 28 82 Z" fill="#E8C26A" stroke="#25292B" stroke-width="5" stroke-linejoin="round"/>
+              <path d="M28 52 Q30 36 50 36 Q70 36 72 52" fill="none" stroke="#25292B" stroke-width="5" stroke-linecap="round"/>
+              <circle cx="42" cy="46" r="8" fill="#E8364F" stroke="#25292B" stroke-width="4"/>
+              <circle cx="58" cy="46" r="8" fill="#FFB020" stroke="#25292B" stroke-width="4"/>
               <circle cx="50" cy="40" r="0" fill="none"/>
               <ellipse cx="55" cy="53" rx="5" ry="9" fill="#FFF" opacity=".5" transform="rotate(18 55 53)"/>
             </svg>
@@ -168,10 +168,10 @@
         <li class="step">
           <span class="step-badge" aria-hidden="true">
             <svg viewBox="0 0 100 100" class="step-svg">
-              <path d="M34 24 L66 24 L62 70 Q50 76 38 70 Z" fill="#FFFDF8" stroke="#2A1A10" stroke-width="5" stroke-linejoin="round"/>
-              <path d="M36 48 L64 48 L62 70 Q50 76 38 70 Z" fill="#FFB020" stroke="#2A1A10" stroke-width="4" stroke-linejoin="round"/>
-              <path d="M28 20 L72 20" stroke="#2A1A10" stroke-width="7" stroke-linecap="round"/>
-              <path d="M38 78 L62 78 L58 92 L42 92 Z" fill="#F6C445" stroke="#2A1A10" stroke-width="4" stroke-linejoin="round"/>
+              <path d="M34 24 L66 24 L62 70 Q50 76 38 70 Z" fill="#F8EBDA" stroke="#25292B" stroke-width="5" stroke-linejoin="round"/>
+              <path d="M36 48 L64 48 L62 70 Q50 76 38 70 Z" fill="#FFB020" stroke="#25292B" stroke-width="4" stroke-linejoin="round"/>
+              <path d="M28 20 L72 20" stroke="#25292B" stroke-width="7" stroke-linecap="round"/>
+              <path d="M38 78 L62 78 L58 92 L42 92 Z" fill="#E8C26A" stroke="#25292B" stroke-width="4" stroke-linejoin="round"/>
               <ellipse cx="44" cy="38" rx="4" ry="9" fill="#FFF" opacity=".5" transform="rotate(-14 44 38)"/>
             </svg>
           </span>
@@ -252,14 +252,21 @@
 <!-- ---------- 8. FOOTER ---------- -->
 <footer class="foot" id="foot">
   <div class="wrap foot-grid">
-    <p class="foot-logo display">Sprout</p>
+    <p class="foot-logo">
+      <span class="brandmark">
+        <img src="../assets/img/cue-logo.png" alt="CUE logo — a cream smoothie cup sticker"
+             onerror="this.parentNode.classList.add('txt')">
+        <span class="bm-text display">CUE</span>
+      </span>
+    </p>
     <nav class="foot-links" aria-label="Site links">
       <a href="../index.html">Home</a>
       <a href="../deck/index.html">Watch the pitch</a>
       <a href="../order/index.html">Order ahead</a>
       <a href="../survey/index.html">Survey</a>
     </nav>
-    <p class="foot-team">A CUHK student project. Mo waves from the cart.</p>
+    <p class="foot-pickup" id="footPickup"></p>
+    <p class="foot-team">A CUHK student project. Cue waves from the cart.</p>
   </div>
 </footer>
 

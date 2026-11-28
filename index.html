@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sprout</title>
+<title>CUE</title>
 <link rel="stylesheet" href="shared/base.css">
 <style>
 html, body { min-height: 100%; overflow-x: hidden; }
@@ -11,25 +11,31 @@ body { background: radial-gradient(80% 60% at 15% 0, #FFD9A8 0, transparent 60%)
 .hub { position: relative; min-height: 100vh; min-height: 100dvh; padding: 32px 16px 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; isolation: isolate; overflow: hidden; }
 .bg { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
 .bg .blob { position: absolute; border-radius: 50%; filter: blur(2px); opacity: .55; animation: float 14s ease-in-out infinite; }
-.bg .fr { position: absolute; font-size: 56px; opacity: .8; animation: float 11s ease-in-out infinite; filter: drop-shadow(0 8px 6px rgba(42,26,16,.12)); }
+.bg .fr { position: absolute; font-size: 56px; opacity: .8; animation: float 11s ease-in-out infinite; filter: drop-shadow(0 8px 6px rgba(37, 41, 43,.12)); }
 @keyframes float { 0%,100% { transform: translate(0,0) rotate(-6deg); } 50% { transform: translate(14px,-30px) rotate(8deg); } }
 .hero { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
 .mo { width: clamp(120px, 22vw, 180px); animation: bob 2.8s ease-in-out infinite; transform-origin: 50% 100%; }
 .mo svg { width: 100%; height: auto; overflow: visible; }
 @keyframes bob { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-14px) rotate(3deg); } }
-h1.logo { font-size: clamp(64px, 17vw, 168px); font-weight: 900; font-variation-settings: "opsz" 144; color: var(--mango); line-height: .9; text-shadow: 0 5px 0 #C7600A, 0 12px 24px rgba(199,96,10,.3); letter-spacing: -0.03em; }
+h1.logo { font-size: clamp(64px, 17vw, 168px); font-weight: 900; font-variation-settings: "opsz" 144; color: var(--mango); line-height: .9; text-shadow: 0 5px 0 #A8622B, 0 12px 24px rgba(199,96,10,.3); letter-spacing: -0.03em; }
 h1.logo i { color: var(--leaf); font-style: italic; }
+.logo-sticker { height: clamp(190px, 34vw, 330px); width: auto; display: block; margin: 0 auto;
+  filter: drop-shadow(0 14px 22px rgba(37, 41, 43,.28)); }
+.logo-text { display: none; }
+h1.logo.txt .logo-sticker { display: none; }
+h1.logo.txt .logo-text { display: inline; }
+.logo-text i { color: var(--leaf); font-style: italic; }
 .slogan { font: italic 500 clamp(18px, 3.4vw, 28px) var(--font-display); color: var(--soil); margin: .55em 0 0; }
 .doors { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; width: 100%; max-width: 980px; perspective: 900px; }
-.door { display: flex; flex-direction: column; gap: 10px; padding: 24px 22px; border-radius: 26px; background: var(--white); color: var(--ink); text-decoration: none; box-shadow: 0 5px 0 rgba(42,26,16,.14), var(--shadow); border: 3px solid var(--ink); position: relative; overflow: hidden;
+.door { display: flex; flex-direction: column; gap: 10px; padding: 24px 22px; border-radius: 26px; background: var(--white); color: var(--ink); text-decoration: none; box-shadow: 0 5px 0 rgba(37, 41, 43,.14), var(--shadow); border: 3px solid var(--ink); position: relative; overflow: hidden;
   transition: transform .18s ease-out, box-shadow .2s; transform-style: preserve-3d; min-height: 190px; }
-.door:hover, .door:focus-visible { box-shadow: 0 14px 0 rgba(42,26,16,.14), 0 24px 40px rgba(42,26,16,.22); outline: none; }
+.door:hover, .door:focus-visible { box-shadow: 0 14px 0 rgba(37, 41, 43,.14), 0 24px 40px rgba(37, 41, 43,.22); outline: none; }
 .door .ic { font-size: 42px; line-height: 1; }
 .door h2 { font-size: 28px; }
 .door p { margin: 0; color: var(--ink-soft); font-size: 15px; }
-.door .go { margin-top: auto; font-weight: 700; color: var(--white); background: var(--mango); align-self: flex-start; padding: .5em 1.1em; border-radius: 999px; box-shadow: 0 4px 0 #C7600A; }
+.door .go { margin-top: auto; font-weight: 700; color: var(--white); background: var(--mango); align-self: flex-start; padding: .5em 1.1em; border-radius: 999px; box-shadow: 0 4px 0 #A8622B; }
 .door.d2 .go { background: var(--leaf); box-shadow: 0 4px 0 var(--leaf-dark); }
-.door.d3 .go { background: var(--berry); box-shadow: 0 4px 0 #7A1430; }
+.door.d3 .go { background: var(--berry); box-shadow: 0 4px 0 #5E2431; }
 .door::after { content: ""; position: absolute; right: -40px; top: -40px; width: 120px; height: 120px; border-radius: 50%; background: var(--mango-soft); opacity: .6; z-index: 0; }
 .door.d2::after { background: #BFE8B7; } .door.d3::after { background: #F7B9C6; }
 .door > * { position: relative; z-index: 1; }
@@ -46,7 +52,12 @@ h1.logo i { color: var(--leaf); font-style: italic; }
   <div class="bg" id="bg" aria-hidden="true"></div>
   <header class="hero">
     <div class="mo" id="mo"></div>
-    <h1 class="logo display" id="logo"></h1>
+    <h1 class="logo display" id="logo">
+      <img class="logo-sticker" src="assets/img/cue-logo.png"
+           alt="CUE logo — a cream smoothie cup with striped straw and sparkles on a dark charcoal oval sticker"
+           onerror="this.parentNode.classList.add('txt')">
+      <span class="logo-text" id="logoText"></span>
+    </h1>
     <p class="slogan" id="slogan"></p>
   </header>
   <nav class="doors">
@@ -65,13 +76,13 @@ h1.logo i { color: var(--leaf); font-style: italic; }
   var B = window.CONTENT.brand;
   document.title = B.name + " - " + B.slogan;
   var n = B.name;
-  document.getElementById("logo").innerHTML = n.length > 1 ? n.slice(0, -1) + "<i>" + n.slice(-1) + "</i>" : n;
+  document.getElementById("logoText").innerHTML = n.length > 1 ? n.slice(0, -1) + "<i>" + n.slice(-1) + "</i>" : n;
   document.getElementById("slogan").textContent = B.slogan;
   document.getElementById("mo").innerHTML = SproutArt.mascot({ cup: true });
 
   // background
   var bg = document.getElementById("bg"), html = "";
-  [["#FFB020", 300, "-6%", "8%", 0], ["#E8364F", 240, "78%", "62%", -4], ["#2FA84F", 200, "70%", "-4%", -8], ["#8FD3F4", 220, "-5%", "70%", -2]].forEach(function (b) {
+  [["#FFB020", 300, "-6%", "8%", 0], ["#E8364F", 240, "78%", "62%", -4], ["#6A9467", 200, "70%", "-4%", -8], ["#9EC4C0", 220, "-5%", "70%", -2]].forEach(function (b) {
     html += '<div class="blob" style="background:' + b[0] + ';width:' + b[1] + 'px;height:' + b[1] + 'px;left:' + b[2] + ';top:' + b[3] + ';animation-delay:' + b[4] + 's"></div>';
   });
   ["🥭:8:20", "🍓:86:14", "🍌:5:55", "🫐:90:48", "🍑:14:86", "🥭:78:84", "🍓:44:4", "🍌:60:92"].forEach(function (f, i) {
