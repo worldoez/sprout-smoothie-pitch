@@ -12,7 +12,7 @@
     // Vintage "rubber hose" monkey: chocolate fur, tan face, cream gloves, bowler hat and neckerchief.
     const id = "mo" + (++uid);
     const FUR = "#6E4529", FUR_L = "#94603A", TAN = "#EBCDA4", TAN_D = "#DDB584", GLOVE = "#F7ECD6", LN = "#2B1D14";
-    const cup = opts.cup ? `<g class="mo-hand-cup" transform="translate(204 108) rotate(10)">${cupInner({ id: id + "c", scale: 0.42, colorA: opts.colorA, colorB: opts.colorB })}</g>` : "";
+    const cup = opts.cup ? `<g class="mo-hand-cup" transform="translate(203 106) rotate(10)">${cupInner({ id: id + "c", scale: 0.42, colorA: opts.colorA, colorB: opts.colorB })}</g>` : "";
     const hose = (d, w) => `<path d="${d}" stroke="${LN}" stroke-width="${w + 7}" stroke-linecap="round" fill="none"/><path d="${d}" stroke="${FUR}" stroke-width="${w}" stroke-linecap="round" fill="none"/>`;
     // Cartoon glove (fingers up, wrist at the bottom): cuff, round palm, three sausage fingers and a thumb. Rotate to aim it.
     const glove = (cx, cy, rot) => {
@@ -22,7 +22,13 @@
         <rect x="${cx - 10}" y="${cy + 8}" width="20" height="9" rx="4" fill="${GLOVE}" stroke="${LN}" stroke-width="3.2"/>
         ${line(12, LN)}<ellipse cx="${cx}" cy="${cy + 1}" rx="11.5" ry="10" fill="${GLOVE}" stroke="${LN}" stroke-width="3.2"/>${line(5.6, GLOVE)}</g>`;
     };
-    const foot = (cx, flip) => `<path d="M${cx - 18 * flip} 262 C${cx - 24 * flip} 250 ${cx - 8 * flip} 244 ${cx + 6 * flip} 247 C${cx + 22 * flip} 250 ${cx + 24 * flip} 262 ${cx + 14 * flip} 263 Z" fill="${TAN}" stroke="${LN}" stroke-width="3.8" stroke-linejoin="round"/><path d="M${cx + 8 * flip} 262 L${cx + 8 * flip} 255 M${cx + 15 * flip} 261 L${cx + 14 * flip} 254" stroke="${LN}" stroke-width="2.6" stroke-linecap="round"/>`;
+    // Fist wrapped round the cup: cuff, rounded back of hand, finger creases and a thumb on top.
+    const fist = (cx, cy, rot) => `<g transform="rotate(${rot} ${cx} ${cy})">
+        <rect x="${cx - 10}" y="${cy + 9}" width="20" height="9" rx="4" fill="${GLOVE}" stroke="${LN}" stroke-width="3.2"/>
+        <rect x="${cx - 16}" y="${cy - 11}" width="32" height="23" rx="10.5" fill="${GLOVE}" stroke="${LN}" stroke-width="3.4"/>
+        <path d="M${cx - 16} ${cy - 5} Q${cx - 8} ${cy - 4} ${cx - 5} ${cy - 5} M${cx - 16} ${cy + 1} Q${cx - 8} ${cy + 2} ${cx - 5} ${cy + 1} M${cx - 15} ${cy + 7} Q${cx - 8} ${cy + 8} ${cx - 5} ${cy + 7}" stroke="${LN}" stroke-width="2.3" stroke-linecap="round" fill="none"/>
+        <ellipse cx="${cx + 7}" cy="${cy - 11}" rx="6.5" ry="5" fill="${GLOVE}" stroke="${LN}" stroke-width="3"/></g>`;
+    const foot = (cx, flip) => `<path d="M${cx - 20 * flip} 264 C${cx - 26 * flip} 250 ${cx - 10 * flip} 243 ${cx + 6 * flip} 246 C${cx + 24 * flip} 250 ${cx + 27 * flip} 264 ${cx + 16 * flip} 265 Z" fill="${TAN}" stroke="${LN}" stroke-width="3.6" stroke-linejoin="round"/><path d="M${cx + 9 * flip} 260 Q${cx + 11 * flip} 256 ${cx + 9.5 * flip} 252.5 M${cx + 16 * flip} 260 Q${cx + 18 * flip} 257 ${cx + 16.5 * flip} 253.5" stroke="${LN}" stroke-width="2.4" stroke-linecap="round" fill="none"/>`;
     const ear = (cx, s) => `<circle cx="${cx}" cy="98" r="23" fill="${FUR}" stroke="${LN}" stroke-width="4"/><circle cx="${cx - 2 * s}" cy="99" r="15" fill="${TAN}" stroke="${LN}" stroke-width="2.6"/><path d="M${cx - 6 * s} 94 Q${cx + 4 * s} 90 ${cx + 3 * s} 101 Q${cx} 108 ${cx - 5 * s} 104" stroke="${TAN_D}" stroke-width="3" stroke-linecap="round" fill="none"/>`;
     const face = [[88, 92, 25, 22], [132, 92, 25, 22], [110, 116, 47, 34]];
     const faceStroke = face.map(([x, y, rx, ry]) => `<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="${TAN}" stroke="${LN}" stroke-width="3.6"/>`).join("");
@@ -72,7 +78,7 @@
     </g>
   </g>
   ${cup}
-  <g class="mo-arm-r" style="transform-origin:142px 168px">${hose("M140 170 Q192 178 190 158", 11)}${glove(190, 146, -4)}</g>
+  <g class="mo-arm-r" style="transform-origin:142px 168px">${opts.cup ? `${hose("M140 170 Q192 180 193 158", 11)}${fist(197, 136, 8)}` : `${hose("M140 170 Q192 178 190 158", 11)}${glove(190, 146, -4)}`}</g>
 </svg>`;
   }
 

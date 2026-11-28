@@ -111,3 +111,18 @@ window.CONTENT.drinkName = function (fruits, base) {
   }
   return "Mix your own";
 };
+
+// Drink render for a named drink object, or for (fruits, base, addons). Path is relative to the
+// PRESENTATION root; pages in subfolders must prefix "../". Renders are illustrative product shots.
+// Rule: matcha -> matcha render; strawberry/blueberry without mango-only -> layered berry render;
+// no fruit and no matcha (Coffee Oat) -> the logo sticker; everything else -> mango render.
+window.CONTENT.drinkImage = function (a, base, addons) {
+  var fruits = Array.isArray(a) ? a : ((a && a.fruits) || []);
+  var adds = Array.isArray(a) ? (addons || []) : ((a && a.addons) || []);
+  var root = "assets/img/";
+  if (adds.indexOf("matcha") > -1) return root + "drinks/matcha.png";
+  if (!fruits.length) return root + "cue-logo.png";
+  var berry = fruits.indexOf("strawberry") > -1 || fruits.indexOf("blueberry") > -1;
+  if (berry) return root + "drinks/berry-layers.png";
+  return root + "drinks/mango.png";
+};

@@ -1,25 +1,38 @@
-# CUE design direction (all pages)
+# CUE design direction v2 — "printed label" (2026-11-28)
 
-**Style: flat cartoon with one soft shading layer** (think Mixue / Coco Fresh Tea, not SaaS).
-Bold dark outlines (#2A1A10, 4–6 px at 1920 scale), flat fills, ONE highlight + ONE shadow shape per object (no multi-stop gradients on characters), chunky rounded shapes, big friendly type. Soft-3D (Pixar-style) only for AI-rendered still images that the team drops into `assets/img/`.
+The logo is the brief: a charcoal speckled sticker, peach ink, thin inset ring, soft Cooper-like lettering, a striped straw, four sparkles. Everything (hub, website, order app, deck) must look like it was printed on that sticker. **Mature, quiet, crafted. Not cartoon, not childish, not "app template".**
 
-## Logo theme (2026-11-28)
-Palette follows the CUE logo: charcoal #25292B + peach cream #F2D9C2, muted vintage accents (rust/apricot, sage, dusty teal, mustard). Soft Fraunces (SOFT 100) for Cooper-like type, speckle grain overlay on the deck stage, thin inset rule on slides. Mascot Cuethie is a monkey (brown fur, peach face, CUE tee, curled tail, head tuft = `.mo-leaf`).
+## Tokens (shared/base.css — use the variables, never hard-code hexes)
+| Role | Token | Hex |
+| --- | --- | --- |
+| Ink / dark ground | `--charcoal` (`--charcoal-2` #2F3436, `--charcoal-3` #3B4144) | #25292B |
+| Paper / light ground | `--peach` (`--paper` #F8EBDA, `--paper-2` #EBCDB1) | #F2D9C2 |
+| Accent (actions, prices, one highlight) | `--straw` | #B83A32 |
+| Hairlines | `--rule` (on dark) / `--rule-ink` (on light) | peach/charcoal @ 22% / 18% |
+| Drink identity only | `--p-mango` #E3B23C, `--p-matcha` #9BB36A, `--p-berry` #B5506A, `--p-plum` #6B3F7A | never decoration |
 
-## Tokens (shared/base.css)
-mango #E08A45 · leaf #6A9467 · cream #F2D9C2 · berry #9A3E4B · ink #25292B · gold #E8C26A · sky #9EC4C0
-Display: Fraunces 900 (headlines, prices, big numbers). Body: DM Sans.
+Type: **Fraunces** (soft, weight 800 for headlines/prices — echoes the logo's lettering) + **Hanken Grotesk** (body/UI). Sentence case. Line length < 70ch. No ALL-CAPS labels, no mono data labels.
 
-## Brand references
-- Mixue (my.mixue.com): red/white mascot-led, huge product shots, stamp-like badges, playful but disciplined grid.
-- Coco Fresh Tea (cocofreshtea.ca): product photography on solid colour fields, category tabs, clean menu cards.
-- Order-app references: home with greeting + search + category chips + product cards; product detail with large drink, size/sweetness/ice/add-ons, quantity stepper, sticky "Add to bag"; bag; checkout; bottom tab bar.
+## Form language
+- Flat colour, hairline (1px) rules, 10–16px radii. **No** thick dark outlines, **no** hard offset "3D" shadows, **no** blobs, **no** floating fruit, **no** emoji as UI, **no** gradient washes, **no** identical rounded-card grids with grey shadows, **no** "→" on every button, **no** middle-dot meta strings.
+- Dark sections (charcoal + speckle grain) alternate with peach sections. Structure comes from hairlines and spacing, not boxes.
+- The **logo sticker** (`assets/img/cue-logo.png`) and the **drink renders** are the heroes. Render files (transparent PNG on peach-cream, product shot of the logo cup):
+  - `assets/img/drinks/mango.png` — yellow mango smoothie
+  - `assets/img/drinks/matcha.png` — green matcha/banana smoothie
+  - `assets/img/drinks/berry-layers.png` — layered strawberry / yogurt / blueberry
+  Use them large, uncropped, on peach (`--peach`/`--paper`) or on charcoal with a soft ellipse of `--paper-2` behind. Mapping (shared helper `CONTENT.drinkImage(drink|fruits[,base])` in content/menu.js): matcha addon → matcha; strawberry or blueberry (not mango-only) → berry-layers; otherwise → mango; no fruit (Coffee Oat) → the logo sticker.
+- The sparkle (4-point star from the logo) is the only ornament; use sparingly as a bullet/separator, drawn as inline SVG.
+- Product colours appear only as small chips on a drink (a 10px dot), never as section backgrounds.
 
-## Anti-slop rules (from frontend-design / taste / impeccable skills)
-- One bold idea per screen; everything else quiet. No decoration that carries no meaning.
-- No ALL-CAPS eyebrow labels, no "→" appended to every button, no "A · B · C" meta strings, no identical rounded card grids with grey shadows, no gradient washes as background decoration, no emoji used as UI icons (use simple inline SVG icons).
-- Copy: plain, specific, sentence case, active verbs. Button says exactly what happens ("Add to bag", "Place order").
-- Real hierarchy: price and product name biggest; survey numbers shown as small, honest badges ("72% of students picked mango").
-- Motion answers an action or tells the story; entrances ≤ 0.5 s, story beats ≤ 3 s; respect prefers-reduced-motion on web pages.
-- Touch targets ≥ 44 px; visible keyboard focus; works at 360 px wide with 16 px gutters, no horizontal scroll.
-- Never write "for the professor" / "Professor, …" in on-screen copy. The person's own typed name may appear on their order.
+## Motion (Emil-style restraint)
+- Default is still. One orchestrated entrance per page at most, ≤ 400 ms, ease-out. Hover/press: colour or 1–2 px translate only. No bobbing, waving, floating, bouncing, confetti-spam. Respect `prefers-reduced-motion`.
+- **Cel-line boil** (shared/boil.js, class `.boil`): the single signature motion. Apply ONLY to small line art — logo sticker, mascot, step icons, map outlines — so ink outlines jitter a few times a second like hand-inked cels. Never on text, photos/renders, or whole screens.
+
+## Components
+- Buttons: `.btn` (straw red), `.btn.solid` (peach on dark), `.btn.ghost` (hairline). 46px+ tall (44px touch minimum), verb labels ("Add to bag", "Place order").
+- Lists/menus: name left, dotted hairline, price right in Fraunces; description below in soft text.
+- Facts: large Fraunces numeral + one plain sentence, separated by hairlines, in a row — not stamped cards.
+- Forms: 1px hairline inputs, 48px high, focus = straw-red 2px outline.
+
+## Copy
+Plain, specific, sentence case, active verbs. Never write "for the professor". Numbers must come from `content/data.js` / `output/tables`. Never invent a number or a price.

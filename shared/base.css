@@ -1,28 +1,58 @@
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,SOFT,wght@9..144,0..100,500;9..144,0..100,700;9..144,0..100,900&family=DM+Sans:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,SOFT,wght@9..144,0..100,400;9..144,0..100,600;9..144,0..100,800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap");
 
+/* CUE design system v2 — "printed label". Charcoal ink, peach paper, one straw-red accent.
+   Quiet, flat, grainy, thin rules. No hard offset shadows, no thick outlines, no blobs.
+   See ../DESIGN.md. Legacy token names are kept (mapped to the muted palette) so old code still works. */
 :root {
-  --mango: #E08A45; --mango-soft: #FFD3A6; --leaf: #6A9467; --leaf-dark: #48714A;
-  --cream: #F2D9C2; --berry: #9A3E4B; --ink: #25292B; --ink-soft: #6E6258;
-  --soil: #4B4239; --sky: #9EC4C0; --gold: #E8C26A; --white: #F8EBDA;
+  /* core palette (from the logo + drink renders) */
+  --charcoal: #25292B; --charcoal-2: #2F3436; --charcoal-3: #3B4144;
+  --peach: #F2D9C2; --paper: #F8EBDA; --paper-2: #EBCDB1;
+  --straw: #B83A32;               /* the red of the straw — the ONLY accent for actions/prices */
+  --rule: rgba(242, 217, 194, .22);        /* hairline on charcoal */
+  --rule-ink: rgba(37, 41, 43, .18);       /* hairline on peach */
+  --text-on-dark: #F2D9C2; --text-on-dark-soft: rgba(242, 217, 194, .68);
+  --text-on-light: #25292B; --text-on-light-soft: #6B5F55;
+  /* product colours: ONLY for drink identity chips, never decoration */
+  --p-mango: #E3B23C; --p-matcha: #9BB36A; --p-berry: #B5506A; --p-plum: #6B3F7A;
+
+  /* legacy names -> muted */
+  --mango: #D99A5B; --mango-soft: #EBCDB1; --leaf: #7F8F6A; --leaf-dark: #5F6E4D;
+  --cream: var(--peach); --berry: #8E4B4F; --ink: var(--charcoal); --ink-soft: var(--text-on-light-soft);
+  --soil: #5A5047; --sky: #8FA8A3; --gold: #D9B77A; --white: var(--paper);
+
   --font-display: "Fraunces", Georgia, serif;
-  --font-body: "DM Sans", system-ui, sans-serif;
-  --radius: 18px;
-  --shadow: 0 10px 30px rgba(37, 41, 43, .15);
+  --font-body: "Hanken Grotesk", system-ui, sans-serif;
+  --radius: 10px; --radius-lg: 16px;
+  --shadow: none;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
-body { font-family: var(--font-body); color: var(--ink); background: var(--cream); -webkit-font-smoothing: antialiased; }
-h1, h2, h3, .display { font-family: var(--font-display); line-height: 1.02; margin: 0; letter-spacing: -0.01em; }
+body { font-family: var(--font-body); color: var(--text-on-light); background: var(--peach); -webkit-font-smoothing: antialiased; line-height: 1.5; }
+h1, h2, h3, .display { font-family: var(--font-display); font-weight: 800; line-height: 1.05; margin: 0; letter-spacing: -0.01em; font-variation-settings: "SOFT" 100, "opsz" 72; }
 button { font: inherit; cursor: pointer; }
-.btn { display: inline-flex; align-items: center; gap: .5em; padding: .8em 1.4em; border-radius: 999px; border: 0;
-  background: var(--mango); color: var(--white); font-weight: 700; box-shadow: 0 6px 0 #A8622B; transition: transform .12s, box-shadow .12s; text-decoration: none; }
-.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 0 #A8622B; }
-.btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #A8622B; }
-.btn.leaf { background: var(--leaf); box-shadow: 0 6px 0 var(--leaf-dark); }
-.btn.berry { background: var(--berry); box-shadow: 0 6px 0 #5E2431; }
-.btn.ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 2px var(--ink); }
+a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--straw); outline-offset: 3px; }
+.on-dark a:focus-visible, .on-dark button:focus-visible { outline-color: var(--peach); }
 
-/* Logo feel: soft Cooper-ish display type + speckled print grain */
-h1, h2, h3, .display, .s-title, .stat { font-variation-settings: "SOFT" 100; }
-.grain::after, #stage::after { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 50; opacity: .22; mix-blend-mode: multiply;
+/* Buttons: flat, thin, no 3D. primary = straw red, solid = peach on charcoal, ghost = hairline. */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .5em; min-height: 46px; padding: .7em 1.4em; border-radius: 999px;
+  border: 1px solid transparent; background: var(--straw); color: var(--paper); font-weight: 600; text-decoration: none; box-shadow: none;
+  transition: background-color .18s, color .18s, border-color .18s; }
+.btn:hover { background: #9E2F28; }
+.btn:active { background: #8A2822; }
+.btn.leaf, .btn.berry { background: var(--straw); box-shadow: none; }
+.btn.solid { background: var(--peach); color: var(--charcoal); }
+.btn.solid:hover { background: var(--paper); }
+.btn.ghost { background: transparent; color: inherit; border-color: currentColor; box-shadow: none; }
+.btn.ghost:hover { background: rgba(127,127,127,.12); }
+
+/* Speckled print grain, same texture as the logo */
+.grain::after, #stage::after { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 50; opacity: .16; mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.6' numOctaves='2' seed='7'/><feColorMatrix values='0 0 0 0 .15  0 0 0 0 .16  0 0 0 0 .17  0 0 0 9 -5.2'/></filter><rect width='260' height='260' filter='url(%23n)'/></svg>"); }
+.on-dark.grain::after, .dark.grain::after { mix-blend-mode: screen; opacity: .12;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.6' numOctaves='2' seed='7'/><feColorMatrix values='0 0 0 0 .95  0 0 0 0 .85  0 0 0 0 .76  0 0 0 9 -5.4'/></filter><rect width='260' height='260' filter='url(%23n)'/></svg>"); }
+
+/* Cel-line boil (see shared/boil.js): apply to small line art only (logo, mascot, icons), never to text or full screens. */
+.boil { filter: url(#cue-boil); }
+.dark { background: var(--charcoal); color: var(--text-on-dark); }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
