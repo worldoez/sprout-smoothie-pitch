@@ -93,14 +93,14 @@
   let prefetched = false;
   function prefetchTiles(lat, lng) {
     if (prefetched) return; prefetched = true;
-    window._sproutTiles = [];
+    window._cueTiles = [];
     // landing zooms first (what the audience stares at), then the fly-through zooms
     for (const z of [18, 16, 17, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6]) {
       const n = 2 ** z, x = Math.floor((lng + 180) / 360 * n);
       const r = lat * DEG, y = Math.floor((1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2 * n);
       const rx = z >= 16 ? 4 : z >= 12 ? 3 : 2, ry = z >= 16 ? 3 : z >= 12 ? 2 : 1;
       for (let dx = -rx; dx <= rx; dx++) for (let dy = -ry; dy <= ry; dy++) {
-        const img = new Image(); img.src = ESRI.replace("{z}", z).replace("{y}", y + dy).replace("{x}", x + dx); window._sproutTiles.push(img);
+        const img = new Image(); img.src = ESRI.replace("{z}", z).replace("{y}", y + dy).replace("{x}", x + dx); window._cueTiles.push(img);
       }
     }
   }

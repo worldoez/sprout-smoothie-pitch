@@ -112,5 +112,5 @@
     return tl;
   }
 
-  window.SproutArt = { mascot, cup, cupInner, blink };
+  window.CueArt = { mascot, cup, cupInner, blink };
 })();

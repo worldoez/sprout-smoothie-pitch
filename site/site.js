@@ -1,4 +1,4 @@
-/* CUE site. Reads CONTENT.brand / CONTENT.menu / CONTENT.data and SproutArt.
+/* CUE site. Reads CONTENT.brand / CONTENT.menu / CONTENT.data and CueArt.
    Works from file:// : classic script, no fetch, no modules. GSAP is optional —
    every animated element starts at its final state, so the page is complete
    without it and unchanged under prefers-reduced-motion. */
@@ -46,8 +46,8 @@
     ". Purchase intent Q31, fruit Q25, price Q29, pre-order app Q19.";
 
   /* ---------- hero: huge cup + mascot + fruit chunks ---------- */
-  $("#heroCup").innerHTML = SproutArt.cup({ label: B.name });
-  $("#heroMo").innerHTML = SproutArt.mascot(); // no cup in hand: both arms free, one waves
+  $("#heroCup").innerHTML = CueArt.cup({ label: B.name });
+  $("#heroMo").innerHTML = CueArt.mascot(); // no cup in hand: both arms free, one waves
 
   var chunkPos = [
     { left: "6%",  top: "18%", size: 54 },

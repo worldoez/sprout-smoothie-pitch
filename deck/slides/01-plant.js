@@ -185,7 +185,7 @@
           <h2 class="s-title big" style="font-size:150px;color:#25292B">${Kit.splitLetters("Let's grow", "w")}<br>${Kit.splitLetters("something new.", "w")}</h2>
           <p class="s-sub ask" style="color:#25292B;margin-top:40px">What should we make? <b>You decide:</b> scan to place Order #1.</p>
         </div>
-        <div class="qrbox" style="text-align:center;color:#25292B"><a href="../order/index.html?room=${SproutOrders.room()}" target="_blank" rel="noopener" data-interactive>${Kit.qrSVG(Kit.siteURL("order/index.html?room=" + SproutOrders.room()), 440)}</a><div style="font-weight:700;font-size:28px;margin-top:16px">Scan to order</div></div>
+        <div class="qrbox" style="text-align:center;color:#25292B"><a href="../order/index.html?room=${CueOrders.room()}" target="_blank" rel="noopener" data-interactive>${Kit.qrSVG(Kit.siteURL("order/index.html?room=" + CueOrders.room()), 440)}</a><div style="font-weight:700;font-size:28px;margin-top:16px">Scan to order</div></div>
         <div class="order-card oc" style="position:relative">${Kit.orderCardHTML(null, ctx)}</div>
       </div>`,
     onOrder: (el, o, ctx) => { const c = el.querySelector(".oc"); if (c) c.innerHTML = o.source === "example" ? `<div class="who">Order #1</div><h4>Waiting for the next order…</h4><div class="src">It appears here the moment it's placed</div>` : Kit.orderCardHTML(o, ctx); },

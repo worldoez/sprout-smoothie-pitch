@@ -1,5 +1,5 @@
 /* Phone remote: the deck side.
- * Uses SproutRelay (shared/relay.js): public MQTT relays + BroadcastChannel, so a phone on 4G
+ * Uses CueRelay (shared/relay.js): public MQTT relays + BroadcastChannel, so a phone on 4G
  * and a laptop on campus Wi-Fi can talk (no peer-to-peer connection needed).
  * Remote page: ../remote/index.html?code=XXXXX
  */
@@ -7,8 +7,8 @@
   let relay = null, code = null, phones = 0, lastSeen = 0;
 
   function getCode() {
-    try { code = code || sessionStorage.getItem("sprout_remote_code"); } catch {}
-    if (!code) { code = SproutRelay.code(); try { sessionStorage.setItem("sprout_remote_code", code); } catch {} }
+    try { code = code || sessionStorage.getItem("cue_remote_code"); } catch {}
+    if (!code) { code = CueRelay.code(); try { sessionStorage.setItem("cue_remote_code", code); } catch {} }
     return code;
   }
   const remoteURL = () => new URL("../remote/index.html?code=" + getCode(), location.href).href;
@@ -23,8 +23,8 @@
   }
 
   function start() {
-    if (relay || !window.SproutRelay) return;
-    relay = SproutRelay.open(getCode(), (type, data) => {
+    if (relay || !window.CueRelay) return;
+    relay = CueRelay.open(getCode(), (type, data) => {
       if (type === "hello" || type === "ping") { lastSeen = Date.now(); pushState(); setStatus(); if (type === "hello") Deck.toast("Phone remote connected"); }
       if (type === "cmd") { lastSeen = Date.now(); Deck.command(data); setStatus(); }
     }, { onStatus: setStatus });
@@ -50,5 +50,5 @@
     url: remoteURL
   };
   // Start quietly in the background so a phone that already has the link reconnects after a reload.
-  window.addEventListener("load", () => { try { if (sessionStorage.getItem("sprout_remote_code")) start(); } catch {} });
+  window.addEventListener("load", () => { try { if (sessionStorage.getItem("cue_remote_code")) start(); } catch {} });
 })();

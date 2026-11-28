@@ -1,5 +1,5 @@
 // CUE order app — home / detail sheet / bag / checkout / ticket, plus Me tab.
-// Submit contract (do not change): SproutOrders.submit({ name, fruits, base, addons, size, price, drinkName, items }).
+// Submit contract (do not change): CueOrders.submit({ name, fruits, base, addons, size, price, drinkName, items }).
 (function () {
   "use strict";
   var B = window.CONTENT.brand;
@@ -73,7 +73,7 @@
     var f = (fruits || []).map(fruit).filter(Boolean).map(function (o) { return o.color; });
     return { colorA: f[0] || "#FFB020", colorB: f[1] || f[0] || "#E08A45" };
   }
-  function cupSVG(fruits) { return window.SproutArt.cup(cupColors(fruits)); }
+  function cupSVG(fruits) { return window.CueArt.cup(cupColors(fruits)); }
   function recolorCup(box, fruits) {
     if (!box) return;
     var c = cupColors(fruits), a = box.querySelector(".cup-layer-a"), b = box.querySelector(".cup-layer-b");
@@ -323,7 +323,7 @@
 
   // ---------- me ----------
   function renderMe(dir) {
-    var on = window.SproutOrders.linked();
+    var on = window.CueOrders.linked();
     show(
       '<h2 class="h2 display">Me</h2>' +
       '<a class="me-row" href="../index.html">' + ICON.home +
@@ -605,7 +605,7 @@
     };
     var minWait = new Promise(function (r) { setTimeout(r, 700); });
     Promise.all([
-      window.SproutOrders.submit(payload).catch(function () { return { ok: true, where: "local", order: payload }; }),
+      window.CueOrders.submit(payload).catch(function () { return { ok: true, where: "local", order: payload }; }),
       minWait
     ]).then(function (r) {
       state.placing = false;
@@ -621,7 +621,7 @@
     var c = cupColors(lines[0].fruits);
     show(
       '<div class="ticket">' +
-      '<div class="cupbox">' + window.SproutArt.cup({ colorA: c.colorA, colorB: c.colorB }) + "</div>" +
+      '<div class="cupbox">' + window.CueArt.cup({ colorA: c.colorA, colorB: c.colorB }) + "</div>" +
       '<h2 class="display">Order #1</h2>' +
       '<div class="stub"><div class="lbl">Pickup number</div><div class="num">1</div>' +
       '<div class="who">for ' + esc(name) + "</div></div>" +

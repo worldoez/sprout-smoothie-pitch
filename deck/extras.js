@@ -17,7 +17,7 @@
   try { enabled = localStorage.getItem(KEY) !== "0"; } catch {}
 
   function canShow() {
-    if (PRINT || !enabled || !window.Deck || !window.SproutArt) return false;
+    if (PRINT || !enabled || !window.Deck || !window.CueArt) return false;
     if (!Deck.started || Deck.busy || Deck.reduceMotion || document.hidden || live) return false;
     if (window.Transitions && Transitions.active) return false;
     const cur = Deck.current, el = Deck.slideEl;
@@ -41,7 +41,7 @@
     const wrap = document.createElement("div");
     wrap.className = "cue-peek";
     wrap.style.cssText = `position:absolute;left:0;top:0;width:${w}px;height:${h}px;z-index:25;pointer-events:none;transform-origin:50% 50%`;
-    wrap.innerHTML = SproutArt.mascot();
+    wrap.innerHTML = CueArt.mascot();
     const sv = wrap.firstElementChild; sv.style.cssText = "width:100%;height:100%;overflow:visible";
     const bubble = document.createElement("div");
     bubble.className = "cue-peek-bubble";

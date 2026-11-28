@@ -430,10 +430,10 @@
   // ---------- surprises ----------
   const surprises = {
     mo() {
-      const g = gsap(); if (!window.SproutArt) return Promise.resolve();
+      const g = gsap(); if (!window.CueArt) return Promise.resolve();
       const edges = ["bottom", "left", "right", "top"], e = pick(edges), sz = 420;
       const wrap = css(document.createElement("div"), { position: "absolute", width: sz * 220 / 280 + "px", height: sz + "px", transformOrigin: "50% 50%" });
-      wrap.innerHTML = SproutArt.mascot();
+      wrap.innerHTML = CueArt.mascot();
       const sv = wrap.firstElementChild; css(sv, { width: "100%", height: "100%", overflow: "visible" });
       box.appendChild(wrap);
       const w = sz * 220 / 280, h = sz, off = 40;

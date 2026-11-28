@@ -10,8 +10,8 @@
   // Room code survives a reload (sessionStorage), so phones that already joined keep working.
   function roomCode() {
     let r = null;
-    try { r = sessionStorage.getItem("sprout-game-room"); } catch {}
-    if (!r) { r = SproutRelay.code(); try { sessionStorage.setItem("sprout-game-room", r); } catch {} }
+    try { r = sessionStorage.getItem("cue-game-room"); } catch {}
+    if (!r) { r = CueRelay.code(); try { sessionStorage.setItem("cue-game-room", r); } catch {} }
     return r;
   }
   const ROOM = roomCode();
@@ -59,8 +59,8 @@
     if (host) { placeDot(host, g, true); refreshCount(); }
   }
   function ensureRelay() {
-    if (relay || PRINT || !window.SproutRelay) return;
-    relay = SproutRelay.open(ROOM, (type, data, msg) => { if (type === "guess") onGuess(data, msg.from); });
+    if (relay || PRINT || !window.CueRelay) return;
+    relay = CueRelay.open(ROOM, (type, data, msg) => { if (type === "guess") onGuess(data, msg.from); });
   }
   const send = (type, data, o) => { try { relay && relay.send(type, data, o); } catch {} };
 

@@ -1,9 +1,9 @@
-/* SproutRelay: realtime messages between devices on ANY network (phone on 4G, laptop on campus Wi-Fi).
+/* CueRelay: realtime messages between devices on ANY network (phone on 4G, laptop on campus Wi-Fi).
  * Uses free public MQTT-over-WebSocket brokers; connects to all of them at once and de-duplicates,
  * so if one broker is down or blocked the others still carry the messages.
  * Also uses BroadcastChannel so windows on the same computer talk instantly (and offline).
  *
- *   const r = SproutRelay.open("ABCDE", (type, data, msg) => {...}, { onStatus: s => {} });
+ *   const r = CueRelay.open("ABCDE", (type, data, msg) => {...}, { onStatus: s => {} });
  *   r.send("cmd", { cmd: "next" });          // fire-and-forget
  *   r.send("state", {...}, { retain: true }); // late joiners receive the latest copy immediately
  *
@@ -12,7 +12,7 @@
  */
 (function () {
   const BROKERS = ["wss://broker.emqx.io:8084/mqtt", "wss://test.mosquitto.org:8081", "wss://broker.hivemq.com:8884/mqtt"];
-  const BASE = "sprout-pitch/v1/";
+  const BASE = "cue-pitch/v1/";
 
   function open(room, onMessage, opts = {}) {
     const me = Math.random().toString(36).slice(2, 10);
@@ -28,13 +28,13 @@
       try { onMessage(m.type, m.data, m, via); } catch (e) { console.warn("[relay]", e); }
     }
 
-    const bc = ("BroadcastChannel" in window) ? new BroadcastChannel("sprout-relay-" + room) : null;
+    const bc = ("BroadcastChannel" in window) ? new BroadcastChannel("cue-relay-" + room) : null;
     if (bc) bc.onmessage = (e) => deliver(e.data, "local");
 
     if (window.mqtt) {
       BROKERS.forEach((url) => {
         let c;
-        try { c = mqtt.connect(url, { clientId: "sprout_" + me + "_" + clients.length, connectTimeout: 8000, reconnectPeriod: 3000, keepalive: 30, clean: true }); }
+        try { c = mqtt.connect(url, { clientId: "cue_" + me + "_" + clients.length, connectTimeout: 8000, reconnectPeriod: 3000, keepalive: 30, clean: true }); }
         catch { return; }
         clients.push(c);
         c.on("connect", () => { up.add(url); c.subscribe(BASE + room + "/#", { qos: 0 }); status(); });
@@ -62,5 +62,5 @@
   // Short, unambiguous room codes (no 0/O/1/I).
   function code(n = 5) { const a = "ABCDEFGHJKMNPQRSTUVWXYZ23456789"; return Array.from({ length: n }, () => a[Math.floor(Math.random() * a.length)]).join(""); }
 
-  window.SproutRelay = { open, code };
+  window.CueRelay = { open, code };
 })();

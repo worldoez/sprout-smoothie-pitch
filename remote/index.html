@@ -188,7 +188,7 @@
     if (!code) { $("#connect").classList.add("open"); return; }
     if (relay) relay.close();
     pill("wait", "Connecting…");
-    relay = SproutRelay.open(code, (type, data) => {
+    relay = CueRelay.open(code, (type, data) => {
       if (type !== "state") return;
       lastState = Date.now();
       pill("on", "Connected");

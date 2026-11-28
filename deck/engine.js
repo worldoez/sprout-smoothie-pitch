@@ -1,4 +1,4 @@
-/* Sprout deck engine.
+/* CUE deck engine.
  *
  * A slide is registered with Deck.add({...}):
  *   n        slide number (sort order)
@@ -38,7 +38,7 @@
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
   const ctx = {
-    $, $$, gsap: window.gsap, art: window.SproutArt,
+    $, $$, gsap: window.gsap, art: window.CueArt,
     get data() { return window.CONTENT.data; },
     get menu() { return window.CONTENT.menu; },
     get brand() { return window.CONTENT.brand; },
@@ -191,7 +191,7 @@
   async function refreshOrder(manual) {
     const btn = $("#btn-order"); btn && btn.classList.add("spin");
     try {
-      const o = await window.SproutOrders.latest();
+      const o = await window.CueOrders.latest();
       const changed = JSON.stringify(o) !== JSON.stringify(ctx.order);
       ctx.order = o;
       const s = slides[idx];
@@ -355,10 +355,10 @@
     $("#mo-save").onclick = () => {
       const fruits = sel("#mo-fruit").slice(0, 2), addons = sel("#mo-addons").slice(0, 2), size = $("#mo-size").value;
       const price = (ctx.size(size).price) + addons.reduce((a, k) => a + ctx.addon(k).price, 0);
-      SproutOrders.setManual({ name: $("#mo-name").value, fruits, base: $("#mo-base").value, addons, size, price, drinkName: CONTENT.drinkName(fruits, $("#mo-base").value), at: new Date().toISOString() });
+      CueOrders.setManual({ name: $("#mo-name").value, fruits, base: $("#mo-base").value, addons, size, price, drinkName: CONTENT.drinkName(fruits, $("#mo-base").value), at: new Date().toISOString() });
       toggle("#order-panel", false); refreshOrder(true);
     };
-    $("#mo-clear").onclick = () => { SproutOrders.setManual(null); toggle("#order-panel", false); refreshOrder(true); };
+    $("#mo-clear").onclick = () => { CueOrders.setManual(null); toggle("#order-panel", false); refreshOrder(true); };
   }
 
   // ---------- safety: lock / unlock the phone remote ----------
@@ -400,7 +400,7 @@
     $("#btn-full").onclick = fullscreen;
     $("#btn-order").onclick = () => refreshOrder(true);
     // Live orders: the phone sends Order #1 over the relay; it shows up here without pressing anything.
-    if (window.SproutOrders.listen) SproutOrders.listen(() => { refreshOrder(false); window.DeckAudio && DeckAudio.sfx("chime"); });
+    if (window.CueOrders.listen) CueOrders.listen(() => { refreshOrder(false); window.DeckAudio && DeckAudio.sfx("chime"); });
     $("#btn-mute").onclick = () => { const m = DeckAudio.toggleMute(); $("#btn-mute").classList.toggle("off", m); toast(m ? "Sound off" : "Sound on"); };
     $("#btn-menu").onclick = (e) => { e.stopPropagation(); toggle("#menu"); };
     document.addEventListener("click", (e) => { if (!e.target.closest("#menu")) toggle("#menu", false); });
@@ -415,7 +415,7 @@
       if (act === "keys") toggle("#keys");
       if (act === "restart") { started = null; clearInterval(timerHandle); stageStart = {}; warned = {}; go(0); toast("Timer reset"); }
       if (act === "home") location.href = "../index.html";
-      if (act === "fresh") { SproutOrders.reset(); location.reload(); }
+      if (act === "fresh") { CueOrders.reset(); location.reload(); }
       if (act === "remote" && window.DeckRemote) DeckRemote.open();
       if (act === "lock") setRemoteLock(!remoteLocked);
       if (act === "audiotest") testAudio();
@@ -472,7 +472,7 @@
   async function printMode() {
     document.body.classList.add("print");
     const holder = $("#print-pages");
-    ctx.order = await window.SproutOrders.latest();
+    ctx.order = await window.CueOrders.latest();
     for (let i = 0; i < slides.length; i++) {
       const page = document.createElement("section"); page.className = "print-page";
       const el = document.createElement("div"); page.appendChild(el); holder.appendChild(page);
@@ -495,7 +495,7 @@
       bindUI(); buildGrid(); fit();
       const fromHash = slides.findIndex(s => String(s.n) === location.hash.slice(1));
       enter(fromHash >= 0 ? fromHash : 0, { transition: false });
-      SproutOrders.latest().then(o => { ctx.order = o; });
+      CueOrders.latest().then(o => { ctx.order = o; });
     },
     next, prev, go, toast, refreshOrder, state, command, rig, setRemoteLock, testAudio,
     get remoteLocked() { return remoteLocked; },

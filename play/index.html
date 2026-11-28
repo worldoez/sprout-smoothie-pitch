@@ -163,7 +163,7 @@
   }
 
   function start() {
-    relay = SproutRelay.open(room, (type, data) => {
+    relay = CueRelay.open(room, (type, data) => {
       if (type === "state" && data) { isOpen = !!data.open; if (data.open) { revealed = null; } if (screen !== "reveal" || data.open) route(); }
       else if (type === "reveal" && data) { revealed = data; route(); }
     }, { onStatus: (s) => { $("#conn").classList.toggle("on", s === "online"); $("#connTxt").textContent = s === "online" ? "Connected" : "Connecting"; } });
@@ -197,9 +197,9 @@
   }
 
   // events
-  $("#roomGo").onclick = () => { const v = $("#roomIn").value.trim().toUpperCase(); if (!v) return; room = v; store.set("sprout-play-room", v); start(); };
+  $("#roomGo").onclick = () => { const v = $("#roomIn").value.trim().toUpperCase(); if (!v) return; room = v; store.set("cue-play-room", v); start(); };
   $("#roomIn").addEventListener("keydown", e => { if (e.key === "Enter") $("#roomGo").click(); });
-  $("#nameGo").onclick = () => { name = ($("#nameIn").value.trim() || $("#nameIn").placeholder).slice(0, 14); store.set("sprout-play-name", name); $("#who").textContent = name; route(); };
+  $("#nameGo").onclick = () => { name = ($("#nameIn").value.trim() || $("#nameIn").placeholder).slice(0, 14); store.set("cue-play-name", name); $("#who").textContent = name; route(); };
   $("#nameIn").addEventListener("keydown", e => { if (e.key === "Enter") $("#nameGo").click(); });
   $("#rng").addEventListener("input", e => setValue(+e.target.value));
   $("#dec").onclick = () => setValue(value - 1);
@@ -215,7 +215,7 @@
     route();
   };
 
-  const saved = store.get("sprout-play-name");
+  const saved = store.get("cue-play-name");
   $("#nameIn").placeholder = saved || "Guest " + (10 + Math.floor(Math.random() * 90));
   if (saved) $("#nameIn").value = saved;
   setValue(50);

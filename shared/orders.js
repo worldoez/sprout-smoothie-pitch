@@ -1,17 +1,17 @@
-// Orders travel live over SproutRelay (shared/relay.js): no GitHub token, no page reload.
+// Orders travel live over CueRelay (shared/relay.js): no GitHub token, no page reload.
 //
-//   Deck:  SproutOrders.room()  → a 5-letter room code; the slide's order QR carries it (?room=CODE).
-//          SproutOrders.listen(cb) → cb(order) the moment a phone places an order; the deck acks it.
-//   Phone: SproutOrders.submit(order) → sends to the room from the URL, waits for the deck's ack.
+//   Deck:  CueOrders.room()  → a 5-letter room code; the slide's order QR carries it (?room=CODE).
+//          CueOrders.listen(cb) → cb(order) the moment a phone places an order; the deck acks it.
+//   Phone: CueOrders.submit(order) → sends to the room from the URL, waits for the deck's ack.
 //
 // The order is also kept in this browser (local), so ordering on the same laptop works offline.
 // Only drink choices and the typed name are sent (public relay, so nothing private).
 (function () {
-  const LOCAL_KEY = "sprout_orders_local";
-  const LIVE_KEY = "sprout_order_live";
-  const MANUAL_KEY = "sprout_order_manual";
-  const DECK_ROOM_KEY = "sprout_order_room";
-  const JOIN_ROOM_KEY = "sprout_order_join";
+  const LOCAL_KEY = "cue_orders_local";
+  const LIVE_KEY = "cue_order_live";
+  const MANUAL_KEY = "cue_order_manual";
+  const DECK_ROOM_KEY = "cue_order_room";
+  const JOIN_ROOM_KEY = "cue_order_join";
 
   const get = (k, store = localStorage) => { try { return store.getItem(k); } catch { return null; } };
   const set = (k, v, store = localStorage) => { try { v == null ? store.removeItem(k) : store.setItem(k, v); } catch {} };
@@ -26,11 +26,11 @@
   }
   const wait = (ms) => new Promise(r => setTimeout(r, ms));
 
-  window.SproutOrders = {
+  window.CueOrders = {
     /** Deck side: this deck's order room (kept across reloads so the QR on screen stays valid). */
     room() {
       let r = get(DECK_ROOM_KEY);
-      if (!r && window.SproutRelay) { r = SproutRelay.code(); set(DECK_ROOM_KEY, r); }
+      if (!r && window.CueRelay) { r = CueRelay.code(); set(DECK_ROOM_KEY, r); }
       return r || "";
     },
     /** Phone side: the room this order app is linked to ("" if opened without the slide QR). */
@@ -39,8 +39,8 @@
 
     /** Deck side: receive orders live. cb(order) runs for each new order. */
     listen(cb) {
-      if (!window.SproutRelay || this._relay) return;
-      const r = this._relay = SproutRelay.open(this.room(), (type, data) => {
+      if (!window.CueRelay || this._relay) return;
+      const r = this._relay = CueRelay.open(this.room(), (type, data) => {
         if (type !== "order" || !data || !data.id) return;
         r.send("ack", { id: data.id });
         const prev = readJSON(LIVE_KEY, null);
@@ -55,9 +55,9 @@
       order = { id: "o" + Date.now().toString(36), at: new Date().toISOString(), ...order };
       set(LOCAL_KEY, JSON.stringify([...readLocal(), order]));
       const room = joinRoom();
-      if (!room || !window.SproutRelay) return { ok: true, where: "local", order };
+      if (!room || !window.CueRelay) return { ok: true, where: "local", order };
       let acked = false;
-      const r = SproutRelay.open(room, (type, data) => { if (type === "ack" && data && data.id === order.id) acked = true; });
+      const r = CueRelay.open(room, (type, data) => { if (type === "ack" && data && data.id === order.id) acked = true; });
       for (let i = 0; i < 25 && !r.online; i++) await wait(200);   // up to 5 s to reach a relay
       const sent = r.online > 0;
       r.send("order", order, { retain: true });                    // retained: a deck that reloads still gets it

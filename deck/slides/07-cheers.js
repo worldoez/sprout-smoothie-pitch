@@ -340,7 +340,7 @@
             const end = Date.now() + 1800;
             (function f() { confetti({ particleCount: 5, angle: 60, spread: 60, origin: { x: 0 } }); confetti({ particleCount: 5, angle: 120, spread: 60, origin: { x: 1 } }); if (Date.now() < end) requestAnimationFrame(f); })();
           }, 1.4);
-        if (window.SproutArt && SproutArt.blink) tl.add(SproutArt.blink(mo, { double: true }), 2.6);
+        if (window.CueArt && CueArt.blink) tl.add(CueArt.blink(mo, { double: true }), 2.6);
         return tl;
       }
     ]
