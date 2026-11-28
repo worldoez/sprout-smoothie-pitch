@@ -24,7 +24,7 @@
     // Vintage "rubber hose" monkey, muted: brown fur, peach face, cream gloves, charcoal bowler hat and straw-red neckerchief.
     const id = "mo" + (++uid);
     const FUR = "#5A4A3E", FUR_L = "#6E5C4D", TAN = "#E9CDB0", TAN_D = "#C9A583", GLOVE = "#F2D9C2", STRAW = "#B83A32", LN = INK;
-    const cup = opts.cup ? `<g class="mo-hand-cup" transform="translate(203 106) rotate(10)">${cupInner({ id: id + "c", scale: 0.42, colorA: opts.colorA, colorB: opts.colorB })}</g>` : "";
+    const cup = false && opts.cup ? `<g class="mo-hand-cup" transform="translate(203 106) rotate(10)">${cupInner({ id: id + "c", scale: 0.42, colorA: opts.colorA, colorB: opts.colorB })}</g>` : "";
     const hose = (d, w) => `<path d="${d}" stroke="${LN}" stroke-width="${w + 5}" stroke-linecap="round" fill="none"/><path d="${d}" stroke="${FUR}" stroke-width="${w}" stroke-linecap="round" fill="none"/>`;
     // Cartoon glove (fingers up, wrist at the bottom): cuff, round palm, three sausage fingers and a thumb. Rotate to aim it.
     const glove = (cx, cy, rot) => {

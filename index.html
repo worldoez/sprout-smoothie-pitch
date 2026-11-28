@@ -14,14 +14,18 @@ html, body { min-height: 100%; overflow-x: hidden; }
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   isolation: isolate; overflow: clip;
 }
-.hero { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; max-width: 720px; }
-.lockup { display: flex; align-items: flex-end; justify-content: center; gap: 24px; flex-wrap: wrap; }
-.mo { width: clamp(96px, 15vw, 150px); flex: 0 0 auto; }
+.hero { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; max-width: 980px; width: 100%; }
+/* logo, then the heavy "Smoothie" wordmark and the slogan beside it; Cuethie stands at the end */
+.lockup { display: flex; align-items: center; justify-content: center; gap: clamp(16px, 2.4vw, 32px); }
+.logo-sticker { height: clamp(120px, 17vw, 210px); width: auto; display: block; flex: 0 0 auto; }
+.wordmark { text-align: left; }
+.wordmark h1 { font: 400 clamp(48px, 8vw, 104px)/.95 var(--font-slab); color: var(--peach); letter-spacing: .005em; margin: 0; }
+.wordmark .slogan { font: italic 500 clamp(18px, 2.6vw, 28px) var(--font-display); color: var(--text-on-dark-soft); margin: 10px 0 0; }
+.mo { width: clamp(84px, 9vw, 120px); flex: 0 0 auto; align-self: flex-end; }
 .mo:empty { display: none; }
 .mo svg { width: 100%; height: auto; display: block; overflow: visible; }
-.logo-sticker { height: clamp(150px, 26vw, 280px); width: auto; display: block; }
-.slogan { font: italic 500 clamp(19px, 3.4vw, 30px) var(--font-display); color: var(--text-on-dark-soft); margin: 14px 0 0; }
-.tagline { margin: 10px 0 0; font-size: clamp(15px, 1.9vw, 18px); font-weight: 500; color: var(--text-on-dark-soft); max-width: 34em; }
+.tagline { margin: 22px 0 0; font-size: clamp(15px, 1.9vw, 18px); font-weight: 500; color: var(--text-on-dark-soft); max-width: 34em; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 /* The three entries: paper cards side by side, stacked on mobile */
 .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; width: 100%; max-width: 1020px; margin-top: 48px; }
@@ -31,7 +35,7 @@ html, body { min-height: 100%; overflow-x: hidden; }
   background: var(--paper); color: var(--text-on-light);
   border: 1px solid var(--rule-ink); text-decoration: none; min-width: 0;
 }
-.card-img { height: 120px; width: auto; align-self: center; object-fit: contain; display: block; }
+.ic { width: 64px; height: 64px; border-radius: 50%; background: var(--paper-2); display: grid; place-items: center; font-size: 32px; line-height: 1; flex: 0 0 auto; }
 .card h2 { font-size: clamp(24px, 2.6vw, 30px); line-height: 1.15; }
 .card > p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--text-on-light-soft); }
 .card .btn { margin-top: auto; }
@@ -47,7 +51,7 @@ html, body { min-height: 100%; overflow-x: hidden; }
 }
 @media (max-width: 560px) {
   .hero { padding-inline: 0; }
-  .card-img { height: 104px; }
+  .lockup { flex-direction: column; gap: 14px; } .mo { align-self: center; width: 96px; } .wordmark { text-align: center; }
   .qr.on { display: none; }  /* the card opens directly on a phone; no QR needed */
 }
 </style>
@@ -56,36 +60,32 @@ html, body { min-height: 100%; overflow-x: hidden; }
 <div class="hub dark on-dark grain">
   <header class="hero">
     <div class="lockup">
+      <img class="logo-sticker boil" src="assets/img/cue-logo.png" alt="CUE logo: a cream smoothie cup with a striped straw on a charcoal oval">
+      <div class="wordmark">
+        <h1><span class="vh">CUE </span>Smoothie</h1>
+        <p class="slogan" id="slogan"></p>
+      </div>
       <div class="mo boil" id="mo" aria-hidden="true"></div>
-      <h1 class="display" id="logoTitle">
-        <img class="logo-sticker boil" src="assets/img/cue-logo.png"
-             alt="CUE — a cream smoothie cup with striped straw and sparkles on a dark charcoal oval sticker"
-             onerror="this.classList.remove('boil');document.getElementById('logoTitle').textContent='CUE'">
-      </h1>
     </div>
-    <p class="slogan" id="slogan"></p>
     <p class="tagline" id="tagline"></p>
   </header>
 
   <nav class="cards" aria-label="CUE pages">
     <a class="card" href="site/index.html">
-      <img class="card-img" src="assets/img/drinks/mango.png"
-           alt="CUE cup of the mango sunrise smoothie" loading="lazy">
+      <span class="ic" aria-hidden="true">🥭</span>
       <h2 class="display">View website</h2>
       <p>The menu, the survey behind it, and where to find the cart.</p>
       <span class="btn">Open the website</span>
     </a>
     <a class="card" href="order/index.html">
-      <img class="card-img" src="assets/img/drinks/berry-layers.png"
-           alt="CUE cup of the layered berry and yogurt smoothie" loading="lazy">
+      <span class="ic" aria-hidden="true">📱</span>
       <h2 class="display">Order on your phone</h2>
       <p>Build a smoothie in six taps and get a pickup ticket.</p>
       <span class="qr" id="qrBox"><span id="qr"></span><small>Scan to order<br>from your phone</small></span>
       <span class="btn">Open the order app</span>
     </a>
     <a class="card" href="deck/index.html">
-      <img class="card-img" src="assets/img/drinks/matcha.png"
-           alt="CUE cup of the matcha banana smoothie" loading="lazy">
+      <span class="ic" aria-hidden="true">🎤</span>
       <h2 class="display">View pitch</h2>
       <p>The animated deck, from seed to cup.</p>
       <span class="btn">Open the pitch</span>
@@ -104,9 +104,9 @@ html, body { min-height: 100%; overflow-x: hidden; }
   document.title = B.name + " - " + B.slogan;
   document.getElementById("slogan").textContent = B.slogan;
   document.getElementById("tagline").textContent = B.tagline;
-  // Cuethie, holding the cup; standing still (boil.js does the only motion).
+  // Cuethie, standing still (boil.js does the only motion).
   var mo = document.getElementById("mo");
-  if (window.CueArt) mo.innerHTML = CueArt.mascot({ cup: true });
+  if (window.CueArt) mo.innerHTML = CueArt.mascot();
 
   // QR for the order card.
   // No "scan with your phone" QR when you're already on a phone or tablet; the card just opens the app.

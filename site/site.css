@@ -88,7 +88,8 @@ section[id] { scroll-margin-top: 84px; }
 .hero-drink-side { z-index: 1; opacity: .96; }
 
 /* Cuethie stands bottom-right, on the same ellipse as the cups. No wave, no bob. */
-.hero-mo { position: absolute; left: -2%; bottom: -8px; width: clamp(120px, 11vw, 150px); z-index: 3; }
+.hero-art { padding-right: clamp(60px, 8vw, 110px); }
+.hero-mo { position: absolute; left: auto; right: 0; bottom: -8px; width: clamp(120px, 11vw, 150px); z-index: 3; }
 .hero-mo svg { width: 100%; height: auto; display: block; overflow: visible; }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -100,7 +101,7 @@ section[id] { scroll-margin-top: 84px; }
 @media (max-width: 820px) {
   .hero-inner { grid-template-columns: 1fr; padding: 44px 20px 56px; }
   .hero-art { height: clamp(280px, 66vw, 420px); order: 2; justify-self: center; width: min(100%, 480px); }
-  .hero-mo { width: clamp(90px, 20vw, 120px); left: 0; bottom: 0; }
+  .hero-mo { width: clamp(90px, 20vw, 120px); left: auto; right: 0; bottom: 0; }
 }
 
 /* ============ 3. MENU: peach ground, board with drink renders ============ */
@@ -268,3 +269,17 @@ section[id] { scroll-margin-top: 84px; }
 
 /* menu board: give rows room to breathe on wide screens */
 @media (min-width: 1180px) { .menu-list { max-width: 960px; } }
+
+/* hero lockup: logo + heavy slab "Smoothie" wordmark; mobile nav keeps logo and order button on one row */
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.hero-lockup { display: flex; align-items: center; gap: clamp(14px, 2.4vw, 28px); }
+.hero-lockup img { height: clamp(110px, 14vw, 170px); width: auto; display: block; flex: 0 0 auto; }
+.hero-word { font: 400 clamp(44px, 7vw, 96px)/.95 var(--font-slab); color: var(--peach); margin: 0; }
+@media (max-width: 560px) {
+  .nav-inner { flex-wrap: wrap; }
+  .nav-logo { flex-basis: auto; margin-right: auto; }
+  .nav-order { order: 2; }
+  .nav-links { order: 3; flex-basis: 100%; }
+  .hero-lockup img { height: 96px; }
+  .hero-word { font-size: 44px; }
+}
