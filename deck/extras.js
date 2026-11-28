@@ -75,7 +75,7 @@
       .to(wrap, { x: to.x, y: to.y, duration: 0.5, ease: "back.out(2.4)" }, 0)
       .to(bubble, { opacity: 1, y: -6, duration: 0.3, ease: "back.out(2)" }, 0.45);
     if (arm) tl.to(arm, { rotation: -35, duration: 0.18, yoyo: true, repeat: 5, ease: "sine.inOut", svgOrigin: "180 150" }, 0.55);
-    if (eyes) tl.to(eyes, { scaleY: 0.1, duration: 0.08, yoyo: true, repeat: 1, svgOrigin: "110 132", transformOrigin: "50% 50%" }, 1.6);
+    if (eyes) tl.to(eyes, { scaleY: 0.1, duration: 0.08, yoyo: true, repeat: 1, svgOrigin: "110 100", transformOrigin: "50% 50%" }, 1.6);
     tl.to(bubble, { opacity: 0, duration: 0.25 }, 2.5)
       .to(wrap, { x: from.x, y: from.y, duration: 0.4, ease: "back.in(2)" }, 2.6);
   }
