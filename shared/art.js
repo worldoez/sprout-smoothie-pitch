@@ -31,7 +31,7 @@
     <g class="mo-leg-l" style="transform-origin:96px 222px">${hose("M98 226 Q92 238 88 250", 12)}${foot(84, 1)}</g>
     <g class="mo-leg-r" style="transform-origin:124px 222px">${hose("M122 226 Q128 238 132 250", 12)}${foot(136, -1)}</g>
   </g>
-  <g class="mo-arm-l" style="transform-origin:78px 168px">${hose("M80 170 Q50 178 46 208", 11)}${glove(46, 214, 8)}</g>
+  <g class="mo-arm-l" style="transform-origin:78px 168px">${hose("M80 170 Q50 178 46 208", 11)}${glove(46, 220, 188)}</g>
   <g class="mo-body" style="transform-origin:110px 150px">
     ${hose("M138 226 C188 252 218 222 206 194 C199 180 180 188 188 200", 9)}
     <ellipse cx="110" cy="190" rx="37" ry="44" fill="${FUR}" stroke="${LN}" stroke-width="4"/>
